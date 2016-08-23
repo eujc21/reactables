@@ -338,42 +338,44 @@ class Table extends React.Component {
         isSortable: true
       }) )
 
+
     return(
       <thead style={ style.thead.base }>
-        <tr style={ style.thead.tr }>
-          { tableHeadings.map((heading, i) =>
-            <th
-              key={ i }
-              style={ Object.assign({}, style.thead.th, { textAlign: heading.justify || 'left', width: heading.width }) }>
+      <tr style={ style.thead.tr }>
+        { tableHeadings.map((heading, i) =>
+          <th
+            key={ i }
+            style={ Object.assign({}, style.thead.th, { textAlign: heading.justify || 'left', width: heading.width }) }>
 
-              <p
-                style={ Object.assign({}, style.thead.p, { cursor: heading.isSortable === true ? 'pointer': 'default'}) }
-                onClick={ ()=> {
+            <p
+              style={ Object.assign({}, style.thead.p, { cursor: heading.isSortable === true ? 'pointer': 'default'}) }
+              onClick={ ()=> {
 
-                  /* Only Use internal sort if heading is a computed field */
-                  if(computedKeys && computedKeys.some(key => key === heading.key) && heading.isSortable){
-                    this.handleInternalSort(tableProperties[i])
-                  }
-                  /* Otherwise check for external onSort method */
-                  else if (heading.isSortable){
-                    onSort ?
-                      this.handleExternalSort(tableProperties[i]) :
-                      this.handleInternalSort(tableProperties[i])
-                  }
+                /* Only Use internal sort if heading is a computed field */
+                if(computedKeys && computedKeys.some(key => key === heading.key) && heading.isSortable){
+                  this.handleInternalSort(tableProperties[i])
                 }
-              }>
-                { heading.display }
-              </p>
+                /* Otherwise check for external onSort method */
+                else if (heading.isSortable){
+                  onSort ?
+                    this.handleExternalSort(tableProperties[i]) :
+                    this.handleInternalSort(tableProperties[i])
+                }
 
-              { lastKey === tableProperties[i] ?
-                <i
-                  className={ order === 'asc' ? 'icon-arrow-up' : 'icon-arrow-down' }
-                  style={{ marginLeft: 5, fontSize: 12}}/> : null
               }
+              }>
+              { heading.display }
+            </p>
 
-            </th>
-          )}
-        </tr>
+            { lastKey === tableProperties[i] ?
+              <i
+                className={ order === 'asc' ? 'icon-arrow-up' : 'icon-arrow-down' }
+                style={{ marginLeft: 5, fontSize: 12}}/> : null
+            }
+
+          </th>
+        )}
+      </tr>
       </thead>
     )
   }
