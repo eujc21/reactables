@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react'
+import ReactDOM from 'react-dom'
 import _ from 'lodash'
 
 class Table extends React.Component {
@@ -224,7 +225,7 @@ class Table extends React.Component {
   getColumnWidths =(data)=>{
     const tableData = data || this.props.tableData
     const controls = this.props.controls
-    const tableWidth = parseInt(this.refs.table.clientWidth)
+    const tableWidth = ReactDOM.findDOMNode(this).clientWidth
     const numberOfColumns = tableData.length > 0 ? Object.keys(tableData[0]).length + (controls.length > 0 ? 1 : 0) : 0
     return tableWidth / numberOfColumns
   }
@@ -362,7 +363,7 @@ class Table extends React.Component {
                 }
 
               }
-            }>
+              }>
               { heading.display }
             </p>
 
@@ -492,7 +493,7 @@ class Table extends React.Component {
     return(
       <div style={ style.base }>
 
-        <table ref="table" style={ style.table.base }>
+        <table style={ style.table.base }>
 
           { this.renderTableHeadings(style, tableProperties) }
 
