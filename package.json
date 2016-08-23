@@ -1,11 +1,12 @@
 {
   "name": "reactables",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Customizable React.js components",
   "main": "lib/table.js",
   "scripts": {
     "prebuild": "rimraf lib",
     "build": "babel --out-dir lib --ignore *.test.js src",
+    "prepublish": "babel --out-dir lib --ignore *.test.js src",
     "test": "mocha test/*.spec.js --require test/setup.js --compilers js:babel-core/register"
   },
   "repository": {
