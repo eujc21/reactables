@@ -312,7 +312,7 @@ class Table extends React.Component {
 
   renderTableHeadings =(style, tableProperties)=>{
     const { order, lastKey } = this.state
-    const { controls, onSort, headings, computedFields } = this.props
+    const { onSort, headings, computedFields } = this.props
 
     const computedKeys = computedFields ? Object.keys(computedFields) : null
 
@@ -338,7 +338,6 @@ class Table extends React.Component {
         isSortable: true
       }) )
 
-
     return(
       <thead style={ style.thead.base }>
       <tr style={ style.thead.tr }>
@@ -363,7 +362,7 @@ class Table extends React.Component {
                 }
 
               }
-              }>
+            }>
               { heading.display }
             </p>
 
