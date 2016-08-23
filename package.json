@@ -1,6 +1,6 @@
 {
   "name": "reactables",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Customizable React.js components",
   "main": "lib/table.js",
   "scripts": {
