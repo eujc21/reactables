@@ -1,7 +1,7 @@
 {
   "name": "reactables",
-  "version": "1.0.0",
-  "description": "Customizable React.js tables",
+  "version": "1.0.1",
+  "description": "Customizable React.js components",
   "main": "lib/table.js",
   "scripts": {
     "prebuild": "rimraf lib",
