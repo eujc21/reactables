@@ -275,8 +275,6 @@ class Table extends React.Component {
     const { filter } = nextProps
     const { selectedIndex } = this.state
 
-    console.log(this.props.tableData, nextProps.tableData)
-
     let data = !_.isEqual(this.props.tableData, nextProps.tableData) ? nextProps.tableData : this.state.tableData
     let prevSelectedIndex = null
 
