@@ -110,7 +110,7 @@ class Table extends React.Component {
   }
 
   state = {
-    tableData: this.props.tableData,
+    tableData: _.cloneDeep(this.props.tableData),
     order: this.props.order,
     lastKey: this.props.sort,
     cellWidth: 0,
@@ -171,8 +171,74 @@ class Table extends React.Component {
     return {data, prevSelectedIndex}
   }
 
+  _getTableProperties =()=>{
+    const { columnOrder, exclude, include, } = this.props
+    const { tableData } = this.state
+
+    let tableProperties = columnOrder ? columnOrder : tableData.length > 0 ? Object.keys(tableData[0])  : []
+
+    // exclude properties
+    tableProperties = exclude ? tableProperties.filter(property => exclude.indexOf(property) < 0) : tableProperties
+    tableProperties = include ? tableProperties.filter(property => include.indexOf(property) >= 0) : tableProperties
+
+    return tableProperties
+  }
+
+  _formatHeading =(key)=>{
+    return key
+      .replace(/([A-Z])/g, ' $1')
+      .replace(/^./, (str) => str.toUpperCase() )
+  }
+
+  _getTableHeadings =()=>{
+    const headings = this.props.headings
+    const tableProperties = this._getTableProperties()
+
+    return tableProperties.map(key => {
+      if (headings && headings[key]) {
+        // User-defined heading
+        return {
+          display: headings[key].display || this._formatHeading(key),
+          isSortable: headings[key].isSortable === true,
+          justify: headings[key].justify || 'left'
+        }
+      } else {
+        // Default heading
+        return {
+          key: key,
+          display: this._formatHeading(key),
+          isSortable: true
+        }
+      }
+    })
+  }
+
+  _addFields =(tableData)=>{
+    const { computedFields, controls, } = this.props
+
+    return tableData.map((data, i) => {
+      //add computed fields
+      if(computedFields)
+        Object.keys(computedFields).forEach(key => data[key] = computedFields[key]( data ))
+
+      // add controls
+      if(controls) {
+        Object.keys(controls).forEach(key => {
+          const control = _.isFunction(controls[key]) ? [controls[key]] : controls[key]
+          data[key] = (
+            <div key={ i }>
+              { control.map((control, controlIndex)=>  control(controlIndex, i, data)) }
+            </div>
+          )
+        })
+      }
+      return data
+    })
+  }
+
   componentWillMount =()=>{
     const { isSelectable, selectedIndex, include, exclude} = this.props
+
     if(include && exclude)
       console.warn('You must choose between using prop include or prop exclude')
 
@@ -180,14 +246,21 @@ class Table extends React.Component {
       console.warn('Setting isSelectable === true means you are allowing the component to manage the selectedIndex. ' +
         'Only set selectedIndex if you want to manually manage this piece of state.')
     }
+
   }
 
   componentDidMount =()=> {
 
-    this.setState({ cellWidth: this.getColumnWidths()})
+    const tableData = this._addFields(this.state.tableData)
+
+    this.setState({
+      cellWidth: this.getColumnWidths(tableData),
+      tableData
+    })
 
     this.props.isScrollable ?
       window.addEventListener('resize', this.handleResize) : null
+
   }
 
   componentWillUnmount =()=> {
@@ -199,10 +272,12 @@ class Table extends React.Component {
   }
 
   componentWillReceiveProps =(nextProps)=>{
-    const { filter, tableData } = nextProps
+    const { filter } = nextProps
     const { selectedIndex } = this.state
 
-    let data = !_.isEqual(this.props.tableData, tableData) ? tableData : this.props.tableData
+    console.log(this.props.tableData, nextProps.tableData)
+
+    let data = !_.isEqual(this.props.tableData, nextProps.tableData) ? nextProps.tableData : this.state.tableData
     let prevSelectedIndex = null
 
     if( filter.length > 0 ){
@@ -313,31 +388,10 @@ class Table extends React.Component {
 
   renderTableHeadings =(style, tableProperties)=>{
     const { order, lastKey } = this.state
-    const { onSort, headings, computedFields } = this.props
+    const { onSort, computedFields } = this.props
 
     const computedKeys = computedFields ? Object.keys(computedFields) : null
-
-    function formatHeading(key){
-      return key
-        .replace(/([A-Z])/g, ' $1')
-        .replace(/^./, (str) => str.toUpperCase() )
-    }
-
-    // Adjust data for template
-    let tableHeadings = headings ?
-      tableProperties.map(key => ({
-        key,
-        display: headings && headings[key].display ?
-          headings[key].display : _.isString(headings[key]) ? headings[key] : formatHeading(key),
-        isSortable: headings && headings[key].isSortable === false ? headings[key].isSortable : true,
-        justify: headings && headings[key].justify ? headings[key].justify : 'left',
-        width: headings && headings[key].width ? headings[key].width : null}))
-      :
-      tableProperties.map(property => ({
-        key: property,
-        display: formatHeading(property),
-        isSortable: true
-      }) )
+    let tableHeadings = this._getTableHeadings()
 
     return(
       <thead style={ style.thead.base }>
@@ -345,8 +399,11 @@ class Table extends React.Component {
         { tableHeadings.map((heading, i) =>
           <th
             key={ i }
-            style={ Object.assign({}, style.thead.th, { textAlign: heading.justify || 'left', width: heading.width }) }>
-
+            style={
+              Object.assign({}, style.thead.th, {
+                textAlign: heading.justify || 'left'
+              })
+            }>
             <p
               style={ Object.assign({}, style.thead.p, { cursor: heading.isSortable === true ? 'pointer': 'default'}) }
               onClick={ ()=> {
@@ -381,10 +438,9 @@ class Table extends React.Component {
   }
 
   render(){
-    let { tableData } = this.state
+    let { tableData, cellWidth } = this.state
 
     const {
-      controls,
       stripeColor,
       isStriped,
       isScrollable,
@@ -392,10 +448,6 @@ class Table extends React.Component {
       height,
       selectColor,
       formatters,
-      columnOrder,
-      exclude,
-      include,
-      computedFields,
       headings
     } = this.props
 
@@ -425,7 +477,7 @@ class Table extends React.Component {
           height: 37,
           fontSize: 16,
           fontWeight: 300,
-          width: this.state.cellWidth
+          width: isScrollable ? cellWidth : null
         },
         p: {
           padding: 0,
@@ -453,7 +505,7 @@ class Table extends React.Component {
         },
         td: {
           padding: '5px 5px',
-          width: isScrollable ? this.state.cellWidth : null
+          width: isScrollable ? cellWidth : null
         },
         controls: {
           display: 'flex',
@@ -463,32 +515,8 @@ class Table extends React.Component {
       }
     }
 
-
-    tableData = tableData.map((data, i) => {
-      //add computed fields
-      if(computedFields)
-        Object.keys(computedFields).forEach(key => data[key] = computedFields[key]( data ))
-
-      // add controls
-      if(controls) {
-        Object.keys(controls).forEach(key => {
-          const control = _.isFunction(controls[key]) ? [controls[key]] : controls[key]
-          data[key] = (
-            <div key={ i }>
-              { control.map((control, controlIndex)=>  control(controlIndex, i, data)) }
-            </div>
-          )
-        })
-      }
-      return data
-    })
-
     // Set column order or get properties
-    let tableProperties = columnOrder ? columnOrder : tableData.length > 0 ? Object.keys(tableData[0])  : []
-
-    // exclude properties
-    tableProperties = exclude ? tableProperties.filter(property => exclude.indexOf(property) < 0) : tableProperties
-    tableProperties = include ? tableProperties.filter(property => include.indexOf(property) >= 0) : tableProperties
+    let tableProperties = this._getTableProperties()
 
     return(
       <div style={ style.base }>
@@ -498,6 +526,7 @@ class Table extends React.Component {
           { this.renderTableHeadings(style, tableProperties) }
 
           <tbody style={ style.tbody.base }>
+
           { tableData.map((item, rowIndex) =>
             <tr
               key={ rowIndex }
@@ -516,7 +545,7 @@ class Table extends React.Component {
                   key={ propertyIndex }
                   style={
                     Object.assign({}, style.tbody.td, {
-                      textAlign: headings && headings[propertyKey].justify
+                      textAlign: headings && headings[propertyKey] && headings[propertyKey].justify
                     })
                   }>
                   {
@@ -527,10 +556,9 @@ class Table extends React.Component {
                   }
                 </td>
               )}
-
             </tr>
-
           )}
+
           </tbody>
 
         </table>
