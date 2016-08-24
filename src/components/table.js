@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import ReactDOM from 'react-dom'
 import _ from 'lodash'
 
-class Table extends React.Component {
+export class Table extends React.Component {
 
 //    ** usage **
 //
@@ -564,5 +564,3 @@ class Table extends React.Component {
     )
   }
 }
-
-export default Table

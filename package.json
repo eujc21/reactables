@@ -1,8 +1,8 @@
 {
   "name": "reactables",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "description": "Customizable React.js components",
-  "main": "lib/table.js",
+  "main": "lib/index.js",
   "scripts": {
     "prebuild": "rimraf lib",
     "build": "babel --out-dir lib --ignore *.test.js src",
@@ -15,9 +15,7 @@
   },
   "keywords": [
     "react",
-    "react.js",
-    "table",
-    "tables"
+    "react.js"
   ],
   "author": "Phil Scott",
   "license": "ISC",
@@ -33,6 +31,7 @@
   },
   "homepage": "https://github.com/phil3903/reactables#readme",
   "dependencies": {
+    "color": "^0.11.3",
     "lodash": "^4.15.0",
     "react": "^15.3.1",
     "react-dom": "^15.3.1"
