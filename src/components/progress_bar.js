@@ -3,8 +3,8 @@ import Color from 'color'
 
 export class ProgressBar extends React.Component {
   static propTypes = {
-    completed: PropTypes.number,
-    outOf: PropTypes.number,
+    completed: PropTypes.number.isRequired,
+    outOf: PropTypes.number.isRequired,
     barColor: PropTypes.string,
     completedColor: PropTypes.string,
     height: PropTypes.oneOfType([
@@ -22,28 +22,75 @@ export class ProgressBar extends React.Component {
   }
 
   static defaultProps = {
+    completed: 0,
+    outOf: 0,
     width: '100%',
     height: 26,
     barColor: 'red',
     completedColor: 'green',
-    completed: 0,
     showUnits: false,
     units: 'percent',
     alignUnits: 'right'
   }
 
+  state = { percentageComplete: 0 }
+
   constructor(props){
     super(props)
   }
 
+  componentWillMount(){
+    const { completed, outOf } = this.props
+    this.setState({
+      percentageComplete: this.getPercentageComplete(completed, outOf)
+    })
+  }
 
-  render(){
-    const { width, height, completedColor, barColor, outOf, completed, showUnits, units, alignUnits } = this.props
+  componentWillReceiveProps(nextProps){
+    const { completed, outOf } = this.props
+
+    if(nextProps.outOf !== outOf || nextProps.completed !== completed){
+      this.setState({
+        percentageComplete: this.getPercentageComplete(nextProps.completed, nextProps.outOf)
+      })
+    }
+  }
+
+  getPercentageComplete =(completed, outOf)=>{
 
     let percentageComplete = Math.floor((completed / outOf) * 100)
 
     if(percentageComplete > 100)
       percentageComplete = 100
+
+    return percentageComplete
+  }
+
+  renderUnits(style){
+    const { showUnits, units, completed, outOf } = this.props
+    const { percentageComplete } = this.state
+
+    if(!showUnits)
+      return
+
+    const display = units === 'number'
+      ? `${ completed } of ${ outOf }`
+      : `${percentageComplete}%`
+
+    return(
+      <p className="units" style={ style.units }>
+        { display }
+      </p>
+    )
+  }
+
+
+  render(){
+    const { width, height, completedColor, barColor, alignUnits } = this.props
+    const { percentageComplete } = this.state
+
+    const baseCompletedColor = Color( completedColor ).hexString()
+    const gradientCompletedColor = Color( completedColor ).lighten(0.5).hexString()
 
     const style = {
       base: {
@@ -51,12 +98,14 @@ export class ProgressBar extends React.Component {
       },
       units: {
         width: '100%',
-        textAlign: alignUnits
+        textAlign: alignUnits,
+        margin: 0,
+        padding: 0
       },
       bar: {
         height,
         padding: 0,
-        backgroundColor: barColor,
+        backgroundColor: Color( barColor ).hexString(),
         overflow: 'hidden',
         borderRadius: 3
       },
@@ -64,11 +113,7 @@ export class ProgressBar extends React.Component {
         transform: 'skew(-20deg)',
         height: '100%',
         width: `calc(${ percentageComplete }% + ${ percentageComplete === 100 ? 8 : 0}px`,
-        background: `linear-gradient(
-          to top right,
-          ${ Color( completedColor ).hexString() }, 
-          ${ Color( completedColor ).lighten(0.5).hexString() }
-        )`,
+        background: `linear-gradient( to top right, ${ baseCompletedColor }, ${ gradientCompletedColor })`,
         marginLeft: -4,
         transition: 'width 1s'
       }
@@ -76,18 +121,9 @@ export class ProgressBar extends React.Component {
 
     return(
       <div>
-        { showUnits ?
-          <div style={ style.units }>
-            {
-              units === 'number'
-                ? `${ completed } of ${ outOf }`
-                : `${percentageComplete}%`
-            }
-          </div>
-          : null
-        }
-        <div style={ style.bar }>
-          <div style={ style.completed }></div>
+        { this.renderUnits(style) }
+        <div className="baseBar" style={ style.bar }>
+          <div className="completedBar" style={ style.completed }></div>
         </div>
       </div>
     )

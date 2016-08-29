@@ -418,7 +418,7 @@ export class Table extends React.Component {
                 }
 
               }
-              }>
+            }>
               { heading.display }
             </p>
 
