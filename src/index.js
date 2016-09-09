@@ -5,5 +5,6 @@ export { DropdownItem } from './components/dropdown_item'
 export { Select } from './components/select'
 export { SelectOption } from './components/select_option'
 export { Input } from './components/input'
+export { CountLabel } from './components/count_label'
 
 export { KonamiCode } from './components/konami_code'
