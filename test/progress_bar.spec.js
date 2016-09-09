@@ -2,9 +2,9 @@ import { React, TestUtils, expect, mount, render } from './.setup'
 import { ProgressBar } from '../src/components/progress_bar'
 import Color from 'color'
 
-describe("ProgressBar Component", function(){
+describe("<ProgressBar />", function(){
 
- before('render and locate element', ()=>{
+ before('render and mount element', ()=>{
    this.renderedComponent = render(
      <ProgressBar
        completed={ 45 }

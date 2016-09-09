@@ -214,7 +214,7 @@ export class Table extends React.Component {
   }
 
   _addFields =(tableData)=>{
-    const { computedFields, controls, } = this.props
+    const { computedFields, controls } = this.props
 
     return tableData.map((data, i) => {
       //add computed fields
