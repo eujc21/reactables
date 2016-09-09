@@ -6,15 +6,17 @@ export class CountLabel extends React.Component {
     styles: PropTypes.object,
     iconText: PropTypes.string,
     count: PropTypes.number,
-    backgroundColor: PropTypes.string,
-    textColor: PropTypes.string,
+    iconColor: PropTypes.string,
+    iconTextColor: PropTypes.string,
+    countTextColor: PropTypes.string,
     onClick: PropTypes.func
   }
 
   static defaultProps = {
     count: 0,
-    backgroundColor: 'blue',
-    textColor: 'white',
+    iconColor: 'blue',
+    iconTextColor: 'white',
+    countTextColor: 'black',
     styles: {}
   }
 
@@ -24,7 +26,7 @@ export class CountLabel extends React.Component {
   }
 
   render(){
-    const { iconText, count, backgroundColor, textColor, onClick, styles } = this.props
+    const { iconText, count, iconColor, iconTextColor, countTextColor, onClick, styles } = this.props
 
     let style = {
       base: {
@@ -33,8 +35,8 @@ export class CountLabel extends React.Component {
       },
       icon:{
         display: 'inline-block',
-        backgroundColor: backgroundColor,
-        color: textColor,
+        backgroundColor: iconColor,
+        color: iconTextColor,
         fontSize: 10,
         marginRight: 5,
         padding: 5,
@@ -43,7 +45,7 @@ export class CountLabel extends React.Component {
       },
       count: {
         display: 'inline-block',
-        color: 'white',
+        color: countTextColor,
         fontSize: 10
       }
     }
