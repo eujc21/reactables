@@ -6,17 +6,11 @@ export class CountLabel extends React.Component {
     styles: PropTypes.object,
     iconText: PropTypes.string,
     count: PropTypes.number,
-    iconColor: PropTypes.string,
-    iconTextColor: PropTypes.string,
-    countTextColor: PropTypes.string,
     onClick: PropTypes.func
   }
 
   static defaultProps = {
     count: 0,
-    iconColor: 'blue',
-    iconTextColor: 'white',
-    countTextColor: 'black',
     styles: {}
   }
 
@@ -26,7 +20,7 @@ export class CountLabel extends React.Component {
   }
 
   render(){
-    const { iconText, count, iconColor, iconTextColor, countTextColor, onClick, styles } = this.props
+    const { iconText, count, onClick, styles } = this.props
 
     let style = {
       base: {
@@ -35,8 +29,8 @@ export class CountLabel extends React.Component {
       },
       icon:{
         display: 'inline-block',
-        backgroundColor: iconColor,
-        color: iconTextColor,
+        backgroundColor: 'blue',
+        color: 'white',
         fontSize: 10,
         marginRight: 5,
         padding: 5,
@@ -45,14 +39,13 @@ export class CountLabel extends React.Component {
       },
       count: {
         display: 'inline-block',
-        color: countTextColor,
+        color: 'black',
         fontSize: 10
       }
     }
 
     style.icon = Object.assign({}, style.icon, styles.icon)
-
-    console.log(style)
+    style.count = Object.assign({}, style.count, styles.count)
 
     return(
       <div style={ style.base }>
