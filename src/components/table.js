@@ -256,21 +256,18 @@ export class Table extends React.Component {
     const tableData = this._addFields(this.state.tableData)
 
     this.setState({
-      cellWidth: this.getColumnWidths(tableData),
+      cellWidth: this.getColumnWidths(),
       tableData
     })
 
-    this.props.isScrollable ?
-      window.addEventListener('resize', this.handleResize) : null
+    window.addEventListener('resize', this.handleResize)
 
   }
 
   componentWillUnmount(){
-    this.props.isScrollable ?
-      window.removeEventListener('resize', this.handleResize) : null
 
-    this.props.isSelectable ?
-      window.removeEventListener('click', this.onRowClick, false) : null
+    window.removeEventListener('resize', this.handleResize)
+    window.removeEventListener('click', this.onRowClick)
 
   }
 
@@ -292,20 +289,54 @@ export class Table extends React.Component {
     this.setState({
       tableData: data,
       selectedIndex:  prevSelectedIndex || selectedIndex,
-      cellWidth: this.getColumnWidths(data)
+      cellWidth: this.getColumnWidths()
     })
   }
 
   handleResize =()=>{
-    this.setState({ cellWidth: this.getColumnWidths()})
+    this.setState({ cellWidth: this.getColumnWidths() })
   }
 
-  getColumnWidths =(data)=>{
-    const tableData = data || this.props.tableData
-    const controls = this.props.controls
-    const tableWidth = ReactDOM.findDOMNode(this).clientWidth
-    const numberOfColumns = tableData.length > 0 ? Object.keys(tableData[0]).length + (controls.length > 0 ? 1 : 0) : 0
-    return tableWidth / numberOfColumns
+  getColumnWidths =()=>{
+    const { controls, include, exclude, columnOrder, headings, isScrollable } = this.props
+    const { tableData } = this.state
+    let tableWidth = ReactDOM.findDOMNode(this).clientWidth
+    //const controlsCount = Object.keys(controls).length > 0 ? Object.keys(controls).length : 0
+
+    let numberOfColumns = tableData.length > 0
+      ? Object.keys(tableData[0]).length
+      : 0
+
+    console.log(numberOfColumns)
+
+    if(include){
+      numberOfColumns = include.length
+    }
+
+    if(exclude){
+      numberOfColumns = numberOfColumns - exclude.length
+    }
+
+    if(columnOrder){
+      numberOfColumns = columnOrder.length
+    }
+
+    // loop through headings
+    if(headings && isScrollable){
+      const counts = Object.keys(headings).reduce((obj, h) =>{
+        if(headings[h].width){
+          obj.offset = headings[h].width + obj.offset
+          obj.cells = obj.cells + 1
+        }
+        return obj
+      }, {cells: 0, offset: 0})
+
+      tableWidth = tableWidth - counts.offset
+      numberOfColumns = numberOfColumns - counts.cells
+    }
+
+    const cellWidth = tableWidth / numberOfColumns
+    return cellWidth
   }
 
   onMouseEnterRow =(e)=>{
@@ -390,7 +421,7 @@ export class Table extends React.Component {
   }
 
   renderTableHeadings =(style, tableProperties)=>{
-    const { order, lastKey } = this.state
+    const { order, lastKey, cellWidth } = this.state
     const { onSort, computedFields } = this.props
 
     const computedKeys = computedFields ? Object.keys(computedFields) : null
@@ -402,18 +433,13 @@ export class Table extends React.Component {
         { tableHeadings.map((heading, i) =>
           <th
             key={ i }
-            style={
-              Object.assign({}, style.thead.th, {
-                textAlign: heading.justify || 'left',
-                width: heading.width || null,
-                minWidth: heading.minWidth || null,
-                maxWidth: heading.maxWidth || null
-              })
-            }>
+            style={{ ...style.thead.th,
+              textAlign: heading.justify || 'left',
+              width: heading.width || cellWidth
+            }}>
             <p
-              style={ Object.assign({}, style.thead.p, { cursor: heading.isSortable === true ? 'pointer': 'default'}) }
+              style={{ ...style.thead.p, cursor: heading.isSortable === true ? 'pointer': 'default' }}
               onClick={ ()=> {
-
                 /* Only Use internal sort if heading is a computed field */
                 if(computedKeys && computedKeys.some(key => key === heading.key) && heading.isSortable){
                   this.handleInternalSort(tableProperties[i])
@@ -484,7 +510,7 @@ export class Table extends React.Component {
           height: 37,
           fontSize: 12,
           fontWeight: 300,
-          width: isScrollable ? cellWidth : null
+          //width: isScrollable ? cellWidth : null
         },
         p: {
           padding: 0,
@@ -512,7 +538,7 @@ export class Table extends React.Component {
         },
         td: {
           padding: '5px 5px',
-          width: isScrollable ? cellWidth : null
+          wordWrap: 'break-word'
         },
         controls: {
           display: 'flex',
@@ -553,7 +579,8 @@ export class Table extends React.Component {
                   style={
                   { ...style.tbody.td,
                     textAlign: headings && headings[propertyKey] && headings[propertyKey].justify ? headings[propertyKey].justify :  null,
-                    width: headings && headings[propertyKey] && headings[propertyKey].width ? headings[propertyKey].width : null,
+                    width: headings && headings[propertyKey] && headings[propertyKey].width ? headings[propertyKey].width : cellWidth,
+                    maxWidth: headings && headings[propertyKey] && headings[propertyKey].width ? headings[propertyKey].width : cellWidth,
                     minWidth: headings && headings[propertyKey] && headings[propertyKey].minWidth ? headings[propertyKey].minWidth : null
                   }
                   }>
