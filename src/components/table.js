@@ -200,7 +200,8 @@ export class Table extends React.Component {
         return {
           display: headings[key].display || this._formatHeading(key),
           isSortable: headings[key].isSortable === true,
-          justify: headings[key].justify || 'left'
+          justify: headings[key].justify || 'left',
+          width: headings[key].width || null
         }
       } else {
         // Default heading
@@ -234,9 +235,10 @@ export class Table extends React.Component {
       }
       return data
     })
+
   }
 
-  componentWillMount =()=>{
+  componentWillMount(){
     const { isSelectable, selectedIndex, include, exclude} = this.props
 
     if(include && exclude)
@@ -249,7 +251,7 @@ export class Table extends React.Component {
 
   }
 
-  componentDidMount =()=> {
+  componentDidMount(){
 
     const tableData = this._addFields(this.state.tableData)
 
@@ -263,19 +265,22 @@ export class Table extends React.Component {
 
   }
 
-  componentWillUnmount =()=> {
+  componentWillUnmount(){
     this.props.isScrollable ?
       window.removeEventListener('resize', this.handleResize) : null
 
     this.props.isSelectable ?
       window.removeEventListener('click', this.onRowClick, false) : null
+
   }
 
-  componentWillReceiveProps =(nextProps)=>{
+  componentWillReceiveProps(nextProps){
     const { filter } = nextProps
     const { selectedIndex } = this.state
 
-    let data = !_.isEqual(this.props.tableData, nextProps.tableData) ? nextProps.tableData : this.state.tableData
+    //let data = !_.isEqual(this.props.tableData, nextProps.tableData) ? nextProps.tableData : this.state.tableData
+    let data = this._addFields(nextProps.tableData)
+
     let prevSelectedIndex = null
 
     if( filter.length > 0 ){
@@ -399,7 +404,10 @@ export class Table extends React.Component {
             key={ i }
             style={
               Object.assign({}, style.thead.th, {
-                textAlign: heading.justify || 'left'
+                textAlign: heading.justify || 'left',
+                width: heading.width || null,
+                minWidth: heading.minWidth || null,
+                maxWidth: heading.maxWidth || null
               })
             }>
             <p
@@ -418,14 +426,14 @@ export class Table extends React.Component {
                 }
 
               }
-            }>
+              }>
               { heading.display }
             </p>
 
             { lastKey === tableProperties[i] ?
               <i
                 className={ order === 'asc' ? 'icon-arrow-up' : 'icon-arrow-down' }
-                style={{ marginLeft: 5, fontSize: 12}}/> : null
+                style={{ marginLeft: 5, fontSize: 6}}/> : null
             }
 
           </th>
@@ -457,7 +465,8 @@ export class Table extends React.Component {
       table:{
         base:{
           borderCollapse: 'collapse',
-          width: '100%'
+          width: '100%',
+          tableLayout: 'fixed'
         }
       },
       thead:{
@@ -473,7 +482,7 @@ export class Table extends React.Component {
           textAlign: 'left',
           padding: '0 5px',
           height: 37,
-          fontSize: 16,
+          fontSize: 12,
           fontWeight: 300,
           width: isScrollable ? cellWidth : null
         },
@@ -542,15 +551,17 @@ export class Table extends React.Component {
                 <td
                   key={ propertyIndex }
                   style={
-                    Object.assign({}, style.tbody.td, {
-                      textAlign: headings && headings[propertyKey] && headings[propertyKey].justify
-                    })
+                  { ...style.tbody.td,
+                    textAlign: headings && headings[propertyKey] && headings[propertyKey].justify ? headings[propertyKey].justify :  null,
+                    width: headings && headings[propertyKey] && headings[propertyKey].width ? headings[propertyKey].width : null,
+                    minWidth: headings && headings[propertyKey] && headings[propertyKey].minWidth ? headings[propertyKey].minWidth : null
+                  }
                   }>
                   {
                     /* Apply Formatters */
-                    formatters && formatters[propertyKey] ?
-                      formatters[propertyKey]( item[propertyKey] ) :
-                      item[propertyKey]
+                    formatters && formatters[propertyKey]
+                      ? formatters[propertyKey]( item )
+                      : item[propertyKey]
                   }
                 </td>
               )}
