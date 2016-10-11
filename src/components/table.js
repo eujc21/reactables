@@ -303,11 +303,14 @@ export class Table extends React.Component {
     let tableWidth = ReactDOM.findDOMNode(this).clientWidth
     //const controlsCount = Object.keys(controls).length > 0 ? Object.keys(controls).length : 0
 
+    // TODO: Address this bug with calculating column widths
+    // TODO: Also needs initial data for calculation of width if scrollable
+    if(!isScrollable)
+      return
+
     let numberOfColumns = tableData.length > 0
       ? Object.keys(tableData[0]).length
       : 0
-
-    console.log(numberOfColumns)
 
     if(include){
       numberOfColumns = include.length
@@ -525,7 +528,7 @@ export class Table extends React.Component {
         base: {
           display: isScrollable ? 'block' : null,
           overflow: isScrollable ? 'auto' : null,
-          height: isScrollable ? height : null
+          height: isScrollable ? height : null,
         },
         tr: {
           base: {
