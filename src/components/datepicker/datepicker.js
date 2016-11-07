@@ -10,6 +10,18 @@ export default class DatePicker extends React.Component {
     onChange: PropTypes.func
   }
 
+  state = { years: []}
+
+  componentWillMount(){
+    const year = this.props.month.clone().year()
+    const years = [
+      ...range(year - 5, year),
+      ...range(year + 1, year + 5)
+    ]
+
+    this.setState({ years })
+  }
+
   handleMonthChange =(increment)=> {
     const { month, onChange } = this.props
     onChange( month.clone().add(increment, 'months'))
@@ -22,7 +34,12 @@ export default class DatePicker extends React.Component {
   }
 
   handleYearRangeChange =(increment)=>{
+    const { years } = this.state
+    if(increment === -1)
+      this.setState({ years: [years[0] - 1, ...years]})
 
+    if(increment === 1)
+      this.setState({ years: [...years, years[years.length -1] + 1]})
   }
 
   render(){
@@ -95,11 +112,7 @@ export default class DatePicker extends React.Component {
   }
 
   renderYears(){
-    const year = this.props.month.clone().year()
-    const years = [
-      ...range(year - 5, year),
-      ...range(year + 1, year + 5)
-    ]
+    const { years } = this.state
 
     const yearComponents = years.map(y =>
       <DropdownItem
