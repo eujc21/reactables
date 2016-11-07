@@ -8,7 +8,7 @@ const PROJECT_ROOT = path.resolve(__dirname)
 console.log(PROJECT_ROOT)
 
 module.exports = function(){
-  return {
+  var config = {
     name: `client`,
     devtool: 'cheap-module-eval-source-map',
     entry: {
@@ -68,4 +68,15 @@ module.exports = function(){
       ]
     }
   }
+
+  if(process.env.NODE_ENV === 'production') {
+    config.entry = path.join(PROJECT_ROOT, 'src/index.js')
+    config.output = {
+      path: path.join(PROJECT_ROOT, 'lib'),
+      filename: 'index.js'
+    }
+  }
+
+
+  return config
 }

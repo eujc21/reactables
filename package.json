@@ -6,7 +6,7 @@
   "scripts": {
     "prebuild": "rimraf lib",
     "dev": "NODE_ENV=development nodemon ./demo/server.js --ignore /demo/client.js --ignore ./src",
-    "build": "babel --out-dir lib --ignore *.test.js src",
+    "build": "babel --out-dir lib --ignore *.test.js src && copyfiles ./src/styles/* -f lib/styles && copyfiles ./src/vendor/fonts/* -f lib/vendor/fonts",
     "prepublish": "babel --out-dir lib --ignore *.test.js src",
     "test": "mocha test/*.spec.js --require test/.setup.js --compilers js:babel-core/register"
   },
@@ -53,6 +53,7 @@
     "babel-preset-stage-0": "^6.16.0",
     "chai": "^3.5.0",
     "chai-enzyme": "^0.5.1",
+    "copyfiles": "^1.0.0",
     "css-loader": "^0.25.0",
     "enzyme": "^2.4.1",
     "expect": "^1.20.2",

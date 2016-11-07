@@ -5,7 +5,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import { DateTimePicker } from '../src/components/datepicker/date_time_picker'
+
+import { DateTimePicker } from '../lib'
 
 function handleDateChange(date1, date2){
   console.log(date1, date2)
