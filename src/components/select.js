@@ -65,7 +65,7 @@ export class Select extends React.Component {
   }
 
   render(){
-    const { children, height, width, defaultValue, isArrowVisible } = this.props
+    const { children, height, width, defaultValue, disabled, isArrowVisible } = this.props
 
     let style = {
       base: {
@@ -84,7 +84,9 @@ export class Select extends React.Component {
       <select
         style={ style.base }
         defaultValue={ defaultValue }
-        onChange={ this.handleSelect }>
+        onChange={ this.handleSelect }
+        disabled={ disabled ? 'disabled' : null }
+      >
           { this.renderPlaceholder() }
           { children.map((child, i) =>
             <option

@@ -1,13 +1,24 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import moment from 'moment'
 
 export default class DateInput extends React.Component {
+
+  static propTypes = {
+    dateFormat: PropTypes.string,
+    timeFormat: PropTypes.string,
+    endDate: PropTypes.object,
+    startDate: PropTypes.object,
+    startTime: PropTypes.object,
+    endTime: PropTypes.object
+  }
 
   handleClick =()=>{
     this.props.onClick()
   }
 
   render(){
+
+    const { endDate } = this.props
 
     const style = {
       base: {
@@ -34,7 +45,7 @@ export default class DateInput extends React.Component {
       <div style={ style.base } onClick={ this.handleClick }>
         <div style={ style.text }>
           { this.renderStartDate() }
-          { this.props.endDate ? <div style={ style.divider }>-</div> : null }
+          { endDate ? <div style={ style.divider }>-</div> : null }
           { this.renderEndDate() }
         </div>
       </div>
@@ -42,22 +53,30 @@ export default class DateInput extends React.Component {
   }
 
   renderStartDate =()=>{
-    const { startDate, format } = this.props
+    const { startDate, startTime, dateFormat, timeFormat, isTimePicker } = this.props
+    if(!startDate)
+      return(<div>&nbsp;</div>)
 
+    const date = moment.isMoment(startDate) ? startDate.clone().format( dateFormat ) : ''
+    const time = moment.isMoment(startTime) ? startTime.clone().format( timeFormat ) : ''
     return(
       <div>
-        { moment.isMoment(startDate) ? startDate.clone().format( format ) : <div>&nbsp; </div> }
+        { date } { isTimePicker ? time : ''}
       </div>
     )
   }
 
   renderEndDate =()=>{
-    const { endDate, format } = this.props
+    const { endDate, endTime, dateFormat, timeFormat, isTimePicker } = this.props
     if(!endDate)
       return
 
+    const date = moment.isMoment(endDate) ? endDate.clone().format( dateFormat ) : ''
+    const time = moment.isMoment(endTime) ? endTime.clone().format( timeFormat ) : ''
     return(
-      <div>{ moment.isMoment(endDate) ? endDate.clone().format( format ) : '' }</div>
+      <div>
+        { date } { isTimePicker ? time : ''}
+      </div>
     )
   }
 }

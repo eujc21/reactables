@@ -14,15 +14,8 @@ export default class Calendar extends React.Component {
     calendarDate: PropTypes.object
   }
 
-  state = {
-    date: moment()
-  }
 
   onDateChange=(date)=>{
-    this.setState({
-      date: date.clone()
-    })
-
     this.props.onDateChange(date)
   }
 

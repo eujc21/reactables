@@ -5,6 +5,14 @@ import { range } from './helpers'
 
 export default class TimePicker extends React.Component {
 
+  static propTypes = {
+    hour: PropTypes.string,
+    minute: PropTypes.string,
+    period: PropTypes.string,
+    onChange: PropTypes.func.isRequired
+  }
+
+
   constructor(props){
     super(props)
 
@@ -16,11 +24,19 @@ export default class TimePicker extends React.Component {
     this.hours = [...range(1, 12)]
   }
 
-  handleTimeChange =()=>{
+  handleTimeChange =(time, value)=>{
+    const { hour, minute, period, onChange } = this.props
 
+    const h = time === 'hour' ? value : hour
+    const m = time === 'minute' ? value : minute
+    const p = time === 'period' ? value : period
+
+    onChange(h, m, p)
   }
 
   render(){
+    const { date, hour, minute, period } = this.props
+
     const style = {
       base: {
         display: 'flex',
@@ -35,25 +51,31 @@ export default class TimePicker extends React.Component {
         <Select
           height={ 22 }
           width={ 50 }
-          defaultValue={ '12' }
-          onSelect={ this.handleTimeChange }>
+          defaultValue={ hour }
+          onSelect={ (value)=>this.handleTimeChange('hour', value) }
+          disabled={ date ? false : true }
+        >
           { this.hours.map(hour => <SelectOption key={ hour } text={ hour } value={ hour }/>) }
         </Select>
         <span>:</span>
         <Select
           height={ 22 }
           width={ 50 }
-          defaultValue={ '00' }
-          onSelect={ this.handleTimeChange }>
+          defaultValue={ minute }
+          onSelect={ (value)=>this.handleTimeChange('minute', value) }
+          disabled={ date ? false : true  }
+        >
           { this.minutes.map(minute => <SelectOption key={ minute } text={ minute } value={ minute }/>) }
         </Select>
 
         <Select
           height={ 22 }
           width={ 50 }
-          defaultValue={ 'AM' }
-          onSelect={ this.handleTimeChange }>
-          { this.periods.map(p => <SelectOption key={p } text={ p  } value={ p }/>) }
+          defaultValue={ period }
+          onSelect={ (value)=>this.handleTimeChange('period', value) }
+          disabled={ date ? false : true  }
+        >
+          { this.periods.map(p => <SelectOption key={ p } text={ p } value={ p }/>) }
         </Select>
       </div>
     )

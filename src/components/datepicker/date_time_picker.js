@@ -5,8 +5,10 @@ import Calendar from './calendar'
 import DateInput from './date_input'
 import DatePicker from './datepicker'
 import TimePicker from './timepicker'
+import { convertHours, appendTime } from './helpers'
 
 import moment from 'moment'
+import isEqual from 'lodash/isEqual'
 
 import '../../styles/icons.css'
 
@@ -16,7 +18,8 @@ export class DateTimePicker extends React.Component {
     isRangePicker: PropTypes.bool,
     isDatePicker: PropTypes.bool,
     isTimePicker: PropTypes.bool,
-    format: PropTypes.string,
+    dateFormat: PropTypes.string,
+    timeFormat: PropTypes.string,
     onChange: PropTypes.func
   }
 
@@ -24,19 +27,43 @@ export class DateTimePicker extends React.Component {
     isRangePicker: false,
     isDatePicker: true,
     isTimePicker: false,
-    format: 'MMM DD, YYYY'
+    dateFormat: 'MMM DD, YYYY',
+    timeFormat: 'hh:mm a',
   }
 
   state = {
     isCalendarVisible: false,
-    startTime: '',
-    endTime: '',
-    startMonth: moment().startOf('month'),
-    endMonth: moment().add(1, 'months').startOf('month')
+    startHour: '12',
+    startMinute: '00',
+    endHour: '12',
+    endMinute: '00',
+    startPeriod: 'AM',
+    endPeriod: 'AM',
+    startMonth: moment().utc().startOf('month'),
+    endMonth: moment().utc().add(1, 'months').startOf('month'),
+    startTime: moment().utc().startOf('day'),
+    endTime: moment().utc().startOf('day')
   }
 
   componentDidMount(){
     document.addEventListener('click', this.onClickOutside, false)
+  }
+
+  componentDidUpdate(prevProps, prevState){
+    const { startDate, startTime, endDate, endTime } = this.state
+    const { isTimePicker, isRangePicker, onChange} = this.props
+
+    let date1 = null
+    let date2 = null
+
+    if(!isEqual(prevState.startDate, startDate) ||
+      !isEqual(prevState.endDate, endDate)){
+      date1 = startDate && isTimePicker ? appendTime(startDate, startTime) : startDate
+      date2 = isRangePicker &&endDate &&isTimePicker  ? appendTime(endDate, endTime) : endDate
+
+      onChange(date1, date2)
+    }
+
   }
 
   componentWillUnmount(){
@@ -94,21 +121,40 @@ export class DateTimePicker extends React.Component {
     })
   }
 
-  handleTimePickerStartChange =(startTime)=>{
-    this.setState({startTime})
+  handleTimePickerStartChange =(startHour, startMinute, startPeriod)=>{
+    const startTime = moment().utc().startOf('day')
+      .hours(convertHours(startHour, startPeriod))
+      .minutes(parseInt(startMinute))
+
+
+    this.setState({
+      startHour,
+      startMinute,
+      startPeriod,
+      startTime
+    })
   }
 
-  handleTimePickerEndChange =(endTime)=>{
-    this.setState({endTime})
-  }
+  handleTimePickerEndChange =(endHour, endMinute, endPeriod)=>{
+    const endTime =  moment().utc().startOf('day')
+      .hours(convertHours(endHour, endPeriod))
+      .minutes(parseInt(endMinute))
 
+    this.setState({
+      endHour,
+      endMinute,
+      endPeriod,
+      endTime
+    })
+  }
 
   handleInputClick =()=>{
     this.setState({isCalendarVisible: !this.state.isCalendarVisible})
   }
 
   render(){
-    const { startDate, endDate, isCalendarVisible } = this.state
+    const { startDate, endDate, startTime, endTime, isCalendarVisible } = this.state
+    const { dateFormat, timeFormat, isTimePicker } = this.props
 
     const style = {
       base: {
@@ -150,7 +196,11 @@ export class DateTimePicker extends React.Component {
         <DateInput
           startDate={ startDate }
           endDate={ endDate }
-          format={ this.props.format }
+          startTime={ startTime }
+          endTime={ endTime }
+          dateFormat={ dateFormat }
+          timeFormat={ timeFormat }
+          isTimePicker={ isTimePicker }
           onClick={ this.handleInputClick }/>
         { this.renderDatePicker(style) }
       </div>
@@ -158,15 +208,15 @@ export class DateTimePicker extends React.Component {
   }
 
   renderDatePicker =(style)=> {
-    const { isRangePicker, isTimePicker, format } = this.props
-    const { startMonth, endMonth, startDate, endDate, startTime, endTime } = this.state
+    const { isRangePicker, isTimePicker, dateFormat } = this.props
+    const { startMonth, endMonth, startDate, endDate, startHour, endHour, startMinute, endMinute, startPeriod, endPeriod } = this.state
 
     return(
       <div style={ style.picker }>
         <div style={ style.calendar }>
           { isRangePicker ?
             <div style={ style.rangeDisplay }>
-              Start Date: { startDate ? startDate.format(format) : '--' }
+              Start Date: { startDate ? startDate.format(dateFormat) : '--' }
             </div> : null
           }
           <DatePicker
@@ -181,7 +231,10 @@ export class DateTimePicker extends React.Component {
 
           { isTimePicker ?
             <TimePicker
-              time={ startTime }
+              date={ startDate }
+              hour={ startHour }
+              minute={ startMinute }
+              period={ startPeriod }
               onChange={ this.handleTimePickerStartChange }/> : null
           }
         </div>
@@ -192,24 +245,29 @@ export class DateTimePicker extends React.Component {
 
         { isRangePicker ?
           <div style={ style.calendar }>
-            { isRangePicker ?
-              <div style={ style.rangeDisplay }>
-                End Date: { endDate ? endDate.format(format) : '--' }
-              </div> : null
-            }
-            <DatePicker
-              month={ endMonth }
-              onChange={ this.handleDatePickerEndChange }/>
-            <Calendar
-              isRangePicker={ isRangePicker }
-              selectedDate={ endDate }
-              rangeDate={ startDate }
-              calendarDate={ endMonth }
-              onDateChange={ this.onEndDateChange }/>
+            <div>
+              { isRangePicker ?
+                <div style={ style.rangeDisplay }>
+                  End Date: { endDate ? endDate.format(dateFormat) : '--' }
+                </div> : null
+              }
+              <DatePicker
+                month={ endMonth }
+                onChange={ this.handleDatePickerEndChange }/>
+              <Calendar
+                isRangePicker={ isRangePicker }
+                selectedDate={ endDate }
+                rangeDate={ startDate }
+                calendarDate={ endMonth }
+                onDateChange={ this.onEndDateChange }/>
+            </div>
 
             { isTimePicker ?
               <TimePicker
-                time={ endTime }
+                date={ endDate }
+                hour={ endHour }
+                minute={ endMinute }
+                period={ endPeriod }
                 onChange={ this.handleTimePickerEndChange }/> : null
             }
           </div> : null }
