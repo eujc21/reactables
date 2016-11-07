@@ -13,6 +13,7 @@ import { SelectOption } from './select_option'
 export class Select extends React.Component {
   static propTypes = {
     placeholderText: PropTypes.string,
+    defaultValue: PropTypes.string,
     onSelect: PropTypes.func.isRequired,
     height: PropTypes.oneOfType([
       PropTypes.string,
@@ -64,7 +65,7 @@ export class Select extends React.Component {
   }
 
   render(){
-    const { children, height, width, isArrowVisible } = this.props
+    const { children, height, width, defaultValue, isArrowVisible } = this.props
 
     let style = {
       base: {
@@ -82,6 +83,7 @@ export class Select extends React.Component {
     return(
       <select
         style={ style.base }
+        defaultValue={ defaultValue }
         onChange={ this.handleSelect }>
           { this.renderPlaceholder() }
           { children.map((child, i) =>

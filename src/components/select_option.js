@@ -3,7 +3,10 @@ import React, { PropTypes } from 'react'
 export class SelectOption extends React.Component {
 
   static propTypes = {
-    text: PropTypes.string.isRequired,
+    text: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number
+      ]).isRequired,
     value: PropTypes.node.isRequired
   }
 

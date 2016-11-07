@@ -32,10 +32,6 @@ export class Dropdown extends React.Component {
 
   state = {isHighlighted: false, isMenuVisible: false}
 
-  constructor(props){
-    super(props)
-  }
-
   componentDidMount(){
     document.addEventListener('click', this.onClickOutside, false);
   }
@@ -69,9 +65,10 @@ export class Dropdown extends React.Component {
     })
   }
 
-  handleMenuClick = () =>{
+  handleMenuClick = (menuFunction, shouldHide) =>{
+    menuFunction()
     this.setState({
-      isMenuVisible: false,
+      isMenuVisible: !shouldHide,
       isHighlighted: false
     })
   }
@@ -143,13 +140,13 @@ export class Dropdown extends React.Component {
           </div>
 
         </div>
-        <div style={ style.menu.base } onClick={ this.handleMenuClick }>
+        <div style={ style.menu.base }>
           { this.props.children.map((child, i) =>
             <div key={ i }
                  style={ Object.assign({}, style.menu.item.base, i > 0 ? style.menu.item.secondary : {}, child.props.styles) }
                  onMouseEnter={ this.onEnterMenuItem }
                  onMouseLeave={ this.onLeaveMenuItem }
-                 onClick={ child.props.onClick }>
+                 onClick={ ()=> this.handleMenuClick(child.props.onClick, child.props.shouldHideMenu) }>
               { child.props.text }
             </div>
           )}
