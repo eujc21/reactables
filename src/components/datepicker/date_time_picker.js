@@ -10,7 +10,7 @@ import moment from 'moment'
 
 import '../../styles/icons.css'
 
-export default class DateTimePicker extends React.Component {
+export class DateTimePicker extends React.Component {
 
   static propTypes = {
     isRangePicker: PropTypes.bool,
