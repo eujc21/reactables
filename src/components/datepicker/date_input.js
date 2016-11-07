@@ -9,7 +9,8 @@ export default class DateInput extends React.Component {
     endDate: PropTypes.object,
     startDate: PropTypes.object,
     startTime: PropTypes.object,
-    endTime: PropTypes.object
+    endTime: PropTypes.object,
+    width: PropTypes.number
   }
 
   handleClick =()=>{
@@ -18,14 +19,14 @@ export default class DateInput extends React.Component {
 
   render(){
 
-    const { endDate } = this.props
+    const { endDate, width } = this.props
 
     const style = {
       base: {
         backgroundColor: 'white',
         border: '1px solid black',
         borderRadius: 2,
-        width: 300,
+        width: width,
         padding: 3,
         fontSize: 14,
         marginBottom: 10,

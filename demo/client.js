@@ -7,8 +7,12 @@ import ReactDOM from 'react-dom'
 
 import { DateTimePicker } from '../src/components/datepicker/date_time_picker'
 
+function handleDateChange(date1, date2){
+  console.log(date1, date2)
+}
+
 ReactDOM.render(
   <div>
-    <DateTimePicker isRangePicker isTimePicker onChange={ (date1, date2)=> console.log(date1, date2)}/>
+    <DateTimePicker inputWidth={ 500 } isRangePicker isTimePicker onChange={ handleDateChange }/>
   </div>, document.getElementById('root')
 )

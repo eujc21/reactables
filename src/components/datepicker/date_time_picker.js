@@ -20,6 +20,7 @@ export class DateTimePicker extends React.Component {
     isTimePicker: PropTypes.bool,
     dateFormat: PropTypes.string,
     timeFormat: PropTypes.string,
+    inputWidth: PropTypes.number,
     onChange: PropTypes.func
   }
 
@@ -29,6 +30,7 @@ export class DateTimePicker extends React.Component {
     isTimePicker: false,
     dateFormat: 'MMM DD, YYYY',
     timeFormat: 'hh:mm a',
+    inputWidth: 300
   }
 
   state = {
@@ -57,7 +59,10 @@ export class DateTimePicker extends React.Component {
     let date2 = null
 
     if(!isEqual(prevState.startDate, startDate) ||
-      !isEqual(prevState.endDate, endDate)){
+      !isEqual(prevState.endDate, endDate) ||
+      !isEqual(prevState.startTime, startTime) ||
+      !isEqual(prevState.endTime, endTime)
+    ){
       date1 = startDate && isTimePicker ? appendTime(startDate, startTime) : startDate
       date2 = isRangePicker &&endDate &&isTimePicker  ? appendTime(endDate, endTime) : endDate
 
@@ -154,7 +159,7 @@ export class DateTimePicker extends React.Component {
 
   render(){
     const { startDate, endDate, startTime, endTime, isCalendarVisible } = this.state
-    const { dateFormat, timeFormat, isTimePicker } = this.props
+    const { dateFormat, timeFormat, isTimePicker, inputWidth } = this.props
 
     const style = {
       base: {
@@ -201,6 +206,7 @@ export class DateTimePicker extends React.Component {
           dateFormat={ dateFormat }
           timeFormat={ timeFormat }
           isTimePicker={ isTimePicker }
+          width={ inputWidth }
           onClick={ this.handleInputClick }/>
         { this.renderDatePicker(style) }
       </div>
