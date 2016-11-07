@@ -218,14 +218,4 @@ export class DateTimePicker extends React.Component {
     )
   }
 
-  renderRangeDisplay =()=>{
-    if(!this.props.isRangePicker)
-      return
-
-    return(
-      <div></div>
-    )
-  }
-
-
 }
