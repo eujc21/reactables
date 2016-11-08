@@ -45,7 +45,6 @@ export default class Calendar extends React.Component {
   render() {
     const style = {
       base: {
-        width: 35*7,
         backgroundColor: 'white',
         borderRadius: 3
       },

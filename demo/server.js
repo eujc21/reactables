@@ -29,7 +29,7 @@ function renderFullPage(html) {
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Reactables</title>
         <style>
-          html { font-size: 16px; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; font-weight: 200;}
+          html { font-size: 16px }
           html, body, #root { margin: 0; }
           body { background-color: #f4f4f4;}
         </style>

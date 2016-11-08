@@ -21,6 +21,7 @@ export class DateTimePicker extends React.Component {
     dateFormat: PropTypes.string,
     timeFormat: PropTypes.string,
     inputWidth: PropTypes.number,
+    fontFamily: PropTypes.string,
     onChange: PropTypes.func
   }
 
@@ -30,7 +31,8 @@ export class DateTimePicker extends React.Component {
     isTimePicker: false,
     dateFormat: 'MMM DD, YYYY',
     timeFormat: 'hh:mm a',
-    inputWidth: 300
+    inputWidth: 300,
+    fontFamily: 'Arial'
   }
 
   state = {
@@ -47,8 +49,30 @@ export class DateTimePicker extends React.Component {
     endTime: moment().utc().startOf('day')
   }
 
+  componentWillMount(){
+    const { startDate, endDate } = this.props
+    this.setState({
+      startDate,
+      startTime: startDate,
+      endDate,
+      endTime: endDate
+    })
+  }
+
   componentDidMount(){
     document.addEventListener('click', this.onClickOutside, false)
+  }
+
+  componentWillReceiveProps(nextProps){
+    const { startDate, endDate } = nextProps
+
+    this.setState({
+      startDate,
+      startTime: startDate,
+      endDate,
+      endTime: endDate
+    })
+
   }
 
   componentDidUpdate(prevProps, prevState){
@@ -68,6 +92,8 @@ export class DateTimePicker extends React.Component {
 
       onChange(date1, date2)
     }
+
+    console.log(this.state)
 
   }
 
@@ -159,10 +185,12 @@ export class DateTimePicker extends React.Component {
 
   render(){
     const { startDate, endDate, startTime, endTime, isCalendarVisible } = this.state
-    const { dateFormat, timeFormat, isTimePicker, inputWidth } = this.props
+    const { dateFormat, timeFormat, isTimePicker, inputWidth, fontFamily } = this.props
 
     const style = {
       base: {
+        fontFamily: fontFamily,
+        fontWeight: 200
       },
       picker: {
         padding: 10,
