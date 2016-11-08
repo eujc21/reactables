@@ -30,6 +30,7 @@ class Test extends React.Component {
         <DateTimePicker
           startDate={ this.state.startDate }
           endDate={ this.state.endDate }
+          placeholder={ 'please select a date'}
           inputWidth={ 500 }
           isTimePicker
           isRangePicker

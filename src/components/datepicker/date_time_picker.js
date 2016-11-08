@@ -23,6 +23,7 @@ export class DateTimePicker extends React.Component {
     fontFamily: PropTypes.string,
     startDate: PropTypes.object,
     endDate: PropTypes.object,
+    placeholder: PropTypes.string,
     onChange: PropTypes.func
   }
 
@@ -33,7 +34,8 @@ export class DateTimePicker extends React.Component {
     dateFormat: 'MMM DD, YYYY',
     timeFormat: 'hh:mm a',
     inputWidth: 300,
-    fontFamily: 'Arial'
+    fontFamily: 'Arial',
+    placeholder: 'Select a Date'
   }
 
   state = {
@@ -151,7 +153,7 @@ export class DateTimePicker extends React.Component {
 
   render(){
     const { startDate, endDate, isCalendarVisible } = this.state
-    const { dateFormat, timeFormat, isTimePicker, inputWidth, fontFamily } = this.props
+    const { dateFormat, timeFormat, isTimePicker, inputWidth, fontFamily, placeholder } = this.props
 
     const style = {
       base: {
@@ -200,6 +202,7 @@ export class DateTimePicker extends React.Component {
           dateFormat={ dateFormat }
           timeFormat={ timeFormat }
           isTimePicker={ isTimePicker }
+          placeholder={ placeholder }
           width={ inputWidth }
           onClick={ this.handleInputClick }/>
         { this.renderDatePicker(style) }

@@ -10,7 +10,8 @@ export default class DateInput extends React.Component {
     startDate: PropTypes.object,
     startTime: PropTypes.object,
     endTime: PropTypes.object,
-    width: PropTypes.number
+    width: PropTypes.number,
+    placeholder: PropTypes.string
   }
 
   handleClick =()=>{
@@ -36,6 +37,9 @@ export default class DateInput extends React.Component {
         margin: 0,
         padding: '0 6px'
       },
+      placeholder: {
+        color: '#ccc'
+      },
       text: {
         display: 'flex',
         margin: 0,
@@ -44,7 +48,9 @@ export default class DateInput extends React.Component {
     }
     return(
       <div style={ style.base } onClick={ this.handleClick }>
+        { }
         <div style={ style.text }>
+          { this.renderPlaceholder(style) }
           { this.renderStartDate() }
           { endDate ? <div style={ style.divider }>-</div> : null }
           { this.renderEndDate() }
@@ -53,10 +59,18 @@ export default class DateInput extends React.Component {
     )
   }
 
+  renderPlaceholder =(style)=>{
+    const { startDate, endDate, placeholder } = this.props
+    if(!startDate && !endDate)
+      return(
+        (<div style={ style.placeholder }>{ placeholder }</div>)
+      )
+  }
+
   renderStartDate =()=>{
     const { startDate, startTime, dateFormat, timeFormat, isTimePicker } = this.props
     if(!startDate)
-      return(<div>&nbsp;</div>)
+      return
 
     const date = moment.isMoment(startDate) ? startDate.clone().format( dateFormat ) : ''
     const time = moment.isMoment(startTime) ? startTime.clone().format( timeFormat ) : ''
