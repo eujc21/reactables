@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom'
 import moment from 'moment'
 
 
-import { DateTimePicker } from '../src/index'
+import { DateTimePicker, Button } from '../src/index'
 
 
 
@@ -26,7 +26,7 @@ class Test extends React.Component {
   render(){
     return(
       <div>
-        <button onClick={ this.handleClick }>button</button>
+        <Button onClick={ this.handleClick } text={ 'Click Me '}/>
         <DateTimePicker
           startDate={ this.state.startDate }
           endDate={ this.state.endDate }

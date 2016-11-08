@@ -7,5 +7,5 @@ export { SelectOption } from './components/select_option'
 export { Input } from './components/input'
 export { CountLabel } from './components/count_label'
 export { DateTimePicker } from './components/datepicker/date_time_picker'
-
+export { Button } from './components/button'
 export { KonamiCode } from './components/konami_code'
