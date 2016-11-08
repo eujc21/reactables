@@ -23,6 +23,7 @@ export class Button extends React.Component {
     letterSpacing: PropTypes.number,
     backgroundColor: PropTypes.string,
     width: PropTypes.number,
+    height: PropTypes.number,
     border: PropTypes.string,
     borderRadius: PropTypes.number,
     isHoverable: PropTypes.bool,
@@ -81,6 +82,7 @@ export class Button extends React.Component {
       border,
       borderRadius,
       width,
+      height,
       margin,
       fontSize,
       fontWeight,
@@ -90,7 +92,8 @@ export class Button extends React.Component {
     } = this.props
 
     let style = {
-      width: width,
+      width,
+      height,
       border,
       borderRadius,
       color: textColor,
