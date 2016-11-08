@@ -5,7 +5,6 @@ import Calendar from './calendar'
 import DateInput from './date_input'
 import DatePicker from './datepicker'
 import TimePicker from './timepicker'
-import { convertHours, appendTime } from './helpers'
 
 import moment from 'moment'
 import isEqual from 'lodash/isEqual'
@@ -22,6 +21,8 @@ export class DateTimePicker extends React.Component {
     timeFormat: PropTypes.string,
     inputWidth: PropTypes.number,
     fontFamily: PropTypes.string,
+    startDate: PropTypes.object,
+    endDate: PropTypes.object,
     onChange: PropTypes.func
   }
 
@@ -37,25 +38,15 @@ export class DateTimePicker extends React.Component {
 
   state = {
     isCalendarVisible: false,
-    startHour: '12',
-    startMinute: '00',
-    endHour: '12',
-    endMinute: '00',
-    startPeriod: 'AM',
-    endPeriod: 'AM',
     startMonth: moment().utc().startOf('month'),
     endMonth: moment().utc().add(1, 'months').startOf('month'),
-    startTime: moment().utc().startOf('day'),
-    endTime: moment().utc().startOf('day')
   }
 
   componentWillMount(){
     const { startDate, endDate } = this.props
     this.setState({
       startDate,
-      startTime: startDate,
       endDate,
-      endTime: endDate
     })
   }
 
@@ -68,32 +59,20 @@ export class DateTimePicker extends React.Component {
 
     this.setState({
       startDate,
-      startTime: startDate,
       endDate,
-      endTime: endDate
     })
 
   }
 
   componentDidUpdate(prevProps, prevState){
-    const { startDate, startTime, endDate, endTime } = this.state
-    const { isTimePicker, isRangePicker, onChange} = this.props
-
-    let date1 = null
-    let date2 = null
+    const { startDate, endDate } = this.state
+    const { onChange } = this.props
 
     if(!isEqual(prevState.startDate, startDate) ||
-      !isEqual(prevState.endDate, endDate) ||
-      !isEqual(prevState.startTime, startTime) ||
-      !isEqual(prevState.endTime, endTime)
-    ){
-      date1 = startDate && isTimePicker ? appendTime(startDate, startTime) : startDate
-      date2 = isRangePicker &&endDate &&isTimePicker  ? appendTime(endDate, endTime) : endDate
+      !isEqual(prevState.endDate, endDate)){
 
-      onChange(date1, date2)
+      onChange(startDate, endDate)
     }
-
-    console.log(this.state)
 
   }
 
@@ -121,15 +100,16 @@ export class DateTimePicker extends React.Component {
 
   onStartDateChange =(date)=>{
 
-    date = date.clone().startOf('day')
-    let { startMonth, endDate } = this.state
+    let { startMonth, startDate, endDate } = this.state
+    date = date.clone()
+    date = startDate ? date.hour(startDate.hour()).minute(startDate.minute()) : date
 
     if(this.props.isRangePicker){
-      endDate = endDate && date > endDate ? null : endDate
+      endDate = endDate && date.clone().startOf('day') > endDate.clone().startOf('day') ? null : endDate
     }
 
     this.setState({
-      startDate: date.clone(),
+      startDate: date,
       startMonth: startMonth.month() !== date.month() ? date.clone() : startMonth.clone(),
       endDate
     })
@@ -138,44 +118,30 @@ export class DateTimePicker extends React.Component {
 
   onEndDateChange =(date)=>{
 
-    date = date.clone().startOf('day')
-    let { startDate, endMonth } = this.state
+    let { endMonth, endDate, startDate } = this.state
+    date = date.clone()
+    date = endDate ? date.hour(endDate.hour()).minute(endDate.minute()) : date
 
     if(this.props.isRangePicker){
-      startDate = startDate && date < startDate ? null : startDate
+      startDate = startDate && date.clone().startOf('day') < startDate.clone().startOf('day') ? null : startDate
     }
 
     this.setState({
-      endDate: date.clone(),
+      endDate: date,
       endMonth: endMonth.month() !== date.month() ? date.clone() : endMonth.clone(),
       startDate
     })
   }
 
-  handleTimePickerStartChange =(startHour, startMinute, startPeriod)=>{
-    const startTime = moment().utc().startOf('day')
-      .hours(convertHours(startHour, startPeriod))
-      .minutes(parseInt(startMinute))
-
-
+  handleTimePickerStartChange =(date)=>{
     this.setState({
-      startHour,
-      startMinute,
-      startPeriod,
-      startTime
+      startDate: date
     })
   }
 
-  handleTimePickerEndChange =(endHour, endMinute, endPeriod)=>{
-    const endTime =  moment().utc().startOf('day')
-      .hours(convertHours(endHour, endPeriod))
-      .minutes(parseInt(endMinute))
-
+  handleTimePickerEndChange =(date)=>{
     this.setState({
-      endHour,
-      endMinute,
-      endPeriod,
-      endTime
+      endDate: date
     })
   }
 
@@ -184,7 +150,7 @@ export class DateTimePicker extends React.Component {
   }
 
   render(){
-    const { startDate, endDate, startTime, endTime, isCalendarVisible } = this.state
+    const { startDate, endDate, isCalendarVisible } = this.state
     const { dateFormat, timeFormat, isTimePicker, inputWidth, fontFamily } = this.props
 
     const style = {
@@ -229,8 +195,8 @@ export class DateTimePicker extends React.Component {
         <DateInput
           startDate={ startDate }
           endDate={ endDate }
-          startTime={ startTime }
-          endTime={ endTime }
+          startTime={ startDate }
+          endTime={ endDate }
           dateFormat={ dateFormat }
           timeFormat={ timeFormat }
           isTimePicker={ isTimePicker }
@@ -243,7 +209,7 @@ export class DateTimePicker extends React.Component {
 
   renderDatePicker =(style)=> {
     const { isRangePicker, isTimePicker, dateFormat } = this.props
-    const { startMonth, endMonth, startDate, endDate, startHour, endHour, startMinute, endMinute, startPeriod, endPeriod } = this.state
+    const { startMonth, endMonth, startDate, endDate } = this.state
 
     return(
       <div style={ style.picker }>
@@ -266,9 +232,6 @@ export class DateTimePicker extends React.Component {
           { isTimePicker ?
             <TimePicker
               date={ startDate }
-              hour={ startHour }
-              minute={ startMinute }
-              period={ startPeriod }
               onChange={ this.handleTimePickerStartChange }/> : null
           }
         </div>
@@ -299,9 +262,6 @@ export class DateTimePicker extends React.Component {
             { isTimePicker ?
               <TimePicker
                 date={ endDate }
-                hour={ endHour }
-                minute={ endMinute }
-                period={ endPeriod }
                 onChange={ this.handleTimePickerEndChange }/> : null
             }
           </div> : null }

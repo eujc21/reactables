@@ -60,18 +60,18 @@ export default class Day extends React.Component {
     if(!rangeDate || !selectedDate)
       return false
 
-    if(rangeDate.clone().format('YYYY-MM-DD') === selectedDate.clone().format('YYYY-MM-DD'))
+    const selected = selectedDate.clone().startOf('day')
+    const ranged = rangeDate.clone().startOf('day')
+
+    if(ranged === selected)
       return false
 
-    if(selectedDate.clone().format('YYYY-MM-DD') === rangeDate.clone().format('YYYY-MM-DD'))
-      return true
-
-    if(selectedDate < rangeDate) {
-      return date.isBetween(selectedDate.clone().subtract(1, 'days'), rangeDate.clone().add(1, 'days'))
+    if(selected < ranged) {
+      return date.isBetween(selected.clone().subtract(1, 'days'), ranged.clone().add(1, 'days'))
     }
 
-    if(selectedDate > rangeDate){
-      return date.isBetween(rangeDate.clone().subtract(1, 'days'), selectedDate.clone().add(1, 'days'))
+    if(selected > ranged){
+      return date.isBetween(ranged.clone().subtract(1, 'days'), selected.clone().add(1, 'days'))
 
     }
 
@@ -84,10 +84,10 @@ export default class Day extends React.Component {
     const style = {
       base: {
         display: 'inline-block',
-        padding: 4,
         margin: 3,
-        fontSize: 12,
-        width: 20,
+        fontSize: 11,
+        width: 24,
+        lineHeight: '24px',
         textAlign: 'center',
         cursor: 'pointer',
         borderRadius: 3,

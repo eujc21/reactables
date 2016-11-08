@@ -11,9 +11,12 @@ import { DateTimePicker } from '../src/index'
 class Test extends React.Component {
   state = { date: moment() }
 
-  handleDateChange =(date1, date2)=>{
-    console.log(date1, date2)
-    this.setState({ date: date1})
+  handleDateChange =(startDate, endDate)=>{
+
+    if(endDate && startDate)
+      console.log(startDate.toString(), endDate.toString())
+
+    this.setState({ startDate, endDate})
   }
 
   handleClick=()=>{
@@ -25,9 +28,11 @@ class Test extends React.Component {
       <div>
         <button onClick={ this.handleClick }>button</button>
         <DateTimePicker
-          startDate={ this.state.date }
+          startDate={ this.state.startDate }
+          endDate={ this.state.endDate }
           inputWidth={ 500 }
           isTimePicker
+          isRangePicker
           onChange={ this.handleDateChange }
           timeFormat={ 'hh:mm a' }/>
       </div>

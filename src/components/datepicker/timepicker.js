@@ -1,17 +1,14 @@
 import React, { PropTypes } from 'react'
 import { Select } from '../select'
 import { SelectOption } from '../select_option'
-import { range } from './helpers'
+import { range, convertHours } from './helpers'
 
 export default class TimePicker extends React.Component {
 
   static propTypes = {
-    hour: PropTypes.string,
-    minute: PropTypes.string,
-    period: PropTypes.string,
+    date: PropTypes.object,
     onChange: PropTypes.func.isRequired
   }
-
 
   constructor(props){
     super(props)
@@ -24,18 +21,51 @@ export default class TimePicker extends React.Component {
     this.hours = [...range(1, 12)]
   }
 
+  _hourForDate(date){
+    if(date){
+      let hour = date.hour()
+      hour = hour > 12 ? hour - 12 : hour
+      hour = hour === 0 ? 12 : hour
+      hour = String(hour)
+      return hour.length === 1 ? '0' + hour : hour
+    }
+
+    return '12'
+  }
+
+  _minuteForDate(date){
+    if(date){
+      let minute = String(date.minute())
+      return minute.length === 1 ? '0' + minute : minute
+    }
+
+    return '00'
+  }
+
+  _periodForDate(date){
+    if(date){
+      return date.hour() >= 12 ? 'PM' : 'AM'
+    }
+
+    return 'AM'
+  }
+
   handleTimeChange =(time, value)=>{
-    const { hour, minute, period, onChange } = this.props
+    const { date, onChange } = this.props
 
-    const h = time === 'hour' ? value : hour
-    const m = time === 'minute' ? value : minute
-    const p = time === 'period' ? value : period
+    const hour = time === 'hour' ? value : this._hourForDate(date)
+    const minute = time === 'minute' ? value : this._minuteForDate(date)
+    const period = time === 'period' ? value : this._periodForDate(date)
 
-    onChange(h, m, p)
+    const d = date.clone()
+      .hours(convertHours(hour, period))
+      .minutes(parseInt(minute))
+
+    onChange(d)
   }
 
   render(){
-    const { date, hour, minute, period } = this.props
+    const { date } = this.props
 
     const style = {
       base: {
@@ -51,31 +81,34 @@ export default class TimePicker extends React.Component {
         <Select
           height={ 22 }
           width={ 50 }
-          defaultValue={ hour }
-          onSelect={ (value)=>this.handleTimeChange('hour', value) }
+          defaultValue={ this._hourForDate(date) }
+          onSelect={ (value)=> this.handleTimeChange('hour', value) }
           disabled={ date ? false : true }
         >
           { this.hours.map(hour => <SelectOption key={ hour } text={ hour } value={ hour }/>) }
+
         </Select>
         <span>:</span>
         <Select
           height={ 22 }
           width={ 50 }
-          defaultValue={ minute }
+          defaultValue={ this._minuteForDate(date) }
           onSelect={ (value)=>this.handleTimeChange('minute', value) }
           disabled={ date ? false : true  }
         >
           { this.minutes.map(minute => <SelectOption key={ minute } text={ minute } value={ minute }/>) }
+
         </Select>
 
         <Select
           height={ 22 }
           width={ 50 }
-          defaultValue={ period }
+          defaultValue={ this._periodForDate(date) }
           onSelect={ (value)=>this.handleTimeChange('period', value) }
           disabled={ date ? false : true  }
         >
           { this.periods.map(p => <SelectOption key={ p } text={ p } value={ p }/>) }
+
         </Select>
       </div>
     )

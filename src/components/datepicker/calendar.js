@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react'
 import Day from './day'
-import moment from 'moment'
 
 export default class Calendar extends React.Component {
   constructor(props){
@@ -50,9 +49,9 @@ export default class Calendar extends React.Component {
       },
       day: {
         display: 'inline-block',
-        width: 20,
-        fontSize: 12,
-        padding: 4,
+        fontSize: 11,
+        width: 24,
+        lineHeight: '24px',
         margin: 3,
         textAlign: 'center',
         fontWeight: 'bold'
@@ -85,7 +84,7 @@ export default class Calendar extends React.Component {
       <div>
         { this.daysOfTheWeek.map(day =>
           <div key={ day } style={ style.day }>
-            { day.substring(0, 3) }
+            { day.substring(0, 2) }
           </div>)
         }
       </div>
