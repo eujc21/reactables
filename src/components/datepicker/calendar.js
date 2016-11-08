@@ -25,7 +25,7 @@ export default class Calendar extends React.Component {
       const day = nextDate.day()
 
       if(dayOfWeek < day){
-        const offSet = dayOfWeek - day - 1
+        const offSet = dayOfWeek - day + 1
         return date.clone()
           .subtract(1, 'months')
           .endOf('month')

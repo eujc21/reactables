@@ -85,7 +85,7 @@ export class Select extends React.Component {
         style={ style.base }
         defaultValue={ defaultValue }
         onChange={ this.handleSelect }
-        disabled={ disabled ? 'disabled' : null }
+        disabled={ disabled }
       >
           { this.renderPlaceholder() }
           { children.map((child, i) =>
