@@ -17,6 +17,7 @@ export class Dropdown extends React.Component {
 
   static propTypes = {
     face: PropTypes.node.isRequired,
+    isDisabled: PropTypes.bool,
     menuDirection: PropTypes.string,
     children: PropTypes.arrayOf((propValue, key,) => {
       if (propValue[key].type !== DropdownItem)
@@ -27,7 +28,8 @@ export class Dropdown extends React.Component {
 
   static defaultProps = {
     animate: false,
-    menuDirection: 'left'
+    menuDirection: 'left',
+    isDisabled: false
   }
 
   state = {isHighlighted: false, isMenuVisible: false}
@@ -53,6 +55,9 @@ export class Dropdown extends React.Component {
 
 
   toggleButtonHighlight = () =>{
+    if(this.props.isDisabled)
+      return
+
     this.setState({
       isHighlighted: this.state.isMenuVisible ===  true ? this.state.isHighlighted : !this.state.isHighlighted,
       isMenuVisible: this.state.isHighlighted === true ? this.state.isMenuVisible : false
@@ -60,6 +65,9 @@ export class Dropdown extends React.Component {
   }
 
   toggleMenu = () =>{
+    if(this.props.isDisabled)
+      return
+
     this.setState({
       isMenuVisible: !this.state.isMenuVisible
     })
@@ -82,6 +90,8 @@ export class Dropdown extends React.Component {
 
   render(){
 
+    const { isDisabled } = this.props
+
     let style = {
       base: {
         position: 'relative'
@@ -91,7 +101,7 @@ export class Dropdown extends React.Component {
           borderRadius: 3,
           transition: 'box-shadow 0.5s ease',
           boxShadow: this.state.isHighlighted ? '0px 2px 4px 0px rgba(0,0,0, 0.29)' : null,
-          cursor: 'pointer'
+          cursor: isDisabled ? null : 'pointer'
         },
         face:{
           transition: 'transform 0.5s ease-in-out',
