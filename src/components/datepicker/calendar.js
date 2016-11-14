@@ -93,8 +93,13 @@ export default class Calendar extends React.Component {
 
   renderWeeks =(weeks)=>{
     const { selectedDate, rangeDate, calendarDate } = this.props
+    const style = {
+      base: {
+        whiteSpace: 'nowrap'
+      }
+    }
     return(
-      <div>
+      <div style={ style.base }>
         { weeks.map((week, i) =>
           <div key={ i }>
             { week.map((date, i) =>

@@ -25,13 +25,12 @@ class Test extends React.Component {
 
   render(){
     return(
-      <div>
+      <div style={{ width: 100}}>
         <Button onClick={ this.handleClick } text={ 'Click Me'}/>
           <DateTimePicker
             startDate={ this.state.startDate }
             endDate={ this.state.endDate }
             placeholder={ 'please select a date'}
-            inputWidth={ 500 }
             isTimePicker
             isRangePicker
             onChange={ this.handleDateChange }
