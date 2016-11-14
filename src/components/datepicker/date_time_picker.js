@@ -24,7 +24,8 @@ export class DateTimePicker extends React.Component {
     startDate: PropTypes.object,
     endDate: PropTypes.object,
     placeholder: PropTypes.string,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    pickerDirection: PropTypes.oneOf(['left', 'right'])
   }
 
   static defaultProps = {
@@ -35,7 +36,8 @@ export class DateTimePicker extends React.Component {
     timeFormat: 'hh:mm a',
     inputWidth: 300,
     fontFamily: 'Arial',
-    placeholder: 'Select a Date'
+    placeholder: 'Select a Date',
+    pickerDirection: 'right'
   }
 
   state = {
@@ -153,12 +155,14 @@ export class DateTimePicker extends React.Component {
 
   render(){
     const { startDate, endDate, isCalendarVisible } = this.state
-    const { dateFormat, timeFormat, isTimePicker, inputWidth, fontFamily, placeholder } = this.props
+    const { dateFormat, timeFormat, isTimePicker, inputWidth, fontFamily, placeholder, pickerDirection } = this.props
 
     const style = {
       base: {
-        fontFamily: fontFamily,
-        fontWeight: 200
+        position: 'relative',
+        fontFamily,
+        fontWeight: 200,
+        width: inputWidth
       },
       picker: {
         padding: 10,
@@ -167,8 +171,8 @@ export class DateTimePicker extends React.Component {
         position: 'absolute',
         visibility: isCalendarVisible ? 'visible' : 'hidden',
         width: 'auto',
-        right: this.props.menuDirection === 'left' ? 0 : null,
-        left: this.props.menuDirection === 'right' ? 0 : null,
+        right: pickerDirection === 'left' ? 0 : null,
+        left: pickerDirection === 'right' ? 0 : null,
         marginTop: 3,
         border: '1px solid #dcdcdc',
         borderRadius: 3,

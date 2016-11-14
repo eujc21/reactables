@@ -26,16 +26,16 @@ class Test extends React.Component {
   render(){
     return(
       <div>
-        <Button onClick={ this.handleClick } text={ 'Click Me '}/>
-        <DateTimePicker
-          startDate={ this.state.startDate }
-          endDate={ this.state.endDate }
-          placeholder={ 'please select a date'}
-          inputWidth={ 500 }
-          isTimePicker
-          isRangePicker
-          onChange={ this.handleDateChange }
-          timeFormat={ 'hh:mm a' }/>
+        <Button onClick={ this.handleClick } text={ 'Click Me'}/>
+          <DateTimePicker
+            startDate={ this.state.startDate }
+            endDate={ this.state.endDate }
+            placeholder={ 'please select a date'}
+            inputWidth={ 500 }
+            isTimePicker
+            isRangePicker
+            onChange={ this.handleDateChange }
+            timeFormat={ 'hh:mm a' }/>
       </div>
     )
   }
