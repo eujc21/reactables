@@ -14,6 +14,7 @@ export class Select extends React.Component {
   static propTypes = {
     placeholderText: PropTypes.string,
     defaultValue: PropTypes.string,
+    value: PropTypes.string,
     onSelect: PropTypes.func.isRequired,
     height: PropTypes.oneOfType([
       PropTypes.string,
@@ -65,7 +66,7 @@ export class Select extends React.Component {
   }
 
   render(){
-    const { children, height, width, defaultValue, disabled, isArrowVisible } = this.props
+    const { children, height, width, defaultValue, value, disabled, isArrowVisible } = this.props
 
     let style = {
       base: {
@@ -84,6 +85,7 @@ export class Select extends React.Component {
       <select
         style={ style.base }
         defaultValue={ defaultValue }
+        value={ value }
         onChange={ this.handleSelect }
         disabled={ disabled }
       >
