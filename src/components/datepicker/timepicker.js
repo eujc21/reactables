@@ -2,7 +2,6 @@ import React, { PropTypes } from 'react'
 import { Select } from '../select'
 import { SelectOption } from '../select_option'
 import { range, convertHours } from './helpers'
-import isEqual from 'lodash/isEqual'
 
 export default class TimePicker extends React.Component {
 

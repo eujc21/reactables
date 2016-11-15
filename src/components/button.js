@@ -27,7 +27,8 @@ export class Button extends React.Component {
     border: PropTypes.string,
     borderRadius: PropTypes.number,
     isHoverable: PropTypes.bool,
-    margin: PropTypes.string,
+    padding: PropTypes.oneOfType([ PropTypes.string,PropTypes.number]),
+    margin: PropTypes.oneOfType([ PropTypes.string,PropTypes.number]),
     onClick: PropTypes.func,
     isDisabled: PropTypes.bool
   }
@@ -43,7 +44,8 @@ export class Button extends React.Component {
     border: 'none',
     borderRadius: 2,
     isHoverable: false,
-    isDisabled: false
+    isDisabled: false,
+    padding: '5px 3px'
   }
 
   state = {isHovered: false}
@@ -84,6 +86,7 @@ export class Button extends React.Component {
       width,
       height,
       margin,
+      padding,
       fontSize,
       fontWeight,
       fontFamily,
@@ -99,6 +102,7 @@ export class Button extends React.Component {
       color: textColor,
       backgroundColor,
       margin,
+      padding,
       cursor: isDisabled ? null : 'pointer',
       fontSize,
       fontFamily,

@@ -31,9 +31,15 @@ class Test extends React.Component {
 
   render(){
 
-    console.log(window.location.search.split('=')[1])
+
     return(
       <div style={{ width: 300}}>
+        <Button
+          text={ 'Filter Events' }
+          textColor={ 'white' }
+          backgroundColor={ 'blue' }
+          padding={'10px 3px'}
+          onClick={ ()=> console.log() }/>
           <DateTimePicker
             startDate={ moment( Date.parse(window.location.search.split('=')[1]))}
             endDate={ this.state.endDate }
