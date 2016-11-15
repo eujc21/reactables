@@ -1,6 +1,6 @@
 {
   "name": "reactables",
-  "version": "0.3.11",
+  "version": "0.3.12",
   "description": "Customizable React.js components",
   "main": "lib/index.js",
   "scripts": {
