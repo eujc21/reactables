@@ -1,36 +1,30 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-
 import moment from 'moment'
-
-
 import { DateTimePicker, Button } from '../src/index'
 
 
 
 class Test extends React.Component {
-  state = { date: moment() }
+
+  state = { startDate: moment(), endDate: moment().add(3, 'days') }
 
   handleDateChange =(startDate, endDate)=>{
 
     if(endDate && startDate)
       console.log(startDate.toString(), endDate.toString())
 
-    this.setState({ startDate, endDate})
-  }
-
-  handleClick=()=>{
-    this.setState({ date: moment() })
+    this.setState({ startDate, endDate })
   }
 
   render(){
     return(
       <div style={{ width: 100}}>
-        <Button onClick={ this.handleClick } text={ 'Click Me'}/>
           <DateTimePicker
             startDate={ this.state.startDate }
             endDate={ this.state.endDate }
-            placeholder={ 'please select a date'}
+            placeholder={ 'please select a date' }
+            inputWidth={ 100 }
             isTimePicker
             isRangePicker
             onChange={ this.handleDateChange }

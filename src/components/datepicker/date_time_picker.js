@@ -49,8 +49,10 @@ export class DateTimePicker extends React.Component {
   componentWillMount(){
     const { startDate, endDate } = this.props
     this.setState({
-      startDate,
-      endDate,
+      startDate: startDate ? startDate.utc() : null,
+      endDate: endDate ? endDate.utc() : null,
+      startMonth: startDate ? startDate.clone().utc().startOf('month') : this.state.startMonth,
+      endMonth: endDate ? endDate.clone().utc().startOf('month') : this.state.endMonth
     })
   }
 
@@ -62,8 +64,8 @@ export class DateTimePicker extends React.Component {
     const { startDate, endDate } = nextProps
 
     this.setState({
-      startDate,
-      endDate,
+      startDate: startDate.utc(),
+      endDate: endDate.utc(),
     })
 
   }
@@ -155,7 +157,7 @@ export class DateTimePicker extends React.Component {
 
   render(){
     const { startDate, endDate, isCalendarVisible } = this.state
-    const { dateFormat, timeFormat, isTimePicker, inputWidth, fontFamily, placeholder, pickerDirection } = this.props
+    const { dateFormat, timeFormat, isTimePicker, isRangePicker, inputWidth, fontFamily, placeholder, pickerDirection } = this.props
 
     const style = {
       base: {
@@ -170,7 +172,9 @@ export class DateTimePicker extends React.Component {
         display: 'flex',
         position: 'absolute',
         visibility: isCalendarVisible ? 'visible' : 'hidden',
-        width: 'auto',
+        //width: isRangePicker ? 465 : 232,
+        // minWidth: isRangePicker ? 465 : 232,
+        // maxWidth: isRangePicker ? 465 : 232,
         right: pickerDirection === 'left' ? 0 : null,
         left: pickerDirection === 'right' ? 0 : null,
         marginTop: 3,

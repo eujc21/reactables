@@ -45,7 +45,8 @@ export default class Calendar extends React.Component {
     const style = {
       base: {
         backgroundColor: 'white',
-        borderRadius: 3
+        borderRadius: 3,
+        minWidth: 210
       },
       day: {
         display: 'inline-block',
