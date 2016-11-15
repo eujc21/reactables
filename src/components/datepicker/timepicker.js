@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react'
 import { Select } from '../select'
 import { SelectOption } from '../select_option'
 import { range, convertHours } from './helpers'
+import isEqual from 'lodash/isEqual'
 
 export default class TimePicker extends React.Component {
 
@@ -81,7 +82,7 @@ export default class TimePicker extends React.Component {
         <Select
           height={ 22 }
           width={ 50 }
-          defaultValue={ this._hourForDate(date) }
+          value={ this._hourForDate(date) }
           onSelect={ (value)=> this.handleTimeChange('hour', value) }
           disabled={ date ? false : true }
         >
@@ -92,7 +93,7 @@ export default class TimePicker extends React.Component {
         <Select
           height={ 22 }
           width={ 50 }
-          defaultValue={ this._minuteForDate(date) }
+          value={ this._minuteForDate(date) }
           onSelect={ (value)=>this.handleTimeChange('minute', value) }
           disabled={ date ? false : true  }
         >
@@ -103,7 +104,7 @@ export default class TimePicker extends React.Component {
         <Select
           height={ 22 }
           width={ 50 }
-          defaultValue={ this._periodForDate(date) }
+          value={ this._periodForDate(date) }
           onSelect={ (value)=>this.handleTimeChange('period', value) }
           disabled={ date ? false : true  }
         >

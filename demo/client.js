@@ -7,7 +7,19 @@ import { DateTimePicker, Button } from '../src/index'
 
 class Test extends React.Component {
 
-  state = { startDate: moment(), endDate: moment().add(3, 'days') }
+  state = { startDate: moment(), endDate: moment() }
+
+  componentDidMount(){
+    setTimeout(()=>{
+      this.setState({
+        startDate: moment(),
+        endDate: moment()
+          .add(2, 'months')
+          .add(3, 'days')
+          .add(5, 'hours')
+      })
+    } , 3000)
+  }
 
   handleDateChange =(startDate, endDate)=>{
 
@@ -18,13 +30,15 @@ class Test extends React.Component {
   }
 
   render(){
+
+    console.log(window.location.search.split('=')[1])
     return(
-      <div style={{ width: 100}}>
+      <div style={{ width: 300}}>
           <DateTimePicker
-            startDate={ this.state.startDate }
+            startDate={ moment( Date.parse(window.location.search.split('=')[1]))}
             endDate={ this.state.endDate }
             placeholder={ 'please select a date' }
-            inputWidth={ 100 }
+            inputWidth={ 300 }
             isTimePicker
             isRangePicker
             onChange={ this.handleDateChange }
