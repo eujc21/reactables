@@ -4,56 +4,6 @@ import _ from 'lodash'
 
 export class Table extends React.Component {
 
-//    ** usage **
-//
-//    <Table
-//      tableData={ [{a: 1, b: Date.now() - 100000000, c: 3}, {a: 4, b: Date.now(), c: 6}] }
-//      headings={{
-//        a: 'Heading A',
-//        b: 'Heading B',
-//        c: {
-//          display: 'Heading C',
-//          isSortable: true,
-//          width: 100,
-//          justify: 'center'
-//        },
-//        d: {
-//          display: 'Computed',
-//          isSortable: true
-//        }
-//      }}
-//      columnOrder={ ['c', 'd', 'a', 'b'] }
-//      computedFields={{
-//        d: (obj) => obj.a * obj.c
-//      }}
-//      formatters={{
-//        b: (date)=> moment(date).format('YYYY-MM-DD')
-//      }}
-//      exclude={['a']} // excludes keys from tableData - (can't use include)
-//      include={['b', 'c']} // include keys from tableData - (can't use exclude)
-//      isStriped={ true }
-//      stripeColor={ '#d4d4d4' } // optional
-//      isScrollable={ true }
-//      height={ 100 } // height of tbody if isScrollable === true
-//      width={ '70%' || 500 } // optional table width - string or number(px)
-//      onSort={ this.handleSort } // external custom sort method
-//      onRowClick={ this.handleRowClick } // returns row index
-//      isSelectable={ true } //highlights clicked rows
-//      selectColor={ 'yellow' } // specify color of clicked rows
-//      selectedIndex={ 1 } //manually manage selected row. isSelectable must be false
-//      sort={ '' } //default sort
-//      order={ '' } //default order
-//      filter={ 'filter string' } // external string - (client-side filtering)
-//      controls={{
-//         e: (controlIndex, rowIndex, data)=> <div key={ controlIndex } style={{ cursor: 'pointer'}} onClick={ ()=> this.handleTestClick(rowIndex, data)}>Item 1</div>,
-//         f: [
-//          (controlIndex, rowIndex, data)=> <div key={ controlIndex } style={{ cursor: 'pointer', display: 'inline-block'}} onClick={ ()=> this.handleTestClick(rowIndex, data)}>Item 1</div>,
-//          (controlIndex, rowIndex,  data)=> <div key={ controlIndex } style={{ cursor: 'pointer', display: 'inline-block'}} onClick={ ()=> this.handleTestClick(rowIndex, data)}>Item 2</div>,
-//         ]
-//      }}
-//    />
-
-
   static propTypes = {
     tableData: PropTypes.array,
     controls: PropTypes.objectOf(
@@ -61,7 +11,6 @@ export class Table extends React.Component {
     ),
     columnOrder: PropTypes.arrayOf(PropTypes.string),
     formatters: PropTypes.objectOf(PropTypes.func),
-    computedFields: PropTypes.objectOf(PropTypes.func),
     headings: PropTypes.objectOf(
       PropTypes.oneOfType([PropTypes.string, PropTypes.object])
     ),
@@ -78,7 +27,7 @@ export class Table extends React.Component {
     onSort: PropTypes.func,
     onRowClick: PropTypes.func,
     sort: PropTypes.string,
-    order: PropTypes.string,
+    order: PropTypes.oneOf(['asc', 'desc']),
     filter: PropTypes.string,
     width: PropTypes.oneOfType([
       PropTypes.string,
@@ -215,12 +164,9 @@ export class Table extends React.Component {
   }
 
   _addFields =(tableData)=>{
-    const { computedFields, controls } = this.props
+    const { controls } = this.props
 
-    return tableData.map((data, i) => {
-      //add computed fields
-      if(computedFields)
-        Object.keys(computedFields).forEach(key => data[key] = computedFields[key]( data ))
+    return [...tableData.map((data, i) => {
 
       // add controls
       if(controls) {
@@ -234,7 +180,7 @@ export class Table extends React.Component {
         })
       }
       return data
-    })
+    })]
 
   }
 
@@ -425,9 +371,8 @@ export class Table extends React.Component {
 
   renderTableHeadings =(style, tableProperties)=>{
     const { order, lastKey, cellWidth } = this.state
-    const { onSort, computedFields } = this.props
+    const { onSort } = this.props
 
-    const computedKeys = computedFields ? Object.keys(computedFields) : null
     let tableHeadings = this._getTableHeadings()
 
     return(
@@ -443,19 +388,12 @@ export class Table extends React.Component {
             <p
               style={{ ...style.thead.p, cursor: heading.isSortable === true ? 'pointer': 'default' }}
               onClick={ ()=> {
-                /* Only Use internal sort if heading is a computed field */
-                if(computedKeys && computedKeys.some(key => key === heading.key) && heading.isSortable){
-                  this.handleInternalSort(tableProperties[i])
-                }
-                /* Otherwise check for external onSort method */
-                else if (heading.isSortable){
+               if (heading.isSortable){
                   onSort ?
                     this.handleExternalSort(tableProperties[i]) :
                     this.handleInternalSort(tableProperties[i])
                 }
-
-              }
-              }>
+            }}>
               { heading.display }
             </p>
 

@@ -15,14 +15,27 @@ export class DateTimePicker extends React.Component {
 
   static propTypes = {
     isRangePicker: PropTypes.bool,
-    isDatePicker: PropTypes.bool,
     isTimePicker: PropTypes.bool,
     dateFormat: PropTypes.string,
     timeFormat: PropTypes.string,
     inputWidth: PropTypes.number,
     fontFamily: PropTypes.string,
-    startDate: PropTypes.object,
-    endDate: PropTypes.object,
+    startDate: function(props, propName, componentName) {
+      if (props[propName] && !moment.isMoment(props[propName])) {
+        return new Error(
+          'Invalid prop `' + propName + '` supplied to' +
+          ' `' + componentName + '`. Validation failed.'
+        );
+      }
+    },
+    endDate: function(props, propName, componentName) {
+      if (props[propName] && !moment.isMoment(props[propName])) {
+        return new Error(
+          'Invalid prop `' + propName + '` supplied to' +
+          ' `' + componentName + '`. Validation failed.'
+        );
+      }
+    },
     placeholder: PropTypes.string,
     onChange: PropTypes.func,
     pickerDirection: PropTypes.oneOf(['left', 'right'])
@@ -30,14 +43,13 @@ export class DateTimePicker extends React.Component {
 
   static defaultProps = {
     isRangePicker: false,
-    isDatePicker: true,
     isTimePicker: false,
     dateFormat: 'MMM DD, YYYY',
     timeFormat: 'hh:mm a',
     inputWidth: 300,
     fontFamily: 'Arial',
     placeholder: 'Select a Date',
-    pickerDirection: 'right'
+    pickerDirection: 'right',
   }
 
   state = {

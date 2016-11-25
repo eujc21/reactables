@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
-import {Dropdown} from '../dropdown'
-import {DropdownItem} from '../dropdown_item'
+import { Dropdown } from '../dropdown/dropdown'
+import { DropdownItem } from '../dropdown/dropdown_item'
 import { range } from './helpers'
 
 export default class DatePicker extends React.Component {

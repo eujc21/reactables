@@ -10,11 +10,11 @@ console.log(PROJECT_ROOT)
 module.exports = function(){
   var config = {
     name: `client`,
-    devtool: 'cheap-module-eval-source-map',
+    devtool: 'source-map',
     entry: {
       client: [
         'webpack-hot-middleware/client?reload=true',
-        path.join(PROJECT_ROOT, 'demo/client.js'),
+        path.join(PROJECT_ROOT, 'demo/client/client.js'),
       ]
     },
     output:{

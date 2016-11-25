@@ -41,13 +41,25 @@ function renderFullPage(html) {
     </html>`
 }
 
-
 function handleRender(req, res){
   res.send(renderFullPage('', {}))
 }
 
 //Express API Routes
 app.use(express.static( path.join(__dirname, '/public') ))
+app.get('/api/test', (req, res)=>{
+  setTimeout(()=>{
+    res.json()
+  }, 3000)
+
+})
+
+app.get('/api/test1', (req, res)=>{
+  setTimeout(()=>{
+    res.json()
+  }, 5000)
+
+})
 app.use(handleRender)
 
 let server = app.listen(port, ()=> console.log(`Server is listening on port: ${server.address().port}...`))
