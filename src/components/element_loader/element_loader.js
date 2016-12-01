@@ -66,6 +66,7 @@ class ElementLoader extends React.Component {
 
   renderLoadingElement =()=>{
 
+    const { spinner } = this.props
     let style = {
       base:{
         display: 'flex',
@@ -89,11 +90,14 @@ class ElementLoader extends React.Component {
         ...this.state.style,
         ...style.base
       }}>
-        <div className="element-loader">
-          <span style={ style.span } />
-          <span style={ style.span } />
-          <span style={ style.span } />
-        </div>
+        { spinner
+          ? spinner
+          : <div className='element-loader'>
+              <span style={ style.span } />
+              <span style={ style.span } />
+              <span style={ style.span } />
+            </div>
+        }
       </div>
     )
   }
