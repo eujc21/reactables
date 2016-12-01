@@ -32,6 +32,8 @@
   "homepage": "https://github.com/phil3903/reactables#readme",
   "dependencies": {
     "color": "^0.11.4",
+    "d3": "^4.4.0",
+    "d3-sankey": "^0.4.1",
     "lodash": "^4.16.6",
     "moment": "^2.15.2",
     "react": "^15.3.2",

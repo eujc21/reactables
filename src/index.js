@@ -10,6 +10,13 @@ export { DateTimePicker } from './components/datepicker/date_time_picker'
 export { Button } from './components/button'
 export { KonamiCode } from './components/konami_code'
 
+export { BarChart } from './components/charts/bar'
+export { LineChart} from './components/charts/line'
+export { TrajectoryChart } from './components/charts/trajectory'
+export { Sankey } from './components/charts/sankey'
+
+
 export ElementLoader from './components/element_loader/element_loader'
 export elementLoaderMiddleware from './components/element_loader/element_loader_middleware'
 export elementLoaderReducer from './components/element_loader/element_loader_reducer'
+
