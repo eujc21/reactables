@@ -76,10 +76,10 @@ export class DateTimePicker extends React.Component {
     const { startDate, endDate } = nextProps
 
     this.setState({
-      startDate: startDate.utc(),
-      endDate: endDate.utc(),
-      startMonth: !isEqual(this.props.startDate, startDate) ? startDate.clone().utc().startOf('month') : this.state.startMonth,
-      endMonth: !isEqual(this.props.endDate, endDate) ? endDate.clone().utc().startOf('month') : this.state.endMonth
+      startDate: startDate ? startDate.utc() : null,
+      endDate: startDate ? endDate.utc() : null,
+      startMonth: startDate && !isEqual(this.props.startDate, startDate) ? startDate.clone().utc().startOf('month') : this.state.startMonth,
+      endMonth: endDate && !isEqual(this.props.endDate, endDate) ? endDate.clone().utc().startOf('month') : this.state.endMonth
     })
 
   }
