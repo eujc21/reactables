@@ -16,8 +16,10 @@ export class BarChart extends React.Component {
   }
 
   componentWillUpdate(prevProps, prevState){
-    if(!isEqual(this.props.data, prevProps.data))
+    if(!isEqual(this.props.data, prevProps.data)){
+      d3.select(this.chartContainer).selectAll('svg').remove()
       this.renderChart()
+    }
   }
 
   renderChart =()=>{
@@ -67,10 +69,7 @@ export class BarChart extends React.Component {
     let xAxis = d3.axisBottom(xScale)
       .ticks(5)
       .tickSize(10)
-      .tickPadding(5);
-
-    /**/
-    let tip =
+      .tickPadding(5)
 
     /* Append and Transform X Axis */
     svg

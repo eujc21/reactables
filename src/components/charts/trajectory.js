@@ -1,5 +1,6 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes } from 'react'
 import * as d3 from 'd3'
+import isEqual from 'lodash/isEqual'
 
 let Margins = {
   top: 75,
@@ -23,6 +24,13 @@ export class TrajectoryChart extends React.Component {
     data: [],
     width: 1600,
     height: 1000
+  }
+
+  componentWillUpdate(prevProps, prevState){
+    if(!isEqual(this.props.data, prevProps.data)){
+      d3.select(this.chartContainer).selectAll('svg').remove()
+      this.renderChart()
+    }
   }
 
   componentDidMount(){

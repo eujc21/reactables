@@ -22,8 +22,10 @@ export class Sankey extends React.Component {
   }
 
   componentWillUpdate(prevProps, prevState){
-    if(!isEqual(this.props.data, prevProps.data))
+    if(!isEqual(this.props.data, prevProps.data)){
+      d3.select(this.chartContainer).selectAll('svg').remove()
       this.renderChart()
+    }
   }
 
   renderChart =()=>{
@@ -34,15 +36,15 @@ export class Sankey extends React.Component {
         right: 1,
         bottom: 6,
         left: 1
-      },
-      width = initialWidth - margin.left - margin.right,
-      height = initialHeight - margin.top - margin.bottom;
+      }
+    let width = initialWidth - margin.left - margin.right;
+    let height = initialHeight - margin.top - margin.bottom;
 
-    let formatNumber = d3.format(",.0f"),
-      format = function(d) {
+    let formatNumber = d3.format(",.0f")
+    let format = (d) => {
         return formatNumber(d); //+ " TWh";
-      },
-      color = d3.scaleOrdinal(d3.schemeCategory20);
+      }
+    let color = d3.scaleOrdinal(d3.schemeCategory20);
 
     let svg = d3.select(this.chartContainer)
       .append("svg")
@@ -59,7 +61,6 @@ export class Sankey extends React.Component {
 
     let path = sk.link();
 
-
     sk
       .nodes(data.nodes)
       .links(data.links)
@@ -70,15 +71,15 @@ export class Sankey extends React.Component {
       .enter().append("path")
       .attr("class", "link")
       .attr("d", path)
-      .style("stroke-width", function(d) {
+      .style("stroke-width", (d) => {
         return Math.max(1, d.dy);
       })
-      .sort(function(a, b) {
+      .sort((a, b) => {
         return b.dy - a.dy;
       });
 
     link.append("title")
-      .text(function(d) {
+      .text((d) => {
         return d.source.name + " → " + d.target.name + "\n" + format(d.value);
       });
 
@@ -86,7 +87,7 @@ export class Sankey extends React.Component {
       .data(data.nodes)
       .enter().append("g")
       .attr("class", "node")
-      .attr("transform", function(d) {
+      .attr("transform", (d) => {
         return "translate(" + d.x + "," + d.y + ")";
       })
       .on("click", this.props.onClick)
@@ -103,50 +104,50 @@ export class Sankey extends React.Component {
 
 
     node.append("rect")
-      .attr("height", function(d) {
+      .attr("height", (d) => {
         return d.dy;
       })
       .attr("width", sk.nodeWidth())
-      .style("fill", function(d) {
+      .style("fill", (d) => {
         return d.color = color(d.name.replace(/ .*/, ""));
       })
-      .style("stroke", function(d) {
+      .style("stroke", (d) => {
         return d3.rgb(d.color).darker(2);
       })
       .append("title")
-      .text(function(d) {
+      .text((d) => {
         return d.name + "\n" + format(d.value);
       });
 
     node.append("text")
       .attr("x", -6)
-      .attr("y", function(d) {
+      .attr("y", (d) => {
         return d.dy / 2;
       })
       .attr("dy", ".35em")
       .attr("text-anchor", "end")
       .attr("transform", null)
-      .text(function(d) {
+      .text((d) => {
         return d.name;
       })
-      .filter(function(d) {
+      .filter((d) => {
         return d.x < width / 2;
       })
       .attr("x", 6 + sk.nodeWidth())
       .attr("text-anchor", "start");
 
-    function dragmove(d) {
-      d3.select(this).attr("transform", "translate(" + d.x + "," + (d.y = Math.max(0, Math.min(height - d.dy, d3.event.y))) + ")");
-      sk.relayout();
-      link.attr("d", path);
-    }
+    // function dragmove(d) {
+    //   d3.select(this).attr("transform", "translate(" + d.x + "," + (d.y = Math.max(0, Math.min(height - d.dy, d3.event.y))) + ")");
+    //   sk.relayout();
+    //   link.attr("d", path);
+    // }
 
   }
 
   render(){
     return(
       <div
-        ref={(chartContainer) => { this.chartContainer = chartContainer }}
+        ref={(chartContainer) => this.chartContainer = chartContainer }
         className="chart"
         style={{ width: '100%', height: '100%' }} />
     )

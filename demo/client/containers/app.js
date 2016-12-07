@@ -272,12 +272,6 @@ class App extends React.Component {
           />
 
 
-        <LineChart
-          data={ lineData }
-          initialWidth={ 500 }
-          xProp='date'
-          yProp='close'/>
-
         <Sankey
           data={ sankeyData2 }
           onClick={ this.handleSankeyClick }/>

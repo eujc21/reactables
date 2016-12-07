@@ -23,8 +23,10 @@ export class LineChart extends React.Component {
   }
 
   componentWillUpdate(prevProps, prevState){
-    if(!isEqual(this.props.data, prevProps.data))
+    if(!isEqual(this.props.data, prevProps.data)){
+      d3.select(this.chartContainer).selectAll('svg').remove()
       this.renderChart()
+    }
   }
 
   renderChart =()=>{
