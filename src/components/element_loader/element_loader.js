@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { setElement } from './element_loader_reducer'
-import './style.css'
+import '../../styles/spinner.css'
 
 class ElementLoader extends React.Component {
 
