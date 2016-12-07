@@ -3,7 +3,7 @@ import * as d3 from 'd3'
 import { sankey } from 'd3-sankey'
 import isEqual from 'lodash/isEqual'
 import { makeResponsive } from './utils'
-import './style.css'
+import '../../styles/charts.css'
 
 
 export class Sankey extends React.Component {
@@ -40,7 +40,7 @@ export class Sankey extends React.Component {
 
     let formatNumber = d3.format(",.0f"),
       format = function(d) {
-        return formatNumber(d) + " TWh";
+        return formatNumber(d); //+ " TWh";
       },
       color = d3.scaleOrdinal(d3.schemeCategory20);
 
@@ -89,14 +89,18 @@ export class Sankey extends React.Component {
       .attr("transform", function(d) {
         return "translate(" + d.x + "," + d.y + ")";
       })
-      .call(d3.drag()
-        .subject(function(d) {
-          return d;
-        })
-        .on("start", function() {
-          this.parentNode.appendChild(this);
-        })
-        .on("drag", dragmove));
+      .on("click", this.props.onClick)
+
+      // .call(d3.drag()
+      //   .subject(function(d) {
+      //     return d;
+      //   })
+      //   .on("start", function() {
+      //     this.parentNode.appendChild(this);
+      //   })
+      //   .on("drag", dragmove))
+
+
 
     node.append("rect")
       .attr("height", function(d) {

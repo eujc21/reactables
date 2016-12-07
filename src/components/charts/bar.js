@@ -69,6 +69,9 @@ export class BarChart extends React.Component {
       .tickSize(10)
       .tickPadding(5);
 
+    /**/
+    let tip =
+
     /* Append and Transform X Axis */
     svg
       .append('g')

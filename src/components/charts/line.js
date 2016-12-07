@@ -17,6 +17,8 @@ export class LineChart extends React.Component {
   }
 
   componentDidMount(){
+    this.initialWidth = this.chartContainer.clientWidth
+    this.initialHeight = this.chartContainer.clientHeight
     this.renderChart()
   }
 
@@ -35,8 +37,8 @@ export class LineChart extends React.Component {
       left: 30
     };
 
-    let width = initialWidth - margin.left - margin.right
-    let height = initialHeight - margin.top - margin.bottom
+    let width = this.initialWidth - margin.left - margin.right
+    let height = this.initialHeight - margin.top - margin.bottom
 
     let svg = d3.select(this.chartContainer)
       .append('svg')
@@ -45,6 +47,7 @@ export class LineChart extends React.Component {
       .call(makeResponsive)
       .append('g')
       .attr('transform', `translate(${margin.left}, ${margin.top})`)
+      //.call(makeResponsive)
 
 
     data.forEach(dataset => {
@@ -53,7 +56,6 @@ export class LineChart extends React.Component {
         d[yProp] = d[yProp];
       })
     })
-
 
     let xScale = d3.scaleTime()
       .domain([
@@ -65,7 +67,6 @@ export class LineChart extends React.Component {
     let xAxis = d3.axisBottom(xScale)
       .tickSize(10)
       .tickPadding(5);
-
 
     svg
       .append('g')
@@ -86,6 +87,8 @@ export class LineChart extends React.Component {
       .append('g')
       .call(d3.axisLeft(yScale))
 
+
+    //use line OR area
     let area = d3.area()
       .x(d => xScale(d[xProp]))
       .y0(height)
@@ -95,7 +98,7 @@ export class LineChart extends React.Component {
     let line = d3.line()
       .x(d => xScale(d[xProp]))
       .y(d => yScale(d[yProp]))
-      //.curve(d3.curveCatmullRom.alpha(0.5))
+      .curve(d3.curveCatmullRom.alpha(0.5))
 
 
     //draw the line
@@ -105,10 +108,10 @@ export class LineChart extends React.Component {
       .enter()
       .append('path')
       .attr('class', 'line')
-      .attr('d', d => line(d.values))
+      .attr('d', d => area(d.values))
       .style('stroke', (d, i) => ['#FF9900', '#3369E8'][i])
       .style('stroke-width', 1)
-      .style('fill', 'none')
+      .style('fill', 'none') //give fill color for area fill
 
 
 
@@ -116,9 +119,16 @@ export class LineChart extends React.Component {
     /* Append Points */
     /*===============*/
 
+    // Define the div for the tooltip
+    // let div = d3.select("body").append("div")
+    //   .attr("class", "tooltip")
+    //   .style("opacity", 0)
+    //   .style("position", 'absolute')
+    //   .style('text-align', 'center')
+
+
 
     data.forEach(dataset =>{
-      console.log(dataset)
       svg
         .selectAll('circle')
         .data(dataset.values)
@@ -128,15 +138,23 @@ export class LineChart extends React.Component {
         .attr('cy', d => yScale(d[yProp]))
         .attr('r', d => 2)
         .style('fill', 'black')
+
+
+        // append tooltips
+        // .on("mouseover", function(d) {
+        //   div.transition()
+        //     .duration(200)
+        //     .style("opacity", .9);
+        //   div.html('Tooltip' + "<br/>")
+        //     .style("left", (d3.event.pageX - 30) + "px")
+        //     .style("top", (d3.event.pageY - 28) + "px");
+        // })
+        // .on("mouseout", function(d) {
+        //   div.transition()
+        //     .duration(500)
+        //     .style("opacity", 0);
+        // });
     })
-
-
-    /*===============*/
-    /*   Area Fill   */
-    /*===============*/
-
-
-
 
   }
 
@@ -144,9 +162,8 @@ export class LineChart extends React.Component {
     return(
       <div
         ref={(chartContainer) => { this.chartContainer = chartContainer }}
-        id="somechart"
         className={ 'chart' }
-        style={{ width: '100%', height: '100%' }} />
+        style={{ width: '100%', height: '100%', border: '1px solid black' }} />
     )
   }
 }

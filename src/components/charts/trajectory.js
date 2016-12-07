@@ -132,7 +132,6 @@ export class TrajectoryChart extends React.Component {
 
       //add click event
       .on('click', d => {
-        console.log(d);
         //change page
         document.location.href = d.url;
         d3.event.stopPropagation();
