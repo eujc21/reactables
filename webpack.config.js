@@ -5,8 +5,6 @@ const webpack = require('webpack')
 
 const PROJECT_ROOT = path.resolve(__dirname)
 
-console.log(PROJECT_ROOT)
-
 module.exports = function(){
   var config = {
     name: `client`,
