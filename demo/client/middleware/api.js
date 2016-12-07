@@ -1,5 +1,6 @@
-import fetch from 'isomorphic-fetch';
-import React from 'react';
+import fetch from 'isomorphic-fetch'
+import has from 'lodash/has'
+import reduce from 'lodash/reduce'
 
 const SERVICE_URL = '/api/';
 const Headers = {
@@ -14,8 +15,9 @@ export const Methods = {
 };
 
 //executes the actual API call
-function callApi(endpoint, method, body){
-  const fullUrl = SERVICE_URL + endpoint
+function callApi(endpoint, query, method, body){
+
+  const fullUrl = SERVICE_URL + endpoint + objectToQueryString(query)
 
   return fetch(fullUrl, {
     credentials: 'include',
@@ -25,15 +27,15 @@ function callApi(endpoint, method, body){
     cache: 'no-cache',
     body: JSON.stringify(body)
   })
-    .then(response =>response.json().then(json => ({json, response})))
-    .then(({json, response}) => {
+  .then(response => response.json().then(json => ({json, response})))
+  .then(({json, response}) => {
 
-      if(!response.ok){
-        return Promise.reject(json);
-      }
+    if(!response.ok){
+      return Promise.reject(json);
+    }
 
-      return json;
-    })
+    return json;
+  })
 }
 
 // Action key that carries API call info interpreted by this middleware.
@@ -47,13 +49,13 @@ export const api = store => next => action => {
     return next(action)
   }
 
-  let { endpoint } = callAPI;
+  let { endpoint, retry } = callAPI;
 
-  const { types, method, body } = callAPI;
+  const { types, method, body, query } = callAPI;
 
-  if (typeof endpoint === 'function') {
-    endpoint = endpoint(store.getState())
-  }
+  // if (typeof endpoint === 'function') {
+  //   endpoint = endpoint(store.getState())
+  // }
 
   if (typeof endpoint !== 'string') {
     throw new Error('Specify a string endpoint URL.')
@@ -81,27 +83,58 @@ export const api = store => next => action => {
   const [ requestType, successType, failureType ] = types;
 
   //create and execute action with request type
-  next(actionWith({ type: requestType }));
+  next(actionWith({ type: requestType, endpoint, retry}));
 
-
-  return callApi(endpoint, method, body)
+  return callApi(endpoint, query, method, body)
     .then(
       //create a new action with response data and a type
-      response => next(actionWith({
-        response,
-        endpoint,
-        type: successType,
-        isLoading: false,
-        isInitialLoad: false
-      }))
+      response => {
+        next(actionWith({
+          response,
+          //endpoint,
+          type: successType,
+        }))
+
+        // automatically retry query if page and pageCount mismatch
+        if (has(response, ['pageCount', 'query.page']) && response.query.page > response.pageCount) {
+          action[CALL_API].endpoint = modifyQueryString(endpoint, 'page', response.pageCount)
+          store.dispatch(action)
+        }
+      }
       ,
       //create a new action with error message and a type
-      error => next(actionWith({
-        type: failureType,
-        endpoint,
-        error: error.message || 'Something bad happened',
-        isLoading: false,
-        isInitialLoad: false
-      }))
+      error =>{
+        next(actionWith({
+          type: failureType,
+          //endpoint,
+          error: error.message || 'Something bad happened',
+        }))
+
+        // if retry is specified, dispatch again
+        if(retry) {
+          action[CALL_API].retry = retry - 1
+          store.dispatch(action)
+        }
+      }
     )
-};
+}
+
+function objectToQueryString(obj){
+  return reduce(obj, (string, value, key) =>{
+    const separator = string.length === 0 ? '?' : '&'
+    return string + separator + key + '=' + value
+  }, '')
+}
+
+function modifyQueryString(string, property, value){
+  return string
+    .split('?')[1]
+    .split('&')
+    .reduce((string, param)=>{
+      let pair = param.split('=')
+      if(pair[0] === property){
+        pair[1] = value
+      }
+      return `${string}&${pair[0]}=${pair[1]}`
+    }, '?')
+}

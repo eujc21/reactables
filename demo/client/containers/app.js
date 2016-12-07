@@ -1,8 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { testCall, testCall1 } from '../actions/test_actions'
-import _ from 'lodash'
-import { sankeyData } from '../../../src/components/charts/data'
 
 import { DateTimePicker, Button, Table, Dropdown, DropdownItem, ElementLoader, TrajectoryChart, LineChart, BarChart, Sankey } from '../../../src/index'
 
@@ -44,6 +42,10 @@ class App extends React.Component {
         return data
       })
     })
+  }
+
+  handleSankeyClick =(node, index) =>{
+    console.log(node)
   }
 
   render(){
@@ -195,6 +197,38 @@ class App extends React.Component {
     }
 
 
+
+    const sankeyData2 = {
+      nodes: [
+        {
+          name: '1.2.3.4'
+        },
+        {
+          name: '7.8.9.0'
+        },
+        {
+          name: '5.4.2.6'
+        }],
+      links: [
+        {
+          source: 0,
+          target: 1,
+          value: 12
+        },
+        {
+          source: 1,
+          target: 2,
+          value: 10
+        },
+        {
+          source: 0,
+          target: 2,
+          value: 3
+        }
+      ]
+    }
+
+
     return(
       <div style={{ height: '100vh'}}>
         <Button
@@ -243,6 +277,10 @@ class App extends React.Component {
           initialWidth={ 500 }
           xProp='date'
           yProp='close'/>
+
+        <Sankey
+          data={ sankeyData2 }
+          onClick={ this.handleSankeyClick }/>
 
       </div>
     )

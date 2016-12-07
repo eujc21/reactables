@@ -23,7 +23,8 @@ export function testCall1(){
     [CALL_API]:{
       types: [TEST_CALL_1_REQUEST, TEST_CALL_1_SUCCESS, TEST_CALL_1_FAILURE],
       method: Methods.GET,
-      endpoint: 'test1'
+      endpoint: 'test1',
+      retry: 5
     }
   }
 }

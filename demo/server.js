@@ -57,7 +57,7 @@ app.get('/api/test', (req, res)=>{
 app.get('/api/test1', (req, res)=>{
   setTimeout(()=>{
     res.json()
-  }, 5000)
+  }, 1000)
 
 })
 app.use(handleRender)
