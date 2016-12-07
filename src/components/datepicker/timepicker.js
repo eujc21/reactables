@@ -51,6 +51,7 @@ export default class TimePicker extends React.Component {
   }
 
   handleTimeChange =(time, value)=>{
+    if (!value) return
     const { date, onChange } = this.props
 
     const hour = time === 'hour' ? value : this._hourForDate(date)
