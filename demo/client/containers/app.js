@@ -239,6 +239,7 @@ class App extends React.Component {
           onClick={ ()=> console.log() }/>
         <DateTimePicker
           startDate={ this.state.startDate }
+          canClear
           placeholder={ 'please select a date' }
           inputWidth={ 300 }
           isTimePicker

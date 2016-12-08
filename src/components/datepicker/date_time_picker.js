@@ -16,6 +16,7 @@ export class DateTimePicker extends React.Component {
   static propTypes = {
     isRangePicker: PropTypes.bool,
     isTimePicker: PropTypes.bool,
+    canClear: PropTypes.bool,
     dateFormat: PropTypes.string,
     timeFormat: PropTypes.string,
     inputWidth: PropTypes.number,
@@ -169,9 +170,18 @@ export class DateTimePicker extends React.Component {
     this.setState({isCalendarVisible: !this.state.isCalendarVisible})
   }
 
+  handleClearClick =()=>{
+    this.setState({
+      startDate: null,
+      startTime: null,
+      endDate: null,
+      endTime: null
+    })
+  }
+
   render(){
     const { startDate, endDate, isCalendarVisible } = this.state
-    const { dateFormat, timeFormat, isTimePicker, isRangePicker, inputWidth, fontFamily, placeholder, pickerDirection } = this.props
+    const { dateFormat, timeFormat, isTimePicker, inputWidth, fontFamily, placeholder, pickerDirection, canClear } = this.props
 
     const style = {
       base: {
@@ -217,6 +227,7 @@ export class DateTimePicker extends React.Component {
     return(
       <div ref='main' style={ style.base }>
         <DateInput
+          canClear={ canClear }
           startDate={ startDate }
           endDate={ endDate }
           startTime={ startDate }
@@ -226,7 +237,8 @@ export class DateTimePicker extends React.Component {
           isTimePicker={ isTimePicker }
           placeholder={ placeholder }
           width={ inputWidth }
-          onClick={ this.handleInputClick }/>
+          onInputClick={ this.handleInputClick }
+          onClearClick={ this.handleClearClick }/>
         { this.renderDatePicker(style) }
       </div>
     )

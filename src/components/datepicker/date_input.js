@@ -1,9 +1,11 @@
 import React, { PropTypes } from 'react'
 import moment from 'moment'
+import '../../styles/icons.css'
 
 export default class DateInput extends React.Component {
 
   static propTypes = {
+    canClear: PropTypes.bool,
     dateFormat: PropTypes.string,
     timeFormat: PropTypes.string,
     endDate: PropTypes.object,
@@ -11,11 +13,17 @@ export default class DateInput extends React.Component {
     startTime: PropTypes.object,
     endTime: PropTypes.object,
     width: PropTypes.number,
-    placeholder: PropTypes.string
+    placeholder: PropTypes.string,
+    onInputClick: PropTypes.func,
+    onClearClick: PropTypes.func
   }
 
-  handleClick =()=>{
-    this.props.onClick()
+  handleInputClick =()=>{
+    this.props.onInputClick()
+  }
+
+  handleClearClick =()=>{
+    this.props.onClearClick()
   }
 
   render(){
@@ -24,6 +32,8 @@ export default class DateInput extends React.Component {
 
     const style = {
       base: {
+        display: 'flex',
+        justifyContent: 'space-between',
         backgroundColor: 'white',
         border: '1px solid black',
         borderRadius: 2,
@@ -31,7 +41,6 @@ export default class DateInput extends React.Component {
         padding: 3,
         fontSize: 14,
         marginBottom: 10,
-        cursor: 'text'
       },
       divider: {
         margin: 0,
@@ -42,19 +51,27 @@ export default class DateInput extends React.Component {
       },
       text: {
         display: 'flex',
+        width: '100%',
+        cursor: 'text',
         margin: 0,
         padding: 0
+      },
+      icon:{
+        alignSelf: 'center',
+        color: 'black',
+        cursor: 'pointer'
       }
     }
     return(
-      <div style={ style.base } onClick={ this.handleClick }>
-        { }
-        <div style={ style.text }>
+      <div style={ style.base }>
+        <div style={ style.text } onClick={ this.handleInputClick }>
           { this.renderPlaceholder(style) }
           { this.renderStartDate() }
           { endDate ? <div style={ style.divider }>-</div> : null }
           { this.renderEndDate() }
         </div>
+        { this.renderClearDatesIcon(style) }
+
       </div>
     )
   }
@@ -92,6 +109,16 @@ export default class DateInput extends React.Component {
       <div>
         { date } { isTimePicker ? time : ''}
       </div>
+    )
+  }
+
+  renderClearDatesIcon =(style)=>{
+    const { startDate, endDate, canClear } =  this.props
+    if(!canClear) return
+    if(!startDate && !endDate) return
+
+    return(
+      <i style={ style.icon } className="icon-cross-circle" onClick={ this.handleClearClick }/>
     )
   }
 }
