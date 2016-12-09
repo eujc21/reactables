@@ -63,10 +63,13 @@ If isTimePicker is true, the component will now be able to select a time. Dates 
 **- placeholder: String**  
 **- fontFamily: String**  
 **- pickerDirection: String('left', 'right')**  
+**- canClear: Bool**
+
 
 ```javascript
 <DateTimePicker 
   startDate={ this.state.startDate }
+  canClear
   inputWidth={ 300 }
   fontFamily={ 'Arial' }
   placeholder={ 'Please Select a Date' }
@@ -101,7 +104,7 @@ If isTimePicker is true, the component will now be able to select a time. Dates 
 **- width: Number, String**  
 **- justify: String('left', 'center', 'right')**  
 
-The provided Object should contain properites contained in tableData objects.
+The provided Object should contain properties contained in tableData objects.
 The headings properties can either be a String, modifying the column heading, or an Object modifying multiple properties.
 ```javascript
 <Table 
@@ -276,5 +279,3 @@ Takes a function or array of functions that return a node.
  }}
 />
 ```
-
-## Dropdown
