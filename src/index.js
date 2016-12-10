@@ -9,6 +9,7 @@ export { CountLabel } from './components/count_label'
 export { DateTimePicker } from './components/datepicker/date_time_picker'
 export { Button } from './components/button'
 export { KonamiCode } from './components/konami_code'
+export { HeatBar } from './components/heat_bar'
 
 export { BarChart } from './components/charts/bar'
 export { LineChart} from './components/charts/line'

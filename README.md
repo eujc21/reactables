@@ -279,3 +279,27 @@ Takes a function or array of functions that return a node.
  }}
 />
 ```
+### HeatBar
+score: PropTypes.number,
+    width: PropTypes.number,
+    height: PropTypes.number,
+    scoreTitle: PropTypes.string,
+    colorArray: PropTypes.arrayOf(PropTypes.string),
+    textColor: PropTypes.string,
+    startSide: PropTypes.string
+
+**- score: number**  
+**- width: number**  
+**- height: number**  
+**- scoreTitle: string**  
+**- colorArray: array**
+**- textColor: string**
+**- startSide: string**
+
+Provide score and scoreTitle to component through props. Optionally provide width, height, colorArray, textColor and startSide to HeatBar.
+```javascript
+<HeatBar
+  score={ 85 }
+  scoreTitle={ 'confidence' }
+/>
+```
