@@ -285,9 +285,9 @@ Takes a function or array of functions that return a node.
 **- width: number**  
 **- height: number**  
 **- scoreTitle: string**  
-**- colorArray: array**
-**- textColor: string**
-**- startSide: string**
+**- colorArray: array** 
+**- textColor: string** 
+**- startSide: string** 
 
 Provide score and scoreTitle to component through props. Optionally provide width, height, colorArray, textColor and startSide to HeatBar.
 ```javascript
