@@ -280,13 +280,6 @@ Takes a function or array of functions that return a node.
 />
 ```
 ### HeatBar
-score: PropTypes.number,
-    width: PropTypes.number,
-    height: PropTypes.number,
-    scoreTitle: PropTypes.string,
-    colorArray: PropTypes.arrayOf(PropTypes.string),
-    textColor: PropTypes.string,
-    startSide: PropTypes.string
 
 **- score: number**  
 **- width: number**  
