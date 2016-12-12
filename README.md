@@ -279,20 +279,29 @@ Takes a function or array of functions that return a node.
  }}
 />
 ```
-### HeatBar
+## HeatBar
 
-**- score: number**  
-**- width: number**  
-**- height: number**  
-**- scoreTitle: string**  
-**- colorArray: array** 
-**- textColor: string** 
-**- startSide: string** 
+**- score: Number**  
+**- outOf: Number**  
+**- width: Number, String**  
+**- barHeight: Number, String**  
+**- title: String**  
+**- barColors: Array**  
+**- textColor: String**  
+**- fontSize: Number**  
+**- isScoreVisible: Bool**  
 
-Provide score and scoreTitle to component through props. Optionally provide width, height, colorArray, textColor and startSide as props.
+
 ```javascript
 <HeatBar
-  score={ 85 }
+  score={ 300 }
+  outOf={ 600 }
   scoreTitle={ 'confidence' }
+  barHeight={ 20 }
+  title={ 'Heat Bar'}
+  barColors={ [ '#27ae60', '#dfea10', '#efec13', '#e74c3c' ] }
+  textColor={ '#000' }
+  fontSize={ 11 }
+  isScoreVisible={ true }
 />
 ```
