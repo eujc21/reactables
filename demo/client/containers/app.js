@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { testCall, testCall1 } from '../actions/test_actions'
 
-import { DateTimePicker, Button, Table, Dropdown, DropdownItem, ElementLoader, TrajectoryChart, LineChart, BarChart, Sankey } from '../../../src/index'
+import { DateTimePicker, Button, Table, Dropdown, DropdownItem, ElementLoader, TrajectoryChart, LineChart, BarChart, Sankey, HeatBar } from '../../../src/index'
 
 
 class App extends React.Component {
@@ -201,29 +201,56 @@ class App extends React.Component {
     const sankeyData2 = {
       nodes: [
         {
-          name: '1.2.3.4'
+          name: '1.2.3.4',
+          fillColor: 'orange',
+          strokeColor: 'blue'
+
         },
         {
           name: '7.8.9.0'
         },
         {
           name: '5.4.2.6'
+        },
+        {
+          name: '123'
+        },
+        {
+          name: '234'
+        },
+        {
+          name: '345'
         }],
       links: [
         {
           source: 0,
           target: 1,
-          value: 12
+          value: 6
         },
         {
           source: 1,
           target: 2,
-          value: 10
+          value: 3
         },
         {
           source: 0,
           target: 2,
           value: 3
+        },
+        {
+          source: 0,
+          target: 5,
+          value: 1
+        },
+        {
+          source: 4,
+          target: 5,
+          value: 4
+        },
+        {
+          source: 2,
+          target: 3,
+          value: 1
         }
       ]
     }
@@ -256,6 +283,8 @@ class App extends React.Component {
 
           </ElementLoader>
 
+        <HeatBar score={ 300 } outOf={ 600 } title={ 'Testing' } fontSize={ 14 }/>
+
 
           <ElementLoader action="TEST_CALL_1">
 
@@ -266,6 +295,7 @@ class App extends React.Component {
           </ElementLoader>
 
           <BarChart
+            isResponsive={ true }
             title={ 'Bar Chart' }
             data={ trajectoryData }
             xProp={ 'year' }
@@ -273,9 +303,14 @@ class App extends React.Component {
           />
 
 
+          <div style={{ maxWidth: 800}}>
         <Sankey
           data={ sankeyData2 }
+          initialHeight={ 300 }
+          initialWidth={ 600 }
+          isResponsive={ true }
           onClick={ this.handleSankeyClick }/>
+          </div>
 
       </div>
     )
