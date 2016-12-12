@@ -8,7 +8,16 @@ export class BarChart extends React.Component {
   static propTypes = {
     data: PropTypes.array.isRequired,
     xProp: PropTypes.string.isRequired,
-    yProp: PropTypes.string.isRequired
+    yProp: PropTypes.string.isRequired,
+    initialWidth: PropTypes.number,
+    initialHeight: PropTypes.number,
+    isResponsive: PropTypes.bool
+  }
+
+  static defaultProps = {
+    initialWidth: 960,
+    initialHeight: 500,
+    isResponsive: false
   }
 
   componentDidMount(){
@@ -23,7 +32,7 @@ export class BarChart extends React.Component {
   }
 
   renderChart =()=>{
-    const { data, xProp, yProp, xLabel, yLabel, title, alignTitle } = this.props
+    const { data, xProp, yProp, xLabel, yLabel, title, alignTitle, isResponsive, initialWidth, initialHeight } = this.props
 
     let margin = {
       top: 20,
@@ -32,15 +41,14 @@ export class BarChart extends React.Component {
       left: 50
     }
 
-    let width = 400 - margin.left - margin.right
-    let height = 565 - margin.top - margin.bottom
+    let width = initialWidth - margin.left - margin.right;
+    let height = initialHeight - margin.top - margin.bottom;
 
     let svg = d3.select(this.chartContainer)
       .append('svg')
       .attr('width', width + margin.left + margin.right)
       .attr('height', height + margin.top + margin.bottom)
-      .style('background-color', 'yellow')
-      .call(makeResponsive)
+      .call( isResponsive ? makeResponsive : ()=>{} )
       .append('g')
       .attr('transform', `translate(${margin.left}, ${margin.top})`)
 
@@ -120,7 +128,7 @@ export class BarChart extends React.Component {
     return(
       <div
         ref={(chartContainer) => { this.chartContainer = chartContainer }}
-        style={{ width: '100%', height: '100%' }} />
+        style={{ width: '100%'}} />
     )
   }
 }
