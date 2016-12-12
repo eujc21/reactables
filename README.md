@@ -279,3 +279,20 @@ Takes a function or array of functions that return a node.
  }}
 />
 ```
+### HeatBar
+
+**- score: number**  
+**- width: number**  
+**- height: number**  
+**- scoreTitle: string**  
+**- colorArray: array** 
+**- textColor: string** 
+**- startSide: string** 
+
+Provide score and scoreTitle to component through props. Optionally provide width, height, colorArray, textColor and startSide as props.
+```javascript
+<HeatBar
+  score={ 85 }
+  scoreTitle={ 'confidence' }
+/>
+```
