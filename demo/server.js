@@ -1,8 +1,8 @@
-var express = require('express')
-var path = require('path')
-var port = process.env.PORT || 8080
+import express from 'express'
+import path from 'path'
+const port = process.env.PORT || 8080
 
-var app = express()
+const app = express()
 
 if(process.env.NODE_ENV === 'development'){
   const webpack = require('webpack')

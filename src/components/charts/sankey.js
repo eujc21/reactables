@@ -9,12 +9,15 @@ import '../../styles/charts.css'
 export class Sankey extends React.Component {
 
   static propTypes = {
-
+    initialWidth: PropTypes.number,
+    initialHeight: PropTypes.number,
+    isResponsive: PropTypes.bool
   }
 
   static defaultProps = {
     initialWidth: 960,
-    initialHeight: 500
+    initialHeight: 500,
+    isResponsive: false
   }
 
   componentDidMount(){
@@ -29,7 +32,7 @@ export class Sankey extends React.Component {
   }
 
   renderChart =()=>{
-    const { initialWidth, initialHeight, data } = this.props
+    const { isResponsive, initialWidth, initialHeight, data } = this.props
 
     let margin = {
         top: 1,
@@ -37,6 +40,7 @@ export class Sankey extends React.Component {
         bottom: 6,
         left: 1
       }
+
     let width = initialWidth - margin.left - margin.right;
     let height = initialHeight - margin.top - margin.bottom;
 
@@ -50,7 +54,7 @@ export class Sankey extends React.Component {
       .append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
-      .call(makeResponsive)
+      .call( isResponsive ? makeResponsive : ()=>{} )
       .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -79,7 +83,7 @@ export class Sankey extends React.Component {
       });
 
     link.append("title")
-      .text((d) => {
+      .text(d => {
         return d.source.name + " → " + d.target.name + "\n" + format(d.value);
       });
 
@@ -109,10 +113,10 @@ export class Sankey extends React.Component {
       })
       .attr("width", sk.nodeWidth())
       .style("fill", (d) => {
-        return d.color = color(d.name.replace(/ .*/, ""));
+        return d.color = d.fillColor || color(d.name.replace(/ .*/, ""));
       })
       .style("stroke", (d) => {
-        return d3.rgb(d.color).darker(2);
+        return d.strokeColor || d3.rgb(d.color).darker(2);
       })
       .append("title")
       .text((d) => {
@@ -149,7 +153,7 @@ export class Sankey extends React.Component {
       <div
         ref={(chartContainer) => this.chartContainer = chartContainer }
         className="chart"
-        style={{ width: '100%', height: '100%' }} />
+        style={{width: '100%'}} />
     )
   }
 }

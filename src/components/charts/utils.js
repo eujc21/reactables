@@ -16,21 +16,23 @@ export function makeResponsive (svg){
 
   let width = parseInt(svg.style("width"))
   let height = parseInt(svg.style("height"))
-  //let aspect = width / height
+  let aspect = width / height
 
   svg.attr("viewBox", `0 0 ${width} ${height}`)
-    //.attr("preserveAspectRatio", "xMinYMid")
+    .attr("preserveAspectRatio", "xMinYMid")
     .call(resize);
 
   select(window).on("resize." + generateGUID(), resize)
 
   // get width of container and resize svg to fit it
   function resize() {
-    let containerWidth = parseInt(container.style("width"))
-    let containerHeight = parseInt(container.style("height"))
 
-    svg.attr("width", containerWidth);
-    svg.attr("height", containerHeight) // / aspect
+    let containerWidth = parseInt(container.style("width"))
+    //let containerHeight = parseInt(container.style("height"))
+
+    svg.attr("width", containerWidth)
+    svg.attr("height", containerWidth /aspect )
+
   }
 }
 
