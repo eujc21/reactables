@@ -1,11 +1,11 @@
 {
   "name": "reactables",
-  "version": "0.3.18",
+  "version": "0.3.19",
   "description": "Customizable React.js components",
   "main": "lib/index.js",
   "scripts": {
     "prebuild": "rimraf lib",
-    "dev": "cross-env NODE_ENV=development nodemon ./demo/server.js --ignore /demo/client --ignore ./src",
+    "dev": "cross-env NODE_ENV=development nodemon ./demo/server.js --exec babel-node --presets es2015,stage-0 --ignore /demo/client --ignore ./src",
     "build": "cross-env babel --out-dir lib --ignore *.test.js src && copyfiles ./src/styles/* -f lib/styles && copyfiles ./src/vendor/fonts/* -f lib/vendor/fonts",
     "test": "mocha test/*.spec.js --require test/.setup.js --compilers js:babel-core/register"
   },
