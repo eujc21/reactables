@@ -24,6 +24,8 @@ export class LineChart extends React.Component {
     titleFontSize: PropTypes.number,
     onClick: PropTypes.func,
     tooltip: PropTypes.func,
+    xTicksAngled: PropTypes.bool,
+    shouldShowGrid: PropTypes.bool
   }
 
   static defaultProps = {
@@ -38,6 +40,8 @@ export class LineChart extends React.Component {
     tickFontSize: 5,
     labelFontSize: 5,
     titleFontSize: 5,
+    xTicksAngled: false,
+    shouldShowGrid: false
   }
 
   componentDidMount(){
@@ -59,7 +63,7 @@ export class LineChart extends React.Component {
   }
 
   renderChart =()=>{
-    const { data, xProp, yProp, xLabel, yLabel, title, tickFontSize, labelFontSize, titleFontSize, lineColors, initialWidth, initialHeight, isResponsive } = this.props
+    const { data, xProp, yProp, xLabel, yLabel, title, tickFontSize, labelFontSize, titleFontSize, lineColors, initialWidth, initialHeight, isResponsive, xTicksAngled, shouldShowGrid } = this.props
 
     let margin = {
       top: 20,
@@ -118,21 +122,6 @@ export class LineChart extends React.Component {
     //   .style('font-size', `${tickFontSize}px`)
 
 
-    //append y minor axis
-
-    // const yDotted = d3.axisRight(yScale)
-    //
-    // let gy = svg.append('svg:g')
-    //   .attr('class', 'y axis')
-    //   .attr('transform', `translate(${ margin.left }, 0)`)
-    //   .call(yDotted);
-    //
-    // gy.selectAll("g").filter((d) => {
-    //   return d;
-    // })
-
-
-
     /* X Scale and Axis */
     let xScale = d3.scaleTime()
       .domain([
@@ -154,7 +143,30 @@ export class LineChart extends React.Component {
       .selectAll('text')
       .style('text-anchor', 'end')
       .style('font-size', `${tickFontSize}px`)
-      .attr('transform', 'rotate(-45)');
+      .attr('transform', `rotate(${xTicksAngled ? -45 : 0})`);
+
+
+
+    //append grid
+    if(shouldShowGrid) {
+      svg.append('g')
+        .attr('transform', `translate(0, ${height})`)
+        .call(
+          xAxis.tickSize(-height, 0, 0)
+            .tickSizeOuter(0, 0, 0)
+            .tickFormat("")
+        )
+        .style('stroke-width', 0.1)
+
+      svg.append('g')
+        .call(
+          yAxis.tickSize(-width, 0, 0)
+            .tickSizeOuter(0, 0, 0)
+            .tickFormat("")
+        )
+        .style('stroke-width', 0.1)
+    }
+    //end grid
 
 
     let area = d3.area()

@@ -308,6 +308,8 @@ class App extends React.Component {
           yLabel={ 'Y Label' }
           labelFontSize={ 5 }
           tickFontSize={ 5 }
+          xTicksAngled
+          shouldShowGrid
           onClick={ (set, d, i) => console.log(set, d, i)}
           tooltip={ (set, d, i) =>
             <div style={{ backgroundColor: 'black', color: 'white', opacity: 0.9}}>
