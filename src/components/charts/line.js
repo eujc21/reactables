@@ -102,13 +102,19 @@ export class LineChart extends React.Component {
       ])
       .range([height, 0])
 
-    // let yAxis = d3.axisLeft(yScale)
-    // svg.call(yAxis)
+    let yAxis = d3.axisLeft(yScale)
+      .tickSize(5)
 
     svg
       .append('g')
-      .call(d3.axisLeft(yScale))
+      .call(yAxis)
       .style('font-size', `${tickFontSize}px`)
+      .style('font-weight', '100')
+
+    // svg
+    //   .append('g')
+    //   .call(d3.axisLeft(yScale))
+    //   .style('font-size', `${tickFontSize}px`)
 
 
     /* X Scale and Axis */
@@ -120,7 +126,7 @@ export class LineChart extends React.Component {
       .range([0, width])
 
     let xAxis = d3.axisBottom(xScale)
-      .tickSize(10)
+      .tickSize(5)
       .tickPadding(5)
 
     /* Append and Transform X Axis */
