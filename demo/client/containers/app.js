@@ -198,13 +198,10 @@ class App extends React.Component {
     const sankeyData2 = {
       nodes: [
         {
-          name: '1.2.3.4',
-          fillColor: 'orange',
-          strokeColor: 'blue'
-
+          name: 'port 80'
         },
         {
-          name: '7.8.9.0'
+          name: 'Everything Else'
         },
         {
           name: '5.4.2.6'
@@ -217,37 +214,40 @@ class App extends React.Component {
         },
         {
           name: '345'
+        },
+        {
+          name: 'port X'
         }],
       links: [
         {
-          source: 0,
-          target: 1,
-          value: 6
-        },
-        {
           source: 1,
-          target: 2,
-          value: 3
-        },
-        {
-          source: 0,
-          target: 2,
-          value: 3
-        },
-        {
-          source: 0,
-          target: 5,
-          value: 1
-        },
-        {
-          source: 4,
-          target: 5,
-          value: 4
+          target: 0,
+          value: 2000
         },
         {
           source: 2,
-          target: 3,
-          value: 1
+          target: 0,
+          value: 100
+        },
+        {
+          source: 3,
+          target: 0,
+          value: 50
+        },
+        {
+          source: 4,
+          target: 0,
+          value: 200
+        },
+        {
+          source: 5,
+          target: 0,
+          value: 4
+        },
+        {
+          source:5,
+          target: 6,
+          value: 40
         }
       ]
     }
@@ -318,6 +318,15 @@ class App extends React.Component {
           }
         />
 
+        <div style={{ maxWidth: 800}}>
+          <Sankey
+            data={ sankeyData2 }
+            initialHeight={ 400 }
+            initialWidth={ 600 }
+            isResponsive={ true }
+            onClick={ this.handleSankeyClick }/>
+        </div>
+
         <BarChart
           isResponsive={ true }
           title={ 'Bar Chart' }
@@ -328,15 +337,6 @@ class App extends React.Component {
           yLabel={ 'Y Label' }
         />
 
-
-        <div style={{ maxWidth: 800}}>
-          <Sankey
-            data={ sankeyData2 }
-            initialHeight={ 300 }
-            initialWidth={ 600 }
-            isResponsive={ true }
-            onClick={ this.handleSankeyClick }/>
-        </div>
 
       </div>
     )

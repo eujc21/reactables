@@ -66,7 +66,7 @@ export class Sankey extends React.Component {
 
     let sk = sankey()
       .nodeWidth(15)
-      .nodePadding(10)
+      .nodePadding(30)
       .size([width, height]);
 
     let path = sk.link();
