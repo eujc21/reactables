@@ -27,17 +27,17 @@ export class LineChart extends React.Component {
   }
 
   static defaultProps = {
-    initialWidth: 800,
-    initialHeight: 600,
+    initialWidth: 960,
+    initialHeight: 500,
     isResponsive: false,
     lineColors: ['#000000'],
     backgroundColor: '',
     title: '',
     xLabel: '',
     yLabel: '',
-    tickFontSize: 6,
-    labelFontSize: 6,
-    titleFontSize: 6,
+    tickFontSize: 5,
+    labelFontSize: 5,
+    titleFontSize: 5,
   }
 
   componentDidMount(){
@@ -110,6 +110,7 @@ export class LineChart extends React.Component {
       .call(yAxis)
       .style('font-size', `${tickFontSize}px`)
       .style('font-weight', '100')
+      .style('stroke-width', 0.5)
 
     // svg
     //   .append('g')
@@ -134,6 +135,7 @@ export class LineChart extends React.Component {
       .append('g')
       .attr('transform', `translate(0, ${height})`)
       .call(xAxis)
+      .style('stroke-width', 0.5)
       .selectAll('text')
       .style('text-anchor', 'end')
       .style('font-size', `${tickFontSize}px`)
@@ -164,6 +166,7 @@ export class LineChart extends React.Component {
       .style('stroke-width', 1)
       .style('fill', 'none')
 
+    //append the area
     svg
       .selectAll('.area')
       .data(data)

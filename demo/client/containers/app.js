@@ -307,7 +307,8 @@ class App extends React.Component {
           title={ 'Chart' }
           xLabel={ 'X Label' }
           yLabel={ 'Y Label' }
-          labelFontSize={ 6 }
+          labelFontSize={ 5 }
+          tickFontSize={ 5 }
           onClick={ (d, i) => console.log(d, i)}
           tooltip={ (d, i) =>
           <div style={{ backgroundColor: 'black', color: 'white', opacity: 0.9}}>
