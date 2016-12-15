@@ -21,6 +21,9 @@ export class Sankey extends React.Component {
   }
 
   componentDidMount(){
+    if(!this.props.data)
+      return
+
     this.renderChart()
   }
 
@@ -33,6 +36,9 @@ export class Sankey extends React.Component {
 
   renderChart =()=>{
     const { isResponsive, initialWidth, initialHeight, data } = this.props
+
+    if(!data)
+      return
 
     let margin = {
         top: 1,

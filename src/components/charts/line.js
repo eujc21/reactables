@@ -1,24 +1,46 @@
 import React, { PropTypes } from 'react'
+import { renderToString } from 'react-dom/server'
 import * as d3 from 'd3'
 import isEqual from 'lodash/isEqual'
 import { makeResponsive } from './utils'
+import moment from 'moment'
 
 export class LineChart extends React.Component {
 
   static propTypes = {
     data: PropTypes.array.isRequired,
     xProp: PropTypes.string.isRequired,
-    yProp: PropTypes.string.isRequired
+    yProp: PropTypes.string.isRequired,
+    initialWidth: PropTypes.number,
+    initialHeight: PropTypes.number,
+    isResponsive: PropTypes.bool,
+    lineColors: PropTypes.array,
+    backgroundColor: PropTypes.string,
+    title: PropTypes.string,
+    xLabel: PropTypes.string,
+    yLabel: PropTypes.string,
+    tickFontSize: PropTypes.number,
+    labelFontSize: PropTypes.number,
+    titleFontSize: PropTypes.number,
+    onClick: PropTypes.func,
+    tooltip: PropTypes.func,
   }
 
   static defaultProps = {
-    initialWidth: 400,
-    initialHeight: 300
+    initialWidth: 800,
+    initialHeight: 600,
+    isResponsive: false,
+    lineColors: ['#000000'],
+    backgroundColor: '',
+    title: '',
+    xLabel: '',
+    yLabel: '',
+    tickFontSize: 6,
+    labelFontSize: 6,
+    titleFontSize: 6,
   }
 
   componentDidMount(){
-    this.initialWidth = this.chartContainer.clientWidth
-    this.initialHeight = this.chartContainer.clientHeight
     this.renderChart()
   }
 
@@ -29,28 +51,41 @@ export class LineChart extends React.Component {
     }
   }
 
+  handlePointClick =(d, i)=>{
+    if(!this.props.onClick)
+      return
+
+    this.props.onClick(d, i)
+  }
+
   renderChart =()=>{
-    const { data, xProp, yProp, xLabel, yLabel, title, alignTitle, initialWidth, initialHeight } = this.props
+    const { data, xProp, yProp, xLabel, yLabel, title, tickFontSize, labelFontSize, titleFontSize, lineColors, initialWidth, initialHeight, isResponsive } = this.props
 
     let margin = {
-      top: 10,
+      top: 20,
       right: 20,
-      bottom: 50,
-      left: 30
+      bottom: 40,
+      left: 40
     };
 
-    let width = this.initialWidth - margin.left - margin.right
-    let height = this.initialHeight - margin.top - margin.bottom
+    let width = initialWidth - margin.left - margin.right;
+    let height = initialHeight - margin.top - margin.bottom;
 
     let svg = d3.select(this.chartContainer)
       .append('svg')
       .attr('width', width + margin.left + margin.right)
       .attr('height', height + margin.top + margin.bottom)
-      .call(makeResponsive)
+      .call( isResponsive ? makeResponsive : ()=>{} )
       .append('g')
       .attr('transform', `translate(${margin.left}, ${margin.top})`)
-      //.call(makeResponsive)
 
+    // append title
+    svg.append("text")
+      .attr("transform", `translate( ${width/2}, ${-margin.top / 2 } )`)
+      .style("text-anchor", "middle")
+      .style("fill", "black")
+      .style("font-size", `${titleFontSize}px`)
+      .text(title);
 
     data.forEach(dataset => {
       dataset.values.forEach(d => {
@@ -59,6 +94,24 @@ export class LineChart extends React.Component {
       })
     })
 
+    /* Y Scale and Axis*/
+    let yScale = d3.scaleLinear()
+      .domain([
+        d3.min(data, dataset => d3.min(dataset.values, d => d[yProp])),
+        d3.max(data, dataset => d3.max(dataset.values, d => d[yProp]))
+      ])
+      .range([height, 0])
+
+    // let yAxis = d3.axisLeft(yScale)
+    // svg.call(yAxis)
+
+    svg
+      .append('g')
+      .call(d3.axisLeft(yScale))
+      .style('font-size', `${tickFontSize}px`)
+
+
+    /* X Scale and Axis */
     let xScale = d3.scaleTime()
       .domain([
         d3.min(data, dataset => d3.min(dataset.values, d => d[xProp])),
@@ -68,29 +121,19 @@ export class LineChart extends React.Component {
 
     let xAxis = d3.axisBottom(xScale)
       .tickSize(10)
-      .tickPadding(5);
+      .tickPadding(5)
 
+    /* Append and Transform X Axis */
     svg
       .append('g')
       .attr('transform', `translate(0, ${height})`)
       .call(xAxis)
       .selectAll('text')
       .style('text-anchor', 'end')
+      .style('font-size', `${tickFontSize}px`)
       .attr('transform', 'rotate(-45)');
 
-    let yScale = d3.scaleLinear()
-      .domain([
-        d3.min(data, dataset => d3.min(dataset.values, d => d[yProp])),
-        d3.max(data, dataset => d3.max(dataset.values, d => d[yProp]))
-      ])
-      .range([height, 0])
 
-    svg
-      .append('g')
-      .call(d3.axisLeft(yScale))
-
-
-    //use line OR area
     let area = d3.area()
       .x(d => xScale(d[xProp]))
       .y0(height)
@@ -110,26 +153,35 @@ export class LineChart extends React.Component {
       .enter()
       .append('path')
       .attr('class', 'line')
-      .attr('d', d => area(d.values))
-      .style('stroke', (d, i) => ['#FF9900', '#3369E8'][i])
+      .attr('d', d => line(d.values))
+      .style('stroke', (d, i) => lineColors[i])
       .style('stroke-width', 1)
-      .style('fill', 'none') //give fill color for area fill
+      .style('fill', 'none')
+
+    svg
+      .selectAll('.area')
+      .data(data)
+      .enter()
+      .append('path')
+      .attr('d', d => area(d.values))
+      .style('fill', (d, i) => lineColors[i])
+      .style('fill-opacity', 0.5)//give fill color for area fill
 
 
+    /*================*/
+    /* Create Tooltip */
+    /*================*/
+
+    // Define the div for the tooltip
+    let div = d3.select("body").append("div")
+      .attr("class", "tooltip")
+      .style("opacity", 0)
+      .style("position", 'absolute')
+      .style("pointer-events", 'none')
 
     /*===============*/
     /* Append Points */
     /*===============*/
-
-    // Define the div for the tooltip
-    // let div = d3.select("body").append("div")
-    //   .attr("class", "tooltip")
-    //   .style("opacity", 0)
-    //   .style("position", 'absolute')
-    //   .style('text-align', 'center')
-
-
-
     data.forEach(dataset =>{
       svg
         .selectAll('circle')
@@ -138,34 +190,83 @@ export class LineChart extends React.Component {
         .append('circle')
         .attr('cx', d => xScale(d[xProp]))
         .attr('cy', d => yScale(d[yProp]))
-        .attr('r', d => 2)
+        .attr('r', d => 1.5)
         .style('fill', 'black')
 
+        /*==============*/
+        /* Call Tooltip */
+        /*==============*/
 
-        // append tooltips
-        // .on("mouseover", function(d) {
-        //   div.transition()
-        //     .duration(200)
-        //     .style("opacity", .9);
-        //   div.html('Tooltip' + "<br/>")
-        //     .style("left", (d3.event.pageX - 30) + "px")
-        //     .style("top", (d3.event.pageY - 28) + "px");
-        // })
-        // .on("mouseout", function(d) {
-        //   div.transition()
-        //     .duration(500)
-        //     .style("opacity", 0);
-        // });
+        .on("mouseover", (d, i) => {
+
+          div.transition()
+            .duration(200)
+            .style("opacity", .9)
+
+          div
+            .html( this.renderTooltipContent(d, i) )
+            .style("left", (d3.event.pageX) + "px")
+            .style("top", (d3.event.pageY) + "px");
+        })
+
+        .on("mouseout", d => {
+          div.transition()
+            .duration(500)
+            .style("opacity", 0);
+        })
+
+        /*================*/
+        /* On Point Click */
+        /*================*/
+
+        .on("click", this.handlePointClick)
     })
+
+    // append Y label
+    svg.append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 0 - margin.left)
+      .attr("x",0 - (height / 2))
+      .attr("dy", "1em")
+      .style("text-anchor", "middle")
+      .style("fill", "black")
+      .style("font-size", labelFontSize)
+      .text(yLabel);
+
+
+    //append X label
+    svg.append("text")
+      .attr("transform", `translate(${width/2} , ${height + margin.bottom})`)
+      .style("text-anchor", "middle")
+      .style("fill", "black")
+      .style("font-size", labelFontSize)
+      .text(xLabel);
 
   }
 
+  renderTooltipContent =(d, i)=>{
+    const { tooltip } = this.props
+
+    if(!tooltip)
+      return
+
+    return renderToString(
+      tooltip(d, i)
+    )
+  }
+
   render(){
+
+    const style = {
+      width: '100%',
+      backgroundColor: this.props.backgroundColor
+    }
+
     return(
       <div
         ref={(chartContainer) => { this.chartContainer = chartContainer }}
         className={ 'chart' }
-        style={{ width: '100%', height: '100%', border: '1px solid black' }} />
+        style={ style } />
     )
   }
 }

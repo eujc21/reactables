@@ -255,6 +255,7 @@ class App extends React.Component {
       ]
     }
 
+    const color = 'color: blue'
 
     return(
       <div style={{ height: '100vh'}}>
@@ -294,23 +295,46 @@ class App extends React.Component {
 
           </ElementLoader>
 
-          <BarChart
-            isResponsive={ true }
-            title={ 'Bar Chart' }
-            data={ trajectoryData }
-            xProp={ 'year' }
-            yProp={ 'sale' }
-          />
 
 
-          <div style={{ maxWidth: 800}}>
-        <Sankey
-          data={ sankeyData2 }
-          initialHeight={ 300 }
-          initialWidth={ 600 }
+        <LineChart
+          data={ lineData }
+          xProp="date"
+          yProp="close"
           isResponsive={ true }
-          onClick={ this.handleSankeyClick }/>
+          initialWidth={ 400 }
+          initialHeight={ 200 }
+          title={ 'Chart' }
+          xLabel={ 'X Label' }
+          yLabel={ 'Y Label' }
+          labelFontSize={ 6 }
+          onClick={ (d, i) => console.log(d, i)}
+          tooltip={ (d, i) =>
+          <div style={{ backgroundColor: 'black', color: 'white', opacity: 0.9}}>
+            <p>string</p>
           </div>
+          }
+        />
+
+        <BarChart
+          isResponsive={ true }
+          title={ 'Bar Chart' }
+          data={ trajectoryData }
+          xProp={ 'year' }
+          yProp={ 'sale' }
+          xLabel={ 'X Label' }
+          yLabel={ 'Y Label' }
+        />
+
+
+        <div style={{ maxWidth: 800}}>
+          <Sankey
+            data={ sankeyData2 }
+            initialHeight={ 300 }
+            initialWidth={ 600 }
+            isResponsive={ true }
+            onClick={ this.handleSankeyClick }/>
+        </div>
 
       </div>
     )

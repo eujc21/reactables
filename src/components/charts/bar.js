@@ -11,13 +11,25 @@ export class BarChart extends React.Component {
     yProp: PropTypes.string.isRequired,
     initialWidth: PropTypes.number,
     initialHeight: PropTypes.number,
-    isResponsive: PropTypes.bool
+    isResponsive: PropTypes.bool,
+    title: PropTypes.string,
+    xLabel: PropTypes.string,
+    yLabel: PropTypes.string,
+    tickFontSize: PropTypes.number,
+    labelFontSize: PropTypes.number,
+    titleFontSize: PropTypes.number
   }
 
   static defaultProps = {
     initialWidth: 960,
     initialHeight: 500,
-    isResponsive: false
+    isResponsive: false,
+    title: '',
+    xLabel: '',
+    yLabel: '',
+    tickFontSize: 12,
+    labelFontSize: 12,
+    titleFontSize: 12
   }
 
   componentDidMount(){
@@ -32,7 +44,7 @@ export class BarChart extends React.Component {
   }
 
   renderChart =()=>{
-    const { data, xProp, yProp, xLabel, yLabel, title, alignTitle, isResponsive, initialWidth, initialHeight } = this.props
+    const { data, xProp, yProp, xLabel, yLabel, title, tickFontSize, labelFontSize, titleFontSize, isResponsive, initialWidth, initialHeight } = this.props
 
     let margin = {
       top: 20,
@@ -57,7 +69,8 @@ export class BarChart extends React.Component {
       .attr("transform", `translate( ${width/2}, ${-margin.top / 2 } )`)
       .style("text-anchor", "middle")
       .style("fill", "black")
-      .text("Title");
+      .style("font-size", `${titleFontSize}px`)
+      .text(title);
 
 
     /* Y Scale and Axis */
@@ -86,6 +99,7 @@ export class BarChart extends React.Component {
       .call(xAxis)
       .selectAll('text')
       .style('text-anchor', 'end')
+      .style('font-size', `${tickFontSize}px`)
       .attr('transform', 'rotate(-45)');
 
 
@@ -111,7 +125,7 @@ export class BarChart extends React.Component {
       .attr("dy", "1em")
       .style("text-anchor", "middle")
       .style("fill", "black")
-      .text("Value");
+      .text(yLabel);
 
 
     //append X label
@@ -119,7 +133,7 @@ export class BarChart extends React.Component {
       .attr("transform", `translate(${width/2} , ${height + margin.bottom})`)
       .style("text-anchor", "middle")
       .style("fill", "black")
-      .text("Date");
+      .text(xLabel);
 
 
   }
