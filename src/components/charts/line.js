@@ -51,11 +51,11 @@ export class LineChart extends React.Component {
     }
   }
 
-  handlePointClick =(d, i)=>{
+  handlePointClick =(set, d, i)=>{
     if(!this.props.onClick)
       return
 
-    this.props.onClick(d, i)
+    this.props.onClick(set, d, i)
   }
 
   renderChart =()=>{
@@ -64,8 +64,8 @@ export class LineChart extends React.Component {
     let margin = {
       top: 20,
       right: 20,
-      bottom: 40,
-      left: 40
+      bottom: 35,
+      left: 35
     };
 
     let width = initialWidth - margin.left - margin.right;
@@ -116,6 +116,21 @@ export class LineChart extends React.Component {
     //   .append('g')
     //   .call(d3.axisLeft(yScale))
     //   .style('font-size', `${tickFontSize}px`)
+
+
+    //append y minor axis
+
+    // const yDotted = d3.axisRight(yScale)
+    //
+    // let gy = svg.append('svg:g')
+    //   .attr('class', 'y axis')
+    //   .attr('transform', `translate(${ margin.left }, 0)`)
+    //   .call(yDotted);
+    //
+    // gy.selectAll("g").filter((d) => {
+    //   return d;
+    // })
+
 
 
     /* X Scale and Axis */
@@ -191,16 +206,17 @@ export class LineChart extends React.Component {
     /*===============*/
     /* Append Points */
     /*===============*/
-    data.forEach(dataset =>{
+    data.forEach((dataset, setIndex) =>{
       svg
-        .selectAll('circle')
+        .selectAll('point')
         .data(dataset.values)
         .enter()
         .append('circle')
         .attr('cx', d => xScale(d[xProp]))
         .attr('cy', d => yScale(d[yProp]))
-        .attr('r', d => 1.5)
-        .style('fill', 'black')
+        .attr('r', d => 1.3)
+        .style('fill', lineColors[setIndex])
+        .style('cursor', this.props.onClick ? 'pointer' :  null)
 
         /*==============*/
         /* Call Tooltip */
@@ -213,7 +229,7 @@ export class LineChart extends React.Component {
             .style("opacity", .9)
 
           div
-            .html( this.renderTooltipContent(d, i) )
+            .html( this.renderTooltipContent(dataset.name, d, i) )
             .style("left", (d3.event.pageX) + "px")
             .style("top", (d3.event.pageY) + "px");
         })
@@ -228,7 +244,7 @@ export class LineChart extends React.Component {
         /* On Point Click */
         /*================*/
 
-        .on("click", this.handlePointClick)
+        .on("click", (d, i)=> this.handlePointClick(dataset.name, d, i))
     })
 
     // append Y label

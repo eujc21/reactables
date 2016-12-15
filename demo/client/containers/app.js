@@ -130,62 +130,59 @@ class App extends React.Component {
           {
             "date": "16-Apr-12",
             "close": 580.13
+          }
+        ]
+      },
+      {
+        name: 'Data Set 2',
+        values: [
+          {
+            "date": "1-May-12",
+            "close": 45
           },
           {
-            "date": "13-Apr-12",
-            "close": 605.23
+            "date": "30-Apr-12",
+            "close": 700
           },
           {
-            "date": "12-Apr-12",
-            "close": 622.77
+            "date": "27-Apr-12",
+            "close": 66
           },
           {
-            "date": "11-Apr-12",
-            "close": 626.2
+            "date": "26-Apr-12",
+            "close": 90.7
           },
           {
-            "date": "10-Apr-12",
-            "close": 628.44
+            "date": "25-Apr-12",
+            "close": 12
           },
           {
-            "date": "9-Apr-12",
-            "close": 636.23
+            "date": "24-Apr-12",
+            "close": 45.28
           },
           {
-            "date": "5-Apr-12",
-            "close": 633.68
+            "date": "23-Apr-12",
+            "close": 62.7
           },
           {
-            "date": "4-Apr-12",
-            "close": 624.31
+            "date": "20-Apr-12",
+            "close": 16.98
           },
           {
-            "date": "3-Apr-12",
-            "close": 629.32
+            "date": "19-Apr-12",
+            "close": 256.44
           },
           {
-            "date": "2-Apr-12",
-            "close": 618.63
+            "date": "18-Apr-12",
+            "close": 451.34
           },
           {
-            "date": "30-Mar-12",
-            "close": 599.55
+            "date": "17-Apr-12",
+            "close": 332.7
           },
           {
-            "date": "29-Mar-12",
-            "close": 609.86
-          },
-          {
-            "date": "28-Mar-12",
-            "close": 617.62
-          },
-          {
-            "date": "27-Mar-12",
-            "close": 614.48
-          },
-          {
-            "date": "26-Mar-12",
-            "close": 606.98
+            "date": "16-Apr-12",
+            "close": 843.13
           }
         ]
       }
@@ -301,6 +298,8 @@ class App extends React.Component {
           data={ lineData }
           xProp="date"
           yProp="close"
+          lineColors={ ['#000000', 'orange']}
+          backgroundColor={ 'white' }
           isResponsive={ true }
           initialWidth={ 400 }
           initialHeight={ 200 }
@@ -309,11 +308,11 @@ class App extends React.Component {
           yLabel={ 'Y Label' }
           labelFontSize={ 5 }
           tickFontSize={ 5 }
-          onClick={ (d, i) => console.log(d, i)}
-          tooltip={ (d, i) =>
-          <div style={{ backgroundColor: 'black', color: 'white', opacity: 0.9}}>
-            <p>string</p>
-          </div>
+          onClick={ (set, d, i) => console.log(set, d, i)}
+          tooltip={ (set, d, i) =>
+            <div style={{ backgroundColor: 'black', color: 'white', opacity: 0.9}}>
+              <p>{set}</p>
+            </div>
           }
         />
 
