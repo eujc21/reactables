@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { testCall, testCall1 } from '../actions/test_actions'
 
-import { DateTimePicker, Button, Table, Dropdown, DropdownItem, ElementLoader, TrajectoryChart, LineChart, BarChart, Sankey, HeatBar } from '../../../src/index'
+import { DateTimePicker, Button, Table, Dropdown, DropdownItem, ElementLoader, TrajectoryChart, LineChart, BarChart, Sankey, HeatBar, Select, SelectOption } from '../../../src/index'
 
 
 class App extends React.Component {
@@ -256,6 +256,10 @@ class App extends React.Component {
 
     return(
       <div style={{ height: '100vh'}}>
+        <Select styles={{ fontSize:6 }} onSelect={ ()=>{} }>
+          <SelectOption text="test" value="test"/>
+          <SelectOption text="test2" value="test2"/>
+        </Select>
         <Button
           text={ 'Filter Events' }
           textColor={ 'white' }

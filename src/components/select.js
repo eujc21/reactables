@@ -16,15 +16,8 @@ export class Select extends React.Component {
     defaultValue: PropTypes.string,
     value: PropTypes.string,
     onSelect: PropTypes.func.isRequired,
-    height: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number
-    ]),
-    width: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number
-    ]),
     isArrowVisible: PropTypes.bool,
+    styles: PropTypes.object,
     children: PropTypes.arrayOf((propValue, key,) => {
       if (propValue[key].type !== SelectOption)
         return new Error('One or more children are not of type SelectOption')
@@ -66,24 +59,24 @@ export class Select extends React.Component {
   }
 
   render(){
-    const { children, height, width, defaultValue, value, disabled, isArrowVisible } = this.props
+    const { children, defaultValue, value, disabled, isArrowVisible, styles } = this.props
 
     let style = {
-      base: {
-        height: height,
-        width: width,
-        paddingLeft: 5,
-        fontSize: 14,
-        textAlign: 'center',
-        border: '1px solid #878686',
-        borderRadius: 2,
-        WebkitAppearance: isArrowVisible ? null : 'none'
-      }
+      height: 37,
+      width: '100%',
+      paddingLeft: 5,
+      fontSize: 14,
+      textAlign: 'center',
+      border: '1px solid #878686',
+      borderRadius: 2,
+      WebkitAppearance: isArrowVisible ? null : 'none'
     }
+
+    style = {...style, ...styles }
 
     return(
       <select
-        style={ style.base }
+        style={ style }
         defaultValue={ defaultValue }
         value={ value }
         onChange={ this.handleSelect }
