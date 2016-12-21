@@ -1,360 +1,265 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { testCall, testCall1 } from '../actions/test_actions'
+import * as actions from '../actions/demo_actions'
+import Section from '../components/section'
 
-import { DateTimePicker, Button, Table, Dropdown, DropdownItem, ElementLoader, TrajectoryChart, LineChart, BarChart, Sankey, HeatBar, Select, SelectOption } from '../../../src/index'
-
+import {
+  Navbar,
+  Input,
+  DateTimePicker,
+  Button,
+  Table,
+  Dropdown,
+  DropdownItem,
+  ElementLoader,
+  HeatBar,
+  Select,
+  SelectOption,
+  ProgressBar,
+  Nav,
+  NavLink,
+  Code,
+  HiddenPanel
+} from '../../../src/index'
 
 class App extends React.Component {
 
-  state = {
-    startDate: undefined,
-    endDate: undefined,
-    tableData: [{
-      a: 1,
-      b: Date.now() - 100000000,
-      c: 3
-    },
-      {
-        a: 4,
-        b: Date.now(),
-        c: 6
-      }]
-  }
-
   componentDidMount(){
-    this.props.testCall()
-    this.props.testCall1()
+    // this.props.demoCall()
+    // setInterval(()=>{
+    //   this.props.demoCall()
+    //   this.props.incrementCompleted(10)
+    // }, 5000)
+
   }
 
-  handleDateChange =(startDate, endDate)=>{
+  handleButtonClick =()=>{
 
-    if(endDate && startDate)
-      console.log(startDate.toString(), endDate.toString())
-
-    this.setState({ startDate, endDate })
   }
 
-  handleTestClick =(index, data)=>{
-    this.setState({
-      tableData: this.state.tableData.map(data => {
-        data.isSelected = true
-        return data
-      })
-    })
+  handleInputChange =(text)=>{
+    this.props.updateInputText(text)
   }
 
-  handleSankeyClick =(node, index) =>{
-    console.log(node)
+  handleInputSubmit =(text)=>{
+
+  }
+
+  handleSelect =(value)=>{
+    console.log(value)
+  }
+
+  handleDropdownClick =()=>{
+    console.log('dropdown click')
+  }
+
+  handleDateChange =(date1, date2)=>{
+    console.log(date1, date2)
+  }
+
+  handleTogglePanel =()=>{
+    const { togglePanel, isPanelVisible } = this.props
+    togglePanel(!isPanelVisible)
   }
 
   render(){
 
-    const { tableData } = this.state
-
-    const trajectoryData = [
-      {
-        "sale": 202,
-        "year": 2000
-      },
-
-      {
-        "sale": 179,
-        "year": 2002
-      },
-
-      {
-        "sale": 154,
-        "year": 2003
-      },
-
-      {
-        "sale": 215,
-        "year": 2001
-      },
-
-      {
-        "sale": 260,
-        "year": 2010
-      }
-    ];
-
-    const lineData = [
-      {
-        name: 'Data Set 1',
-        values: [
-          {
-            "date": "1-May-12",
-            "close": 58.13
-          },
-          {
-            "date": "30-Apr-12",
-            "close": 53.98
-          },
-          {
-            "date": "27-Apr-12",
-            "close": 67
-          },
-          {
-            "date": "26-Apr-12",
-            "close": 89.7
-          },
-          {
-            "date": "25-Apr-12",
-            "close": 99
-          },
-          {
-            "date": "24-Apr-12",
-            "close": 130.28
-          },
-          {
-            "date": "23-Apr-12",
-            "close": 166.7
-          },
-          {
-            "date": "20-Apr-12",
-            "close": 234.98
-          },
-          {
-            "date": "19-Apr-12",
-            "close": 345.44
-          },
-          {
-            "date": "18-Apr-12",
-            "close": 443.34
-          },
-          {
-            "date": "17-Apr-12",
-            "close": 543.7
-          },
-          {
-            "date": "16-Apr-12",
-            "close": 580.13
-          }
-        ]
-      },
-      {
-        name: 'Data Set 2',
-        values: [
-          {
-            "date": "1-May-12",
-            "close": 45
-          },
-          {
-            "date": "30-Apr-12",
-            "close": 700
-          },
-          {
-            "date": "27-Apr-12",
-            "close": 66
-          },
-          {
-            "date": "26-Apr-12",
-            "close": 90.7
-          },
-          {
-            "date": "25-Apr-12",
-            "close": 12
-          },
-          {
-            "date": "24-Apr-12",
-            "close": 45.28
-          },
-          {
-            "date": "23-Apr-12",
-            "close": 62.7
-          },
-          {
-            "date": "20-Apr-12",
-            "close": 16.98
-          },
-          {
-            "date": "19-Apr-12",
-            "close": 256.44
-          },
-          {
-            "date": "18-Apr-12",
-            "close": 451.34
-          },
-          {
-            "date": "17-Apr-12",
-            "close": 332.7
-          },
-          {
-            "date": "16-Apr-12",
-            "close": 843.13
-          }
-        ]
-      }
-    ]
+    const { inputText } = this.props
 
     const style = {
-      container1: { border: '1px solid black', margin: 5, backgroundColor: '#d4d4d4'},
-      container2: { width: 300, height: 200, border: '1px solid black', margin: 5}
+      base: {
+        position: 'relative',
+        paddingTop: 70,
+      },
+      container: {
+        display: 'flex',
+        position: 'relative',
+        margin: '0 auto',
+        width: 991
+      },
+      pageNavContainer: {
+
+      },
+      contentContainer: {
+        width: '100%'
+      },
+      hiddenPanel: {
+        height: '100%',
+        width: '100%',
+        backgroundColor: '#ffffff',
+        textAlign: 'center',
+        padding: 10
+      }
     }
-
-
-
-    const sankeyData2 = {
-      nodes: [
-        {
-          name: 'port 80'
-        },
-        {
-          name: 'Everything Else'
-        },
-        {
-          name: '5.4.2.6'
-        },
-        {
-          name: '123'
-        },
-        {
-          name: '234'
-        },
-        {
-          name: '345'
-        },
-        {
-          name: 'port X'
-        }],
-      links: [
-        {
-          source: 1,
-          target: 0,
-          value: 2000
-        },
-        {
-          source: 2,
-          target: 0,
-          value: 100
-        },
-        {
-          source: 3,
-          target: 0,
-          value: 50
-        },
-        {
-          source: 4,
-          target: 0,
-          value: 200
-        },
-        {
-          source: 5,
-          target: 0,
-          value: 4
-        },
-        {
-          source:5,
-          target: 6,
-          value: 40
-        }
-      ]
-    }
-
-    const color = 'color: blue'
 
     return(
-      <div style={{ height: '100vh'}}>
-        <Select styles={{ fontSize:6 }} onSelect={ ()=>{} }>
-          <SelectOption text="test" value="test"/>
-          <SelectOption text="test2" value="test2"/>
-        </Select>
-        <Button
-          text={ 'Filter Events' }
-          textColor={ 'white' }
-          backgroundColor={ 'blue' }
-          padding={'10px 3px'}
-          onClick={ ()=> console.log() }/>
-        <DateTimePicker
-          startDate={ this.state.startDate }
-          canClear
-          placeholder={ 'please select a date' }
-          inputWidth={ 300 }
-          isTimePicker
-          onChange={ this.handleDateChange }
-          timeFormat={ 'hh:mm a' }/>
+      <div ref={ parentNode => this.parentNode = parentNode } style={ style.base }>
+
+        <Navbar title="reactables"/>
+
+        <HiddenPanel position={ 'left' } isVisible={ this.props.isPanelVisible }>
+          <div style={ style.hiddenPanel }>
+            <h4>Hidden Panel</h4>
+          </div>
+        </HiddenPanel>
+
+        <div style={ style.container }>
+          <Nav type="stacked">
+          </Nav>
+          <div style={ style.contentContainer }>
+
+            <Section name="Button">
+              { [0,1,2,3,4].map((num)=>
+                <Button
+                  key={ num }
+                  text="button"
+                  onClick={ this.handleButtonClick }
+                  styles={{ backgroundColor: `#${3 + (num * 2) + 'A424A'}`, color: '#ffffff', marginRight: 10}}
+                />
+              )}
+              <Code type="jsx">
+                <Button
+                  text="button"
+                  isHoverable={ true }
+                  isDisabled={ false }
+                  onClick={ this.handleButtonClick }
+                  styles={{base: {}}}
+                />
+              </Code>
+            </Section>
+
+            <Section name="Input">
+              <Input
+                text={ inputText }
+                onChange={ this.handleInputChange }
+                onSubmit={ this.handleInputSubmit } />
+              <Code type="jsx">
+                <Input
+                  placeholder={ 'Search...' }
+                  text={ 'String' }
+                  onChange={ this.handleInputChange }
+                  onSubmit={ this.handleInputSubmit }
+                  styles={{
+                    base: {},
+                    input: {},
+                    submitIcon: {},
+                    clearIcon: {}
+                  }}/>
+              </Code>
+            </Section>
+
+            <Section name="Select">
+              <Select onChange={ this.handleSelect }>
+                <SelectOption text="Option 1" value="option_1"/>
+                <SelectOption text="Option 2" value="option_2"/>
+                <SelectOption text="Option 3" value="option_3"/>
+              </Select>
+              <Code type="jsx">
+
+              </Code>
+            </Section>
+
+            <Section name="Dropdown">
+              <Dropdown face="Dropdown">
+                <DropdownItem text="Option 1" onClick={ this.handleDropdownClick }/>
+                <DropdownItem text="Option 2" onClick={ this.handleDropdownClick }/>
+                <DropdownItem text="Option 3" onClick={ this.handleDropdownClick }/>
+              </Dropdown>
+              <Code type={ 'jsx' }>
+                <Dropdown face="Dropdown">
+                </Dropdown>
+              </Code>
+            </Section>
+
+            <Section name="DateTimePicker">
+
+              <DateTimePicker
+                isTimePicker
+                placeholder={ 'Date Time' }
+                onChange={ this.handleDateChange }/>
+
+              <Code type={ 'jsx' }>
+                <DateTimePicker/>
+              </Code>
+            </Section>
 
 
+            <Section name="Table">
+              <Table isHoverable isStriped stripeColor={ '#ffffff' } tableData={ this.props.tableData }/>
 
-          <ElementLoader action="TEST_CALL">
+              <Code type={ 'jsx' }>
+                <Table tableData={ this.props.tableData }/>
+              </Code>
+            </Section>
 
-            <div style={ style.container1 }>
-              Container dimensions can be calculated based on the size of the content or external responsive edges
-            </div>
+            <Section name="HeatBar">
+              <HeatBar score={ 10 } outOf={ 100 }/>
+              <Code type={'jsx'}>
+                <HeatBar score={ 10 } outOf={ 100 }/>
+              </Code>
+            </Section>
 
-          </ElementLoader>
+            <Section name="ProgressBar">
+              <ProgressBar showUnits={ true } completed={ this.props.completed } outOf={ this.props.outOf}/>
+              <Code type={ 'jsx' }>
+                <ProgressBar completed={ 4 } outOf={ 100 } showUnits={ true } units={ 'percent' } styles={{ base: {}, units:{}, bar:{}, completed:{}}}/>
+              </Code>
+            </Section>
 
-        <HeatBar score={ 300 } outOf={ 600 } title={ 'Testing' } fontSize={ 14 }/>
+            <Section name="ElementLoader">
+
+              <ElementLoader action={ 'DEMO_CALL' }>
+                <div style={{ border: '1px solid black', width: 100, backgroundColor: 'grey', textAlign: 'center', padding: '20px 0'}}>
+                  <p>Wrapped Content</p>
+                </div>
+              </ElementLoader>
+
+              <Code type="jsx">
+                <ElementLoader spinner={ '<span className="optional-custom-spinner" />' } action="DEMO_CALL">
+                  <div>
+                    Wrapped Content
+                  </div>
+                </ElementLoader>
+              </Code>
+            </Section>
+
+            <Section name="HiddenPanel">
+              <Button text={ 'Toggle Panel' } onClick={ this.handleTogglePanel } styles={{ backgroundColor: 'rgb(58, 66, 74)', color: 'white'}}/>
+
+              <Code type={ 'JSX' }>
+                <HiddenPanel />
+              </Code>
+            </Section>
 
 
-          <ElementLoader action="TEST_CALL_1">
-
-            <div style={ style.container2 }>
-              CSS dimensions
-            </div>
-
-          </ElementLoader>
-
-
-
-        <LineChart
-          data={ lineData }
-          xProp="date"
-          yProp="close"
-          lineColors={ ['#000000', 'orange']}
-          backgroundColor={ 'white' }
-          isResponsive={ true }
-          initialWidth={ 400 }
-          initialHeight={ 200 }
-          title={ 'Chart' }
-          xLabel={ 'X Label' }
-          yLabel={ 'Y Label' }
-          labelFontSize={ 5 }
-          tickFontSize={ 5 }
-          xTicksAngled
-          shouldShowGrid
-          onClick={ (set, d, i) => console.log(set, d, i)}
-          tooltip={ (set, d, i) =>
-            <div style={{ backgroundColor: 'black', color: 'white', opacity: 0.9}}>
-              <p>{set}</p>
-            </div>
-          }
-        />
-
-        <div style={{ maxWidth: 800}}>
-          <Sankey
-            data={ sankeyData2 }
-            initialHeight={ 400 }
-            initialWidth={ 600 }
-            isResponsive={ true }
-            onClick={ this.handleSankeyClick }/>
+            <Section name="Code">
+              <Code type="jsx">
+                <Code type="jsx"><p>Display properly formatted code</p></Code>
+              </Code>
+            </Section>
+          </div>
         </div>
-
-        <BarChart
-          isResponsive={ true }
-          title={ 'Bar Chart' }
-          data={ trajectoryData }
-          xProp={ 'year' }
-          yProp={ 'sale' }
-          xLabel={ 'X Label' }
-          yLabel={ 'Y Label' }
-        />
-
 
       </div>
     )
   }
 }
 
+
 function mapStateToProps(state){
   return {
-
+    inputText: state.app.inputText,
+    outOf: state.app.outOf,
+    completed: state.app.completed,
+    tableData: state.app.tableData,
+    isPanelVisible: state.app.isPanelVisible
   }
 }
 
 export default connect(mapStateToProps, {
-  testCall,
-  testCall1
+  updateInputText: actions.updateInputText,
+  demoCall: actions.demoCall,
+  incrementCompleted: actions.incrementCompleted,
+  togglePanel: actions.togglePanel
 })(App)
 

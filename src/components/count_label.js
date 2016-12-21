@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react'
+import merge from 'lodash/merge'
 
 export class CountLabel extends React.Component {
 
@@ -15,8 +16,10 @@ export class CountLabel extends React.Component {
   }
 
   handleClick =()=>{
-    const { onClick, iconText } = this.props
-    onClick ? onClick(iconText) : null
+    if(!this.props.onClick)
+      return
+
+    this.props.onClick(this.props.iconText)
   }
 
   render(){
@@ -44,8 +47,7 @@ export class CountLabel extends React.Component {
       }
     }
 
-    style.icon = Object.assign({}, style.icon, styles.icon)
-    style.count = Object.assign({}, style.count, styles.count)
+    merge(style, styles)
 
     return(
       <div style={ style.base }>

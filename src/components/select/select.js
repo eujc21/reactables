@@ -1,38 +1,39 @@
 import React, { PropTypes } from 'react'
 import { SelectOption } from './select_option'
+import merge from 'lodash/merge'
 
 // ** usage **
 //
 //  <Select
-//    placeholderText="Some Text"
-//    onSelect={ this.handleSortChange }>
-//    <option value="name">Name</option>
+//    placeholder="Some Text"
+//    onChange={ this.handleSortChange }>
+//    <SelectOption text="" value=""/>
 //  </Select>
 
 
 export class Select extends React.Component {
   static propTypes = {
-    placeholderText: PropTypes.string,
+    placeholder: PropTypes.string,
     defaultValue: PropTypes.string,
     value: PropTypes.string,
-    onSelect: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
     isArrowVisible: PropTypes.bool,
     styles: PropTypes.object,
-    children: PropTypes.arrayOf((propValue, key,) => {
-      if (propValue[key].type !== SelectOption)
-        return new Error('One or more children are not of type SelectOption')
-    })
+    children: PropTypes.oneOfType([
+      PropTypes.arrayOf((propValue, key, componentName) => {
+        if (propValue[key].type !== SelectOption)
+          return new Error('One or more children are not of type SelectOption')
+      }),
+      PropTypes.objectOf((propValue, key) =>{
+        if(propValue.type !== SelectOption)
+          return new Error('One or more children are not of type SelectOption')
+      })
+    ])
   }
 
   static defaultProps = {
-    placeholderText: 'Select an option...',
-    height: 37,
-    width: '100%',
+    placeholder: 'Select an option...',
     isArrowVisible: true,
-  }
-
-  constructor(props){
-    super(props)
   }
 
   handleSelect =(e)=>{
@@ -40,20 +41,20 @@ export class Select extends React.Component {
     const value = e.target.value
 
     if(value === '__placeholder')
-      return this.props.onSelect(null)
+      return this.props.onChange(null)
 
-    this.props.onSelect(value)
+    this.props.onChange(value)
   }
 
   renderPlaceholder =()=>{
-    const { placeholderText, isMultiple } = this.props
+    const { placeholder, isMultiple } = this.props
 
     if(isMultiple)
       return
 
     return(
       <option value="__placeholder">
-        { placeholderText }
+        { placeholder }
       </option>
     )
   }
@@ -61,7 +62,7 @@ export class Select extends React.Component {
   render(){
     const { children, defaultValue, value, disabled, isArrowVisible, styles } = this.props
 
-    let style = {
+    const style = {
       height: 37,
       width: '100%',
       paddingLeft: 5,
@@ -72,7 +73,7 @@ export class Select extends React.Component {
       WebkitAppearance: isArrowVisible ? null : 'none'
     }
 
-    style = {...style, ...styles }
+    merge(style, styles)
 
     return(
       <select
@@ -83,13 +84,13 @@ export class Select extends React.Component {
         disabled={ disabled }
       >
           { this.renderPlaceholder() }
-          { children.map((child, i) =>
+          { children ? React.Children.toArray(children).map((child, i) =>
             <option
               key={ i }
               value={ child.props.value }>
                 { child.props.text }
             </option>
-          )}
+          ) : null }
       </select>
     )
   }

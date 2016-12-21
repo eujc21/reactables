@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react'
-import { Select } from '../select'
-import { SelectOption } from '../select_option'
+import { Select, SelectOption } from '../../index'
 import { range, convertHours } from './helpers'
 
 export default class TimePicker extends React.Component {
@@ -83,7 +82,7 @@ export default class TimePicker extends React.Component {
           height={ 22 }
           width={ 50 }
           value={ this._hourForDate(date) }
-          onSelect={ (value)=> this.handleTimeChange('hour', value) }
+          onChange={ (value)=> this.handleTimeChange('hour', value) }
           disabled={ date ? false : true }
         >
           { this.hours.map(hour => <SelectOption key={ hour } text={ hour } value={ hour }/>) }
@@ -94,7 +93,7 @@ export default class TimePicker extends React.Component {
           height={ 22 }
           width={ 50 }
           value={ this._minuteForDate(date) }
-          onSelect={ (value)=>this.handleTimeChange('minute', value) }
+          onChange={ (value)=>this.handleTimeChange('minute', value) }
           disabled={ date ? false : true  }
         >
           { this.minutes.map(minute => <SelectOption key={ minute } text={ minute } value={ minute }/>) }
@@ -105,7 +104,7 @@ export default class TimePicker extends React.Component {
           height={ 22 }
           width={ 50 }
           value={ this._periodForDate(date) }
-          onSelect={ (value)=>this.handleTimeChange('period', value) }
+          onChange={ (value)=>this.handleTimeChange('period', value) }
           disabled={ date ? false : true  }
         >
           { this.periods.map(p => <SelectOption key={ p } text={ p } value={ p }/>) }

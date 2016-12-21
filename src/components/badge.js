@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react'
+import merge from 'lodash/merge'
 
 export class Badge extends React.Component {
 
@@ -7,23 +8,21 @@ export class Badge extends React.Component {
       PropTypes.string,
       PropTypes.number
     ]),
-    backgroundColor: PropTypes.string,
-    color: PropTypes.string
+    styles: PropTypes.object
   }
 
   static defaultProps = {
     text: '',
-    backgroundColor: 'red',
-    color: 'white'
+    styles: {}
   }
 
   render(){
 
-    const { backgroundColor, color, text } = this.props
+    const { text, styles } = this.props
 
     let style = {
-      backgroundColor,
-      color,
+      backgroundColor: 'red',
+      color: '#ffffff',
       borderRadius: 12,
       font: 'bold 11px/9px Helvetica, Verdana, Tahoma',
       height: 13,
@@ -31,6 +30,8 @@ export class Badge extends React.Component {
       padding: '4px 3px 0 3px',
       textAlign: 'center'
     }
+
+    merge(style, styles)
 
     return(
       <div style={ style }>

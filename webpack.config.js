@@ -28,7 +28,7 @@ module.exports = function(){
       loaders: [
         {
           test: /\.js$/,
-          loader: 'babel',
+          loader: 'babel-loader',
           exclude: [/node_modules/, './lib', './demo/server', './test'],
           query:{
             plugins: [],
@@ -41,27 +41,27 @@ module.exports = function(){
         },
         {
           test: /\.css/,
-          loader: 'style!css'
+          loader: 'style-loader!css-loader'
         },
         {
           test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
-          loader: 'url?limit=100000&mimetype=application/font-woff'
+          loader: 'url-loader?limit=100000&mimetype=application/font-woff'
         },
         {
           test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
-          loader: 'url?limit=100000&mimetype=application/font-woff'
+          loader: 'url-loader?limit=100000&mimetype=application/font-woff'
         },
         {
           test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-          loader: 'url?limit=100000&mimetype=application/octet-stream'
+          loader: 'url-loader?limit=100000&mimetype=application/octet-stream'
         },
         {
           test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-          loader: 'url?limit=100000&mimetype=application/vnd.ms-fontobject'
+          loader: 'url-loader?limit=100000&mimetype=application/vnd.ms-fontobject'
         },
         {
           test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-          loader: 'url?limit=100000&mimetype=image/svg+xml'
+          loader: 'url-loader?limit=100000&mimetype=image/svg+xml'
         },
       ]
     }

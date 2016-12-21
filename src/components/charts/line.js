@@ -3,7 +3,8 @@ import { renderToString } from 'react-dom/server'
 import * as d3 from 'd3'
 import isEqual from 'lodash/isEqual'
 import { makeResponsive } from './utils'
-import moment from 'moment'
+
+//TODO: Add Props: margin, xTicks, yTicks
 
 export class LineChart extends React.Component {
 
@@ -25,7 +26,13 @@ export class LineChart extends React.Component {
     onClick: PropTypes.func,
     tooltip: PropTypes.func,
     xTicksAngled: PropTypes.bool,
-    shouldShowGrid: PropTypes.bool
+    shouldShowGrid: PropTypes.bool,
+    margin: PropTypes.shape({
+      top: PropTypes.number,
+      right: PropTypes.number,
+      bottom: PropTypes.number,
+      left: PropTypes.number
+    })
   }
 
   static defaultProps = {
@@ -41,7 +48,13 @@ export class LineChart extends React.Component {
     labelFontSize: 5,
     titleFontSize: 5,
     xTicksAngled: false,
-    shouldShowGrid: false
+    shouldShowGrid: false,
+    margin: {
+      top: 20,
+      right: 20,
+      bottom: 35,
+      left: 35
+    }
   }
 
   componentDidMount(){
@@ -63,14 +76,7 @@ export class LineChart extends React.Component {
   }
 
   renderChart =()=>{
-    const { data, xProp, yProp, xLabel, yLabel, title, tickFontSize, labelFontSize, titleFontSize, lineColors, initialWidth, initialHeight, isResponsive, xTicksAngled, shouldShowGrid } = this.props
-
-    let margin = {
-      top: 20,
-      right: 20,
-      bottom: 35,
-      left: 35
-    };
+    const { data, xProp, yProp, xLabel, yLabel, title, tickFontSize, labelFontSize, titleFontSize, lineColors, initialWidth, initialHeight, isResponsive, xTicksAngled, shouldShowGrid, margin } = this.props
 
     let width = initialWidth - margin.left - margin.right;
     let height = initialHeight - margin.top - margin.bottom;

@@ -1,47 +1,23 @@
 import React, { PropTypes } from 'react'
-
-// ** usage **
-//
-// <Input
-//   text={ searchInput }
-//   height={ 30 }
-//   iconClass={ 'icon-search' } // optional
-//   clearIconClass={ 'icon-clear' } //optional
-//   border={ `1px solid ${ borderColor }` }
-//   onChange={ this.handleSearchInputChange }
-//   onSubmit={ this.handleSearchSubmit }/>
+import merge from 'lodash/merge'
 
 export class Input extends React.Component {
   static propTypes = {
     placeholder: PropTypes.string,
     text: PropTypes.string,
-    fontSize: PropTypes.number,
-    width: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number
-    ]),
-    height: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number
-    ]),
     iconClass: PropTypes.string,
     clearIconClass: PropTypes.string,
-    backgroundColor: PropTypes.string,
     onChange: PropTypes.func,
-    onSubmit: PropTypes.func.isRequired
+    onSubmit: PropTypes.func.isRequired,
+    styles: PropTypes.object
   }
 
   static defaultProps = {
     placeholder: 'Search...',
     text: '',
-    fontSize: 14,
-    width: '100%',
-    height: 30,
-    backgroundColor: 'white'
-  }
-
-  constructor(props){
-    super(props)
+    styles: {},
+    iconClass: 'icon-search',
+    clearIconClass: 'icon-cross'
   }
 
   handleTextChange =(e)=>{
@@ -66,49 +42,41 @@ export class Input extends React.Component {
   }
 
   render(){
-    const {
-      placeholder,
-      text,
-      fontSize,
-      width,
-      height,
-      iconClass,
-      clearIconClass,
-      backgroundColor,
-      border
-    } = this.props
+    const { placeholder, text, iconClass, clearIconClass, styles } = this.props
 
-    let style = {
+    const style = {
       base: {
         display: 'flex',
         alignItems: 'center',
         padding: '0 10px',
-        border,
+        border: '1px solid #000000',
         borderRadius: 1,
-        height,
-        width,
-        backgroundColor
+        height: 30,
+        backgroundColor: '#ffffff'
       },
       input:{
         display: 'flex',
         borderRadius: 'inherit',
-        fontSize: fontSize,
+        fontSize: 14,
         border: 'none',
         width: '100%',
         outline: 0,
-        backgroundColor
+        backgroundColor: 'inherit',
+        boxSizing: 'border-box'
       },
-      icon:{
+      submitIcon:{
         fontSize: 16,
         cursor: 'pointer'
       },
-      clearButton: {
+      clearIcon: {
         fontSize: 14,
         cursor: 'pointer',
         padding: 3,
         marginRight: 3
       }
     }
+
+    merge(style, styles)
 
     return(
 
@@ -123,12 +91,12 @@ export class Input extends React.Component {
         { text && text.length > 0 ?
           <i
             className={ clearIconClass }
-            style={ style.clearButton }
+            style={ style.clearIcon }
             onClick={ this.handleClear }/> : null }
         { iconClass ?
           <i
             className={ iconClass }
-            style={ style.icon }
+            style={ style.submitIcon }
             onClick={ this.handleSubmit }/> : null }
       </div>
 

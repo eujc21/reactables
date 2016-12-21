@@ -1,43 +1,24 @@
 import React, { PropTypes } from 'react'
-import Color from 'color'
+import merge from 'lodash/merge'
 
 export class ProgressBar extends React.Component {
   static propTypes = {
     completed: PropTypes.number.isRequired,
     outOf: PropTypes.number.isRequired,
-    barColor: PropTypes.string,
-    completedColor: PropTypes.string,
-    height: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number
-    ]),
-    width: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number
-    ]),
     showUnits: PropTypes.bool,
     units: PropTypes.oneOf(['percent', 'number']),
-    alignUnits: PropTypes.oneOf(['left', 'right', 'center'])
-
+    styles: PropTypes.object
   }
 
   static defaultProps = {
     completed: 0,
     outOf: 0,
-    width: '100%',
-    height: 26,
-    barColor: 'red',
-    completedColor: 'green',
     showUnits: false,
     units: 'percent',
-    alignUnits: 'right'
+    styles: {}
   }
 
   state = { percentageComplete: 0 }
-
-  constructor(props){
-    super(props)
-  }
 
   componentWillMount(){
     const { completed, outOf } = this.props
@@ -84,28 +65,24 @@ export class ProgressBar extends React.Component {
     )
   }
 
-
   render(){
-    const { width, height, completedColor, barColor, alignUnits } = this.props
+    const { styles } = this.props
     const { percentageComplete } = this.state
-
-    const baseCompletedColor = Color( completedColor ).hexString()
-    const gradientCompletedColor = Color( completedColor ).lighten(0.5).hexString()
 
     const style = {
       base: {
-        width,
+        width: '100%',
       },
       units: {
         width: '100%',
-        textAlign: alignUnits,
+        textAlign: 'right',
         margin: 0,
         padding: 0
       },
       bar: {
-        height,
+        height: 26,
         padding: 0,
-        backgroundColor: Color( barColor ).hexString(),
+        backgroundColor: '#FF0000',
         overflow: 'hidden',
         borderRadius: 3
       },
@@ -113,17 +90,19 @@ export class ProgressBar extends React.Component {
         transform: 'skew(-20deg)',
         height: '100%',
         width: `calc(${ percentageComplete }% + ${ percentageComplete === 100 ? 8 : 0}px`,
-        background: `linear-gradient( to top right, ${ baseCompletedColor }, ${ gradientCompletedColor })`,
+        background: `linear-gradient( to top right, ${ '#008000' }, ${ '#00C000' })`, //green, lighten(0.5))
         marginLeft: -4,
         transition: 'width 1s'
       }
     }
 
+   merge(style, styles)
+
     return(
-      <div>
+      <div style={ style.base }>
         { this.renderUnits(style) }
-        <div className="baseBar" style={ style.bar }>
-          <div className="completedBar" style={ style.completed }></div>
+        <div style={ style.bar }>
+          <div style={ style.completed }></div>
         </div>
       </div>
     )

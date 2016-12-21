@@ -13,10 +13,6 @@ const KONAMI_CODE = [UP, UP, DOWN, DOWN, LEFT, RIGHT, LEFT, RIGHT, B, A, ENTER]
 
 export class KonamiCode extends React.Component {
 
-  constructor(props){
-    super(props)
-  }
-
   state = {
     userCode: [],
     isUnlocked: false

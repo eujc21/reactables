@@ -51,10 +51,12 @@ export default class DateInput extends React.Component {
       },
       text: {
         display: 'flex',
+        alignItems: 'center',
         width: '100%',
         cursor: 'text',
         margin: 0,
-        padding: 0
+        padding: 0,
+        height: 26
       },
       icon:{
         alignSelf: 'center',

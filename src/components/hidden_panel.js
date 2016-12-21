@@ -10,7 +10,7 @@ class HiddenPanel extends React.Component {
     width: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number
-    ])
+    ]),
   }
 
   static defaultProps = {
@@ -19,14 +19,6 @@ class HiddenPanel extends React.Component {
     animationTime: '1s',
     width: 200,
     offSet: 0
-  }
-
-  state = {
-    length: window.innerHeight - this.props.offSet
-  }
-
-  constructor(props){
-    super(props)
   }
 
   componentDidMount(){
@@ -41,25 +33,30 @@ class HiddenPanel extends React.Component {
     this.setState({length: window.innerHeight - this.props.offSet})
   }
 
+  setVisibility(style){
+    const { position, isVisible, width } = this.props
+    style[position] = isVisible ? 0 : -width
+    return style
+  }
+
   render(){
 
-    const { offSet, isVisible, position, width, animationTime, children } = this.props
-    const { length } = this.state
+    const { offSet, position, width, animationTime, children } = this.props
+    const height = window.innerHeight - this.props.offSet
 
 
     let style = {
       backgroundColor: 'transparent',
-      left: position === 'left' ? isVisible ? 0 : -width : null,
-      right: position === 'right' ? isVisible ? 0 : -width : null,
-      top: position === 'top' ? isVisible ? 0 : -width : null,
       paddingBottom: 120,
-      bottom: position === 'bottom' ? isVisible ? 0 : -width : null,
-      width: position === 'right' || position === 'left' ? width : length,
-      height: position === 'bottom' || position === 'top' ? width : length,
+      width: (position === 'right' || position === 'left') ? width : height,
+      height: (position === 'bottom' || position === 'top') ? width : height,
       position: 'fixed',
       zIndex: 1000000,
       transition: animationTime,
     }
+
+    // append positioning while visible
+    style = this.setVisibility(style)
 
     //calculate offSet
     if(offSet){
@@ -67,13 +64,11 @@ class HiddenPanel extends React.Component {
     }
 
     return(
-      <div style={ style }>
+      <div ref={ panel => this.panel = panel } style={ style }>
         { children }
       </div>
     )
   }
 }
-
-
 
 export default HiddenPanel

@@ -1,58 +1,23 @@
 import React, { PropTypes } from 'react'
-
-// ** usage **
-//
-//  <Button
-//    text={
-//      <div style={{ whiteSpace:'nowrap'}}>
-//        <i
-//          className="icon-plus"
-//          style={{ fontSize: 14 }}/> New Campaign
-//      </div>}
-//    backgroundColor={ 'green' }
-//    textColor={ 'white' }
-//    onClick={ this.handleNewCampaignClick }/>
+import merge from 'lodash/merge'
 
 export class Button extends React.Component {
   static propTypes = {
     text: PropTypes.node,
-    textColor: PropTypes.string,
-    fontSize: PropTypes.number,
-    fontWeight: PropTypes.number,
-    fontFamily: PropTypes.string,
-    letterSpacing: PropTypes.number,
-    backgroundColor: PropTypes.string,
-    width: PropTypes.number,
-    height: PropTypes.number,
-    border: PropTypes.string,
-    borderRadius: PropTypes.number,
     isHoverable: PropTypes.bool,
-    padding: PropTypes.oneOfType([ PropTypes.string,PropTypes.number]),
-    margin: PropTypes.oneOfType([ PropTypes.string,PropTypes.number]),
+    isDisabled: PropTypes.bool,
     onClick: PropTypes.func,
-    isDisabled: PropTypes.bool
+    styles: PropTypes.object
   }
 
   static defaultProps = {
     text: 'Button',
-    textColor: '#000000',
-    fontSize: 12,
-    fontWeight: 200,
-    fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif',
-    letterSpacing: 1,
-    backgroundColor: '#f9f9f9',
-    border: 'none',
-    borderRadius: 2,
     isHoverable: false,
     isDisabled: false,
-    padding: '5px 3px'
+    styles: {}
   }
 
-  state = {isHovered: false}
-
-  constructor(props){
-    super(props)
-  }
+  state = { isHovered: false }
 
   handleClick = () =>{
     if(this.props.isDisabled)
@@ -77,40 +42,24 @@ export class Button extends React.Component {
   }
 
   render(){
-    const {
-      text,
-      textColor,
-      backgroundColor,
-      border,
-      borderRadius,
-      width,
-      height,
-      margin,
-      padding,
-      fontSize,
-      fontWeight,
-      fontFamily,
-      letterSpacing,
-      isDisabled
-    } = this.props
+    const { text, isDisabled, styles } = this.props
 
-    let style = {
-      width,
-      height,
-      border,
-      borderRadius,
-      color: textColor,
-      backgroundColor,
-      margin,
-      padding,
+    const style = {
+      color: '#000000',
+      fontSize: 12,
+      fontWeight: 200,
+      fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif',
+      letterSpacing: 1,
+      backgroundColor: '#f9f9f9',
+      border: 'none',
+      borderRadius: 2,
       cursor: isDisabled ? null : 'pointer',
-      fontSize,
-      fontFamily,
-      fontWeight,
-      letterSpacing,
+      padding: 5,
       transition: 'box-shadow 0.5s ease',
       boxShadow: this.state.isHovered ? '0px 2px 4px 0px rgba(0,0,0, 0.35)' : null
     }
+
+    merge(style, styles)
 
     return(
       <button
@@ -118,7 +67,8 @@ export class Button extends React.Component {
         onClick={ this.handleClick }
         onMouseEnter={ this.handleMouseEnter }
         onMouseLeave={ this.handleMouseLeave }
-        onFocus={ this.handleFocus }>
+        onFocus={ this.handleFocus }
+      >
         { text }
       </button>
     )

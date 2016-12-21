@@ -7,7 +7,8 @@ class ElementLoader extends React.Component {
 
   static propTypes = {
     action: PropTypes.string.isRequired,
-    children: PropTypes.element.isRequired
+    children: PropTypes.element.isRequired,
+    spinner: PropTypes.node
   }
 
   state = {
@@ -67,6 +68,7 @@ class ElementLoader extends React.Component {
   renderLoadingElement =()=>{
 
     const { spinner } = this.props
+
     let style = {
       base:{
         display: 'flex',

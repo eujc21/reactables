@@ -1,18 +1,6 @@
 import React, { PropTypes } from 'react'
 import { DropdownItem } from './dropdown_item'
 
-// ** usage **
-//
-//  <Dropdown
-//    face={
-//      <div>
-//        <i className="icon-name"/>
-//      </div>
-//  }>
-//    <DropdownItem text="Item 1" onClick={ ()=>console.log('test') }/>
-//  </Dropdown>
-
-
 export class Dropdown extends React.Component {
 
   static propTypes = {
@@ -22,7 +10,8 @@ export class Dropdown extends React.Component {
     children: PropTypes.arrayOf((propValue, key,) => {
       if (propValue[key].type !== DropdownItem)
         return new Error('One or more children are not of type DropdownItem')
-    })
+    }),
+    styles: PropTypes.object
   }
 
 
@@ -43,7 +32,7 @@ export class Dropdown extends React.Component {
   }
 
   onClickOutside = (e) => {
-    if (this.refs.main && this.refs.main.contains(e.target)) {
+    if (this.main && this.main.contains(e.target)) {
       return
     }
 
@@ -52,7 +41,6 @@ export class Dropdown extends React.Component {
       isHighlighted: false
     })
   }
-
 
   toggleButtonHighlight = () =>{
     if(this.props.isDisabled)
@@ -90,7 +78,7 @@ export class Dropdown extends React.Component {
 
   render(){
 
-    const { isDisabled } = this.props
+    const { isDisabled, styles } = this.props
 
     let style = {
       base: {
@@ -137,8 +125,9 @@ export class Dropdown extends React.Component {
         }
       }
     }
+
     return(
-      <div ref='main' style={ style.base }>
+      <div ref={ main => this.main = main } style={ style.base }>
         <div
           style={ style.button.base }
           onMouseEnter={ this.toggleButtonHighlight }
