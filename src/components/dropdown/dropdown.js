@@ -142,10 +142,11 @@ export class Dropdown extends React.Component {
         <div style={ style.menu.base }>
           { this.props.children.map((child, i) =>
             <div key={ i }
-                 style={ Object.assign({}, style.menu.item.base, i > 0 ? style.menu.item.secondary : {}, child.props.styles) }
-                 onMouseEnter={ this.onEnterMenuItem }
-                 onMouseLeave={ this.onLeaveMenuItem }
-                 onClick={ ()=> this.handleMenuClick(child.props.onClick, child.props.shouldHideMenu) }>
+               style={ Object.assign({}, style.menu.item.base, i > 0 ? style.menu.item.secondary : {}, child.props.styles) }
+               onMouseEnter={ this.onEnterMenuItem }
+               onMouseLeave={ this.onLeaveMenuItem }
+               onClick={ ()=> this.handleMenuClick(child.props.onClick, child.props.shouldHideMenu) }
+            >
               { child.props.text }
             </div>
           )}
