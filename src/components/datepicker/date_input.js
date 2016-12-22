@@ -38,7 +38,7 @@ export default class DateInput extends React.Component {
         border: '1px solid #EBE9ED',
         borderRadius: 2,
         width: width,
-        padding: 3,
+        padding: '3px 10px',
         fontSize: 14,
         marginBottom: 10,
       },
