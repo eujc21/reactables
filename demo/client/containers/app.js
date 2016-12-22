@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import * as actions from '../actions/demo_actions'
 import Section from '../components/section'
+import Hero from '../components/hero'
 
 import {
   Navbar,
@@ -69,7 +70,7 @@ class App extends React.Component {
     const style = {
       base: {
         position: 'relative',
-        paddingTop: 70,
+        //paddingTop: 70,
       },
       container: {
         display: 'flex',
@@ -77,39 +78,58 @@ class App extends React.Component {
         margin: '0 auto',
         width: 991
       },
-      pageNavContainer: {
-
+      navContainer: {
+        paddingTop: 60
       },
       contentContainer: {
         width: '100%'
       },
       hiddenPanel: {
-        height: '100%',
-        width: '100%',
+        height: 'inherit',
+        width: 'inherit',
         backgroundColor: '#ffffff',
         textAlign: 'center',
-        padding: 10
       }
     }
 
     return(
       <div ref={ parentNode => this.parentNode = parentNode } style={ style.base }>
 
-        <Navbar title="reactables"/>
-
-        <HiddenPanel position={ 'left' } isVisible={ this.props.isPanelVisible }>
+        <HiddenPanel position={ 'right' } isVisible={ this.props.isPanelVisible }>
           <div style={ style.hiddenPanel }>
-            <h4>Hidden Panel</h4>
+            <h4 style={{ marginTop: 0}}>Hidden Panel</h4>
           </div>
         </HiddenPanel>
 
+        <Hero
+          title="Reactables"
+          tagline="Customizable React.js Components" />
+
         <div style={ style.container }>
-          <Nav type="stacked">
-          </Nav>
+
+          <div style={ style.navContainer }>
+            <Nav>
+              <NavLink to="#button">Button</NavLink>
+              <NavLink to="#input">Input</NavLink>
+              <NavLink to="#select">Select</NavLink>
+              <NavLink to="#dropdown">Dropdown</NavLink>
+              <NavLink to="#date-time-picker">Date-Time Picker</NavLink>
+              <NavLink to="#table">Table</NavLink>
+              <NavLink to="#nav">Nav</NavLink>
+              <NavLink to="#navbar">Navbar</NavLink>
+              <NavLink to="#heat-bar">HeatBar</NavLink>
+              <NavLink to="#progress-bar">ProgressBar</NavLink>
+              <NavLink to="#element-loader">ElementLoader</NavLink>
+              <NavLink to="#hidden-panel">HiddenPanel</NavLink>
+              <NavLink to="#code">Code</NavLink>
+
+            </Nav>
+          </div>
+
           <div style={ style.contentContainer }>
 
-            <Section name="Button">
-              { [0,1,2,3,4].map((num)=>
+            <Section id="button" name="Button">
+              { [0,1,2,3,4].map(num =>
                 <Button
                   key={ num }
                   text="button"
@@ -128,7 +148,7 @@ class App extends React.Component {
               </Code>
             </Section>
 
-            <Section name="Input">
+            <Section id="input" name="Input">
               <Input
                 text={ inputText }
                 onChange={ this.handleInputChange }
@@ -148,7 +168,7 @@ class App extends React.Component {
               </Code>
             </Section>
 
-            <Section name="Select">
+            <Section id="select" name="Select">
               <Select onChange={ this.handleSelect }>
                 <SelectOption text="Option 1" value="option_1"/>
                 <SelectOption text="Option 2" value="option_2"/>
@@ -159,7 +179,7 @@ class App extends React.Component {
               </Code>
             </Section>
 
-            <Section name="Dropdown">
+            <Section id="dropdown" name="Dropdown">
               <Dropdown face="Dropdown">
                 <DropdownItem text="Option 1" onClick={ this.handleDropdownClick }/>
                 <DropdownItem text="Option 2" onClick={ this.handleDropdownClick }/>
@@ -171,7 +191,7 @@ class App extends React.Component {
               </Code>
             </Section>
 
-            <Section name="DateTimePicker">
+            <Section id="date-time-picker" name="DateTimePicker">
 
               <DateTimePicker
                 isTimePicker
@@ -184,7 +204,7 @@ class App extends React.Component {
             </Section>
 
 
-            <Section name="Table">
+            <Section id="table" name="Table">
               <Table isHoverable isStriped stripeColor={ '#ffffff' } tableData={ this.props.tableData }/>
 
               <Code type={ 'jsx' }>
@@ -192,21 +212,35 @@ class App extends React.Component {
               </Code>
             </Section>
 
-            <Section name="HeatBar">
+            <Section id="nav" name="Nav">
+              <Code type={ 'jsx' }>
+                <Nav>
+                  <NavLink to="/url">Link</NavLink>
+                </Nav>
+              </Code>
+            </Section>
+
+            <Section id="navbar" name="Navbar">
+              <Code type={ 'jsx' }>
+                <Navbar name="Your App"/>
+              </Code>
+            </Section>
+
+            <Section id="heat-bar" name="HeatBar">
               <HeatBar score={ 10 } outOf={ 100 }/>
               <Code type={'jsx'}>
                 <HeatBar score={ 10 } outOf={ 100 }/>
               </Code>
             </Section>
 
-            <Section name="ProgressBar">
+            <Section id="progress-bar" name="ProgressBar">
               <ProgressBar showUnits={ true } completed={ this.props.completed } outOf={ this.props.outOf}/>
               <Code type={ 'jsx' }>
                 <ProgressBar completed={ 4 } outOf={ 100 } showUnits={ true } units={ 'percent' } styles={{ base: {}, units:{}, bar:{}, completed:{}}}/>
               </Code>
             </Section>
 
-            <Section name="ElementLoader">
+            <Section id="element-loader" name="ElementLoader">
 
               <ElementLoader action={ 'DEMO_CALL' }>
                 <div style={{ border: '1px solid black', width: 100, backgroundColor: 'grey', textAlign: 'center', padding: '20px 0'}}>
@@ -223,7 +257,7 @@ class App extends React.Component {
               </Code>
             </Section>
 
-            <Section name="HiddenPanel">
+            <Section id="hidden-panel" name="HiddenPanel">
               <Button text={ 'Toggle Panel' } onClick={ this.handleTogglePanel } styles={{ backgroundColor: 'rgb(58, 66, 74)', color: 'white'}}/>
 
               <Code type={ 'JSX' }>
@@ -231,8 +265,7 @@ class App extends React.Component {
               </Code>
             </Section>
 
-
-            <Section name="Code">
+            <Section id="code" name="Code">
               <Code type="jsx">
                 <Code type="jsx"><p>Display properly formatted code</p></Code>
               </Code>
