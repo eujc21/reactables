@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Section =({ name, children })=>{
+const Section =({ id, name, children })=>{
 
   const style = {
     base:{
@@ -9,8 +9,8 @@ const Section =({ name, children })=>{
   }
 
   return (
-    <div style={ style.base }>
-      <h4>{ name }</h4>
+    <div id={ id } style={ style.base }>
+      <h2>{ name }</h2>
       { children }
     </div>
   )
