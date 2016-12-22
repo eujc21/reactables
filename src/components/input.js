@@ -49,8 +49,8 @@ export class Input extends React.Component {
         display: 'flex',
         alignItems: 'center',
         padding: '0 10px',
-        border: '1px solid #000000',
-        borderRadius: 1,
+        border: '1px solid #EBE9ED',
+        borderRadius: 2,
         height: 30,
         backgroundColor: '#ffffff'
       },

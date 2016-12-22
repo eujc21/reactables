@@ -35,7 +35,7 @@ export default class DateInput extends React.Component {
         display: 'flex',
         justifyContent: 'space-between',
         backgroundColor: 'white',
-        border: '1px solid black',
+        border: '1px solid #EBE9ED',
         borderRadius: 2,
         width: width,
         padding: 3,

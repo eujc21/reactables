@@ -68,7 +68,7 @@ export class Select extends React.Component {
       paddingLeft: 5,
       fontSize: 14,
       textAlign: 'center',
-      border: '1px solid #878686',
+      border: '1px solid #EBE9ED',//#878686',
       borderRadius: 2,
       WebkitAppearance: isArrowVisible ? null : 'none'
     }
