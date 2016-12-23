@@ -23,6 +23,7 @@ export class Nav extends React.Component {
     this.paddingTop = parseInt(
       window.getComputedStyle(this.container.parentNode).paddingTop
     )
+    this.adjustOffset()
 
     window.addEventListener('scroll', this.adjustOffset)
   }

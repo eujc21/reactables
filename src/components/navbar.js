@@ -77,13 +77,12 @@ const NavbarLink =({to, children, styles})=>{
       padding: '0 15px',
       fontSize: 14,
       textDecoration: 'none',
-      color: 'white'
+      color: 'white',
+      cursor: 'pointer'
     }
   }
 
   merge(style, styles)
-
-  console.log(style)
 
   return(
     <li
@@ -91,7 +90,7 @@ const NavbarLink =({to, children, styles})=>{
     >
       { typeof to === 'string'
         ? <a style={ style.link } href={ to }>{ children }</a>
-        : <a style={ style.link } href='' onClick={ to }>{ children }</a>
+        : <a style={ style.link } onClick={ to }>{ children }</a>
       }
     </li>
   )

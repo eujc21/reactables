@@ -5,13 +5,14 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import configureStore from './store/configure_store'
+import configureRouter from './router/router'
 
-import App from './containers/app'
+import { browserHistory } from 'react-router'
 
 const store = configureStore(window.__initialState__)
 
 ReactDOM.render(
   <Provider store={ store } >
-    <App />
+    { configureRouter(browserHistory, store) }
   </Provider>, document.getElementById('root')
 )

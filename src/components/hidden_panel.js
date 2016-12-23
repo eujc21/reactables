@@ -46,8 +46,8 @@ class HiddenPanel extends React.Component {
 
 
     let style = {
+      top: 0,
       backgroundColor: 'transparent',
-      paddingBottom: 120,
       width: (position === 'right' || position === 'left') ? width : height,
       height: (position === 'bottom' || position === 'top') ? width : height,
       position: 'fixed',

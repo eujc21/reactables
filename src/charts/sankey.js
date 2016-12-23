@@ -9,6 +9,7 @@ import '../styles/charts.css'
 export class Sankey extends React.Component {
 
   static propTypes = {
+    data: PropTypes.object.isRequired,
     initialWidth: PropTypes.number,
     initialHeight: PropTypes.number,
     isResponsive: PropTypes.bool

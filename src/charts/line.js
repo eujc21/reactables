@@ -68,6 +68,10 @@ export class LineChart extends React.Component {
     }
   }
 
+  componentWillUnmount(){
+    //d3.select(this.chartContainer).selectAll('svg').remove()
+  }
+
   handlePointClick =(set, d, i)=>{
     if(!this.props.onClick)
       return
