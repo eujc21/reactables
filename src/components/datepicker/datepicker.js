@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react'
-import { Dropdown } from '../dropdown/dropdown'
-import { DropdownItem } from '../dropdown/dropdown_item'
+import { Dropdown, DropdownOption } from '../../index'
 import { range } from './helpers'
 
 export default class DatePicker extends React.Component {
@@ -92,7 +91,7 @@ export default class DatePicker extends React.Component {
           <p style={ style.month }>{ month.format('MMM') }</p>
 
           <Dropdown
-            face={
+            node={
               <div style={ style.year }>
                 { month.format('YYYY') }
                 <i style={ style.icon } className="icon-arrow-down" />
@@ -115,14 +114,14 @@ export default class DatePicker extends React.Component {
     const { years } = this.state
 
     const yearComponents = years.map(y =>
-      <DropdownItem
+      <DropdownOption
         key={ y }
         text={ y }
         onClick={ ()=> this.handleYearChange(y) }/>
     )
 
     return [
-      <DropdownItem
+      <DropdownOption
         key="decrement"
         text="..."
         shouldHideMenu={ false }
@@ -130,7 +129,7 @@ export default class DatePicker extends React.Component {
 
       ...yearComponents,
 
-      <DropdownItem
+      <DropdownOption
         key="increment"
         text="..."
         shouldHideMenu={ false }
