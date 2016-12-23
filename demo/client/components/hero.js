@@ -8,7 +8,7 @@ const Hero =({title, tagline})=>{
       justifyContent: 'center',
       alignItems: 'center',
       width: '100%',
-      height: 600,
+      height: 500,
       color: 'white',
       backgroundColor: 'blue'
     },
