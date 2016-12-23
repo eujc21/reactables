@@ -1,17 +1,7 @@
 import React, { PropTypes } from 'react'
-import { SelectOption } from './select_option'
 import merge from 'lodash/merge'
 
-// ** usage **
-//
-//  <Select
-//    placeholder="Some Text"
-//    onChange={ this.handleSortChange }>
-//    <SelectOption text="" value=""/>
-//  </Select>
-
-
-export class Select extends React.Component {
+class Select extends React.Component {
   static propTypes = {
     placeholder: PropTypes.string,
     defaultValue: PropTypes.string,
@@ -83,15 +73,29 @@ export class Select extends React.Component {
         onChange={ this.handleSelect }
         disabled={ disabled }
       >
-          { this.renderPlaceholder() }
-          { children ? React.Children.toArray(children).map((child, i) =>
-            <option
-              key={ i }
-              value={ child.props.value }>
-                { child.props.text }
-            </option>
-          ) : null }
+        { this.renderPlaceholder() }
+        { children }
       </select>
     )
   }
 }
+
+const SelectOption =({value, text})=>{
+  return(
+    <option
+      value={ value }>
+      { text }
+    </option>
+  )
+}
+
+SelectOption.propTypes = {
+  text: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]).isRequired,
+  value: PropTypes.node.isRequired
+}
+
+export { Select, SelectOption }
+
