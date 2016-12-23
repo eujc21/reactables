@@ -1,17 +1,19 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { browserHistory } from 'react-router'
 import * as actions from '../actions/demo_actions'
 import Section from '../components/section'
 import Hero from '../components/hero'
 
 import {
   Navbar,
+  NavbarLink,
   Input,
   DateTimePicker,
   Button,
   Table,
   Dropdown,
-  DropdownItem,
+  DropdownOption,
   ElementLoader,
   HeatBar,
   Select,
@@ -31,7 +33,6 @@ class App extends React.Component {
     //   this.props.demoCall()
     //   this.props.incrementCompleted(10)
     // }, 5000)
-
   }
 
   handleButtonClick =()=>{
@@ -70,7 +71,6 @@ class App extends React.Component {
     const style = {
       base: {
         position: 'relative',
-        //paddingTop: 70,
       },
       container: {
         display: 'flex',
@@ -79,21 +79,53 @@ class App extends React.Component {
         width: 991
       },
       navContainer: {
-        paddingTop: 60
+        order: 2,
+        padding: '60px 0 0 60px'
       },
       contentContainer: {
+        order: 1,
         width: '100%'
+      },
+      navbar: {
+        base: {
+          backgroundColor: 'blue',
+          color: 'white'
+        },
+        title:{
+          fontWeight: 600
+        }
       },
       hiddenPanel: {
         height: 'inherit',
         width: 'inherit',
         backgroundColor: '#ffffff',
         textAlign: 'center',
+      },
+      dropdown: {
+        base:{
+          display: 'flex',
+          alignItems: 'center',
+          padding: 5,
+          borderRadius: 3,
+          backgroundColor: 'rgb(154, 66, 74)',
+          color: 'white',
+          boxShadow: null
+        },
+        text: { fontSize: 14, margin: 0, padding: 0 },
+        icon: { fontSize: 6, paddingLeft: 4 }
+
       }
     }
 
     return(
-      <div ref={ parentNode => this.parentNode = parentNode } style={ style.base }>
+      <div style={ style.base }>
+
+        <Navbar styles={{ base: style.navbar.base }}>
+          <NavbarLink to="/" styles={{ link: style.navbar.title }}>Reactables</NavbarLink>
+          <NavbarLink to="/components">Components</NavbarLink>
+          <NavbarLink to="/charts">Charts</NavbarLink>
+          <NavbarLink to="/layout">Layout</NavbarLink>
+        </Navbar>
 
         <HiddenPanel position={ 'right' } isVisible={ this.props.isPanelVisible }>
           <div style={ style.hiddenPanel }>
@@ -108,12 +140,12 @@ class App extends React.Component {
         <div style={ style.container }>
 
           <div style={ style.navContainer }>
-            <Nav>
+            <Nav offsetTop={ 50 }>
               <NavLink to="#button">Button</NavLink>
               <NavLink to="#input">Input</NavLink>
               <NavLink to="#select">Select</NavLink>
               <NavLink to="#dropdown">Dropdown</NavLink>
-              <NavLink to="#date-time-picker">Date-Time Picker</NavLink>
+              <NavLink to="#date-time-picker">Date Picker</NavLink>
               <NavLink to="#table">Table</NavLink>
               <NavLink to="#nav">Nav</NavLink>
               <NavLink to="#navbar">Navbar</NavLink>
@@ -122,7 +154,6 @@ class App extends React.Component {
               <NavLink to="#element-loader">ElementLoader</NavLink>
               <NavLink to="#hidden-panel">HiddenPanel</NavLink>
               <NavLink to="#code">Code</NavLink>
-
             </Nav>
           </div>
 
@@ -132,7 +163,6 @@ class App extends React.Component {
               { [0,1,2,3,4].map(num =>
                 <Button
                   key={ num }
-                  text="button"
                   onClick={ this.handleButtonClick }
                   styles={{ backgroundColor: `#${3 + (num * 2) + 'A424A'}`, color: '#ffffff', marginRight: 10}}
                 />
@@ -175,18 +205,25 @@ class App extends React.Component {
                 <SelectOption text="Option 3" value="option_3"/>
               </Select>
               <Code type="jsx">
+                <Select onChange={ this.handleSelect }>
 
+                </Select>
               </Code>
             </Section>
 
             <Section id="dropdown" name="Dropdown">
-              <Dropdown face="Dropdown">
-                <DropdownItem text="Option 1" onClick={ this.handleDropdownClick }/>
-                <DropdownItem text="Option 2" onClick={ this.handleDropdownClick }/>
-                <DropdownItem text="Option 3" onClick={ this.handleDropdownClick }/>
+              <Dropdown node={
+                <span style={ style.dropdown.base }>
+                  <p style={ style.dropdown.text }>Dropdown</p>
+                  <i style={ style.dropdown.icon} className="icon-arrow-down"/>
+                </span>
+              }>
+                <DropdownOption text="Option 1" onClick={ this.handleDropdownClick }/>
+                <DropdownOption text="Option 2" onClick={ this.handleDropdownClick }/>
+                <DropdownOption text="Option 3" onClick={ this.handleDropdownClick }/>
               </Dropdown>
               <Code type={ 'jsx' }>
-                <Dropdown face="Dropdown">
+                <Dropdown node="Node">
                 </Dropdown>
               </Code>
             </Section>
@@ -194,7 +231,6 @@ class App extends React.Component {
             <Section id="date-time-picker" name="DateTimePicker">
 
               <DateTimePicker
-                isTimePicker
                 placeholder={ 'Date Time' }
                 onChange={ this.handleDateChange }/>
 
@@ -222,7 +258,7 @@ class App extends React.Component {
 
             <Section id="navbar" name="Navbar">
               <Code type={ 'jsx' }>
-                <Navbar name="Your App"/>
+                <Navbar />
               </Code>
             </Section>
 
