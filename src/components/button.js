@@ -20,10 +20,11 @@ export class Button extends React.Component {
   state = { isHovered: false }
 
   handleClick = () =>{
-    if(this.props.isDisabled)
+    const { isDisabled, onClick } = this.props
+    if(isDisabled || !onClick)
       return
 
-    this.props.onClick()
+    onClick()
   }
 
   handleMouseEnter = () =>{
