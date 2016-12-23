@@ -3,7 +3,7 @@ import * as d3 from 'd3'
 import { sankey } from 'd3-sankey'
 import isEqual from 'lodash/isEqual'
 import { makeResponsive } from './utils'
-import '../../styles/charts.css'
+import '../styles/charts.css'
 
 
 export class Sankey extends React.Component {
