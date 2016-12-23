@@ -1,75 +1,109 @@
 import React, { PropTypes } from 'react'
 import merge from 'lodash/merge'
 
-export class Navbar extends React.Component {
+class Navbar extends React.Component {
   static propTypes = {
-    title: PropTypes.string,
     styles: PropTypes.object
   }
 
   static defaultProps = {
-    title: 'Reactables',
     styles: {}
   }
-
-  constructor(props) {
-    super(props)
-    //this.innerWidth = 0
-  }
-
-  componentDidMount(){
-    //this.innerWidth = this.links.getBoundingClientRect().right + 15
-  }
-
   render(){
 
-    const { title, styles, children } = this.props
+    const { styles, children } = this.props
 
     let style = {
       base:{
         display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
         zIndex: 9999,
         position: 'fixed',
         top: 0,
         width: '100%',
         height: 70,
         backgroundColor: '#000000',
-        textDecoration: 'none',
       },
-      bar:{
-        display: 'flex',
-        alignItems: 'center'
-      },
-      title:{
+      links: {
         display: 'flex',
         alignItems: 'center',
-        height: 'inherit',
-        color: '#ffffff',
-        padding: '0 15px'
-      },
-      link:{
-        color: '#ffffff',
-        padding: '0 15px',
-        textDecoration: 'none'
+        padding: 0,
+        margin: 0,
+        height: '100%',
+        listStyleType: 'none'
       }
     }
 
     merge(style, styles)
 
+    const links = React.Children
+      .toArray(children)
+      .reduce((obj, link)=>{
+        if(link.props.align === 'left'){
+          obj.left.push(link)
+        } else {
+          obj.right.push(link)
+        }
+        return obj
+
+      }, { left: [], right: []})
+
+    console.log(links)
+
     return(
       <div style={ style.base }>
-        <div style={ style.title }>
-          { title }
-        </div>
-        <div
-          ref={ links => this.links = links }
-          style={ style.bar }
-        >
-          { children ? React.Children.toArray(children).map((child, i) =>
-            <div key={ i } style={ style.link }>{ child }</div>
-          ) : null }
-        </div>
+        <ul style={ style.links }>{ links.left }</ul>
+        <ul style={ style.links }>{ links.right }</ul>
       </div>
     )
   }
 }
+
+const NavbarLink =({to, children, styles})=>{
+
+  const style = {
+    base: {
+      height: '100%',
+      display: 'inline',
+      padding: 0,
+
+    },
+    link:{
+      display: 'flex',
+      alignItems: 'center',
+      height: '100%',
+      margin: 0,
+      padding: '0 15px',
+      fontSize: 14,
+      textDecoration: 'none',
+      color: 'white'
+    }
+  }
+
+  merge(style, styles)
+
+  console.log(style)
+
+  return(
+    <li
+      style={ style.base }
+    >
+      { typeof to === 'string'
+        ? <a style={ style.link } href={ to }>{ children }</a>
+        : <a style={ style.link } href='' onClick={ to }>{ children }</a>
+      }
+    </li>
+  )
+}
+
+NavbarLink.PropTypes =  {
+  align: PropTypes.oneOf(['left', 'right']),
+  to: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired
+}
+
+NavbarLink.defaultProps = {
+  align: 'left'
+}
+
+export { Navbar, NavbarLink }
