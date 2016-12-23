@@ -36,7 +36,7 @@ export default function elementLoaderReducer(state = {}, action) {
     case SHOW:
       return {
         ...state,
-        [prefix]: state[prefix] + 1
+        [prefix]: state[prefix] + 1 || 1
       }
     case HIDE:
       return {
