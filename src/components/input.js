@@ -25,8 +25,7 @@ export class Input extends React.Component {
   }
 
   handleSubmit =()=>{
-    const { text } = this.props
-    this.props.onSubmit(text)
+    this.props.onSubmit(this.props.text)
   }
 
   handleClear =()=>{
