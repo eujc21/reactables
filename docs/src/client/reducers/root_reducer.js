@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
 import { UPDATE_INPUT_TEXT, INCREMENT_COMPLETED, TOGGLE_PANEL } from '../actions/demo_actions'
-import { elementLoaderReducer } from '../../../src/index'
+import { elementLoaderReducer } from '../../../../src/index'
 import moment from 'moment'
 
 

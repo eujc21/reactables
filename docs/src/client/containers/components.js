@@ -1,9 +1,7 @@
 import React from 'react'
-import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import * as actions from '../actions/demo_actions'
 import Section from '../components/section'
-import Hero from '../components/hero'
 
 import {
   Navbar,
@@ -23,7 +21,7 @@ import {
   NavLink,
   Code,
   HiddenPanel
-} from '../../../src/index'
+} from '../../../../src/index'
 
 class Components extends React.Component {
 

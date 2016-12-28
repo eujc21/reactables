@@ -1,7 +1,7 @@
 import React from 'react'
 import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
-import { Navbar, NavbarLink } from '../../../src/index'
+import { Navbar, NavbarLink } from '../../../../src/index'
 import Hero from '../components/hero'
 
 class App extends React.Component {

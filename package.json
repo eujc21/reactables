@@ -5,9 +5,12 @@
   "main": "lib/index.js",
   "scripts": {
     "prebuild": "rimraf lib",
-    "dev": "cross-env NODE_ENV=development nodemon ./demo/server.js --exec babel-node --presets es2015,stage-0 --ignore /demo/client --ignore ./src",
+    "dev-docs": "cross-env NODE_ENV=development nodemon ./docs/server.js --exec babel-node --presets es2015,stage-0 --ignore /docs/src/client --ignore ./src --ignore ./test",
+    "build-docs": "cross-env NODE_ENV=production webpack",
     "build": "cross-env babel --out-dir lib --ignore *.test.js src && copyfiles ./src/styles/* -f lib/styles && copyfiles ./src/vendor/fonts/* -f lib/vendor/fonts",
-    "test": "mocha test/*.spec.js --require test/.setup.js --compilers js:babel-core/register"
+    "test": "mocha test/*.spec.js --require test/.setup.js --compilers js:babel-core/register",
+    "postinstall": "webpack",
+    "start": "node ./demo/server.js"
   },
   "repository": {
     "type": "git",

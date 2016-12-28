@@ -12,11 +12,11 @@ module.exports = function(){
     entry: {
       client: [
         'webpack-hot-middleware/client?reload=true',
-        path.join(PROJECT_ROOT, 'demo/client/client.js'),
+        path.join(PROJECT_ROOT, 'docs/src/client/client.js'),
       ]
     },
     output:{
-      path: path.join(PROJECT_ROOT, 'demo/public'),
+      path: path.join(PROJECT_ROOT, 'docs/public'),
       filename: 'client.js',
       publicPath: ''
     },
@@ -29,7 +29,7 @@ module.exports = function(){
         {
           test: /\.js$/,
           loader: 'babel-loader',
-          exclude: [/node_modules/, './lib', './demo/server', './test'],
+          exclude: [/node_modules/, './lib', './docs/server', './test', './src'],
           query:{
             plugins: [],
             presets: ['es2015', 'stage-0', 'react']
@@ -67,13 +67,13 @@ module.exports = function(){
     }
   }
 
-  if(process.env.NODE_ENV === 'production') {
-    config.entry = path.join(PROJECT_ROOT, 'src/index.js')
-    config.output = {
-      path: path.join(PROJECT_ROOT, 'lib'),
-      filename: 'index.js'
-    }
-  }
+  // if(process.env.NODE_ENV === 'production') {
+  //   config.entry = path.join(PROJECT_ROOT, 'src/index.js')
+  //   config.output = {
+  //     path: path.join(PROJECT_ROOT, 'lib'),
+  //     filename: 'index.js'
+  //   }
+  // }
 
 
   return config
