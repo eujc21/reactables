@@ -98,12 +98,15 @@ export class LineChart extends React.Component {
       .style("font-size", `${titleFontSize}px`)
       .text(title);
 
-    data.forEach(dataset => {
-      dataset.values.forEach(d => {
-        d[xProp] = Date.parse(d[xProp]);
-        d[yProp] = d[yProp];
-      })
-    })
+    // This is mutating dates, breaking the charts.
+    // Prerequisite needs to be all dates are pre parsed.
+
+    // data.forEach(dataset => {
+    //   dataset.values = dataset.values.forEach(d => {
+    //     d[xProp] = Date.parse(d[xProp])
+    //     d[yProp] = d[yProp]
+    //   })
+    // })
 
     /* Y Scale and Axis*/
     let yScale = d3.scaleLinear()
