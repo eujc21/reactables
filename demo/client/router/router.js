@@ -12,12 +12,16 @@ export default function configureRouter(history, store){
     return (module) => cb(null, module.default)
   }
 
+  function setScrollTop(){
+    document.body.scrollTop = 0
+  }
+
   return (
     <Router history={ history } routes={[
       {
         component: App,
         path: '/',
-        onEnter: ()=>{},
+        onEnter: ()=>{ },
         indexRoute: { onEnter: (nextState, replace) => replace('/components') },
         childRoutes: [
           {
@@ -26,6 +30,7 @@ export default function configureRouter(history, store){
               System
                 .import('../containers/components')
                 .then(loadRoute(cb))
+                .then(setScrollTop)
                 .catch(errorLoading)
             }
           },
@@ -35,6 +40,7 @@ export default function configureRouter(history, store){
               System
                 .import('../containers/charts')
                 .then(loadRoute(cb))
+                .then(setScrollTop)
                 .catch(errorLoading)
             }
           },
@@ -44,6 +50,7 @@ export default function configureRouter(history, store){
               System
                 .import('../containers/layout')
                 .then(loadRoute(cb))
+                .then(setScrollTop)
                 .catch(errorLoading)
             }
           }
