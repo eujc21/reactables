@@ -4,8 +4,6 @@ import * as d3 from 'd3'
 import isEqual from 'lodash/isEqual'
 import { makeResponsive } from './utils'
 
-//TODO: Add Props: margin, xTicks, yTicks
-
 export class LineChart extends React.Component {
 
   static propTypes = {
@@ -27,6 +25,9 @@ export class LineChart extends React.Component {
     tooltip: PropTypes.func,
     xTicksAngled: PropTypes.bool,
     shouldShowGrid: PropTypes.bool,
+    xTicks: PropTypes.number,
+    yTicks: PropTypes.number,
+    pointRadius: PropTypes.number,
     margin: PropTypes.shape({
       top: PropTypes.number,
       right: PropTypes.number,
@@ -49,6 +50,9 @@ export class LineChart extends React.Component {
     titleFontSize: 5,
     xTicksAngled: false,
     shouldShowGrid: false,
+    xTicks: null,
+    yTicks: null,
+    pointRadius: 1.3,
     margin: {
       top: 20,
       right: 20,
@@ -76,8 +80,7 @@ export class LineChart extends React.Component {
   }
 
   renderChart =()=>{
-    const { data, xProp, yProp, xLabel, yLabel, title, tickFontSize, labelFontSize, titleFontSize, lineColors, initialWidth, initialHeight, isResponsive, xTicksAngled, shouldShowGrid, margin } = this.props
-
+    const { data, xProp, yProp, xLabel, yLabel, title, tickFontSize, labelFontSize, titleFontSize, lineColors, initialWidth, initialHeight, isResponsive, xTicksAngled, shouldShowGrid, margin, xTicks, yTicks, pointRadius } = this.props
 
     let width = initialWidth - margin.left - margin.right;
     let height = initialHeight - margin.top - margin.bottom;
@@ -117,6 +120,7 @@ export class LineChart extends React.Component {
       .range([height, 0])
 
     let yAxis = d3.axisLeft(yScale)
+      .ticks(yTicks)
       .tickSize(5)
 
     svg
@@ -141,8 +145,10 @@ export class LineChart extends React.Component {
       .range([0, width])
 
     let xAxis = d3.axisBottom(xScale)
+      .ticks(xTicks)
       .tickSize(5)
       .tickPadding(5)
+
 
     /* Append and Transform X Axis */
     svg
@@ -236,7 +242,7 @@ export class LineChart extends React.Component {
         .append('circle')
         .attr('cx', d => xScale(d[xProp]))
         .attr('cy', d => yScale(d[yProp]))
-        .attr('r', d => 1.3)
+        .attr('r', d => pointRadius)
         .style('fill', lineColors[setIndex])
         .style('cursor', this.props.onClick ? 'pointer' :  null)
 
