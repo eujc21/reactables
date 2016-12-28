@@ -49,8 +49,6 @@ class Navbar extends React.Component {
 
       }, { left: [], right: []})
 
-    console.log(links)
-
     return(
       <div style={ style.base }>
         <ul style={ style.links }>{ links.left }</ul>
