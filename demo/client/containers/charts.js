@@ -2,7 +2,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Nav, NavLink, BarChart, LineChart, Sankey, Code } from '../../../src/index'
 import Section from '../components/section'
-import { barData, sankeyData } from '../constants/chart_data'
 import moment from 'moment'
 
 class Charts extends React.Component {
