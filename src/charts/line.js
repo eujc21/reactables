@@ -195,10 +195,7 @@ export class LineChart extends React.Component {
       .enter()
       .append('path')
       .attr('class', 'line')
-      .attr('d', d => {
-        console.log(d.values)
-        return line(d.values)
-      })
+      .attr('d', d => line(d.values))
       .style('stroke', (d, i) => lineColors[i])
       .style('stroke-width', 1)
       .style('fill', 'none')
