@@ -4,6 +4,7 @@ const path = require('path')
 const webpack = require('webpack')
 
 const PROJECT_ROOT = path.resolve(__dirname)
+const PACKAGE_VERSION = String(require('./package.json').version)
 
 module.exports = function(){
   var config = {
@@ -11,7 +12,6 @@ module.exports = function(){
     devtool: 'source-map',
     entry: {
       client: [
-        'webpack-hot-middleware/client?reload=true',
         path.join(PROJECT_ROOT, 'docs/src/client/client.js'),
       ]
     },
@@ -20,10 +20,7 @@ module.exports = function(){
       filename: 'client.js',
       publicPath: ''
     },
-    plugins: [
-      new webpack.HotModuleReplacementPlugin(),
-      new webpack.NoErrorsPlugin(),
-    ],
+    plugins: [],
     module: {
       loaders: [
         {
@@ -67,13 +64,34 @@ module.exports = function(){
     }
   }
 
-  // if(process.env.NODE_ENV === 'production') {
-  //   config.entry = path.join(PROJECT_ROOT, 'src/index.js')
-  //   config.output = {
-  //     path: path.join(PROJECT_ROOT, 'lib'),
-  //     filename: 'index.js'
-  //   }
-  // }
+  if(process.env.NODE_ENV === 'development'){
+    config.entry.client.unshift('webpack-hot-middleware/client?reload=true')
+    config.plugins.push(
+      new webpack.HotModuleReplacementPlugin(),
+      new webpack.NoErrorsPlugin()
+    )
+  }
+
+  if(process.env.NODE_ENV === 'production') {
+    config.plugins.push(
+      new webpack.DefinePlugin({
+        'process.env.NODE_ENV': JSON.stringify('production'),
+        'process.env.PKG_VERSION': JSON.stringify(PACKAGE_VERSION)
+      }),
+      new webpack.IgnorePlugin(/^\.\/locale$/,/moment$/),
+      new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: `vendor.bundle.js`}),
+      new webpack.optimize.UglifyJsPlugin({
+        comments: false,
+        sourceMap: false,
+        mangle: true
+      })
+    )
+    config.entry.vendor = [
+      'react',
+      'react-dom',
+      'redux'
+    ]
+  }
 
 
   return config
