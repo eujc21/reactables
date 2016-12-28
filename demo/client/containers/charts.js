@@ -2,12 +2,11 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Nav, NavLink, BarChart, LineChart, Sankey, Code } from '../../../src/index'
 import Section from '../components/section'
-import { lineData, barData, sankeyData } from '../constants/chart_data'
+import { barData, sankeyData } from '../constants/chart_data'
+import moment from 'moment'
 
 class Charts extends React.Component {
-  componentWillMount(){
 
-  }
   render(){
 
     const style = {
@@ -59,7 +58,33 @@ class Charts extends React.Component {
           <div style={ style.contentContainer }>
 
             <Section id="line" name="Line">
-              <LineChart isResponsive data={ lineData } xProp="date" yProp="count"/>
+              <LineChart isResponsive data={ [
+                {
+                  name: 'Set 1',
+                  values: [
+                    {
+                      count: 12,
+                      date: moment().toISOString()
+                    },
+                    {
+                      count: 20,
+                      date: moment().add(1, 'days').toISOString()
+                    },
+                    {
+                      count: 55,
+                      date: moment().add(2, 'days').toISOString()
+                    },
+                    {
+                      count: 25,
+                      date: moment().add(3, 'days').toISOString()
+                    },
+                    {
+                      count: 35,
+                      date: moment().add(4, 'days').toISOString()
+                    }
+                  ]
+                }
+              ] } xProp="date" yProp="count"/>
               <Code>
                 <LineChart
                   isResponsive
@@ -76,7 +101,32 @@ class Charts extends React.Component {
 
             <Section id="bar" name="Bar">
               <BarChart
-                data={ barData }
+                data={[
+                  {
+                    count: 202,
+                    year: 2000
+                  },
+
+                  {
+                    count: 179,
+                    year: 2002
+                  },
+
+                  {
+                    count: 154,
+                    year: 2003
+                  },
+
+                  {
+                    count: 215,
+                    year: 2001
+                  },
+
+                  {
+                    count: 260,
+                    year: 2010
+                  }
+                ]}
                 isResponsive
                 xProp="year"
                 yProp="count"/>
@@ -91,7 +141,37 @@ class Charts extends React.Component {
             </Section>
 
             <Section id="sankey" name="Sankey">
-              <Sankey isResponsive data={ sankeyData }/>
+              <Sankey isResponsive data={{
+                nodes: [
+                  { name: 'Node 0'},
+                  { name: 'Node 1'},
+                  { name: 'Node 2'},
+                  { name: 'Node 3'},
+                  { name: 'Node 4'},
+                ],
+                links: [
+                  {
+                    source: 0,
+                    target: 4,
+                    value: 10
+                  },
+                  {
+                    source: 1,
+                    target: 4,
+                    value: 10
+                  },
+                  {
+                    source: 2,
+                    target: 4,
+                    value: 10
+                  },
+                  {
+                    source: 3,
+                    target: 4,
+                    value: 10
+                  },
+                ]
+              }}/>
               <Code>
                 <Sankey isResponsive data={{ nodes: [], links: []}}/>
               </Code>

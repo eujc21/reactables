@@ -68,10 +68,6 @@ export class LineChart extends React.Component {
     }
   }
 
-  componentWillUnmount(){
-    //d3.select(this.chartContainer).selectAll('svg').remove()
-  }
-
   handlePointClick =(set, d, i)=>{
     if(!this.props.onClick)
       return
@@ -81,6 +77,7 @@ export class LineChart extends React.Component {
 
   renderChart =()=>{
     const { data, xProp, yProp, xLabel, yLabel, title, tickFontSize, labelFontSize, titleFontSize, lineColors, initialWidth, initialHeight, isResponsive, xTicksAngled, shouldShowGrid, margin } = this.props
+
 
     let width = initialWidth - margin.left - margin.right;
     let height = initialHeight - margin.top - margin.bottom;
@@ -198,7 +195,10 @@ export class LineChart extends React.Component {
       .enter()
       .append('path')
       .attr('class', 'line')
-      .attr('d', d => line(d.values))
+      .attr('d', d => {
+        console.log(d.values)
+        return line(d.values)
+      })
       .style('stroke', (d, i) => lineColors[i])
       .style('stroke-width', 1)
       .style('fill', 'none')
