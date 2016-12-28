@@ -27,6 +27,10 @@ import {
 
 class Components extends React.Component {
 
+  componentWillMount(){
+
+  }
+
   componentDidMount(){
     // this.props.demoCall()
     // setInterval(()=>{
@@ -308,11 +312,11 @@ class Components extends React.Component {
 
 function mapStateToProps(state){
   return {
-    inputText: state.app.inputText,
-    outOf: state.app.outOf,
-    completed: state.app.completed,
-    tableData: state.app.tableData,
-    isPanelVisible: state.app.isPanelVisible
+    inputText: state.components.inputText,
+    outOf: state.components.outOf,
+    completed: state.components.completed,
+    tableData: state.components.tableData,
+    isPanelVisible: state.components.isPanelVisible
   }
 }
 
