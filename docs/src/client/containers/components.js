@@ -98,8 +98,13 @@ class Components extends React.Component {
         nav:{ borderTop: null, borderLeft: null, borderRadius: 0 }
       },
       navlink: {
-        base: { backgroundColor: null, border: 0 },
-        link:{ padding: '0 0 10px 0' }
+        base: { border: 0, borderRadius: 0 },
+        link:{ padding: '5px 3px' }
+      },
+      tableContainer: {
+        backgroundColor: 'white',
+        border: '1px solid #EBE9ED',
+        borderRadius: 2
       },
       hiddenPanel: {
         height: 'inherit',
@@ -125,11 +130,11 @@ class Components extends React.Component {
     return(
       <div style={ style.base }>
 
-        {/*<HiddenPanel position={ 'right' } isVisible={ this.props.isPanelVisible }>*/}
-          {/*<div style={ style.hiddenPanel }>*/}
-            {/*<h4 style={{ marginTop: 0}}>Hidden Panel</h4>*/}
-          {/*</div>*/}
-        {/*</HiddenPanel>*/}
+        <HiddenPanel position={ 'right' } isVisible={ this.props.isPanelVisible }>
+          <div style={ style.hiddenPanel }>
+            <h4 style={{ marginTop: 0}}>Hidden Panel</h4>
+          </div>
+        </HiddenPanel>
 
         <div style={ style.container }>
 
@@ -235,7 +240,9 @@ class Components extends React.Component {
 
 
             <Section id="table" name="Table">
-              <Table isHoverable isStriped stripeColor={ '#ffffff' } tableData={ this.props.tableData }/>
+              <div style={ style.tableContainer }>
+                <Table isHoverable isStriped tableData={ this.props.tableData }/>
+              </div>
 
               <Code type={ 'jsx' }>
                 <Table tableData={ this.props.tableData }/>
