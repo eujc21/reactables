@@ -29,7 +29,7 @@ module.exports = function(){
           exclude: [/node_modules/, './lib', './docs/server', './test', './src'],
           query:{
             plugins: [],
-            presets: ['es2015', 'stage-0', 'react']
+            presets: [["es2015", { "modules": false}], 'stage-0', 'react']
           }
         },
         {
@@ -89,7 +89,13 @@ module.exports = function(){
     config.entry.vendor = [
       'react',
       'react-dom',
-      'redux'
+      'react-redux',
+      'react-router',
+      'redux',
+      'd3',
+      'd3-sankey',
+      'moment',
+      'lodash'
     ]
   }
 
