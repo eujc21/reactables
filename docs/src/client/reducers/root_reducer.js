@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { UPDATE_INPUT_TEXT, INCREMENT_COMPLETED, TOGGLE_PANEL } from '../actions/demo_actions'
+import { SET_PAGE_SCROLL_POSITION, UPDATE_INPUT_TEXT, INCREMENT_COMPLETED, TOGGLE_PANEL } from '../actions/demo_actions'
 import { elementLoaderReducer } from '../../../../src/index'
 import moment from 'moment'
 
@@ -17,7 +17,18 @@ function errorMessage(state = null, action) {
   return state
 }
 
+const initialAppState = {
+  pageScrollPosition: 0
+}
 
+function app(state = initialAppState, action){
+  switch(action.type){
+    case SET_PAGE_SCROLL_POSITION:
+      return {...state, pageScrollPosition: action.position }
+    default:
+      return state
+  }
+}
 
 const initialComponentsState = {
   tableData: [{a:1, b:2, c: 3}, {a:2, b: 3, c: 4}, {a:3, b: 4, c: 5}],
@@ -154,6 +165,7 @@ function layout(state = initialLayoutState, action){
 }
 
 const rootReducer = combineReducers({
+  app,
   components,
   charts,
   layout,
