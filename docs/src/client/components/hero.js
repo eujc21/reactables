@@ -10,10 +10,13 @@ const Hero =({title, tagline})=>{
       width: '100%',
       height: 500,
       color: 'white',
-      backgroundColor: 'blue'
+      background: `linear-gradient( to bottom, ${ '#38d2e0' }, ${ '#32b1d1' })`
     },
     title: {
       fontSize: 36
+    },
+    tagline: {
+      margin: 0
     }
 
   }
@@ -21,7 +24,7 @@ const Hero =({title, tagline})=>{
   return (
     <div style={ style.base }>
       <h1 style={ style.title }>{ title }</h1>
-      <p>{ tagline }</p>
+      <p style={ style.tagline }>{ tagline }</p>
     </div>
   )
 }
