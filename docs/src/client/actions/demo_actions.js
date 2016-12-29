@@ -14,6 +14,15 @@ export function demoCall(){
   }
 }
 
+export const SET_PAGE_SCROLL_POSITION = 'SET_PAGE_SCROLL_POSITION'
+
+export function setPageScrollPosition(position){
+  return {
+    type: SET_PAGE_SCROLL_POSITION,
+    position
+  }
+}
+
 export const UPDATE_INPUT_TEXT = 'UPDATE_INPUT_TEXT'
 
 export function updateInputText(text){
