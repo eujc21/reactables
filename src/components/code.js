@@ -12,17 +12,17 @@ const Code =({ type, styles, children })=>{
     header:{
       base:{
         padding: 5,
-        backgroundColor: '#F0AD4E',
+        backgroundColor: '#32b1d1',
       },
       text: {
-        color: '#6E4A2A',
+        color: '#ffffff',
         margin: 0,
         padding: 0
       }
     },
     code:{
       margin: 0,
-      backgroundColor: '#f8f5ec',
+      backgroundColor: 'rgba(56, 210, 224, 0.1)',
       padding: 10
     }
 
