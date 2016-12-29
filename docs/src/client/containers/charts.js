@@ -35,8 +35,8 @@ class Charts extends React.Component {
         nav:{ borderTop: null, borderLeft: null, borderRadius: 0 }
       },
       navlink: {
-        base: { backgroundColor: null, border: 0 },
-        link:{ padding: '0 0 10px 0' }
+        base: { border: 0, borderRadius: 0 },
+        link:{ padding: '5px 3px' }
       },
     }
 
