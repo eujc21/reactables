@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import * as d3 from 'd3'
 import { sankey } from 'd3-sankey'
 import isEqual from 'lodash/isEqual'
-import { makeResponsive } from './utils'
+import { makeResponsive, remove } from './common'
 import '../styles/charts.css'
 
 
@@ -12,13 +12,33 @@ export class Sankey extends React.Component {
     data: PropTypes.object.isRequired,
     initialWidth: PropTypes.number,
     initialHeight: PropTypes.number,
-    isResponsive: PropTypes.bool
+    isResponsive: PropTypes.bool,
+    margin: PropTypes.shape({
+      top: PropTypes.number,
+      right: PropTypes.number,
+      bottom: PropTypes.number,
+      left: PropTypes.number
+    })
   }
 
   static defaultProps = {
     initialWidth: 960,
     initialHeight: 500,
-    isResponsive: false
+    isResponsive: false,
+    margin: {
+      top: 1,
+      right: 1,
+      bottom: 6,
+      left: 1
+    }
+  }
+
+  constructor(props){
+    super(props)
+
+    this.svg = {}
+    this.width = 0
+    this.height = 0
   }
 
   componentDidMount(){
@@ -30,23 +50,20 @@ export class Sankey extends React.Component {
 
   componentWillUpdate(prevProps, prevState){
     if(!isEqual(this.props.data, prevProps.data)){
-      d3.select(this.chartContainer).selectAll('svg').remove()
+      remove(this.svg)
       this.renderChart()
     }
   }
 
+  componentWillUnmount(){
+    remove(this.svg)
+  }
+
   renderChart =()=>{
-    const { isResponsive, initialWidth, initialHeight, data } = this.props
+    const { isResponsive, initialWidth, initialHeight, data, margin } = this.props
 
     if(!data)
       return
-
-    let margin = {
-        top: 1,
-        right: 1,
-        bottom: 6,
-        left: 1
-      }
 
     let width = initialWidth - margin.left - margin.right;
     let height = initialHeight - margin.top - margin.bottom;
@@ -57,7 +74,7 @@ export class Sankey extends React.Component {
       }
     let color = d3.scaleOrdinal(d3.schemeCategory20);
 
-    let svg = d3.select(this.chartContainer)
+    this.svg = d3.select(this.chartContainer)
       .append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
@@ -77,7 +94,7 @@ export class Sankey extends React.Component {
       .links(data.links)
       .layout(32);
 
-    let link = svg.append("g").selectAll(".link")
+    let link = this.svg.append("g").selectAll(".link")
       .data(data.links)
       .enter().append("path")
       .attr("class", "link")
@@ -94,7 +111,7 @@ export class Sankey extends React.Component {
         return d.source.name + " → " + d.target.name + "\n" + format(d.value);
       });
 
-    let node = svg.append("g").selectAll(".node")
+    let node = this.svg.append("g").selectAll(".node")
       .data(data.nodes)
       .enter().append("g")
       .attr("class", "node")
@@ -156,11 +173,15 @@ export class Sankey extends React.Component {
   }
 
   render(){
+    const style = {
+      width: '100%',
+      backgroundColor: this.props.backgroundColor,
+    }
+
     return(
       <div
-        ref={(chartContainer) => this.chartContainer = chartContainer }
-        className="chart"
-        style={{width: '100%'}} />
+        ref={ chartContainer => this.chartContainer = chartContainer }
+        style={ style }/>
     )
   }
 }
