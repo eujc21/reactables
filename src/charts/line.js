@@ -299,7 +299,6 @@ export class LineChart extends React.Component {
     const style = {
       width: '100%',
       backgroundColor: this.props.backgroundColor,
-      border: '1px solid black'
     }
 
     return(
