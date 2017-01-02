@@ -76,8 +76,7 @@ export class BarChart extends React.Component {
       .range([0, this.width]);
 
     let xAxis = d3.axisBottom(this.xScale)
-      .ticks(5)
-      .tickSize(10)
+      .tickSize(tickFontSize)
       .tickPadding(5)
 
     this.svg
@@ -98,6 +97,8 @@ export class BarChart extends React.Component {
       .range([this.height, 0]);
 
     let yAxis = d3.axisLeft(this.yScale)
+      .tickSize(tickFontSize)
+      .tickPadding(5)
 
     this.svg
       .append('g')

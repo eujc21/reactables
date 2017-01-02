@@ -38,6 +38,14 @@ class Charts extends React.Component {
         base: { border: 0, borderRadius: 0 },
         link:{ padding: '5px 3px' }
       },
+      tooltip: {
+        padding: 10,
+        borderRadius: 3,
+        fontSize: 12,
+        color: 'white',
+        backgroundColor: 'black',
+        opacity: 0.8
+      }
     }
 
     return(
@@ -59,11 +67,13 @@ class Charts extends React.Component {
               <LineChart
                 isResponsive
                 data={ this.props.lineData }
-                pointRadius={ 4 }
+                pointRadius={ 8 }
                 tickFontSize={ 20 }
                 xProp="date"
                 yProp="count"
-                title="test"/>
+                tooltip={ (obj) =>
+                  <div style={ style.tooltip }>{ obj.data.count }</div>
+                }/>
               <Code>
                 <LineChart
                   isResponsive
@@ -74,7 +84,8 @@ class Charts extends React.Component {
                     }]
                   }
                   xProp="date"
-                  yProp="count"/>
+                  yProp="count"
+                  tooltip={ (obj) => '<div>{ obj.data.count }</div>' }/>
               </Code>
             </Section>
 

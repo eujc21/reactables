@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import { renderToString } from 'react-dom/server'
 import * as d3 from 'd3'
 import isEqual from 'lodash/isEqual'
-import { initialize, remove, appendTitle, appendXLabel, appendYLabel } from './common'
+import { initialize, remove, appendTitle, appendXLabel, appendYLabel, createTooltipContainer, renderTooltip } from './common'
 
 export class LineChart extends React.Component {
 
@@ -208,11 +208,7 @@ export class LineChart extends React.Component {
     /*================*/
 
     // Define the div for the tooltip
-    let div = d3.select("body").append("div")
-      .attr("class", "tooltip")
-      .style("opacity", 0)
-      .style("position", 'absolute')
-      .style("pointer-events", 'none')
+    let tooltipContainer = createTooltipContainer()
 
     /*===============*/
     /* Append Points */
@@ -235,18 +231,18 @@ export class LineChart extends React.Component {
 
         .on("mouseover", (d, i) => {
 
-          div.transition()
+          tooltipContainer.transition()
             .duration(200)
-            .style("opacity", .9)
+            .style("opacity", 1)
 
-          div
-            .html(renderTooltipContent(dataset.name, d, i) )
+          tooltipContainer
+            .html(renderTooltip(tooltip, {dataset: dataset.name, data: d, index: i}) )
             .style("left", (d3.event.pageX) + "px")
-            .style("top", (d3.event.pageY) + "px");
+            .style("top", (d3.event.pageY) + "px")
         })
 
         .on("mouseout", d => {
-          div.transition()
+          tooltipContainer.transition()
             .duration(500)
             .style("opacity", 0);
         })
@@ -257,16 +253,6 @@ export class LineChart extends React.Component {
 
         .on("click", (d, i)=> this.handlePointClick(dataset.name, d, i))
     })
-
-    function renderTooltipContent(d, i){
-
-      if(!tooltip)
-        return
-
-      return renderToString(
-        tooltip(d, i)
-      )
-    }
 
   }
 

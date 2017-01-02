@@ -1,4 +1,5 @@
 import { select } from 'd3'
+import { renderToString } from 'react-dom/server'
 
 export function initialize(element, initialWidth, initialHeight, margin, isResponsive){
 
@@ -93,4 +94,22 @@ export function appendYLabel(svg, yLabel, labelFontSize, height, margin){
     .style("fill", "black")
     .style("font-size", labelFontSize)
     .text(yLabel);
+}
+
+export function createTooltipContainer(){
+  return select("body").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0)
+    .style("position", 'absolute')
+    .style("pointer-events", 'none')
+}
+
+export function renderTooltip(tooltip, obj){
+
+  if(!tooltip)
+    return
+
+  return renderToString(
+    tooltip(obj)
+  )
 }
