@@ -17,7 +17,13 @@ export class BarChart extends React.Component {
     yLabel: PropTypes.string,
     tickFontSize: PropTypes.number,
     labelFontSize: PropTypes.number,
-    titleFontSize: PropTypes.number
+    titleFontSize: PropTypes.number,
+    margin: PropTypes.shape({
+      top: PropTypes.number,
+      right: PropTypes.number,
+      bottom: PropTypes.number,
+      left: PropTypes.number
+    })
   }
 
   static defaultProps = {
