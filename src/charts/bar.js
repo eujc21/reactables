@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import * as d3 from 'd3'
 import isEqual from 'lodash/isEqual'
-import { makeResponsive } from './utils'
+import { initialize, remove, appendTitle, appendXLabel, appendYLabel } from './common'
 
 export class BarChart extends React.Component {
 
@@ -29,120 +29,126 @@ export class BarChart extends React.Component {
     yLabel: '',
     tickFontSize: 12,
     labelFontSize: 12,
-    titleFontSize: 12
+    titleFontSize: 12,
+    margin: {
+      top: 20,
+      right: 20,
+      bottom: 60,
+      left: 50
+    }
+  }
+
+  constructor(props){
+    super(props)
+    this.svg = {}
+    this.width = 0
+    this.height = 0
   }
 
   componentDidMount(){
     this.renderChart()
   }
 
-  componentWillUpdate(prevProps, prevState){
-    if(!isEqual(this.props.data, prevProps.data)){
-      d3.select(this.chartContainer).selectAll('svg').remove()
+  componentWillUpdate(prevProps){
+    if(!isEqual(this.props, prevProps)){
+      remove(this.svg)
       this.renderChart()
     }
   }
 
-  renderChart =()=>{
-    const { data, xProp, yProp, xLabel, yLabel, title, tickFontSize, labelFontSize, titleFontSize, isResponsive, initialWidth, initialHeight } = this.props
+  componentWillUnmount(){
+    remove(this.svg)
+  }
 
-    let margin = {
-      top: 20,
-      right: 20,
-      bottom: 60,
-      left: 50
-    }
+  appendXAxis =()=>{
 
-    let width = initialWidth - margin.left - margin.right;
-    let height = initialHeight - margin.top - margin.bottom;
+    const { data, xProp, tickFontSize } = this.props
 
-    let svg = d3.select(this.chartContainer)
-      .append('svg')
-      .attr('width', width + margin.left + margin.right)
-      .attr('height', height + margin.top + margin.bottom)
-      .call( isResponsive ? makeResponsive : ()=>{} )
-      .append('g')
-      .attr('transform', `translate(${margin.left}, ${margin.top})`)
-
-    // append title
-    svg.append("text")
-      .attr("transform", `translate( ${width/2}, ${-margin.top / 2 } )`)
-      .style("text-anchor", "middle")
-      .style("fill", "black")
-      .style("font-size", `${titleFontSize}px`)
-      .text(title);
-
-
-    /* Y Scale and Axis */
-    let yScale = d3.scaleLinear()
-      .domain([0, d3.max(data, d=> d[yProp])])
-      .range([height, 0]);
-
-    let yAxis = d3.axisLeft(yScale);
-    svg.call(yAxis);
-
-    /* X Scale and Axis */
-    let xScale = d3.scaleBand()
+    this.xScale = d3.scaleBand()
       .padding(0.2)
       .domain(data.map(d => d[xProp]))
-      .range([0, width]);
+      .range([0, this.width]);
 
-    let xAxis = d3.axisBottom(xScale)
+    let xAxis = d3.axisBottom(this.xScale)
       .ticks(5)
       .tickSize(10)
       .tickPadding(5)
 
-    /* Append and Transform X Axis */
-    svg
+    this.svg
       .append('g')
-      .attr('transform', `translate(0, ${height})`)
+      .attr('transform', `translate(0, ${this.height})`)
       .call(xAxis)
       .selectAll('text')
       .style('text-anchor', 'end')
       .style('font-size', `${tickFontSize}px`)
       .attr('transform', 'rotate(-45)');
+  }
 
+  appendYAxis =()=>{
+    const { data, yProp, tickFontSize } = this.props
 
-    svg.selectAll('rect')
+    this.yScale = d3.scaleLinear()
+      .domain([0, d3.max(data, d=> d[yProp])])
+      .range([this.height, 0]);
+
+    let yAxis = d3.axisLeft(this.yScale)
+
+    this.svg
+      .append('g')
+      .call(yAxis)
+      .style('font-size', `${tickFontSize}px`)
+      .style('font-weight', '100')
+      .style('stroke-width', 0.5)
+  }
+
+  appendBars =()=>{
+    const { data, xProp, yProp } = this.props
+    this.svg.selectAll('rect')
       .data(data)
       .enter()
       .append('rect')
       .style('fill', 'd6e9c6')
       .style('stroke', '#31708f')
       .style('stroke-width', '1')
-      .attr('x', d => xScale(d[xProp]))
-      .attr('y', d => yScale(d[yProp]))
-      .attr('width', d => xScale.bandwidth())
-      .attr('height', d => height - yScale(d[yProp]))
+      .attr('x', d => this.xScale(d[xProp]))
+      .attr('y', d => this.yScale(d[yProp]))
+      .attr('width', d => this.xScale.bandwidth())
+      .attr('height', d => this.height - this.yScale(d[yProp]))
+  }
 
+  renderChart =()=>{
 
+    const { initialWidth, initialHeight, margin, isResponsive, title, titleFontSize, xLabel, yLabel, labelFontSize } = this.props
 
-    // append Y label
-    svg.append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("y", 0 - margin.left)
-      .attr("x",0 - (height / 2))
-      .attr("dy", "1em")
-      .style("text-anchor", "middle")
-      .style("fill", "black")
-      .text(yLabel);
+    // create base svg
+    this.svg = initialize(this.chartContainer, initialWidth, initialHeight, margin, isResponsive)
 
+    // Calculate width and height
+    this.width = initialWidth - margin.left - margin.right
+    this.height = initialHeight - margin.top - margin.bottom
 
-    //append X label
-    svg.append("text")
-      .attr("transform", `translate(${width/2} , ${height + margin.bottom})`)
-      .style("text-anchor", "middle")
-      .style("fill", "black")
-      .text(xLabel);
+    // common
+    appendTitle(this.svg, title, titleFontSize, this.width, margin)
+    appendXLabel(this.svg, xLabel, labelFontSize, this.width, this.height, margin)
+    appendYLabel(this.svg, yLabel, labelFontSize, this.height, margin)
 
-
+    // chart
+    this.appendXAxis()
+    this.appendYAxis()
+    this.appendBars()
   }
 
   render(){
+    const style = {
+      width: '100%',
+      backgroundColor: this.props.backgroundColor,
+    }
+
     return(
       <div
-        ref={(chartContainer) => { this.chartContainer = chartContainer }}
-        style={{ width: '100%'}} />
+        style={ style }
+        ref={ chartContainer => this.chartContainer = chartContainer }
+      />
     )
   }
 }
