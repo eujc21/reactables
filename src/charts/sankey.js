@@ -70,8 +70,8 @@ export class Sankey extends React.Component {
 
     let formatNumber = d3.format(",.0f")
     let format = (d) => {
-        return formatNumber(d); //+ " TWh";
-      }
+      return formatNumber(d); //+ " TWh";
+    }
     let color = d3.scaleOrdinal(d3.schemeCategory20);
 
     this.svg = d3.select(this.chartContainer)
@@ -120,14 +120,14 @@ export class Sankey extends React.Component {
       })
       .on("click", this.props.onClick)
 
-      // .call(d3.drag()
-      //   .subject(function(d) {
-      //     return d;
-      //   })
-      //   .on("start", function() {
-      //     this.parentNode.appendChild(this);
-      //   })
-      //   .on("drag", dragmove))
+    // .call(d3.drag()
+    //   .subject(function(d) {
+    //     return d;
+    //   })
+    //   .on("start", function() {
+    //     this.parentNode.appendChild(this);
+    //   })
+    //   .on("drag", dragmove))
 
 
 
