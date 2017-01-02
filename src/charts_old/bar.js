@@ -3,7 +3,7 @@ import * as d3 from 'd3'
 import isEqual from 'lodash/isEqual'
 import { makeResponsive } from './utils'
 
-export class BaseChart extends React.Component {
+export class BarChart extends React.Component {
 
   static propTypes = {
     data: PropTypes.array.isRequired,
@@ -42,56 +42,6 @@ export class BaseChart extends React.Component {
       this.renderChart()
     }
   }
-
-  generateChartID =()=>{
-    let d = new Date().getTime();
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c)=> {
-      let r = (d + Math.random()*16)%16 | 0;
-      d = Math.floor(d/16);
-      return (c=='x' ? r : (r&0x3|0x8)).toString(16);
-    })
-  }
-
-  makeResponsive =(svg)=>{
-    // get container + svg aspect ratio
-    let container = select(svg.node().parentNode)
-
-    let width = parseInt(svg.style("width"))
-    let height = parseInt(svg.style("height"))
-    let aspect = width / height
-
-    svg.attr("viewBox", `0 0 ${width} ${height}`)
-      .attr("preserveAspectRatio", "xMinYMid")
-      .call(resize);
-
-    d3.select(window).on("resize." + this.generateChartID(), resize)
-
-    // get width of container and resize svg to fit it
-    function resize() {
-
-      let containerWidth = parseInt(container.style("width"))
-      //let containerHeight = parseInt(container.style("height"))
-
-      svg.attr("width", containerWidth)
-      svg.attr("height", containerWidth /aspect )
-
-    }
-  }
-
-  appendTitle =()=>{
-
-  }
-
-  appendXAxis =()=>{
-
-  }
-
-  appendYAxis =()=>{
-
-  }
-
-
-
 
   renderChart =()=>{
     const { data, xProp, yProp, xLabel, yLabel, title, tickFontSize, labelFontSize, titleFontSize, isResponsive, initialWidth, initialHeight } = this.props

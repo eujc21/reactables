@@ -62,7 +62,8 @@ class Charts extends React.Component {
                 pointRadius={ 4 }
                 tickFontSize={ 20 }
                 xProp="date"
-                yProp="count" />
+                yProp="count"
+                title="test"/>
               <Code>
                 <LineChart
                   isResponsive

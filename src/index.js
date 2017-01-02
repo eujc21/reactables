@@ -18,7 +18,7 @@ export elementLoaderMiddleware from './components/element_loader/element_loader_
 export elementLoaderReducer from './components/element_loader/element_loader_reducer'
 
 export { BarChart } from './charts/bar'
-export { LineChart} from './charts/line'
+export { LineChart } from './charts/line_chart'
 export { TrajectoryChart } from './charts/trajectory'
 export { Sankey } from './charts/sankey'
 
