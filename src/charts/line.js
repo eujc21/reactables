@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import { renderToString } from 'react-dom/server'
 import * as d3 from 'd3'
 import isEqual from 'lodash/isEqual'
-import { makeResponsive } from './utils'
+import { initialize, remove, appendTitle, appendXLabel, appendYLabel } from './common'
 
 export class LineChart extends React.Component {
 
@@ -10,17 +10,23 @@ export class LineChart extends React.Component {
     data: PropTypes.array.isRequired,
     xProp: PropTypes.string.isRequired,
     yProp: PropTypes.string.isRequired,
-    initialWidth: PropTypes.number,
-    initialHeight: PropTypes.number,
-    isResponsive: PropTypes.bool,
-    lineColors: PropTypes.array,
-    backgroundColor: PropTypes.string,
     title: PropTypes.string,
     xLabel: PropTypes.string,
     yLabel: PropTypes.string,
+    initialWidth: PropTypes.number,
+    initialHeight: PropTypes.number,
+    isResponsive: PropTypes.bool,
     tickFontSize: PropTypes.number,
     labelFontSize: PropTypes.number,
     titleFontSize: PropTypes.number,
+    margin: PropTypes.shape({
+      top: PropTypes.number,
+      right: PropTypes.number,
+      bottom: PropTypes.number,
+      left: PropTypes.number
+    }),
+
+    lineColors: PropTypes.array,
     onClick: PropTypes.func,
     tooltip: PropTypes.func,
     xTicksAngled: PropTypes.bool,
@@ -28,31 +34,25 @@ export class LineChart extends React.Component {
     xTicks: PropTypes.number,
     yTicks: PropTypes.number,
     pointRadius: PropTypes.number,
-    margin: PropTypes.shape({
-      top: PropTypes.number,
-      right: PropTypes.number,
-      bottom: PropTypes.number,
-      left: PropTypes.number
-    })
   }
 
   static defaultProps = {
-    initialWidth: 960,
-    initialHeight: 500,
-    isResponsive: false,
     lineColors: ['#000000'],
-    backgroundColor: '',
-    title: '',
-    xLabel: '',
-    yLabel: '',
-    tickFontSize: 5,
-    labelFontSize: 5,
-    titleFontSize: 5,
     xTicksAngled: false,
     shouldShowGrid: false,
     xTicks: null,
     yTicks: null,
     pointRadius: 1.3,
+
+    initialWidth: 960,
+    initialHeight: 500,
+    isResponsive: false,
+    title: '',
+    xLabel: '',
+    yLabel: '',
+    tickFontSize: 12,
+    labelFontSize: 12,
+    titleFontSize: 12,
     margin: {
       top: 20,
       right: 20,
@@ -61,15 +61,26 @@ export class LineChart extends React.Component {
     }
   }
 
+  constructor(props){
+    super(props)
+    this.svg = {}
+    this.width = 0
+    this.height = 0
+  }
+
   componentDidMount(){
     this.renderChart()
   }
 
-  componentWillUpdate(prevProps, prevState){
-    if(!isEqual(this.props.data, prevProps.data)){
-      d3.select(this.chartContainer).selectAll('svg').remove()
+  componentWillUpdate(prevProps){
+    if(!isEqual(this.props, prevProps)){
+      remove(this.svg)
       this.renderChart()
     }
+  }
+
+  componentWillUnmount(){
+    remove(this.svg)
   }
 
   handlePointClick =(set, d, i)=>{
@@ -79,126 +90,106 @@ export class LineChart extends React.Component {
     this.props.onClick(set, d, i)
   }
 
-  renderChart =()=>{
-    const { data, xProp, yProp, xLabel, yLabel, title, tickFontSize, labelFontSize, titleFontSize, lineColors, initialWidth, initialHeight, isResponsive, xTicksAngled, shouldShowGrid, margin, xTicks, yTicks, pointRadius } = this.props
-
-    let width = initialWidth - margin.left - margin.right;
-    let height = initialHeight - margin.top - margin.bottom;
-
-    let svg = d3.select(this.chartContainer)
-      .append('svg')
-      .attr('width', width + margin.left + margin.right)
-      .attr('height', height + margin.top + margin.bottom)
-      .call( isResponsive ? makeResponsive : ()=>{} )
-      .append('g')
-      .attr('transform', `translate(${margin.left}, ${margin.top})`)
-
-    // append title
-    svg.append("text")
-      .attr("transform", `translate( ${width/2}, ${-margin.top / 2 } )`)
-      .style("text-anchor", "middle")
-      .style("fill", "black")
-      .style("font-size", `${titleFontSize}px`)
-      .text(title);
-
-    // This is mutating dates, breaking the charts.
-    // Prerequisite needs to be all dates are pre parsed.
-
-    // data.forEach(dataset => {
-    //   dataset.values = dataset.values.forEach(d => {
-    //     d[xProp] = Date.parse(d[xProp])
-    //     d[yProp] = d[yProp]
-    //   })
-    // })
-
-    /* Y Scale and Axis*/
-    let yScale = d3.scaleLinear()
-      .domain([
-        d3.min(data, dataset => d3.min(dataset.values, d => d[yProp])),
-        d3.max(data, dataset => d3.max(dataset.values, d => d[yProp]))
-      ])
-      .range([height, 0])
-
-    let yAxis = d3.axisLeft(yScale)
-      .ticks(yTicks)
-      .tickSize(5)
-
-    svg
-      .append('g')
-      .call(yAxis)
-      .style('font-size', `${tickFontSize}px`)
-      .style('font-weight', '100')
-      .style('stroke-width', 0.5)
-
-    // svg
-    //   .append('g')
-    //   .call(d3.axisLeft(yScale))
-    //   .style('font-size', `${tickFontSize}px`)
-
-
-    /* X Scale and Axis */
-    let xScale = d3.scaleTime()
+  appendXAxis =()=>{
+    const { data, xTicks, xProp, tickFontSize, xTicksAngled } = this.props
+    this.xScale = d3.scaleTime()
       .domain([
         d3.min(data, dataset => d3.min(dataset.values, d => d[xProp])),
         d3.max(data, dataset => d3.max(dataset.values, d => d[xProp]))
       ])
-      .range([0, width])
+      .range([0, this.width])
 
-    let xAxis = d3.axisBottom(xScale)
+    this.xAxis = d3.axisBottom(this.xScale)
       .ticks(xTicks)
       .tickSize(5)
       .tickPadding(5)
 
 
     /* Append and Transform X Axis */
-    svg
+    this.svg
       .append('g')
-      .attr('transform', `translate(0, ${height})`)
-      .call(xAxis)
+      .attr('transform', `translate(0, ${ this.height })`)
+      .call(this.xAxis)
       .style('stroke-width', 0.5)
       .selectAll('text')
       .style('text-anchor', 'end')
       .style('font-size', `${tickFontSize}px`)
       .attr('transform', `rotate(${xTicksAngled ? -45 : 0})`);
+  }
 
+  appendYAxis =()=>{
+    const { data, yProp, yTicks, tickFontSize } = this.props
+    this.yScale = d3.scaleLinear()
+      .domain([
+        d3.min(data, dataset => d3.min(dataset.values, d => d[yProp])),
+        d3.max(data, dataset => d3.max(dataset.values, d => d[yProp]))
+      ])
+      .range([this.height, 0])
 
+    this.yAxis = d3.axisLeft(this.yScale)
+      .ticks(yTicks)
+      .tickSize(5)
 
-    //append grid
-    if(shouldShowGrid) {
-      svg.append('g')
-        .attr('transform', `translate(0, ${height})`)
-        .call(
-          xAxis.tickSize(-height, 0, 0)
-            .tickSizeOuter(0, 0, 0)
-            .tickFormat("")
-        )
-        .style('stroke-width', 0.1)
+    this.svg
+      .append('g')
+      .call(this.yAxis)
+      .style('font-size', `${tickFontSize}px`)
+      .style('font-weight', '100')
+      .style('stroke-width', 0.5)
 
-      svg.append('g')
-        .call(
-          yAxis.tickSize(-width, 0, 0)
-            .tickSizeOuter(0, 0, 0)
-            .tickFormat("")
-        )
-        .style('stroke-width', 0.1)
-    }
-    //end grid
+  }
 
+  appendGrid =()=>{
+
+    if(!this.props.shouldShowGrid)
+      return
+
+    this.svg.append('g')
+      .attr('transform', `translate(0, ${this.height})`)
+      .call(
+        this.xAxis.tickSize(-this.height, 0, 0)
+          .tickSizeOuter(0, 0, 0)
+          .tickFormat("")
+      )
+      .style('stroke-width', 0.1)
+
+    this.svg.append('g')
+      .call(
+        this.yAxis.tickSize(-this.width, 0, 0)
+          .tickSizeOuter(0, 0, 0)
+          .tickFormat("")
+      )
+      .style('stroke-width', 0.1)
+  }
+
+  appendAreas =()=>{
+    const { data, xProp, yProp, lineColors } = this.props
 
     let area = d3.area()
-      .x(d => xScale(d[xProp]))
-      .y0(height)
-      .y1(d => yScale(d[yProp]))
+      .x(d => this.xScale(d[xProp]))
+      .y0(this.height)
+      .y1(d => this.yScale(d[yProp]))
       .curve(d3.curveCatmullRom.alpha(0.5))
+
+    this.svg
+      .selectAll('.area')
+      .data(data)
+      .enter()
+      .append('path')
+      .attr('d', d => area(d.values))
+      .style('fill', (d, i) => lineColors[i])
+      .style('fill-opacity', 0.5)//give fill color for area fill
+  }
+
+  appendLines =()=>{
+    const { data, xProp, yProp, lineColors } = this.props
 
     let line = d3.line()
-      .x(d => xScale(d[xProp]))
-      .y(d => yScale(d[yProp]))
+      .x(d => this.xScale(d[xProp]))
+      .y(d => this.yScale(d[yProp]))
       .curve(d3.curveCatmullRom.alpha(0.5))
 
-
-    //draw the line
-    svg
+    this.svg
       .selectAll('.line')
       .data(data)
       .enter()
@@ -208,18 +199,10 @@ export class LineChart extends React.Component {
       .style('stroke', (d, i) => lineColors[i])
       .style('stroke-width', 1)
       .style('fill', 'none')
+  }
 
-    //append the area
-    svg
-      .selectAll('.area')
-      .data(data)
-      .enter()
-      .append('path')
-      .attr('d', d => area(d.values))
-      .style('fill', (d, i) => lineColors[i])
-      .style('fill-opacity', 0.5)//give fill color for area fill
-
-
+  appendPoints =()=>{
+    const { data, tooltip, lineColors, xProp, yProp, pointRadius } = this.props
     /*================*/
     /* Create Tooltip */
     /*================*/
@@ -235,13 +218,13 @@ export class LineChart extends React.Component {
     /* Append Points */
     /*===============*/
     data.forEach((dataset, setIndex) =>{
-      svg
+      this.svg
         .selectAll('point')
         .data(dataset.values)
         .enter()
         .append('circle')
-        .attr('cx', d => xScale(d[xProp]))
-        .attr('cy', d => yScale(d[yProp]))
+        .attr('cx', d => this.xScale(d[xProp]))
+        .attr('cy', d => this.yScale(d[yProp]))
         .attr('r', d => pointRadius)
         .style('fill', lineColors[setIndex])
         .style('cursor', this.props.onClick ? 'pointer' :  null)
@@ -257,7 +240,7 @@ export class LineChart extends React.Component {
             .style("opacity", .9)
 
           div
-            .html( this.renderTooltipContent(dataset.name, d, i) )
+            .html(renderTooltipContent(dataset.name, d, i) )
             .style("left", (d3.event.pageX) + "px")
             .style("top", (d3.event.pageY) + "px");
         })
@@ -275,51 +258,56 @@ export class LineChart extends React.Component {
         .on("click", (d, i)=> this.handlePointClick(dataset.name, d, i))
     })
 
-    // append Y label
-    svg.append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("y", 0 - margin.left)
-      .attr("x",0 - (height / 2))
-      .attr("dy", "1em")
-      .style("text-anchor", "middle")
-      .style("fill", "black")
-      .style("font-size", labelFontSize)
-      .text(yLabel);
+    function renderTooltipContent(d, i){
 
+      if(!tooltip)
+        return
 
-    //append X label
-    svg.append("text")
-      .attr("transform", `translate(${width/2} , ${height + margin.bottom})`)
-      .style("text-anchor", "middle")
-      .style("fill", "black")
-      .style("font-size", labelFontSize)
-      .text(xLabel);
+      return renderToString(
+        tooltip(d, i)
+      )
+    }
 
   }
 
-  renderTooltipContent =(d, i)=>{
-    const { tooltip } = this.props
+  renderChart =()=>{
 
-    if(!tooltip)
-      return
+    const { initialWidth, initialHeight, margin, isResponsive, title, titleFontSize, xLabel, yLabel, labelFontSize } = this.props
 
-    return renderToString(
-      tooltip(d, i)
-    )
+    // create base svg
+    this.svg = initialize(this.chartContainer, initialWidth, initialHeight, margin, isResponsive)
+
+    // Calculate width and height
+    this.width = initialWidth - margin.left - margin.right
+    this.height = initialHeight - margin.top - margin.bottom
+
+    // common
+    appendTitle(this.svg, title, titleFontSize, this.width, margin)
+    appendXLabel(this.svg, xLabel, labelFontSize, this.width, this.height, margin)
+    appendYLabel(this.svg, yLabel, labelFontSize, this.height, margin)
+
+    // chart
+    this.appendXAxis()
+    this.appendYAxis()
+    this.appendGrid()
+    this.appendAreas()
+    this.appendLines()
+    this.appendPoints()
   }
 
   render(){
-
     const style = {
       width: '100%',
-      backgroundColor: this.props.backgroundColor
+      backgroundColor: this.props.backgroundColor,
+      border: '1px solid black'
     }
 
     return(
       <div
-        ref={(chartContainer) => { this.chartContainer = chartContainer }}
-        className={ 'chart' }
-        style={ style } />
+        style={ style }
+        ref={ chartContainer => this.chartContainer = chartContainer }
+      />
     )
   }
+
 }
