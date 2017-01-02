@@ -27,27 +27,11 @@ export function makeResponsive (svg){
   // get width of container and resize svg to fit it
   function resize() {
 
-    let containerWidth = parseInt(container.style("width"))
+    let containerWidth = parseInt(container.style("width").slice(0, -2))
     //let containerHeight = parseInt(container.style("height"))
 
     svg.attr("width", containerWidth)
     svg.attr("height", containerWidth /aspect )
 
   }
-}
-
-export function appendTitle(title){
-
-}
-
-export function appendXLabel(label){
-
-}
-
-export function appendYLabel(label){
-
-}
-
-export function rotateTicks(){
-
 }
