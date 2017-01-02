@@ -20,9 +20,7 @@ export class Nav extends React.Component {
   componentDidMount(){
     // set top and offset
     this.top = getTop(this.container)
-    this.paddingTop = parseInt(
-      window.getComputedStyle(this.container.parentNode).paddingTop
-    )
+    this.paddingTop = parseInt(window.getComputedStyle(this.container.parentNode).paddingTop)
     this.adjustOffset()
 
     window.addEventListener('scroll', this.adjustOffset)
@@ -41,6 +39,7 @@ export class Nav extends React.Component {
     this.setState ({top})
   }
 
+  // pass position as a prop to NavLink
   setChildPosition =(index)=>{
     if(index === 0)
       return 'first'
@@ -96,11 +95,15 @@ export class Nav extends React.Component {
 export class NavLink extends React.Component {
   static propTypes = {
     to: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
-    styles: PropTypes.object
+    styles: PropTypes.object,
+    hoverColor: PropTypes.string,
+    backgroundColor: PropTypes.string
   }
 
   static defaultProps = {
-    styles: {}
+    styles: {},
+    hoverColor: '#ffffff',
+    backgroundColor: 'transparent'
   }
 
   state = { isHovered: false }
@@ -124,12 +127,12 @@ export class NavLink extends React.Component {
   }
 
   render(){
-    const { to, children, styles } = this.props
+    const { to, children, styles, hoverColor, backgroundColor } = this.props
 
     const style = {
       base: {
         position: 'relative',
-        backgroundColor: this.state.isHovered ? '#ffffff' : '#d4d4d4',
+        backgroundColor: this.state.isHovered ? hoverColor : backgroundColor,
         borderBottom: '1px solid #dcdcdc',
         padding: 0,
         fontSize: 14,
@@ -138,7 +141,7 @@ export class NavLink extends React.Component {
       link:{
         display: 'block',
         margin: 0,
-        padding: 10,
+        padding: '5px 3px',
         height: '100%',
         textDecoration: 'none',
         color: 'black'
