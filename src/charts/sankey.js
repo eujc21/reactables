@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import * as d3 from 'd3'
 import { sankey } from 'd3-sankey'
 import isEqual from 'lodash/isEqual'
-import { initialize, remove } from './common'
+import { initialize, remove, generateGUID } from './common'
 import '../styles/charts.css'
 
 
@@ -50,8 +50,8 @@ export class Sankey extends React.Component {
 
     const { initialWidth, initialHeight, margin, isResponsive} = this.props
 
-    // create base svg
-    this.svg = initialize(this.chartContainer, initialWidth, initialHeight, margin, isResponsive)
+    this.GUID = generateGUID()
+    this.svg = initialize(this.chartContainer, this.GUID, initialWidth, initialHeight, margin, isResponsive)
 
     this.renderChart()
   }
@@ -64,7 +64,7 @@ export class Sankey extends React.Component {
   }
 
   componentWillUnmount(){
-    remove(this.svg)
+    remove(this.svg, this.GUID)
   }
 
   initializeSankey =()=>{

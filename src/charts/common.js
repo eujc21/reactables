@@ -1,34 +1,33 @@
 import { select } from 'd3'
 import { renderToString } from 'react-dom/server'
 
-export function initialize(element, initialWidth, initialHeight, margin, isResponsive){
+export function initialize(element, GUID, initialWidth, initialHeight, margin, isResponsive){
 
-  const svg = select(element)
+  return select(element)
     .append('svg')
     .attr('width', initialWidth)
     .attr('height', initialHeight)
-    .call( isResponsive ? makeResponsive : ()=>{} )
+    .call( isResponsive ? (svg) => makeResponsive(svg, GUID) : ()=>{} )
     .append('g')
     .attr('transform', `translate(${margin.left}, ${margin.top})`)
-
-  return svg
 }
 
-export function remove(svg){
+export function remove(svg, GUID){
   svg.selectAll("*").remove()
+  if(GUID) select(window).on("resize." + GUID, null)
 }
 
-function generateGUID() {
-  let d = new Date().getTime();
+export function generateGUID() {
+  let d = new Date().getTime()
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c)=> {
-    let r = (d + Math.random()*16)%16 | 0;
-    d = Math.floor(d/16);
-    return (c=='x' ? r : (r&0x3|0x8)).toString(16);
+    let r = (d + Math.random()*16)%16 | 0
+    d = Math.floor(d/16)
+    return (c=='x' ? r : (r&0x3|0x8)).toString(16)
   })
 }
 
 
-export function makeResponsive (svg){
+export function makeResponsive (svg, GUID){
   // get container + svg aspect ratio
   let container = select(svg.node().parentNode)
 
@@ -40,7 +39,7 @@ export function makeResponsive (svg){
     .attr("preserveAspectRatio", "xMinYMid")
     .call(resize);
 
-  select(window).on("resize." + generateGUID(), resize)
+  select(window).on("resize." + GUID, resize)
 
   // get width of container and resize svg to fit it
   function resize() {

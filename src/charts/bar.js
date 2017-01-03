@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import * as d3 from 'd3'
 import isEqual from 'lodash/isEqual'
-import { initialize, remove, appendTitle, appendXLabel, appendYLabel } from './common'
+import { initialize, generateGUID, remove, appendTitle, appendXLabel, appendYLabel } from './common'
 
 export class BarChart extends React.Component {
 
@@ -54,8 +54,8 @@ export class BarChart extends React.Component {
   componentDidMount(){
     const { initialWidth, initialHeight, margin, isResponsive } = this.props
 
-    // create base svg
-    this.svg = initialize(this.chartContainer, initialWidth, initialHeight, margin, isResponsive)
+    this.GUID = generateGUID()
+    this.svg = initialize(this.chartContainer, this.GUID, initialWidth, initialHeight, margin, isResponsive)
 
     this.renderChart()
   }
@@ -68,7 +68,7 @@ export class BarChart extends React.Component {
   }
 
   componentWillUnmount(){
-    remove(this.svg)
+    remove(this.svg, this.GUID)
   }
 
   appendXAxis =()=>{

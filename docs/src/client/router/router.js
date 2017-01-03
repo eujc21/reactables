@@ -43,16 +43,6 @@ export default function configureRouter(history, store){
                 .then(setScrollTop)
                 .catch(errorLoading)
             }
-          },
-          {
-            path: '/layout',
-            getComponent(location, cb) {
-              System
-                .import('../containers/layout')
-                .then(loadRoute(cb))
-                .then(setScrollTop)
-                .catch(errorLoading)
-            }
           }
         ]
       }

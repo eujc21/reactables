@@ -18,7 +18,6 @@ const Hero =({title, tagline})=>{
     tagline: {
       margin: 0
     }
-
   }
 
   return (

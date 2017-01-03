@@ -38,7 +38,6 @@ class App extends React.Component {
       }
     }
 
-
     return(
       <div style={ style.base }>
         <Navbar styles={{ base: style.navbar.base }}>
@@ -56,9 +55,7 @@ class App extends React.Component {
       </div>
     )
   }
-
 }
-
 
 function mapStateToProps(state){
   return {

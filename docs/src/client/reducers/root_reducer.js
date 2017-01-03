@@ -3,14 +3,13 @@ import { SET_PAGE_SCROLL_POSITION, UPDATE_INPUT_TEXT, INCREMENT_COMPLETED, TOGGL
 import { elementLoaderReducer } from '../../../../src/index'
 import moment from 'moment'
 
-
 function errorMessage(state = null, action) {
-  const { type, error } = action;
+  const { type, error } = action
 
   if (type === 'RESET_ERROR_MESSAGE') {
     return null
   } else if (error) {
-    console.log(error);
+    console.log(error)
     return action.error
   }
 
@@ -146,14 +145,12 @@ const initialChartsState = {
   }
 }
 
-function charts(state = initialChartsState, action){
-  switch(action.type){
+function charts(state = initialChartsState, action) {
+  switch (action.type) {
     default:
       return state
   }
 }
-
-
 
 const initialLayoutState = {}
 
@@ -173,4 +170,4 @@ const rootReducer = combineReducers({
   elementLoaderReducer,
 });
 
-export default rootReducer;
+export default rootReducer

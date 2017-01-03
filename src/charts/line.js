@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import { renderToString } from 'react-dom/server'
 import * as d3 from 'd3'
 import isEqual from 'lodash/isEqual'
-import { initialize, remove, appendTitle, appendXLabel, appendYLabel, createTooltipContainer, renderTooltip } from './common'
+import { initialize, generateGUID, remove, appendTitle, appendXLabel, appendYLabel, createTooltipContainer, renderTooltip } from './common'
 
 export class LineChart extends React.Component {
 
@@ -72,7 +72,8 @@ export class LineChart extends React.Component {
     // create base svg
     const { initialWidth, initialHeight, margin, isResponsive} = this.props
 
-    this.svg = initialize(this.chartContainer, initialWidth, initialHeight, margin, isResponsive)
+    this.GUID = generateGUID()
+    this.svg = initialize(this.chartContainer, this.GUID, initialWidth, initialHeight, margin, isResponsive)
 
     this.renderChart()
   }
@@ -85,7 +86,7 @@ export class LineChart extends React.Component {
   }
 
   componentWillUnmount(){
-    remove(this.svg)
+    remove(this.svg, this.GUID)
   }
 
   handlePointClick =(set, d, i)=>{
