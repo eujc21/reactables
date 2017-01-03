@@ -52,6 +52,11 @@ export class BarChart extends React.Component {
   }
 
   componentDidMount(){
+    const { initialWidth, initialHeight, margin, isResponsive } = this.props
+
+    // create base svg
+    this.svg = initialize(this.chartContainer, initialWidth, initialHeight, margin, isResponsive)
+
     this.renderChart()
   }
 
@@ -125,10 +130,7 @@ export class BarChart extends React.Component {
 
   renderChart =()=>{
 
-    const { initialWidth, initialHeight, margin, isResponsive, title, titleFontSize, xLabel, yLabel, labelFontSize } = this.props
-
-    // create base svg
-    this.svg = initialize(this.chartContainer, initialWidth, initialHeight, margin, isResponsive)
+    const { initialWidth, initialHeight, margin, title, titleFontSize, xLabel, yLabel, labelFontSize } = this.props
 
     // Calculate width and height
     this.width = initialWidth - margin.left - margin.right
