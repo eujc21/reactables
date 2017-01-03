@@ -65,14 +65,12 @@ export class Sankey extends React.Component {
     if(!data)
       return
 
-    let width = initialWidth - margin.left - margin.right;
-    let height = initialHeight - margin.top - margin.bottom;
+    let width = initialWidth - margin.left - margin.right
+    let height = initialHeight - margin.top - margin.bottom
 
     let formatNumber = d3.format(",.0f")
-    let format = (d) => {
-      return formatNumber(d); //+ " TWh";
-    }
-    let color = d3.scaleOrdinal(d3.schemeCategory20);
+    let format = (d) => formatNumber(d) //+ " TWh";
+    let color = d3.scaleOrdinal(d3.schemeCategory20)
 
     this.svg = d3.select(this.chartContainer)
       .append("svg")
@@ -80,44 +78,37 @@ export class Sankey extends React.Component {
       .attr("height", height + margin.top + margin.bottom)
       .call( isResponsive ? makeResponsive : ()=>{} )
       .append("g")
-      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
 
     let sk = sankey()
       .nodeWidth(15)
       .nodePadding(30)
-      .size([width, height]);
+      .size([width, height])
 
-    let path = sk.link();
+    let path = sk.link()
 
-    sk
-      .nodes(data.nodes)
+    sk.nodes(data.nodes)
       .links(data.links)
       .layout(32);
 
-    let link = this.svg.append("g").selectAll(".link")
+    let link = this.svg
+      .append("g")
+      .selectAll(".link")
       .data(data.links)
       .enter().append("path")
       .attr("class", "link")
       .attr("d", path)
-      .style("stroke-width", (d) => {
-        return Math.max(1, d.dy);
-      })
-      .sort((a, b) => {
-        return b.dy - a.dy;
-      });
+      .style("stroke-width", (d) => Math.max(1, d.dy))
+      .sort((a, b) => b.dy - a.dy)
 
     link.append("title")
-      .text(d => {
-        return d.source.name + " → " + d.target.name + "\n" + format(d.value);
-      });
+      .text(d => d.source.name + " → " + d.target.name + "\n" + format(d.value))
 
     let node = this.svg.append("g").selectAll(".node")
       .data(data.nodes)
       .enter().append("g")
       .attr("class", "node")
-      .attr("transform", (d) => {
-        return "translate(" + d.x + "," + d.y + ")";
-      })
+      .attr("transform", (d) => "translate(" + d.x + "," + d.y + ")")
       .on("click", this.props.onClick)
 
     // .call(d3.drag()
@@ -129,40 +120,24 @@ export class Sankey extends React.Component {
     //   })
     //   .on("drag", dragmove))
 
-
-
     node.append("rect")
-      .attr("height", (d) => {
-        return d.dy;
-      })
+      .attr("height", (d) => d.dy)
       .attr("width", sk.nodeWidth())
-      .style("fill", (d) => {
-        return d.color = d.fillColor || color(d.name.replace(/ .*/, ""));
-      })
-      .style("stroke", (d) => {
-        return d.strokeColor || d3.rgb(d.color).darker(2);
-      })
+      .style("fill", (d) => d.color = d.fillColor || color(d.name.replace(/ .*/, "")))
+      .style("stroke", (d) => d.strokeColor || d3.rgb(d.color).darker(2))
       .append("title")
-      .text((d) => {
-        return d.name + "\n" + format(d.value);
-      });
+      .text((d) => d.name + "\n" + format(d.value))
 
     node.append("text")
       .attr("x", -6)
-      .attr("y", (d) => {
-        return d.dy / 2;
-      })
+      .attr("y", (d) => d.dy / 2)
       .attr("dy", ".35em")
       .attr("text-anchor", "end")
       .attr("transform", null)
-      .text((d) => {
-        return d.name;
-      })
-      .filter((d) => {
-        return d.x < width / 2;
-      })
+      .text((d) => d.name)
+      .filter((d) => d.x < width / 2)
       .attr("x", 6 + sk.nodeWidth())
-      .attr("text-anchor", "start");
+      .attr("text-anchor", "start")
 
     // function dragmove(d) {
     //   d3.select(this).attr("transform", "translate(" + d.x + "," + (d.y = Math.max(0, Math.min(height - d.dy, d3.event.y))) + ")");
