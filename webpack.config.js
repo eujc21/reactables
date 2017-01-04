@@ -30,7 +30,7 @@ module.exports = function(){
           exclude: [/node_modules/, './lib', './docs/server', './test', './src'],
           query:{
             plugins: [],
-            presets: [["es2015", { "modules": false}], 'stage-0', 'react']
+            presets: ["es2015", 'stage-0', 'react']
           }
         },
         {
