@@ -42,7 +42,11 @@ function renderFullPage(html) {
 }
 
 function handleRender(req, res){
-  res.send(renderFullPage('', {}))
+  if(process.env.NODE_ENV === 'production') {
+    res.sendFile(path.join(__dirname + '/index.html'))
+  } else {
+    res.send(renderFullPage('', {}))
+  }
 }
 
 //Express API Routes

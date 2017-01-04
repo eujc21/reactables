@@ -2,6 +2,7 @@
 
 const path = require('path')
 const webpack = require('webpack')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const PROJECT_ROOT = path.resolve(__dirname)
 const PACKAGE_VERSION = String(require('./package.json').version)
@@ -13,11 +14,11 @@ module.exports = function(){
     entry: {
       client: [
         path.join(PROJECT_ROOT, 'docs/src/client/client.js'),
-      ]
+      ],
     },
     output:{
       path: path.join(PROJECT_ROOT, 'docs/public'),
-      filename: 'client.js',
+      filename: process.env.NODE_ENV === 'production' ? '[hash].[name].js' : 'client.js',
       publicPath: ''
     },
     plugins: [],
@@ -79,26 +80,51 @@ module.exports = function(){
         'process.env.PKG_VERSION': JSON.stringify(PACKAGE_VERSION)
       }),
       new webpack.IgnorePlugin(/^\.\/locale$/,/moment$/),
-      new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: `vendor.bundle.js`}),
+      new webpack.optimize.CommonsChunkPlugin({
+        names: ['vendor1', 'vendor2', 'vendor3', 'vendor4', 'vendor5', 'vendor6', 'manifest'],
+      }),
       new webpack.optimize.UglifyJsPlugin({
         comments: false,
         sourceMap: false,
         mangle: true
+      }),
+      new HtmlWebpackPlugin({
+        title: 'Reactables',
+        template: path.join(PROJECT_ROOT, 'docs/src/index.html'),
+        inject: 'body',
+        filename: path.join(PROJECT_ROOT, 'docs/index.html'),
+        minify: { collapseWhitespace: true, minifyCSS: true, minifyJS: true }
       })
     )
-    config.entry.vendor = [
-      'react',
-      'react-dom',
-      'react-redux',
-      'react-router',
-      'redux',
-      'd3',
-      'd3-sankey',
-      'moment',
-      'lodash'
-    ]
+    config.entry = {
+      client: config.entry.client,
+      vendor1: [
+        'react',
+        'react-dom',
+      ],
+      vendor2: [
+        'redux',
+        'react-redux',
+      ],
+      vendor3:[
+        'react-router',
+        'isomorphic-fetch'
+      ],
+      vendor4:[
+        'd3',
+        'd3-sankey',
+      ],
+      vendor5: [
+        'moment',
+      ],
+      vendor6: [
+        'lodash'
+      ]
+    }
   }
 
 
   return config
 }
+
+//webpack.github.io/docs/long-term-caching.html

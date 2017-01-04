@@ -1,16 +1,16 @@
 {
   "name": "reactables",
-  "version": "0.4.0-beta.1",
+  "version": "0.4.0-beta.2",
   "description": "Customizable React.js components",
   "main": "lib/index.js",
   "scripts": {
-    "prebuild": "rimraf lib",
     "dev-docs": "cross-env NODE_ENV=development nodemon ./docs/server.js --exec babel-node --presets es2015,stage-0 --ignore /docs/src/client --ignore ./src --ignore ./test",
+    "prebuild-docs": "rimraf docs/public",
     "build-docs": "cross-env NODE_ENV=production webpack",
+    "prebuild": "rimraf lib",
     "build": "cross-env babel --out-dir lib --ignore *.test.js src && copyfiles ./src/styles/* -f lib/styles && copyfiles ./src/vendor/fonts/* -f lib/vendor/fonts",
     "test": "mocha test/*.spec.js --require test/.setup.js --compilers js:babel-core/register",
-    "postinstall": "webpack",
-    "start": "node ./demo/server.js"
+    "start": "cross-env NODE_ENV=production nodemon ./docs/server.js --exec babel-node --presets es2015,stage-0"
   },
   "repository": {
     "type": "git",
@@ -24,7 +24,12 @@
   "license": "ISC",
   "babel": {
     "presets": [
-      ["es2015", { "modules": false}],
+      [
+        "es2015",
+        {
+          "modules": false
+        }
+      ],
       "stage-0",
       "react"
     ]
@@ -60,6 +65,7 @@
     "expect": "^1.20.2",
     "express": "^4.14.0",
     "file-loader": "^0.9.0",
+    "html-webpack-plugin": "^2.26.0",
     "isomorphic-fetch": "^2.2.1",
     "jsdom": "^9.4.2",
     "mocha": "^3.0.2",
