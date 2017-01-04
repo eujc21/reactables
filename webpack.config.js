@@ -90,7 +90,7 @@ module.exports = function(){
       }),
       new HtmlWebpackPlugin({
         title: 'Reactables',
-        template: path.join(PROJECT_ROOT, 'docs/src/index.html'),
+        template: path.join(PROJECT_ROOT, 'docs/src/index.template.html'),
         inject: 'body',
         filename: path.join(PROJECT_ROOT, 'docs/index.html'),
         minify: { collapseWhitespace: true, minifyCSS: true, minifyJS: true }
@@ -123,8 +123,5 @@ module.exports = function(){
     }
   }
 
-
   return config
 }
-
-//webpack.github.io/docs/long-term-caching.html
