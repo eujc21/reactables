@@ -36,7 +36,7 @@ function renderFullPage(html) {
       </head>
       <body>
         <div id="root">${ html }</div>
-        <script src="/client.js"></script>
+        <script src="/public/client.js"></script>
       </body>
     </html>`
 }
@@ -55,7 +55,6 @@ app.get('/api/test', (req, res)=>{
   setTimeout(()=>{
     res.json()
   }, 3000)
-
 })
 
 app.get('/api/test1', (req, res)=>{

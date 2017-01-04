@@ -19,7 +19,7 @@ module.exports = function(){
     output:{
       path: path.join(PROJECT_ROOT, 'docs/public'),
       filename: process.env.NODE_ENV === 'production' ? '[hash].[name].js' : 'client.js',
-      publicPath: ''
+      publicPath: '/public/'
     },
     plugins: [],
     module: {
