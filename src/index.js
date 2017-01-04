@@ -21,6 +21,7 @@ export { BarChart } from './charts/bar'
 export { LineChart } from './charts/line'
 export { TrajectoryChart } from './charts/trajectory'
 export { Sankey } from './charts/sankey'
+export { PieChart } from './charts/pie'
 
 
 

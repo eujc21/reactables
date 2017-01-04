@@ -12,6 +12,17 @@ export function initialize(element, GUID, initialWidth, initialHeight, margin, i
     .attr('transform', `translate(${margin.left}, ${margin.top})`)
 }
 
+export function initializePie(element, GUID, initialWidth, initialHeight, margin, isResponsive){
+
+  return select(element)
+    .append('svg')
+    .attr('width', initialWidth)
+    .attr('height', initialHeight)
+    .call( isResponsive ? (svg) => makeResponsive(svg, GUID) : ()=>{} )
+    .append('g')
+    .attr("transform", "translate(" + initialWidth / 2 + "," + initialHeight / 2 + ")");
+}
+
 export function remove(svg, GUID){
   svg.selectAll("*").remove()
   if(GUID) select(window).on("resize." + GUID, null)

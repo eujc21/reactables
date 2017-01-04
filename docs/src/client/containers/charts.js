@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Nav, NavLink, BarChart, LineChart, Sankey, Code } from '../../../../src/index'
+import { Nav, NavLink, BarChart, PieChart, LineChart, Sankey, Code } from '../../../../src/index'
 import Section from '../components/section'
 
 class Charts extends React.Component {
@@ -57,6 +57,7 @@ class Charts extends React.Component {
             <Nav offsetTop={ 70 } styles={ style.nav }>
               <NavLink to="#line" styles={ style.navlink }>Line</NavLink>
               <NavLink to="#bar" styles={ style.navlink }>Bar</NavLink>
+              <NavLink to="#pie" styles={ style.navlink }>Pie</NavLink>
               <NavLink to="#sankey" styles={ style.navlink }>Sankey</NavLink>
             </Nav>
           </div>
@@ -105,6 +106,32 @@ class Charts extends React.Component {
               </Code>
             </Section>
 
+            <Section id="pie" name="Pie">
+              <PieChart
+                isResponsive
+                data={ this.props.pieData }
+                labelProp="age"
+                valueProp="population"
+                tooltip={ (obj) =>
+                  <div style={ style.tooltip }>
+                    <h3 style={{ margin: 0}}>{ obj.data.age}</h3>
+                    <p style={{ marginBottom: 0}}>
+                      Pop: { obj.data.population }
+                    </p>
+                  </div>
+                }
+              />
+              <Code>
+                <PieChart
+                  isResponsive
+                  data={ [{age: '<5', population: 1234 }] }
+                  labelFontSize={ 20 }
+                  labelProp="age"
+                  valueProp="population"
+                  tooltip={ (obj) => '<div>{ obj.data.count }</div>' }/>
+              </Code>
+            </Section>
+
             <Section id="sankey" name="Sankey">
               <Sankey isResponsive data={ this.props.sankeyData }/>
               <Code>
@@ -123,7 +150,8 @@ function mapStateToProps(state){
   return {
     lineData: state.charts.lineData,
     barData: state.charts.barData,
-    sankeyData: state.charts.sankeyData
+    sankeyData: state.charts.sankeyData,
+    pieData: state.charts.pieData
   }
 }
 
