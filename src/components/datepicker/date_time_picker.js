@@ -102,7 +102,7 @@ export class DateTimePicker extends React.Component {
   }
 
   onClickOutside = (e) => {
-    if (this.refs.main && this.refs.main.contains(e.target)) {
+    if (this.main && this.main.contains(e.target)) {
       return
     }
 
@@ -225,7 +225,7 @@ export class DateTimePicker extends React.Component {
       }
     }
     return(
-      <div ref='main' style={ style.base }>
+      <div ref={ main => this.main = main } style={ style.base }>
         <DateInput
           canClear={ canClear }
           startDate={ startDate }
