@@ -16,6 +16,7 @@ export class PieChart extends React.Component {
     title: PropTypes.string,
     labelFontSize: PropTypes.number,
     titleFontSize: PropTypes.number,
+    tooltip: PropTypes.func,
     margin: PropTypes.shape({
       top: PropTypes.number,
       right: PropTypes.number,
@@ -108,7 +109,8 @@ export class PieChart extends React.Component {
 
     g.append('path')
       .attr('d', arc)
-      .style('fill', (d) => color(d.data[labelProp]))
+      // TODO: Add custom color with fill color
+      .style('fill', (d) => d.data.fillColor || color(d.data[labelProp]))
       .on("mouseover", (d) => {
         tooltipContainer.transition()
           .duration(200)

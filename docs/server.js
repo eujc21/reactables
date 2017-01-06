@@ -36,7 +36,7 @@ function renderFullPage(html) {
       </head>
       <body>
         <div id="root">${ html }</div>
-        <script src="/public/client.js"></script>
+        <script src="client.js"></script>
       </body>
     </html>`
 }

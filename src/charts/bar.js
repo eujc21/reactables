@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import * as d3 from 'd3'
 import isEqual from 'lodash/isEqual'
-import { initialize, generateGUID, remove, appendTitle, appendXLabel, appendYLabel } from './common'
+import { initialize, generateGUID, remove, appendTitle, appendXLabel, appendYLabel, createTooltipContainer, renderTooltip } from './common'
 
 export class BarChart extends React.Component {
 
@@ -18,6 +18,8 @@ export class BarChart extends React.Component {
     tickFontSize: PropTypes.number,
     labelFontSize: PropTypes.number,
     titleFontSize: PropTypes.number,
+    tooltip: PropTypes.func,
+    colors: PropTypes.array,
     margin: PropTypes.shape({
       top: PropTypes.number,
       right: PropTypes.number,
@@ -114,7 +116,10 @@ export class BarChart extends React.Component {
   }
 
   appendBars =()=>{
-    const { data, xProp, yProp } = this.props
+    const { data, xProp, yProp, tooltip } = this.props
+
+    let tooltipContainer = createTooltipContainer()
+
     this.svg.selectAll('rect')
       .data(data)
       .enter()
@@ -126,6 +131,22 @@ export class BarChart extends React.Component {
       .attr('y', d => this.yScale(d[yProp]))
       .attr('width', d => this.xScale.bandwidth())
       .attr('height', d => this.height - this.yScale(d[yProp]))
+      .on("mouseover", (d, i) => {
+        tooltipContainer.transition()
+          .duration(200)
+          .style("opacity", 1)
+
+        tooltipContainer
+          .html(renderTooltip(tooltip, {data: d, index: i}) )
+          .style("left", (d3.event.pageX) + "px")
+          .style("top", (d3.event.pageY) + "px")
+      })
+
+      .on("mouseout", d => {
+        tooltipContainer.transition()
+          .duration(500)
+          .style("opacity", 0);
+      })
   }
 
   renderChart =()=>{
