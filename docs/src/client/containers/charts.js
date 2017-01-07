@@ -96,11 +96,12 @@ class Charts extends React.Component {
                 isResponsive
                 xProp="year"
                 yProp="count"
+                colors={[]}
                 tooltip={ (obj) =>
                   <div style={ style.tooltip }>
                     <h3 style={{ margin: 0}}>{ obj.data.year }</h3>
                     <p style={{ marginBottom: 0}}>
-                      Pop: { obj.data.count }
+                      Count: { obj.data.count }
                     </p>
                   </div>
                 }/>

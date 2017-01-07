@@ -21,7 +21,12 @@ module.exports = function(){
       filename: process.env.NODE_ENV === 'production' ? '[hash].[name].js' : 'client.js',
       publicPath: ''
     },
-    plugins: [],
+    plugins: [
+      new webpack.DefinePlugin({
+        'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+        'process.env.PKG_VERSION': JSON.stringify(PACKAGE_VERSION)
+      }),
+    ],
     module: {
       loaders: [
         {
@@ -75,10 +80,6 @@ module.exports = function(){
 
   if(process.env.NODE_ENV === 'production') {
     config.plugins.push(
-      new webpack.DefinePlugin({
-        'process.env.NODE_ENV': JSON.stringify('production'),
-        'process.env.PKG_VERSION': JSON.stringify(PACKAGE_VERSION)
-      }),
       new webpack.IgnorePlugin(/^\.\/locale$/,/moment$/),
       new webpack.optimize.CommonsChunkPlugin({
         names: ['vendor1', 'vendor2', 'vendor3', 'vendor4', 'vendor5', 'vendor6', 'manifest'],
@@ -101,10 +102,10 @@ module.exports = function(){
       vendor1: [
         'react',
         'react-dom',
+        'react-redux',
       ],
       vendor2: [
         'redux',
-        'react-redux',
       ],
       vendor3:[
         'react-router',

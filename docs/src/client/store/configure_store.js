@@ -11,7 +11,6 @@ function configureStore(initialState){
     applyMiddleware(
       api,
       elementLoaderMiddleware(),
-      logger,
       crashReporter
     )
   )
