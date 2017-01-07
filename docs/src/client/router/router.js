@@ -11,12 +11,9 @@ export default function configureRouter(history, store){
   }
 
   return (
-    <Router history={ history }>
-      <Route path={'/'} component={ App }>
-        <IndexRoute component={ Components } onEnter={ setScrollTop }/>
-        <Route path={ '/charts' } component={ Charts } onEnter={ setScrollTop }/>
-      </Route>
-    </Router>
+    <App>
+      <Components />
+    </App>
   )
 
   // function errorLoading(err){
