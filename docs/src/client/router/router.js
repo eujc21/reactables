@@ -1,8 +1,6 @@
 import React from 'react'
-import { Router, Route, IndexRoute } from 'react-router'
+import Router from 'react-router/lib/Router'
 import App from '../containers/app'
-import Components from '../containers/components'
-import Charts from '../containers/charts'
 
 export const BASE_PATH = process.env.NODE_ENV === 'production' ? '/reactables/' : '/'
 
