@@ -4,9 +4,9 @@ import App from '../containers/app'
 import Components from '../containers/components'
 import Charts from '../containers/charts'
 
-export default function configureRouter(history, store){
+export const BASE_PATH = process.env.NODE_ENV === 'production' ? '/reactables/' : '/'
 
-  const BASE_PATH = process.env.NODE_ENV === 'production' ? '/reactables/' : '/'
+export default function configureRouter(history, store){
 
   function setScrollTop(){
     document.body.scrollTop = 0

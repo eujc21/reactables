@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { Navbar, NavbarLink } from '../../../../src/index'
 import { setPageScrollPosition } from '../actions/demo_actions'
 import Hero from '../components/hero'
+import { BASE_PATH } from '../router/router'
 
 class App extends React.Component {
 
@@ -41,10 +42,9 @@ class App extends React.Component {
     return(
       <div style={ style.base }>
         <Navbar styles={{ base: style.navbar.base }}>
-          <NavbarLink to={ ()=> this.handleRoute('/') } styles={{ link: style.navbar.title }}>Reactables</NavbarLink>
-          <NavbarLink to={ ()=> this.handleRoute('/') }>Components</NavbarLink>
-          <NavbarLink to={ ()=> this.handleRoute('/charts') }>Charts</NavbarLink>
-          {/*<NavbarLink to={ ()=> this.handleRoute('/layout') }>Layout</NavbarLink>*/}
+          <NavbarLink to={ ()=> this.handleRoute(BASE_PATH) } styles={{ link: style.navbar.title }}>Reactables</NavbarLink>
+          <NavbarLink to={ ()=> this.handleRoute(BASE_PATH) }>Components</NavbarLink>
+          <NavbarLink to={ ()=> this.handleRoute(BASE_PATH + 'charts') }>Charts</NavbarLink>
         </Navbar>
 
         <Hero
