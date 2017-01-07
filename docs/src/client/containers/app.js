@@ -42,7 +42,7 @@ class App extends React.Component {
       <div style={ style.base }>
         <Navbar styles={{ base: style.navbar.base }}>
           <NavbarLink to={ ()=> this.handleRoute('/') } styles={{ link: style.navbar.title }}>Reactables</NavbarLink>
-          <NavbarLink to={ ()=> this.handleRoute('/components') }>Components</NavbarLink>
+          <NavbarLink to={ ()=> this.handleRoute('/') }>Components</NavbarLink>
           <NavbarLink to={ ()=> this.handleRoute('/charts') }>Charts</NavbarLink>
           {/*<NavbarLink to={ ()=> this.handleRoute('/layout') }>Layout</NavbarLink>*/}
         </Navbar>

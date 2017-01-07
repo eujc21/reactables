@@ -16,24 +16,33 @@ export default function configureRouter(history, store){
     document.body.scrollTop = 0
   }
 
+  // {
+  //   path: '/components',
+  //     getComponent(location, cb) {
+  //     System
+  //       .import('../containers/components')
+  //       .then(loadRoute(cb))
+  //       .then(setScrollTop)
+  //       .catch(errorLoading)
+  //   }
+  // },
+
   return (
     <Router history={ history } routes={[
       {
         component: App,
         path: '/',
         onEnter: ()=>{ },
-        indexRoute: { onEnter: (nextState, replace) => replace('/components') },
+        indexRoute: {
+          getComponent(location, cb) {
+            System
+              .import('../containers/components')
+              .then(loadRoute(cb))
+              .then(setScrollTop)
+              .catch(errorLoading)
+          }
+        },
         childRoutes: [
-          {
-            path: '/components',
-            getComponent(location, cb) {
-              System
-                .import('../containers/components')
-                .then(loadRoute(cb))
-                .then(setScrollTop)
-                .catch(errorLoading)
-            }
-          },
           {
             path: '/charts',
             getComponent(location, cb) {
