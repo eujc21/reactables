@@ -3,7 +3,8 @@ import merge from 'lodash/merge'
 
 class Navbar extends React.Component {
   static propTypes = {
-    styles: PropTypes.object
+    styles: PropTypes.object,
+    mobileWidth: PropTypes.number
   }
 
   static defaultProps = {
@@ -19,11 +20,17 @@ class Navbar extends React.Component {
         justifyContent: 'space-between',
         alignItems: 'center',
         zIndex: 9999,
-        position: 'fixed',
         top: 0,
         width: '100%',
         height: 70,
         backgroundColor: '#000000',
+        transform: 'translateZ(0)',
+        position: 'fixed',
+        MozTransform: 'translatez(0)',
+        MsTransform: 'translatez(0)',
+        OTransform: 'translatez(0)',
+        WebkitTransform: 'translateZ(0)',
+        WebkitFontSmoothing: 'antialiased'
       },
       links: {
         display: 'flex',

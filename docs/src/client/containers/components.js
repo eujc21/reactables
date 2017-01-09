@@ -72,20 +72,22 @@ class Components extends React.Component {
       },
       container: {
         display: 'flex',
+        //flexWrap: 'wrap-reverse',
         justifyContent: 'center',
-        position: 'relative',
-        margin: '0 auto',
+        position: 'relative'
       },
       navContainer: {
+        //visibility: 'collapse',
         position: 'relative',
         order: 1,
-        padding: '60px 60px 0 0'
+        padding: '60px 60px 0 0',
+        flexShrink: '0'
       },
       contentContainer: {
-        position: 'relative',
-        display: 'flex',
-        flexDirection: 'column',
         flexShrink: 1,
+        position: 'relative',
+        flexDirection: 'column',
+        display: 'flex',
         maxWidth: 600,
         order: 2,
       },

@@ -3,6 +3,7 @@ const Hero =({title, tagline})=>{
 
   const style = {
     base: {
+      position: 'relative',
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',

@@ -26,7 +26,10 @@ class App extends React.Component {
     const { pageScrollPosition } = this.props
 
     const style = {
-      base: {},
+      base: {
+        display: 'table',
+        width: '100%'
+      },
       navbar: {
         base: {
           backgroundColor: pageScrollPosition < NAV_BREAK_POINT ? 'transparent' : '#32b1d1',
