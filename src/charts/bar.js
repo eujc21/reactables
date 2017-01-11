@@ -41,6 +41,7 @@ export class BarChart extends React.Component {
     tickFontSize: 12,
     labelFontSize: 12,
     titleFontSize: 12,
+    colors: ["#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"],
     margin: {
       top: 20,
       right: 20,
@@ -125,7 +126,7 @@ export class BarChart extends React.Component {
     let yKeys = Array.isArray(yProp) ? yProp : [yProp]
 
     let barColors = d3.scaleOrdinal()
-      .range(["#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"])
+      .range(colors)
       .domain(yKeys)
 
     let tooltipContainer = createTooltipContainer()
@@ -161,6 +162,27 @@ export class BarChart extends React.Component {
           .duration(500)
           .style("opacity", 0);
       })
+
+    let legend = this.svg.append("g")
+      .attr("font-family", "sans-serif")
+      .attr("font-size", 12)
+      .attr("text-anchor", "end")
+      .selectAll("g")
+      .data(yKeys.slice().reverse())
+      .enter().append("g")
+      .attr("transform", (d, i) => "translate(0," + i * 20 + ")")
+
+    legend.append("rect")
+      .attr("x", this.width + this.props.margin.right - 40)
+      .attr("width", 19)
+      .attr("height", 19)
+      .attr("fill", barColors);
+
+    legend.append("text")
+      .attr("x", this.width + this.props.margin.right - 45)
+      .attr("y", 12)
+      .attr("dy", "0.32em")
+      .text(d => d);
   }
 
   renderChart =()=>{
