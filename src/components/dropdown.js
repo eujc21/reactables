@@ -196,7 +196,8 @@ const DropdownOption =({ text, position, onClick, styles })=>{
 DropdownOption.propTypes = {
   text: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.number
+    PropTypes.number,
+    PropTypes.node
   ]).isRequired,
   shouldHideMenu: PropTypes.bool,
   onClick: PropTypes.func.isRequired,
