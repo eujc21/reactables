@@ -85,29 +85,34 @@ const initialChartsState = {
         }
       ]
     }
-  ] ,
+  ],
   barData: [
     {
+      number: 101,
       count: 202,
       year: 2000
     },
 
     {
+      number: 131,
       count: 179,
       year: 2002
     },
 
     {
+      number: 98,
       count: 154,
       year: 2003
     },
 
     {
+      number: 150,
       count: 215,
       year: 2001
     },
 
     {
+      number: 136,
       count: 260,
       year: 2010
     }
