@@ -8,7 +8,10 @@ export class BarChart extends React.Component {
   static propTypes = {
     data: PropTypes.array.isRequired,
     xProp: PropTypes.string.isRequired,
-    yProp: PropTypes.string.isRequired,
+    yProp: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.array
+    ]).isRequired,
     initialWidth: PropTypes.number,
     initialHeight: PropTypes.number,
     isResponsive: PropTypes.bool,
@@ -51,6 +54,7 @@ export class BarChart extends React.Component {
     this.svg = {}
     this.width = 0
     this.height = 0
+    this.data = []
   }
 
   componentDidMount(){
@@ -75,11 +79,11 @@ export class BarChart extends React.Component {
 
   appendXAxis =()=>{
 
-    const { data, xProp, tickFontSize } = this.props
+    const { xProp, tickFontSize } = this.props
 
     this.xScale = d3.scaleBand()
       .padding(0.2)
-      .domain(data.map(d => d[xProp]))
+      .domain(this.data.map(d => d[xProp]))
       .range([0, this.width]);
 
     let xAxis = d3.axisBottom(this.xScale)
@@ -97,10 +101,10 @@ export class BarChart extends React.Component {
   }
 
   appendYAxis =()=>{
-    const { data, yProp, tickFontSize } = this.props
+    const { tickFontSize } = this.props
 
     this.yScale = d3.scaleLinear()
-      .domain([0, d3.max(data, d=> d[yProp])])
+      .domain([0, d3.max(this.data, d=> d.total)])
       .range([this.height, 0]);
 
     let yAxis = d3.axisLeft(this.yScale)
@@ -116,28 +120,38 @@ export class BarChart extends React.Component {
   }
 
   appendBars =()=>{
-    const { data, xProp, yProp, tooltip } = this.props
+    const { xProp, yProp, colors, tooltip } = this.props
+
+    let yKeys = Array.isArray(yProp) ? yProp : [yProp]
+
+    let barColors = d3.scaleOrdinal()
+      .range(["#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"])
+      .domain(yKeys)
 
     let tooltipContainer = createTooltipContainer()
 
-    this.svg.selectAll('rect')
-      .data(data)
-      .enter()
-      .append('rect')
-      .style('fill', 'd6e9c6')
-      .style('stroke', '#31708f')
-      .style('stroke-width', '1')
-      .attr('x', d => this.xScale(d[xProp]))
-      .attr('y', d => this.yScale(d[yProp]))
-      .attr('width', d => this.xScale.bandwidth())
-      .attr('height', d => this.height - this.yScale(d[yProp]))
+    this.svg.append('g')
+      .selectAll('g')
+      .data(d3.stack().keys(yKeys)(this.data))
+      .enter().append('g')
+        .style('fill', d => barColors(d.key))
+      .selectAll('rect')
+      .data(d => d)
+      .enter().append('rect')
+        .attr('x', d =>  this.xScale(d.data[xProp]))
+        .attr('y', d => this.yScale(d[1]))
+        .attr('height', d => this.yScale(d[0]) - this.yScale(d[1]))
+        .attr('width', d => this.xScale.bandwidth())
+
+      /* Tooltip */
+
       .on("mouseover", (d, i) => {
         tooltipContainer.transition()
           .duration(200)
           .style("opacity", 1)
 
         tooltipContainer
-          .html(renderTooltip(tooltip, {data: d, index: i}) )
+          .html(renderTooltip(tooltip, {data: d.data, index: i}) )
           .style("left", (d3.event.pageX) + "px")
           .style("top", (d3.event.pageY) + "px")
       })
@@ -151,11 +165,22 @@ export class BarChart extends React.Component {
 
   renderChart =()=>{
 
-    const { initialWidth, initialHeight, margin, title, titleFontSize, xLabel, yLabel, labelFontSize } = this.props
+    const { data, yProp, initialWidth, initialHeight, margin, title, titleFontSize, xLabel, yLabel, labelFontSize } = this.props
 
     // Calculate width and height
     this.width = initialWidth - margin.left - margin.right
     this.height = initialHeight - margin.top - margin.bottom
+
+    // Map data totals
+    const yKeys = Array.isArray(yProp) ? yProp : [yProp]
+
+    this.data = data.map( d =>{
+      d.total = 0
+      for(let key of yKeys){
+        d.total += d[key] || 0
+      }
+      return d
+    })
 
     // common
     appendTitle(this.svg, title, titleFontSize, this.width, margin)
