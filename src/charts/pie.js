@@ -16,6 +16,7 @@ export class PieChart extends React.Component {
     title: PropTypes.string,
     labelFontSize: PropTypes.number,
     titleFontSize: PropTypes.number,
+    hideLabelPercentage: PropTypes.number,
     tooltip: PropTypes.func,
     margin: PropTypes.shape({
       top: PropTypes.number,
@@ -35,6 +36,7 @@ export class PieChart extends React.Component {
     yLabel: '',
     labelFontSize: 12,
     titleFontSize: 12,
+    hideLabelPercentage: 3,
     margin: {
       top: 0,
       right: 0,
@@ -73,7 +75,7 @@ export class PieChart extends React.Component {
 
   renderChart =()=>{
 
-    const { data, initialWidth, initialHeight, tooltip, margin, title, titleFontSize, labelFontSize, labelProp, valueProp, colors } = this.props
+    const { data, initialWidth, initialHeight, tooltip, margin, title, titleFontSize, labelFontSize, labelProp, valueProp, colors, hideLabelPercentage } = this.props
 
     // Calculate width and height
     this.width = initialWidth - margin.left - margin.right
@@ -83,8 +85,12 @@ export class PieChart extends React.Component {
     // common
     appendTitle(this.svg, title, titleFontSize, this.width, margin)
 
+    const total = data.reduce((t, d) =>{
+      return t + d[valueProp]
+    }, 0)
+
     const color = d3.scaleOrdinal()
-      .range(colors);
+      .range(colors)
 
     const arc = d3.arc()
       .outerRadius(this.radius)
@@ -103,6 +109,10 @@ export class PieChart extends React.Component {
       .data(pie(data))
       .enter().append('g')
       .attr('class', 'arc')
+      .attr('fill', d => {
+
+        return (d.value / total * 100) < hideLabelPercentage ? 'transparent' : 'black'
+      })
 
     // Define the div for the tooltip
     let tooltipContainer = createTooltipContainer()

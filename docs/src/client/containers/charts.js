@@ -94,7 +94,10 @@ class Charts extends React.Component {
               <BarChart
                 data={ this.props.barData }
                 isResponsive
+                hasLegend
                 xProp="year"
+                initialWidth={ 960 / 1.5 }
+                initialHeight={ 450 }
                 yProp={ ['count', 'number'] }
                 tooltip={ (obj) =>
                   <div style={ style.tooltip }>
@@ -106,7 +109,13 @@ class Charts extends React.Component {
                       Number: { obj.data.number }
                     </p>
                   </div>
-                }/>
+                }
+                margin={{
+                  top: 20,
+                  right: 100,
+                  bottom: 40,
+                  left: 50
+                }}/>
 
               <Code>
                 <BarChart
@@ -123,6 +132,7 @@ class Charts extends React.Component {
                 data={ this.props.pieData }
                 labelProp="age"
                 valueProp="population"
+                hideLabelPercentage={ 3 }
                 tooltip={ (obj) =>
                   <div style={ style.tooltip }>
                     <h3 style={{ margin: 0}}>{ obj.data.age}</h3>

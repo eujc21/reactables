@@ -15,6 +15,7 @@ export class BarChart extends React.Component {
     initialWidth: PropTypes.number,
     initialHeight: PropTypes.number,
     isResponsive: PropTypes.bool,
+    hasLegend: PropTypes.bool,
     title: PropTypes.string,
     xLabel: PropTypes.string,
     yLabel: PropTypes.string,
@@ -35,6 +36,7 @@ export class BarChart extends React.Component {
     initialWidth: 960,
     initialHeight: 500,
     isResponsive: false,
+    hasLegend: false,
     title: '',
     xLabel: '',
     yLabel: '',
@@ -163,12 +165,22 @@ export class BarChart extends React.Component {
           .style("opacity", 0);
       })
 
+
+    this.appendLegend(yKeys, barColors)
+  }
+
+  appendLegend(keys, colors){
+    const { hasLegend } = this.props
+
+    if(!hasLegend)
+      return
+
     let legend = this.svg.append("g")
       .attr("font-family", "sans-serif")
       .attr("font-size", 12)
       .attr("text-anchor", "end")
       .selectAll("g")
-      .data(yKeys.slice().reverse())
+      .data(keys.slice().reverse())
       .enter().append("g")
       .attr("transform", (d, i) => "translate(0," + i * 20 + ")")
 
@@ -176,13 +188,13 @@ export class BarChart extends React.Component {
       .attr("x", this.width + this.props.margin.right - 40)
       .attr("width", 19)
       .attr("height", 19)
-      .attr("fill", barColors);
+      .attr("fill", colors)
 
     legend.append("text")
       .attr("x", this.width + this.props.margin.right - 45)
       .attr("y", 12)
       .attr("dy", "0.32em")
-      .text(d => d);
+      .text(d => d)
   }
 
   renderChart =()=>{
