@@ -122,6 +122,14 @@ class Components extends React.Component {
         },
         text: { fontSize: 14, margin: 0, padding: 0 },
         icon: { fontSize: 6, paddingLeft: 4 }
+      },
+      datePicker: {
+        input: {
+          base: {
+            height: 26,
+            fontSize: 14
+          }
+        }
       }
     }
 
@@ -228,8 +236,13 @@ class Components extends React.Component {
             <Section id="date-time-picker" name="DateTimePicker">
 
               <DateTimePicker
+                isRangePicker
+                isTimePicker
+                canClear
                 placeholder={ 'Date Time' }
-                onChange={ this.handleDateChange }/>
+                onChange={ this.handleDateChange }
+                styles={ style.datePicker }
+              />
 
               <Code type={ 'jsx' }>
                 <DateTimePicker/>
