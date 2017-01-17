@@ -1,12 +1,14 @@
 import React, { PropTypes } from 'react'
 import { Select, SelectOption } from '../../index'
 import { range, convertHours } from './helpers'
+import merge from 'lodash/merge'
 
 export default class TimePicker extends React.Component {
 
   static propTypes = {
     date: PropTypes.object,
-    onChange: PropTypes.func.isRequired
+    onChange: PropTypes.func.isRequired,
+    styles: PropTypes.object
   }
 
   constructor(props){
@@ -65,7 +67,7 @@ export default class TimePicker extends React.Component {
   }
 
   render(){
-    const { date } = this.props
+    const { date, styles } = this.props
 
     const style = {
       base: {
@@ -76,6 +78,8 @@ export default class TimePicker extends React.Component {
       }
     }
 
+    merge(style, styles)
+
     return(
       <div style={ style.base }>
         <Select
@@ -83,7 +87,7 @@ export default class TimePicker extends React.Component {
           width={ 50 }
           value={ this._hourForDate(date) }
           onChange={ (value)=> this.handleTimeChange('hour', value) }
-          disabled={ date ? false : true }
+          disabled={ !date }
         >
           { this.hours.map(hour => <SelectOption key={ hour } text={ hour } value={ hour }/>) }
 
@@ -94,7 +98,7 @@ export default class TimePicker extends React.Component {
           width={ 50 }
           value={ this._minuteForDate(date) }
           onChange={ (value)=>this.handleTimeChange('minute', value) }
-          disabled={ date ? false : true  }
+          disabled={ !date }
         >
           { this.minutes.map(minute => <SelectOption key={ minute } text={ minute } value={ minute }/>) }
 
@@ -105,7 +109,7 @@ export default class TimePicker extends React.Component {
           width={ 50 }
           value={ this._periodForDate(date) }
           onChange={ (value)=>this.handleTimeChange('period', value) }
-          disabled={ date ? false : true  }
+          disabled={ !date }
         >
           { this.periods.map(p => <SelectOption key={ p } text={ p } value={ p }/>) }
 

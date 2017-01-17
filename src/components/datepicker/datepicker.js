@@ -1,12 +1,14 @@
 import React, { PropTypes } from 'react'
 import { Dropdown, DropdownOption } from '../../index'
 import { range } from './helpers'
+import merge from 'lodash/merge'
 
 export default class DatePicker extends React.Component {
 
   static propTypes = {
     month: PropTypes.object,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    styles: PropTypes.object
   }
 
   state = { years: []}
@@ -43,7 +45,7 @@ export default class DatePicker extends React.Component {
 
   render(){
 
-    const { month } = this.props
+    const { month, styles } = this.props
 
     const style = {
       base:{
@@ -81,6 +83,8 @@ export default class DatePicker extends React.Component {
         paddingLeft: 3
       }
     }
+
+    merge(style, styles)
 
     return(
       <div style={ style.base }>

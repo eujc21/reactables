@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react'
 import moment from 'moment'
+import merge from 'lodash/merge'
 import '../../styles/icons.css'
 
 export default class DateInput extends React.Component {
@@ -15,7 +16,8 @@ export default class DateInput extends React.Component {
     width: PropTypes.number,
     placeholder: PropTypes.string,
     onInputClick: PropTypes.func,
-    onClearClick: PropTypes.func
+    onClearClick: PropTypes.func,
+    styles: PropTypes.object
   }
 
   handleInputClick =()=>{
@@ -28,7 +30,7 @@ export default class DateInput extends React.Component {
 
   render(){
 
-    const { endDate, width } = this.props
+    const { endDate, styles } = this.props
 
     const style = {
       base: {
@@ -37,7 +39,6 @@ export default class DateInput extends React.Component {
         backgroundColor: 'white',
         border: '1px solid #EBE9ED',
         borderRadius: 2,
-        width: width,
         padding: '3px 10px',
         fontSize: 14,
         marginBottom: 10,
@@ -56,14 +57,16 @@ export default class DateInput extends React.Component {
         cursor: 'text',
         margin: 0,
         padding: 0,
-        height: 26
+        height: 'inherit'
       },
-      icon:{
+      clearIcon:{
         alignSelf: 'center',
         color: 'black',
         cursor: 'pointer'
       }
     }
+
+    merge(style, styles)
     return(
       <div style={ style.base }>
         <div style={ style.text } onClick={ this.handleInputClick }>
@@ -120,7 +123,7 @@ export default class DateInput extends React.Component {
     if(!startDate && !endDate) return
 
     return(
-      <i style={ style.icon } className="icon-cross-circle" onClick={ this.handleClearClick }/>
+      <i style={ style.clearIcon } className="icon-cross-circle" onClick={ this.handleClearClick }/>
     )
   }
 }

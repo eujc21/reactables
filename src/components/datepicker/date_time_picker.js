@@ -8,6 +8,7 @@ import TimePicker from './timepicker'
 
 import moment from 'moment'
 import isEqual from 'lodash/isEqual'
+import merge from 'lodash/merge'
 
 import '../../styles/icons.css'
 
@@ -19,8 +20,6 @@ export class DateTimePicker extends React.Component {
     canClear: PropTypes.bool,
     dateFormat: PropTypes.string,
     timeFormat: PropTypes.string,
-    inputWidth: PropTypes.number,
-    fontFamily: PropTypes.string,
     startDate: function(props, propName, componentName) {
       if (props[propName] && !moment.isMoment(props[propName])) {
         return new Error(
@@ -39,7 +38,8 @@ export class DateTimePicker extends React.Component {
     },
     placeholder: PropTypes.string,
     onChange: PropTypes.func,
-    pickerDirection: PropTypes.oneOf(['left', 'right'])
+    pickerDirection: PropTypes.oneOf(['left', 'right']),
+    styles: PropTypes.object
   }
 
   static defaultProps = {
@@ -47,10 +47,11 @@ export class DateTimePicker extends React.Component {
     isTimePicker: false,
     dateFormat: 'MMM DD, YYYY',
     timeFormat: 'hh:mm a',
-    inputWidth: 300,
-    fontFamily: 'Arial',
     placeholder: 'Select a Date',
     pickerDirection: 'right',
+    styles: {
+
+    }
   }
 
   state = {
@@ -181,24 +182,24 @@ export class DateTimePicker extends React.Component {
 
   render(){
     const { startDate, endDate, isCalendarVisible } = this.state
-    const { dateFormat, timeFormat, isTimePicker, inputWidth, fontFamily, placeholder, pickerDirection, canClear } = this.props
+    const { dateFormat, timeFormat, isTimePicker, placeholder, pickerDirection, canClear, styles } = this.props
 
     const style = {
       base: {
         position: 'relative',
-        fontFamily,
+        fontFamily: 'Arial',
         fontWeight: 200,
-        width: inputWidth
       },
-      picker: {
+      input: {},
+      datePicker: {},
+      timePicker: {},
+      calendar: {},
+      pickerContainer: {
         padding: 10,
         backgroundColor: 'white',
         display: 'flex',
         position: 'absolute',
         visibility: isCalendarVisible ? 'visible' : 'hidden',
-        //width: isRangePicker ? 465 : 232,
-        // minWidth: isRangePicker ? 465 : 232,
-        // maxWidth: isRangePicker ? 465 : 232,
         right: pickerDirection === 'left' ? 0 : null,
         left: pickerDirection === 'right' ? 0 : null,
         marginTop: 3,
@@ -208,22 +209,25 @@ export class DateTimePicker extends React.Component {
         opacity: isCalendarVisible ? 1 : 0,
         zIndex: 10000
       },
-      rangeDisplay: {
-        padding: 10,
-        fontSize: 14
-      },
-      calendar: {
+      calendarContainer: {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between'
       },
-      vr: {
+      rangeDisplay: {
+        padding: 10,
+        fontSize: 14
+      },
+      verticalRule: {
         borderLeft: '1px solid #ccc',
         height: 'inherit',
         width: 2,
         margin: '0 10px'
       }
     }
+
+    merge(style, styles)
+
     return(
       <div ref={ main => this.main = main } style={ style.base }>
         <DateInput
@@ -236,9 +240,10 @@ export class DateTimePicker extends React.Component {
           timeFormat={ timeFormat }
           isTimePicker={ isTimePicker }
           placeholder={ placeholder }
-          width={ inputWidth }
           onInputClick={ this.handleInputClick }
-          onClearClick={ this.handleClearClick }/>
+          onClearClick={ this.handleClearClick }
+          styles={ style.input }
+        />
         { this.renderDatePicker(style) }
       </div>
     )
@@ -249,8 +254,8 @@ export class DateTimePicker extends React.Component {
     const { startMonth, endMonth, startDate, endDate } = this.state
 
     return(
-      <div style={ style.picker }>
-        <div style={ style.calendar }>
+      <div style={ style.pickerContainer }>
+        <div style={ style.calendarContainer }>
           { isRangePicker ?
             <div style={ style.rangeDisplay }>
               Start Date: { startDate ? startDate.format(dateFormat) : '--' }
@@ -258,27 +263,32 @@ export class DateTimePicker extends React.Component {
           }
           <DatePicker
             month={ startMonth }
-            onChange={ this.handleDatePickerStartChange }/>
+            onChange={ this.handleDatePickerStartChange }
+            styles={ style.datePicker }
+          />
+
           <Calendar
             isRangePicker={ isRangePicker }
             selectedDate={ startDate }
             rangeDate={ endDate }
             calendarDate={ startMonth }
-            onDateChange={ this.onStartDateChange }/>
+            onDateChange={ this.onStartDateChange }
+            styles={ style.calendar }
+          />
 
           { isTimePicker ?
             <TimePicker
               date={ startDate }
-              onChange={ this.handleTimePickerStartChange }/> : null
+              onChange={ this.handleTimePickerStartChange }
+              styles={ style.timePicker }
+            /> : null
           }
         </div>
 
-        { isRangePicker ?
-          <div style={ style.vr }/> : null
-        }
+        { isRangePicker ? <div style={ style.verticalRule }/> : null }
 
         { isRangePicker ?
-          <div style={ style.calendar }>
+          <div style={ style.calendarContainer }>
             <div>
               { isRangePicker ?
                 <div style={ style.rangeDisplay }>
@@ -287,19 +297,25 @@ export class DateTimePicker extends React.Component {
               }
               <DatePicker
                 month={ endMonth }
-                onChange={ this.handleDatePickerEndChange }/>
+                onChange={ this.handleDatePickerEndChange }
+                styles={ style.datePicker }
+              />
               <Calendar
                 isRangePicker={ isRangePicker }
                 selectedDate={ endDate }
                 rangeDate={ startDate }
                 calendarDate={ endMonth }
-                onDateChange={ this.onEndDateChange }/>
+                onDateChange={ this.onEndDateChange }
+                styles={ style.calendar }
+              />
             </div>
 
             { isTimePicker ?
               <TimePicker
                 date={ endDate }
-                onChange={ this.handleTimePickerEndChange }/> : null
+                onChange={ this.handleTimePickerEndChange }
+                styles={ style.timePicker }
+              /> : null
             }
           </div> : null }
 
