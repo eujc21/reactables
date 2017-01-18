@@ -49,3 +49,11 @@ export function togglePanel(isVisible){
     isVisible
   }
 }
+
+export const GENERATE_CHART_DATA = 'GENERATE_CHART_DATA'
+
+export function generateChartData(){
+  return {
+    type: GENERATE_CHART_DATA
+  }
+}

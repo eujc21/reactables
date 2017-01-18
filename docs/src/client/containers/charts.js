@@ -1,9 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { generateChartData } from '../actions/demo_actions'
 import { Nav, NavLink, BarChart, PieChart, LineChart, Sankey, Code } from '../../../../src/index'
 import Section from '../components/section'
 
 class Charts extends React.Component {
+
+  componentDidMount(){
+    this.props.generateChartData()
+  }
 
   render(){
 
@@ -177,5 +182,5 @@ function mapStateToProps(state){
 }
 
 export default connect(mapStateToProps, {
-
+  generateChartData
 })(Charts)

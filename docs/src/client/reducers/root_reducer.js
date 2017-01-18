@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { SET_PAGE_SCROLL_POSITION, UPDATE_INPUT_TEXT, INCREMENT_COMPLETED, TOGGLE_PANEL } from '../actions/demo_actions'
+import { SET_PAGE_SCROLL_POSITION, UPDATE_INPUT_TEXT, INCREMENT_COMPLETED, TOGGLE_PANEL, GENERATE_CHART_DATA } from '../actions/demo_actions'
 import { elementLoaderReducer } from '../../../../src/index'
 import moment from 'moment'
 
@@ -59,136 +59,134 @@ function components(state = initialComponentsState, action) {
 
 const now = moment()
 const initialChartsState = {
-  lineData: [
-    {
-      name: 'Set 1',
-      values: [
-        {
-          count: 12,
-          date: now
-        },
-        {
-          count: 20,
-          date: now.clone().add(1, 'day')
-        },
-        {
-          count: 55,
-          date: now.clone().add(2, 'days')
-        },
-        {
-          count: 25,
-          date: now.clone().add(3, 'days')
-        },
-        {
-          count: 35,
-          date: now.clone().add(4, 'days')
-        }
-      ]
-    }
-  ],
-  barData: [
-    {
-      number: 101,
-      count: 202,
-      year: 2000
-    },
-
-    {
-      number: 131,
-      count: 179,
-      year: 2002
-    },
-
-    {
-      number: 98,
-      count: 154,
-      year: 2003
-    },
-
-    {
-      number: 150,
-      count: 215,
-      year: 2001
-    },
-
-    {
-      number: 136,
-      count: 260,
-      year: 2010
-    }
-  ],
-  pieData: [
-    {
-      age: '< 5',
-      population: 2704659
-    },
-    {
-      age: '5-13',
-      population: 4499890
-    },
-    {
-      age: '14-17',
-      population: 2159981
-    },
-    {
-      age: '18-24',
-      population: 3853788
-    },
-    {
-      age: '25-44',
-      population: 14106543
-    },
-    {
-      age: '45-64',
-      population: 8819342
-    },
-    {
-      age: '≥ 65',
-      population: 612463
-    }
-  ],
+  lineData: [],
+  barData: [],
+  pieData: [],
   sankeyData: {
-    nodes: [
-      { name: 'Node 0'},
-      { name: 'Node 1'},
-      { name: 'Node 2'},
-      { name: 'Node 3'},
-      { name: 'Node 4'},
-    ],
-    links: [
-      {
-        source: 0,
-        target: 4,
-        value: 10
-      },
-      {
-        source: 1,
-        target: 4,
-        value: 10
-      },
-      {
-        source: 2,
-        target: 4,
-        value: 10
-      },
-      {
-        source: 3,
-        target: 4,
-        value: 10
-      },
-    ]
+    nodes: [],
+    links: []
   }
 }
 
 function charts(state = initialChartsState, action) {
   switch (action.type) {
+    case GENERATE_CHART_DATA:
+
+      function random() {
+        return Math.floor(Math.random() * 50)
+      }
+
+      const barData = Array.from(new Array(5), (x, i)=>({
+        number: random(),
+        count: random(),
+        year: 2000 + i
+      }))
+
+      const lineData = [
+          {
+            name: 'Set 1',
+            values: [
+              {
+                count: 12,
+                date: now
+              },
+              {
+                count: 20,
+                date: now.clone().add(1, 'day')
+              },
+              {
+                count: 55,
+                date: now.clone().add(2, 'days')
+              },
+              {
+                count: 25,
+                date: now.clone().add(3, 'days')
+              },
+              {
+                count: 35,
+                date: now.clone().add(4, 'days')
+              }
+            ]
+          }
+        ]
+
+      const pieData = [
+        {
+          age: '< 5',
+          population: 2704659
+        },
+        {
+          age: '5-13',
+          population: 4499890
+        },
+        {
+          age: '14-17',
+          population: 2159981
+        },
+        {
+          age: '18-24',
+          population: 3853788
+        },
+        {
+          age: '25-44',
+          population: 14106543
+        },
+        {
+          age: '45-64',
+          population: 8819342
+        },
+        {
+          age: '≥ 65',
+          population: 612463
+        }
+      ]
+
+      const sankeyData = {
+        nodes: [
+          { name: 'Node 0'},
+          { name: 'Node 1'},
+          { name: 'Node 2'},
+          { name: 'Node 3'},
+          { name: 'Node 4'},
+        ],
+        links: [
+          {
+            source: 0,
+            target: 4,
+            value: 10
+          },
+          {
+            source: 1,
+            target: 4,
+            value: 10
+          },
+          {
+            source: 2,
+            target: 4,
+            value: 10
+          },
+          {
+            source: 3,
+            target: 4,
+            value: 10
+          },
+        ]
+      }
+
+      return {
+        ...state,
+        barData,
+        lineData,
+        pieData,
+        sankeyData
+      }
+
     default:
       return state
   }
 }
 
 const initialLayoutState = {}
-
 function layout(state = initialLayoutState, action){
   switch(action.type){
     default:

@@ -56,7 +56,7 @@ export class Sankey extends React.Component {
     this.renderChart()
   }
 
-  componentWillUpdate(prevProps){
+  componentDidUpdate(prevProps){
     if(!isEqual(this.props.data, prevProps.data)){
       remove(this.svg)
       this.renderChart()

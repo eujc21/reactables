@@ -61,7 +61,7 @@ export class PieChart extends React.Component {
     this.renderChart()
   }
 
-  componentWillUpdate(prevProps){
+  componentDidUpdate(prevProps){
     if(!isEqual(this.props, prevProps)){
       remove(this.svg)
       this.renderChart()

@@ -26,7 +26,7 @@ export class TrajectoryChart extends React.Component {
     height: 1000
   }
 
-  componentWillUpdate(prevProps, prevState){
+  componentDidUpdate(prevProps){
     if(!isEqual(this.props.data, prevProps.data)){
       d3.select(this.chartContainer).selectAll('svg').remove()
       this.renderChart()
