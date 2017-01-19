@@ -5,15 +5,15 @@ import Color from 'color'
 describe("<ProgressBar />", function(){
 
  before('render and mount element', ()=>{
-   this.renderedComponent = render(
-     <ProgressBar
-       completed={ 45 }
-       outOf={ 100 }
-       showUnits={ false }
-       barColor={ 'yellow' }
-       completedColor={ 'orange' }
-       height={ 20 } />
-   )
+   // this.renderedComponent = render(
+   //   <ProgressBar
+   //     completed={ 45 }
+   //     outOf={ 100 }
+   //     showUnits={ false }
+   //     barColor={ 'yellow' }
+   //     completedColor={ 'orange' }
+   //     height={ 20 } />
+   // )
 
    this.mountedComponent = mount(
      <ProgressBar
@@ -40,24 +40,6 @@ describe("<ProgressBar />", function(){
     expect(this.mountedComponent.find('.unit').isEmpty()).to.equal(true)
   })
 
-
-  it('should set the bar height', ()=>{
-    expect(this.mountedComponent.find('.baseBar')).to.have.style('height', '20px')
-  })
-
-  it('should set the base bar color', ()=>{
-    expect(this.mountedComponent.find('.baseBar')).to.have.style('background-color', Color('yellow').rgbString())
-  })
-
-  it('should set the completed bar color', ()=>{
-
-    const baseCompletedColor = Color( 'orange' ).hexString()
-    const gradientCompletedColor = Color( 'orange' ).lighten(0.5).hexString()
-
-    expect(this.renderedComponent.find('.completedBar')).to.have.style('background', `linear-gradient( to top right, ${ baseCompletedColor }, ${ gradientCompletedColor })`)
-  })
-
-
   it('should display completed units as a percent', ()=>{
     this.mountedComponent.setProps({
       units: 'percent',
@@ -76,9 +58,13 @@ describe("<ProgressBar />", function(){
 
   })
 
-  it('should align the units properly', ()=>{
+  it('should set the components styles', ()=>{
     this.mountedComponent.setProps({
-      alignUnits: 'center'
+      styles: {
+        units: {
+          textAlign: 'center'
+        }
+      }
     })
     expect(this.mountedComponent.find('.units')).to.have.style('text-align', 'center')
   })
