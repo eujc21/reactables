@@ -12,6 +12,8 @@ class Charts extends React.Component {
 
   render(){
 
+    const {isMobile} = this.props
+
     const style = {
       base: {
         position: 'relative',
@@ -58,14 +60,17 @@ class Charts extends React.Component {
 
         <div style={ style.container }>
 
-          <div style={ style.navContainer }>
-            <Nav offsetTop={ 70 } styles={ style.nav }>
-              <NavLink to="#line" styles={ style.navlink }>Line</NavLink>
-              <NavLink to="#bar" styles={ style.navlink }>Bar</NavLink>
-              <NavLink to="#pie" styles={ style.navlink }>Pie</NavLink>
-              <NavLink to="#sankey" styles={ style.navlink }>Sankey</NavLink>
-            </Nav>
-          </div>
+
+          {!isMobile ?
+            <div style={ style.navContainer }>
+              <Nav offsetTop={ 70 } styles={ style.nav }>
+                <NavLink to="#line" styles={ style.navlink }>Line</NavLink>
+                <NavLink to="#bar" styles={ style.navlink }>Bar</NavLink>
+                <NavLink to="#pie" styles={ style.navlink }>Pie</NavLink>
+                <NavLink to="#sankey" styles={ style.navlink }>Sankey</NavLink>
+              </Nav>
+            </div> : null
+          }
 
           <div style={ style.contentContainer }>
 
@@ -174,6 +179,7 @@ class Charts extends React.Component {
 
 function mapStateToProps(state){
   return {
+    isMobile: state.app.isMobile,
     lineData: state.charts.lineData,
     barData: state.charts.barData,
     sankeyData: state.charts.sankeyData,

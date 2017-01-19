@@ -2,14 +2,25 @@ import React from 'react'
 import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import { Navbar, NavbarLink } from '../../../../src/index'
-import { setPageScrollPosition } from '../actions/demo_actions'
+import { setPageScrollPosition, setMobileView } from '../actions/demo_actions'
 import Hero from '../components/hero'
 import { BASE_PATH } from '../router/router'
 
 class App extends React.Component {
 
-  componentDidMount(){
+  componentDidMount() {
     window.addEventListener('scroll', this.handlePagePosition)
+    this.mediaQuery = window.matchMedia(`(min-width: 767px)`)
+    this.mediaQuery.addListener(this.setIsMobile)
+    this.setIsMobile()
+  }
+
+  componentWillUnmount() {
+    this.mediaQuery.removeListener(this.setIsMobile)
+  }
+
+  setIsMobile =()=>{
+    this.props.setMobileView(!this.mediaQuery.matches)
   }
 
   handlePagePosition =()=>{
@@ -27,8 +38,9 @@ class App extends React.Component {
 
     const style = {
       base: {
+        position: 'relative',
         display: 'table',
-        width: '100%'
+        width: '100%',
       },
       navbar: {
         base: {
@@ -67,6 +79,7 @@ function mapStateToProps(state){
 }
 
 export default connect(mapStateToProps, {
-  setPageScrollPosition
+  setPageScrollPosition,
+  setMobileView
 })(App)
 

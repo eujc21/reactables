@@ -64,7 +64,7 @@ class Components extends React.Component {
 
   render(){
 
-    const { inputText } = this.props
+    const { inputText, isMobile } = this.props
 
     const style = {
       base: {
@@ -144,23 +144,25 @@ class Components extends React.Component {
 
         <div style={ style.container }>
 
-          <div style={ style.navContainer }>
-            <Nav offsetTop={ 70 } styles={ style.nav }>
-              <NavLink to="#button" styles={ style.navlink }>Button</NavLink>
-              <NavLink to="#input" styles={ style.navlink }>Input</NavLink>
-              <NavLink to="#select" styles={ style.navlink }>Select</NavLink>
-              <NavLink to="#dropdown" styles={ style.navlink }>Dropdown</NavLink>
-              <NavLink to="#date-time-picker" styles={ style.navlink }>Date Picker</NavLink>
-              <NavLink to="#table" styles={ style.navlink }>Table</NavLink>
-              <NavLink to="#nav" styles={ style.navlink }>Nav</NavLink>
-              <NavLink to="#navbar" styles={ style.navlink }>Navbar</NavLink>
-              <NavLink to="#heat-bar" styles={ style.navlink }>HeatBar</NavLink>
-              <NavLink to="#progress-bar" styles={ style.navlink }>ProgressBar</NavLink>
-              <NavLink to="#element-loader" styles={ style.navlink }>ElementLoader</NavLink>
-              <NavLink to="#hidden-panel" styles={ style.navlink }>HiddenPanel</NavLink>
-              <NavLink to="#code" styles={ style.navlink }>Code</NavLink>
-            </Nav>
-          </div>
+          {!isMobile ?
+            <div style={ style.navContainer }>
+              <Nav offsetTop={ 70 } styles={ style.nav }>
+                <NavLink to="#button" styles={ style.navlink }>Button</NavLink>
+                <NavLink to="#input" styles={ style.navlink }>Input</NavLink>
+                <NavLink to="#select" styles={ style.navlink }>Select</NavLink>
+                <NavLink to="#dropdown" styles={ style.navlink }>Dropdown</NavLink>
+                <NavLink to="#date-time-picker" styles={ style.navlink }>Date Picker</NavLink>
+                <NavLink to="#table" styles={ style.navlink }>Table</NavLink>
+                <NavLink to="#nav" styles={ style.navlink }>Nav</NavLink>
+                <NavLink to="#navbar" styles={ style.navlink }>Navbar</NavLink>
+                <NavLink to="#heat-bar" styles={ style.navlink }>HeatBar</NavLink>
+                <NavLink to="#progress-bar" styles={ style.navlink }>ProgressBar</NavLink>
+                <NavLink to="#element-loader" styles={ style.navlink }>ElementLoader</NavLink>
+                <NavLink to="#hidden-panel" styles={ style.navlink }>HiddenPanel</NavLink>
+                <NavLink to="#code" styles={ style.navlink }>Code</NavLink>
+              </Nav>
+            </div> : null
+          }
 
           <div style={ style.contentContainer }>
 
@@ -328,6 +330,7 @@ class Components extends React.Component {
 
 function mapStateToProps(state){
   return {
+    isMobile: state.app.isMobile,
     inputText: state.components.inputText,
     outOf: state.components.outOf,
     completed: state.components.completed,

@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { SET_PAGE_SCROLL_POSITION, UPDATE_INPUT_TEXT, INCREMENT_COMPLETED, TOGGLE_PANEL, GENERATE_CHART_DATA } from '../actions/demo_actions'
+import { SET_MOBILE_VIEW, SET_PAGE_SCROLL_POSITION, UPDATE_INPUT_TEXT, INCREMENT_COMPLETED, TOGGLE_PANEL, GENERATE_CHART_DATA } from '../actions/demo_actions'
 import { elementLoaderReducer } from '../../../../src/index'
 import moment from 'moment'
 
@@ -17,11 +17,14 @@ function errorMessage(state = null, action) {
 }
 
 const initialAppState = {
-  pageScrollPosition: 0
+  pageScrollPosition: 0,
+  isMobile: false
 }
 
 function app(state = initialAppState, action){
   switch(action.type){
+    case SET_MOBILE_VIEW:
+      return {...state, isMobile: action.isMobile}
     case SET_PAGE_SCROLL_POSITION:
       return {...state, pageScrollPosition: action.position }
     default:

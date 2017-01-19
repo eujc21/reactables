@@ -30,8 +30,10 @@ function renderFullPage(html) {
         <title>Reactables</title>
         <style>
           html { font-family: Helvetica, arial, sans-serif }
-          html, body, #root { margin: 0; }
-          body { background-color: #f4f4f4;}
+          html, body, #root { 
+            margin: 0; overflow-y: scroll;  -webkit-overflow-scrolling: touch;
+          }
+          body { background-color: #f4f4f4; }
         </style>
       </head>
       <body>
