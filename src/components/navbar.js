@@ -8,14 +8,34 @@ class Navbar extends React.Component {
   }
 
   static defaultProps = {
-    styles: {}
+    styles: {},
+    mobileWidth: 991
   }
+
+  state = { isMobile: false }
+
+  componentDidMount() {
+    this.mediaQuery = window.matchMedia(`(min-width: ${this.props.mobileWidth}px)`)
+    this.mediaQuery.addListener(this.updateMobileWidth)
+    this.updateMobileWidth()
+  }
+
+  componentWillUnmount() {
+    this.mediaQuery.removeListener(this.updateMobileWidth)
+  }
+
+  updateMobileWidth =()=>{
+    this.setState({ isMobile: !this.mediaQuery.matches })
+  }
+
+
   render(){
 
     const { styles, children } = this.props
 
     let style = {
       base:{
+        position: 'fixed',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -23,11 +43,8 @@ class Navbar extends React.Component {
         width: '100%',
         height: 70,
         backgroundColor: '#000000',
-        transform: 'translateZ(0)',
-        position: 'fixed',
         top: 0,
-        left: 0
-
+        left: 0,
       },
       links: {
         display: 'flex',
@@ -87,9 +104,7 @@ const NavbarLink =({to, children, styles})=>{
   merge(style, styles)
 
   return(
-    <li
-      style={ style.base }
-    >
+    <li style={ style.base }>
       { typeof to === 'string'
         ? <a style={ style.link } href={ to }>{ children }</a>
         : <a style={ style.link } onClick={ to }>{ children }</a>
