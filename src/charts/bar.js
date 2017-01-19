@@ -201,7 +201,6 @@ export class BarChart extends React.Component {
 
     const { data, yProp, initialWidth, initialHeight, margin, title, titleFontSize, xLabel, yLabel, labelFontSize } = this.props
 
-    console.log('renderChart', data)
     // Calculate width and height
     this.width = initialWidth - margin.left - margin.right
     this.height = initialHeight - margin.top - margin.bottom
