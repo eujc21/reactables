@@ -59,6 +59,7 @@ export class PieChart extends React.Component {
     this.svg = initializePie(this.chartContainer, this.GUID, initialWidth, initialHeight, margin, isResponsive)
 
     this.renderChart()
+    this.tooltipContainer = createTooltipContainer()
   }
 
   componentDidUpdate(prevProps){
@@ -70,6 +71,7 @@ export class PieChart extends React.Component {
 
   componentWillUnmount(){
     remove(this.svg, this.GUID)
+    this.tooltipContainer.remove()
   }
 
 
@@ -114,26 +116,23 @@ export class PieChart extends React.Component {
         return (d.value / total * 100) < hideLabelPercentage ? 'transparent' : 'black'
       })
 
-    // Define the div for the tooltip
-    let tooltipContainer = createTooltipContainer()
-
     g.append('path')
       .attr('d', arc)
       // TODO: Add custom color with fill color
       .style('fill', (d) => d.data.fillColor || color(d.data[labelProp]))
       .on("mouseover", (d) => {
-        tooltipContainer.transition()
+        this.tooltipContainer.transition()
           .duration(200)
           .style("opacity", 1)
 
-        tooltipContainer
+        this.tooltipContainer
           .html(renderTooltip(tooltip, {data: d.data, index: d.index}) )
           .style("left", (d3.event.pageX) + "px")
           .style("top", (d3.event.pageY) + "px")
       })
 
       .on("mouseout", d => {
-        tooltipContainer.transition()
+        this.tooltipContainer.transition()
           .duration(500)
           .style("opacity", 0);
       })

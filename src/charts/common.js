@@ -123,7 +123,3 @@ export function renderTooltip(tooltip, obj){
     tooltip(obj)
   )
 }
-
-export function createLegend(){
-
-}

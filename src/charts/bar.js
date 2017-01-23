@@ -67,6 +67,7 @@ export class BarChart extends React.Component {
     this.svg = initialize(this.chartContainer, this.GUID, initialWidth, initialHeight, margin, isResponsive)
 
     this.renderChart()
+    this.tooltipContainer = createTooltipContainer()
   }
 
   componentDidUpdate(prevProps){
@@ -78,6 +79,7 @@ export class BarChart extends React.Component {
 
   componentWillUnmount(){
     remove(this.svg, this.GUID)
+    this.tooltipContainer.remove()
   }
 
   appendXAxis =()=>{
@@ -131,8 +133,6 @@ export class BarChart extends React.Component {
       .range(colors)
       .domain(yKeys)
 
-    let tooltipContainer = createTooltipContainer()
-
     this.svg.append('g')
       .selectAll('g')
       .data(d3.stack().keys(yKeys)(this.data))
@@ -149,18 +149,18 @@ export class BarChart extends React.Component {
       /* Tooltip */
 
       .on("mouseover", (d, i) => {
-        tooltipContainer.transition()
+        this.tooltipContainer.transition()
           .duration(200)
           .style("opacity", 1)
 
-        tooltipContainer
+        this.tooltipContainer
           .html(renderTooltip(tooltip, {data: d.data, index: i}) )
           .style("left", (d3.event.pageX) + "px")
           .style("top", (d3.event.pageY) + "px")
       })
 
       .on("mouseout", d => {
-        tooltipContainer.transition()
+        this.tooltipContainer.transition()
           .duration(500)
           .style("opacity", 0);
       })

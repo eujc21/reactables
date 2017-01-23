@@ -76,6 +76,7 @@ export class LineChart extends React.Component {
     this.svg = initialize(this.chartContainer, this.GUID, initialWidth, initialHeight, margin, isResponsive)
 
     this.renderChart()
+    this.tooltipContainer = createTooltipContainer()
   }
 
   componentDidUpdate(prevProps){
@@ -87,6 +88,7 @@ export class LineChart extends React.Component {
 
   componentWillUnmount(){
     remove(this.svg, this.GUID)
+    this.tooltipContainer.remove()
   }
 
   handlePointClick =(set, d, i)=>{
@@ -209,12 +211,6 @@ export class LineChart extends React.Component {
 
   appendPoints =()=>{
     const { data, tooltip, lineColors, xProp, yProp, pointRadius } = this.props
-    /*================*/
-    /* Create Tooltip */
-    /*================*/
-
-    // Define the div for the tooltip
-    let tooltipContainer = createTooltipContainer()
 
     /*===============*/
     /* Append Points */
@@ -237,18 +233,18 @@ export class LineChart extends React.Component {
 
         .on("mouseover", (d, i) => {
 
-          tooltipContainer.transition()
+          this.tooltipContainer.transition()
             .duration(200)
             .style("opacity", 1)
 
-          tooltipContainer
+          this.tooltipContainer
             .html(renderTooltip(tooltip, {dataset: dataset.name, data: d, index: i}) )
             .style("left", (d3.event.pageX) + "px")
             .style("top", (d3.event.pageY) + "px")
         })
 
         .on("mouseout", d => {
-          tooltipContainer.transition()
+          this.tooltipContainer.transition()
             .duration(500)
             .style("opacity", 0);
         })
