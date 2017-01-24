@@ -43,29 +43,67 @@ class App extends React.Component {
         width: '100%',
       },
       navbar: {
-        base: {
+        bar: {
           backgroundColor: pageScrollPosition < NAV_BREAK_POINT ? 'transparent' : '#32b1d1',
           color: 'white',
-          transition: 'background-color 10ms ease-in-out'
+          transition: 'background-color 10ms ease-in-out',
+          height: 60
         },
         title: {
-          fontWeight: 600
+          link:{
+            base:{
+              fontWeight: 600
+            },
+            hover: {
+              backgroundColor: pageScrollPosition < NAV_BREAK_POINT ? 'transparent' : '#38d2e0'
+            },
+            active:{
+              backgroundColor: pageScrollPosition < NAV_BREAK_POINT ? 'transparent' : '#38d2e0'
+            }
+          }
+        }
+      },
+      navlink: {
+        link: {
+          hover: {
+            backgroundColor: pageScrollPosition < NAV_BREAK_POINT ? 'transparent' : '#38d2e0'
+          },
+          active:{
+            backgroundColor: pageScrollPosition < NAV_BREAK_POINT ? 'transparent' : '#38d2e0'
+          }
+        },
+        menuLink: {
+          active: {
+            backgroundColor: null
+          },
+          hover: {
+            backgroundColor: null
+          }
         }
       }
+
     }
 
     return(
       <div style={ style.base }>
-        <Navbar styles={{ base: style.navbar.base }}>
-          <NavbarLink to={ ()=> this.handleRoute(BASE_PATH) } styles={{ link: style.navbar.title }}>Reactables</NavbarLink>
-          <NavbarLink to={ ()=> this.handleRoute(BASE_PATH) }>Components</NavbarLink>
-          <NavbarLink to={ ()=> this.handleRoute(BASE_PATH + 'charts') }>Charts</NavbarLink>
+        <Navbar responsiveWidth={ 767 } styles={{ bar: style.navbar.bar }}>
+          <NavbarLink
+            to={ ()=> this.handleRoute(BASE_PATH) }
+            appendResponsive={ 'bar' }
+            styles={ style.navbar.title }>Reactables</NavbarLink>
+          <NavbarLink
+            to={ ()=> this.handleRoute(BASE_PATH) }
+            isActive={ window.location.pathname === '/' }
+            styles={ style.navlink }>Components</NavbarLink>
+          <NavbarLink
+            to={ ()=> this.handleRoute(BASE_PATH + 'charts') }
+            isActive={ window.location.pathname === '/charts' }
+            styles={ style.navlink }>Charts</NavbarLink>
         </Navbar>
 
         <Hero
           title="Reactables"
           tagline="Customizable React.js Components" />
-
         { this.props.children }
       </div>
     )
