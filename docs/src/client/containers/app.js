@@ -33,7 +33,7 @@ class App extends React.Component {
 
   render() {
 
-    const NAV_BREAK_POINT = 420
+    const NAV_BREAK_POINT = 440
     const { pageScrollPosition } = this.props
 
     const style = {
