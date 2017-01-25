@@ -44,7 +44,7 @@ class App extends React.Component {
       },
       navbar: {
         bar: {
-          backgroundColor: pageScrollPosition < NAV_BREAK_POINT ? 'transparent' : '#32b1d1',
+          backgroundColor: '#32b1d1',
           color: 'white',
           transition: 'background-color 10ms ease-in-out',
           height: 60
@@ -55,10 +55,10 @@ class App extends React.Component {
               fontWeight: 600
             },
             hover: {
-              backgroundColor: pageScrollPosition < NAV_BREAK_POINT ? 'transparent' : '#38d2e0'
+              backgroundColor: '#38d2e0'
             },
             active:{
-              backgroundColor: pageScrollPosition < NAV_BREAK_POINT ? 'transparent' : '#38d2e0'
+              backgroundColor: '#38d2e0'
             }
           }
         }
@@ -66,17 +66,14 @@ class App extends React.Component {
       navlink: {
         link: {
           hover: {
-            backgroundColor: pageScrollPosition < NAV_BREAK_POINT ? 'transparent' : '#38d2e0'
+            backgroundColor: '#38d2e0'
           },
           active:{
-            backgroundColor: pageScrollPosition < NAV_BREAK_POINT ? 'transparent' : '#38d2e0'
+            backgroundColor: '#38d2e0'
           }
         },
         menuLink: {
           active: {
-            backgroundColor: null
-          },
-          hover: {
             backgroundColor: null
           }
         }
