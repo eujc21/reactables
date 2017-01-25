@@ -70,7 +70,7 @@ class Navbar extends React.Component {
 
     let style = {
       base: {
-        position: 'fixed',
+        position: 'relative',
         width: '100%',
         zIndex: 9999,
       },
@@ -97,6 +97,8 @@ class Navbar extends React.Component {
         padding: '5px 10px',
       },
       menu:{
+        position: 'absolute',
+        width: '100%',
         backgroundColor: '#525252',
         margin: 0,
         paddingLeft: 0,

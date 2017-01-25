@@ -43,6 +43,9 @@ class App extends React.Component {
         width: '100%',
       },
       navbar: {
+        base:{
+          position: 'fixed',
+        },
         bar: {
           backgroundColor: '#32b1d1',
           color: 'white',
@@ -83,7 +86,7 @@ class App extends React.Component {
 
     return(
       <div style={ style.base }>
-        <Navbar responsiveWidth={ 767 } styles={{ bar: style.navbar.bar }}>
+        <Navbar responsiveWidth={ 767 } styles={ style.navbar }>
           <NavbarLink
             to={ ()=> this.handleRoute(BASE_PATH) }
             appendResponsive={ 'bar' }
