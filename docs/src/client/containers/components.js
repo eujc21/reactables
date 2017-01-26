@@ -91,6 +91,9 @@ class Components extends React.Component {
         maxWidth: 600,
         order: 2,
       },
+      componentContainer:{
+        width: '100%'
+      },
       nav: {
         base: { width: 150 },
         nav:{ borderTop: null, borderLeft: null, borderRadius: 0 }
@@ -167,13 +170,20 @@ class Components extends React.Component {
           <div style={ style.contentContainer }>
 
             <Section id="button" name="Button">
+              <div style={ style.componentContainer }>
               { [0,1,2,3,4].map(num =>
                 <Button
                   key={ num }
                   onClick={ this.handleButtonClick }
-                  styles={{ backgroundColor: `#${3 + (num * 2) + 'A424A'}`, color: '#ffffff', marginRight: 10}}
+                  styles={{
+                    backgroundColor: `#${3 + (num * 2) + 'A424A'}`,
+                    color: '#ffffff',
+                    marginRight: 10,
+                    height: 25
+                  }}
                 />
               )}
+              </div>
               <Code type="jsx">
                 <Button
                   text="button"
@@ -189,7 +199,9 @@ class Components extends React.Component {
               <Input
                 text={ inputText }
                 onChange={ this.handleInputChange }
-                onSubmit={ this.handleInputSubmit } />
+                onSubmit={ this.handleInputSubmit }
+                styles={{ base: { width:'100%'}}}
+              />
               <Code type="jsx">
                 <Input
                   placeholder={ 'Search...' }
@@ -219,16 +231,19 @@ class Components extends React.Component {
             </Section>
 
             <Section id="dropdown" name="Dropdown">
-              <Dropdown node={
-                <span style={ style.dropdown.base }>
-                  <p style={ style.dropdown.text }>Dropdown</p>
-                  <i style={ style.dropdown.icon} className="icon-arrow-down"/>
-                </span>
-              }>
-                <DropdownOption text="Option 1" onClick={ this.handleDropdownClick }/>
-                <DropdownOption text="Option 2" onClick={ this.handleDropdownClick }/>
-                <DropdownOption text="Option 3" onClick={ this.handleDropdownClick }/>
-              </Dropdown>
+              <div style={ style.componentContainer }>
+                <Dropdown node={
+                  <span style={ style.dropdown.base }>
+                    <p style={ style.dropdown.text }>Dropdown</p>
+                    <i style={ style.dropdown.icon} className="icon-arrow-down"/>
+                  </span>
+                }>
+
+                  <DropdownOption text="Option 1" onClick={ this.handleDropdownClick }/>
+                  <DropdownOption text="Option 2" onClick={ this.handleDropdownClick }/>
+                  <DropdownOption text="Option 3" onClick={ this.handleDropdownClick }/>
+                </Dropdown>
+              </div>
               <Code type={ 'jsx' }>
                 <Dropdown node="Node">
                 </Dropdown>
@@ -237,14 +252,14 @@ class Components extends React.Component {
 
             <Section id="date-time-picker" name="DateTimePicker">
 
-              <DateTimePicker
-                isRangePicker
-                isTimePicker
-                canClear
-                placeholder={ 'Date Time' }
-                onChange={ this.handleDateChange }
-                styles={ style.datePicker }
-              />
+              {/*<DateTimePicker*/}
+                {/*isRangePicker*/}
+                {/*isTimePicker*/}
+                {/*canClear*/}
+                {/*placeholder={ 'Date Time' }*/}
+                {/*onChange={ this.handleDateChange }*/}
+                {/*styles={ style.datePicker }*/}
+              {/*/>*/}
 
               <Code type={ 'jsx' }>
                 <DateTimePicker/>
@@ -292,11 +307,13 @@ class Components extends React.Component {
 
             <Section id="element-loader" name="ElementLoader">
 
-              <ElementLoader action={ 'DEMO_CALL' }>
-                <div style={{ border: '1px solid black', width: 100, backgroundColor: 'grey', textAlign: 'center', padding: '20px 0'}}>
-                  <p>Wrapped Content</p>
-                </div>
-              </ElementLoader>
+              <div style={ style.componentContainer }>
+                <ElementLoader action={ 'DEMO_CALL' }>
+                  <div style={{ border: '1px solid black', width: 100, backgroundColor: 'grey', textAlign: 'center', padding: '20px 0'}}>
+                    <p>Wrapped Content</p>
+                  </div>
+                </ElementLoader>
+              </div>
 
               <Code type="jsx">
                 <ElementLoader spinner={ '<span className="optional-custom-spinner" />' } action="DEMO_CALL">
@@ -308,7 +325,16 @@ class Components extends React.Component {
             </Section>
 
             <Section id="hidden-panel" name="HiddenPanel">
-              <Button text={ 'Toggle Panel' } onClick={ this.handleTogglePanel } styles={{ backgroundColor: 'rgb(58, 66, 74)', color: 'white'}}/>
+              <div style={ style.componentContainer }>
+                <Button
+                  text={ 'Toggle Panel' }
+                  onClick={ this.handleTogglePanel }
+                  styles={{
+                    backgroundColor: 'rgb(58, 66, 74)',
+                    color: 'white',
+                    height: 25
+                  }}/>
+              </div>
 
               <Code type={ 'JSX' }>
                 <HiddenPanel />
