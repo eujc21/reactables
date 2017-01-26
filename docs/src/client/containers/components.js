@@ -85,10 +85,11 @@ class Components extends React.Component {
       },
       contentContainer: {
         flexShrink: 1,
-        position: 'relative',
-        flexDirection: 'column',
         display: 'flex',
+        flexDirection: 'column',
+        position: 'relative',
         maxWidth: 600,
+        padding: '0 10px',
         order: 2,
       },
       componentContainer:{
@@ -127,6 +128,9 @@ class Components extends React.Component {
         icon: { fontSize: 6, paddingLeft: 4 }
       },
       datePicker: {
+        base: {
+          width: '100%'
+        },
         input: {
           base: {
             height: 26,
@@ -252,14 +256,12 @@ class Components extends React.Component {
 
             <Section id="date-time-picker" name="DateTimePicker">
 
-              {/*<DateTimePicker*/}
-                {/*isRangePicker*/}
-                {/*isTimePicker*/}
-                {/*canClear*/}
-                {/*placeholder={ 'Date Time' }*/}
-                {/*onChange={ this.handleDateChange }*/}
-                {/*styles={ style.datePicker }*/}
-              {/*/>*/}
+              <DateTimePicker
+                canClear
+                placeholder={ 'Date Time' }
+                onChange={ this.handleDateChange }
+                styles={ style.datePicker }
+              />
 
               <Code type={ 'jsx' }>
                 <DateTimePicker/>
