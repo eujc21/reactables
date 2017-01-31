@@ -3,7 +3,12 @@ import { renderToString } from 'react-dom/server'
 
 export class TextHighlighter extends React.Component {
 
-  state = { text: '', pageX: 0, pageY: 0 }
+  static propTypes = {
+    onSelect: PropTypes.func,
+    menuOptions: PropTypes.array
+  }
+
+  state = { selection: '', pageX: 0, pageY: 0 }
 
   componentDidMount(){
     document.addEventListener('click', this.onClickOutside, false);
@@ -17,7 +22,7 @@ export class TextHighlighter extends React.Component {
     if (this.node && this.node.contains(e.target))
       return
 
-    this.setState({text: ''})
+    this.setState({selection: ''})
   }
 
   onMouseUp =()=>{
@@ -26,25 +31,34 @@ export class TextHighlighter extends React.Component {
     span.id = '__text_highlighter'
 
     // get selection and attach span @ selection range
-    const selection = document.getSelection()
-    if (selection.rangeCount) {
-      let range = selection.getRangeAt(0).cloneRange();
+    const select = document.getSelection()
+    if (select.rangeCount) {
+      let range = select.getRangeAt(0).cloneRange()
+
+      // TODO: add error handling if range is on non-text
+
       range.surroundContents(span);
-      selection.removeAllRanges();
-      selection.addRange(range);
+      select.removeAllRanges();
+      select.addRange(range);
     }
 
     // get attached span element; assign offset to state
     const element = document.getElementById('__text_highlighter')
+    const selection = select.toString().trim()
 
     this.setState({
-      text: selection.toString().trim(),
+      selection,
       pageX: element.offsetLeft,
       pageY: element.offsetTop
     })
+
+
+    if(this.props.onSelect)
+      this.props.onSelect(selection)
   }
 
-  onMouseDown =()=>{
+  onMouseDown =(e)=>{
+    console.log(e.target)
     const element = document.getElementById('__text_highlighter')
 
     if(!element)
@@ -60,8 +74,8 @@ export class TextHighlighter extends React.Component {
   }
 
   render(){
-    const { children } = this.props
-    const { text, pageX, pageY } = this.state
+    const { children, menuOptions } = this.props
+    const { selection, pageX, pageY } = this.state
 
     const style = {
       base:{
@@ -69,7 +83,7 @@ export class TextHighlighter extends React.Component {
       },
       menu:{
         base:{
-          opacity: text.length ? 1 : 0,
+          opacity: selection.length ? 1 : 0,
           left: pageX + 10,
           top: pageY - 25,
           position: 'absolute',
@@ -78,8 +92,10 @@ export class TextHighlighter extends React.Component {
           backgroundColor: 'black',
           color: 'white',
           fontSize: 12,
-          padding: 3,
           borderRadius: 2,
+          margin: 0,
+          padding: 0,
+          listStyleType: 'none'
         },
         arrowDown: {
           width: 0,
@@ -100,11 +116,53 @@ export class TextHighlighter extends React.Component {
       >
         { children }
         <div style={ style.menu.base }>
-          <div style={ style.menu.options }>Option 1</div>
+          <ul style={ style.menu.options }>
+            { menuOptions
+              ? menuOptions.map((option, i) =>
+                React.cloneElement(option, {
+                  key:  i,
+                  selection
+                }))
+              : null
+            }
+          </ul>
           <div style={ style.menu.arrowDown }/>
         </div>
       </div>
     )
   }
 }
+
+
+export class TextHighlighterOption extends React.Component {
+  static propTypes = {
+    onClick: PropTypes.func
+  }
+
+  onClick =()=>{
+    const { selection, onClick } = this.props
+    console.log('ORDER', selection)
+    onClick(selection)
+  }
+
+  render(){
+    const { children } = this.props
+
+    const style = {
+      display: 'inline-block',
+      padding: 6,
+      cursor: 'pointer'
+    }
+
+    console.log(this.props)
+
+    return(
+      <li style={ style } onClick={ this.onClick }>
+        { children }
+      </li>
+    )
+  }
+}
+
+
 
