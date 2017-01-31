@@ -3,14 +3,29 @@ import { renderToString } from 'react-dom/server'
 
 export class TextHighlighter extends React.Component {
 
-  state = { text: '', xPosition: 0, yPosition: 0 }
+  state = { text: '', pageX: 0, pageY: 0 }
+
+  componentDidMount(){
+    document.addEventListener('click', this.onClickOutside, false);
+  }
+
+  componentWillUnmount(){
+    document.removeEventListener('click', this.onClickOutside, false);
+  }
+
+  onClickOutside = (e) => {
+    if (this.node && this.node.contains(e.target))
+      return
+
+    this.setState({text: ''})
+  }
 
   onMouseUp =()=>{
+    // create a span with #__text_highlighter
     let span = document.createElement("span");
-    span.style.fontWeight = "bold";
-    span.style.color = "green";
     span.id = '__text_highlighter'
 
+    // get selection and attach span @ selection range
     const selection = document.getSelection()
     if (selection.rangeCount) {
       let range = selection.getRangeAt(0).cloneRange();
@@ -19,9 +34,8 @@ export class TextHighlighter extends React.Component {
       selection.addRange(range);
     }
 
+    // get attached span element; assign offset to state
     const element = document.getElementById('__text_highlighter')
-
-    console.log(element)
 
     this.setState({
       text: selection.toString().trim(),
@@ -49,23 +63,32 @@ export class TextHighlighter extends React.Component {
     const { children } = this.props
     const { text, pageX, pageY } = this.state
 
-    console.log(pageX, pageY)
-
     const style = {
       base:{
 
       },
       menu:{
-        //opacity: text.length ? 1 : 0,
-        left: pageX,
-        top: pageY,
-        position: 'absolute',
-        color: 'white',
-        backgroundColor: 'black',
-        fontSize: 10,
-        padding: 3,
-        borderRadius: 2,
-        boxShadow: '0px 2px 4px 0px rgba(0,0,0, 0.29)'
+        base:{
+          opacity: text.length ? 1 : 0,
+          left: pageX + 10,
+          top: pageY - 25,
+          position: 'absolute',
+        },
+        options:{
+          backgroundColor: 'black',
+          color: 'white',
+          fontSize: 12,
+          padding: 3,
+          borderRadius: 2,
+        },
+        arrowDown: {
+          width: 0,
+          height: 0,
+          borderLeft: '5px solid transparent',
+          borderRight: '5px solid transparent',
+          borderTop: '5px solid #000',
+          marginLeft: 5
+        }
       }
     }
     return(
@@ -76,7 +99,10 @@ export class TextHighlighter extends React.Component {
         onMouseDown={ this.onMouseDown }
       >
         { children }
-        <div style={ style.menu }>Copy</div>
+        <div style={ style.menu.base }>
+          <div style={ style.menu.options }>Option 1</div>
+          <div style={ style.menu.arrowDown }/>
+        </div>
       </div>
     )
   }
