@@ -58,7 +58,6 @@ export class TextHighlighter extends React.Component {
   }
 
   onMouseDown =(e)=>{
-    console.log(e.target)
     const element = document.getElementById('__text_highlighter')
 
     if(!element)
@@ -85,7 +84,7 @@ export class TextHighlighter extends React.Component {
         base:{
           opacity: selection.length ? 1 : 0,
           left: pageX + 10,
-          top: pageY - 25,
+          top: pageY - 27,
           position: 'absolute',
         },
         options:{
@@ -141,7 +140,6 @@ export class TextHighlighterOption extends React.Component {
 
   onClick =()=>{
     const { selection, onClick } = this.props
-    console.log('ORDER', selection)
     onClick(selection)
   }
 
@@ -154,10 +152,8 @@ export class TextHighlighterOption extends React.Component {
       cursor: 'pointer'
     }
 
-    console.log(this.props)
-
     return(
-      <li style={ style } onClick={ this.onClick }>
+      <li style={ style } onMouseDown={ this.onClick }>
         { children }
       </li>
     )
