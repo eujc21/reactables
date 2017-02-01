@@ -56,7 +56,7 @@ export class Input extends React.Component {
   }
 
   handleFocus =(e)=>{
-    e.target.parentNode.style.outline = '5px auto #969599'
+    e.target.parentNode.style.outline = '-webkit-focus-ring-color auto #969599'
   }
 
   render(){
