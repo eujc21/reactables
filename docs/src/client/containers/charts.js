@@ -73,28 +73,28 @@ class Charts extends React.Component {
           <div style={ style.contentContainer }>
 
             <Section id="line" name="Line">
-              {/*<LineChart*/}
-                {/*isResponsive*/}
-                {/*data={ this.props.lineData }*/}
-                {/*pointRadius={ 8 }*/}
-                {/*tickFontSize={ 20 }*/}
-                {/*xProp="date"*/}
-                {/*yProp="count"*/}
-                {/*tooltip={ (obj) =>*/}
-                  {/*<div style={ style.tooltip }>{ obj.data.count }</div>*/}
-                {/*}/>*/}
+              <LineChart
+                isResponsive
+                data={ this.props.lineData }
+                pointRadius={ 8 }
+                tickFontSize={ 20 }
+                xProp="date"
+                yProp="count"
+                tooltip={ (obj) =>
+                  <div style={ style.tooltip }>{ obj.data.count }</div>
+                }/>
               <Code type="jsx">
-                {/*<LineChart*/}
-                  {/*isResponsive*/}
-                  {/*data={*/}
-                    {/*[{*/}
-                      {/*name: 'Set 1',*/}
-                      {/*values: [{count: 0 , date: '12-10-2016'}]*/}
-                    {/*}]*/}
-                  {/*}*/}
-                  {/*xProp="date"*/}
-                  {/*yProp="count"*/}
-                  {/*tooltip={ (obj) => '<div>{ obj.data.count }</div>' }/>*/}
+                <LineChart
+                  isResponsive
+                  data={
+                    [{
+                      name: 'Set 1',
+                      values: [{count: 0 , date: '12-10-2016'}]
+                    }]
+                  }
+                  xProp="date"
+                  yProp="count"
+                  tooltip={ (obj) => '<div>{ obj.data.count }</div>' }/>
               </Code>
             </Section>
 
@@ -127,49 +127,49 @@ class Charts extends React.Component {
 
 
               <Code type="jsx">
-                {/*<BarChart*/}
-                  {/*data={ [{count: 4, year: 2016}] }*/}
-                  {/*isResponsive*/}
-                  {/*xProp="year"*/}
-                  {/*yProp="count"/>*/}
+                <BarChart
+                  data={ [{count: 4, year: 2016}] }
+                  isResponsive
+                  xProp="year"
+                  yProp="count"/>
               </Code>
             </Section>
 
             <Section id="pie" name="Pie">
-              {/*<PieChart*/}
-                {/*isResponsive*/}
-                {/*data={ this.props.pieData }*/}
-                {/*labelProp="age"*/}
-                {/*valueProp="population"*/}
-                {/*hideLabelPercentage={ 3 }*/}
-                {/*tooltip={ (obj) =>*/}
-                  {/*<div style={ style.tooltip }>*/}
-                    {/*<h3 style={{ margin: 0}}>{ obj.data.age}</h3>*/}
-                    {/*<p style={{ marginBottom: 0}}>*/}
-                      {/*Pop: { obj.data.population }*/}
-                    {/*</p>*/}
-                  {/*</div>*/}
-                {/*}*/}
-              {/*/>*/}
+              <PieChart
+                isResponsive
+                data={ this.props.pieData }
+                labelProp="age"
+                valueProp="population"
+                hideLabelPercentage={ 3 }
+                tooltip={ (obj) =>
+                  <div style={ style.tooltip }>
+                    <h3 style={{ margin: 0}}>{ obj.data.age}</h3>
+                    <p style={{ marginBottom: 0}}>
+                      Pop: { obj.data.population }
+                    </p>
+                  </div>
+                }
+              />
               <Code type="jsx">
-                {/*<PieChart*/}
-                  {/*isResponsive*/}
-                  {/*data={ [{age: '<5', population: 1234 }] }*/}
-                  {/*labelFontSize={ 20 }*/}
-                  {/*labelProp="age"*/}
-                  {/*valueProp="population"*/}
-                  {/*tooltip={ (obj) => '<div>{ obj.data.count }</div>' }*/}
-                {/*/>*/}
+                <PieChart
+                  isResponsive
+                  data={ [{age: '<5', population: 1234 }] }
+                  labelFontSize={ 20 }
+                  labelProp="age"
+                  valueProp="population"
+                  tooltip={ (obj) => '<div>{ obj.data.count }</div>' }
+                />
               </Code>
             </Section>
 
             <Section id="sankey" name="Sankey">
-              {/*<Sankey*/}
-                {/*isResponsive*/}
-                {/*data={ this.props.sankeyData }*/}
-              {/*/>*/}
+              <Sankey
+                isResponsive
+                data={ this.props.sankeyData }
+              />
               <Code type="jsx">
-                {/*<Sankey isResponsive data={{ nodes: [], links: []}}/>*/}
+                <Sankey isResponsive data={{ nodes: [], links: []}}/>
               </Code>
             </Section>
 
