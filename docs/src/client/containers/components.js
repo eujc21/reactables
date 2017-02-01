@@ -20,7 +20,9 @@ import {
   Nav,
   NavLink,
   Code,
-  HiddenPanel
+  HiddenPanel,
+  TextSelector,
+  TextSelectorOption
 } from '../../../../src/index'
 
 class Components extends React.Component {
@@ -62,6 +64,14 @@ class Components extends React.Component {
     togglePanel(!isPanelVisible)
   }
 
+  handleTextSelectorOption =(text)=>{
+    console.log(text)
+  }
+
+  handleTextSelection =(text)=>{
+    console.log(text)
+  }
+
   render(){
 
     const { inputText, isMobile } = this.props
@@ -72,19 +82,15 @@ class Components extends React.Component {
       },
       container: {
         display: 'flex',
-        //flexWrap: 'wrap-reverse',
         justifyContent: 'center',
         position: 'relative'
       },
       navContainer: {
-        //visibility: 'collapse',
         position: 'relative',
         order: 1,
-        padding: '60px 60px 0 0',
-        flexShrink: '0'
+        padding: '60px 60px 0 0'
       },
       contentContainer: {
-        flexShrink: 1,
         display: 'flex',
         flexDirection: 'column',
         position: 'relative',
@@ -348,6 +354,27 @@ class Components extends React.Component {
                 <Code type="jsx"><p>Display properly formatted code</p></Code>
               </Code>
             </Section>
+
+
+            <Section id="text_highlighter" name="Text Highlighter">
+              <TextSelector
+                onSelect={ this.handleTextSelection }
+                menuOptions={[
+                  <TextSelectorOption
+                    onClick={ this.handleTextSelectorOption }>Option 1</TextSelectorOption>,
+                  <TextSelectorOption
+                    onClick={ this.handleTextSelectorOption }>Option 2</TextSelectorOption>,
+                  <TextSelectorOption
+                    onClick={ this.handleTextSelectorOption }>Option 3</TextSelectorOption>
+                ]}>
+                Lorem ipsum dolor sit amet, arcu lobortis massa adipiscing tortor dui, porta dolor enim, dui pulvinar amet mauris enim vitae et, pede sagittis ac felis erat urna libero. Integer tortor in risus taciti vestibulum, in dui. Purus quisque neque massa enim enim urna, dolore bibendum, ac eget quisque, a sit. Velit mauris venenatis ornare a turpis, sed id, nulla vitae, sed eleifend commodo, feugiat voluptate tempor. Pretium non metus maecenas, aliquet magna vivamus, vivamus mauris dapibus proin ipsum, leo laoreet morbi vestibulum at ac eget, maecenas pede nec vitae lacinia purus. A praesent sit eros fermentum bibendum ullamcorper, sapien facilisis velit donec velit sapien hendrerit. Praesent quia lorem tempus et congue consequat.
+              </TextSelector>
+
+              <Code>
+                <TextSelector/>
+              </Code>
+            </Section>
+
           </div>
         </div>
 
