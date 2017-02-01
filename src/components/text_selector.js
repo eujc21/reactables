@@ -1,11 +1,13 @@
 import React, { PropTypes } from 'react'
 import { renderToString } from 'react-dom/server'
+import merge from 'lodash/merge'
+import { TextMenuOption } from './text_menu_option'
 
 export class TextSelector extends React.Component {
 
   static propTypes = {
     onSelect: PropTypes.func,
-    menuOptions: PropTypes.array
+    textMenuOptions: PropTypes.array
   }
 
   state = { selection: '', pageX: 0, pageY: 0 }
@@ -37,7 +39,14 @@ export class TextSelector extends React.Component {
 
       // TODO: add error handling if range is on non-text
 
-      range.surroundContents(span);
+      try {
+        range.surroundContents(span);
+      } catch(e) {
+        console.warn(e)
+        return
+      }
+
+
       select.removeAllRanges();
       select.addRange(range);
     }
@@ -58,6 +67,7 @@ export class TextSelector extends React.Component {
   }
 
   onMouseDown =(e)=>{
+    this.node.focus()
     const element = document.getElementById('__text_highlighter')
 
     if(!element)
@@ -73,12 +83,13 @@ export class TextSelector extends React.Component {
   }
 
   render(){
-    const { children, menuOptions } = this.props
+    const { children, textMenuOptions, styles } = this.props
     const { selection, pageX, pageY } = this.state
 
     const style = {
       base:{
-
+        position: 'relative',
+        userSelect: 'contain', // lacking browser support
       },
       menu:{
         base:{
@@ -94,7 +105,8 @@ export class TextSelector extends React.Component {
           borderRadius: 2,
           margin: 0,
           padding: 0,
-          listStyleType: 'none'
+          listStyleType: 'none',
+          whiteSpace: 'nowrap'
         },
         arrowDown: {
           width: 0,
@@ -106,6 +118,9 @@ export class TextSelector extends React.Component {
         }
       }
     }
+
+    merge(style, styles)
+
     return(
       <div
         ref={ node => this.node = node }
@@ -114,10 +129,12 @@ export class TextSelector extends React.Component {
         onMouseDown={ this.onMouseDown }
       >
         { children }
+
         <div style={ style.menu.base }>
+
           <ul style={ style.menu.options }>
-            { menuOptions
-              ? menuOptions.map((option, i) =>
+            { textMenuOptions
+              ? textMenuOptions.map((option, i) =>
                 React.cloneElement(option, {
                   key:  i,
                   selection
@@ -125,37 +142,11 @@ export class TextSelector extends React.Component {
               : null
             }
           </ul>
+
           <div style={ style.menu.arrowDown }/>
+
         </div>
       </div>
-    )
-  }
-}
-
-
-export class TextSelectorOption extends React.Component {
-  static propTypes = {
-    onClick: PropTypes.func
-  }
-
-  onClick =()=>{
-    const { selection, onClick } = this.props
-    onClick(selection)
-  }
-
-  render(){
-    const { children } = this.props
-
-    const style = {
-      display: 'inline-block',
-      padding: 6,
-      cursor: 'pointer'
-    }
-
-    return(
-      <li style={ style } onMouseDown={ this.onClick }>
-        { children }
-      </li>
     )
   }
 }
