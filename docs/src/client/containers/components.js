@@ -22,7 +22,8 @@ import {
   Code,
   HiddenPanel,
   TextSelector,
-  TextSelectorOption
+  TextSelectorOption,
+  TextHighlighter
 } from '../../../../src/index'
 
 class Components extends React.Component {
@@ -173,6 +174,8 @@ class Components extends React.Component {
                 <NavLink to="#element-loader" styles={ style.navlink }>ElementLoader</NavLink>
                 <NavLink to="#hidden-panel" styles={ style.navlink }>HiddenPanel</NavLink>
                 <NavLink to="#code" styles={ style.navlink }>Code</NavLink>
+                <NavLink to="#text_selector" styles={ style.navlink }>Code</NavLink>
+                <NavLink to="#text_highlighter" styles={ style.navlink }>Code</NavLink>
               </Nav>
             </div> : null
           }
@@ -356,16 +359,16 @@ class Components extends React.Component {
             </Section>
 
 
-            <Section id="text_highlighter" name="Text Highlighter">
+            <Section id="text_selector" name="Text Selector">
               <TextSelector
                 onSelect={ this.handleTextSelection }
-                menuOptions={[
-                  <TextSelectorOption
-                    onClick={ this.handleTextSelectorOption }>Option 1</TextSelectorOption>,
-                  <TextSelectorOption
-                    onClick={ this.handleTextSelectorOption }>Option 2</TextSelectorOption>,
-                  <TextSelectorOption
-                    onClick={ this.handleTextSelectorOption }>Option 3</TextSelectorOption>
+                textMenuOptions={[
+                  <TextMenuOption
+                    onClick={ this.handleTextSelectorOption }>Option 1</TextMenuOption>,
+                  <TextMenuOption
+                    onClick={ this.handleTextSelectorOption }>Option 2</TextMenuOption>,
+                  <TextMenuOption
+                    onClick={ this.handleTextSelectorOption }>Option 3</TextMenuOption>
                 ]}>
                 Lorem ipsum dolor sit amet, arcu lobortis massa adipiscing tortor dui, porta dolor enim, dui pulvinar amet mauris enim vitae et, pede sagittis ac felis erat urna libero. Integer tortor in risus taciti vestibulum, in dui. Purus quisque neque massa enim enim urna, dolore bibendum, ac eget quisque, a sit. Velit mauris venenatis ornare a turpis, sed id, nulla vitae, sed eleifend commodo, feugiat voluptate tempor. Pretium non metus maecenas, aliquet magna vivamus, vivamus mauris dapibus proin ipsum, leo laoreet morbi vestibulum at ac eget, maecenas pede nec vitae lacinia purus. A praesent sit eros fermentum bibendum ullamcorper, sapien facilisis velit donec velit sapien hendrerit. Praesent quia lorem tempus et congue consequat.
               </TextSelector>
@@ -373,6 +376,20 @@ class Components extends React.Component {
               <Code>
                 <TextSelector/>
               </Code>
+            </Section>
+
+            <Section name="Text Highlighter">
+              <TextHighlighter
+                tag="**"
+                wrapper="!!"
+                match="porta"
+                text="Lorem ipsum dolor sit amet, arcu **lobortis** massa !!adipiscing!! tortor dui, porta dolor enim, dui pulvinar amet mauris enim vitae et, pede sagittis ac felis erat urna libero. Integer tortor in risus taciti vestibulum, in dui. Purus quisque neque massa enim enim urna, dolore bibendum, ac eget quisque, a sit. Velit mauris venenatis ornare a turpis, sed id, nulla vitae, sed eleifend commodo, feugiat voluptate tempor. Pretium non metus maecenas, aliquet magna vivamus, vivamus mauris dapibus proin ipsum, leo laoreet morbi vestibulum at ac eget, maecenas pede nec vitae lacinia purus. A praesent sit eros fermentum bibendum ullamcorper, sapien facilisis velit donec velit sapien hendrerit. Praesent quia lorem tempus et congue consequat."
+                textMenuOptions={[
+                  <TextMenuOption
+                    onClick={ this.handleTextSelectorOption }>Option 1</TextMenuOption>,
+                ]}
+                styles={{}}
+              />
             </Section>
 
           </div>
