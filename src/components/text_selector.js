@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import { renderToString } from 'react-dom/server'
 
-export class TextHighlighter extends React.Component {
+export class TextSelector extends React.Component {
 
   static propTypes = {
     onSelect: PropTypes.func,
@@ -82,7 +82,7 @@ export class TextHighlighter extends React.Component {
       },
       menu:{
         base:{
-          opacity: selection.length ? 1 : 0,
+          visibility: selection.length ? 'visible' : 'hidden',
           left: pageX + 10,
           top: pageY - 27,
           position: 'absolute',
@@ -133,7 +133,7 @@ export class TextHighlighter extends React.Component {
 }
 
 
-export class TextHighlighterOption extends React.Component {
+export class TextSelectorOption extends React.Component {
   static propTypes = {
     onClick: PropTypes.func
   }
