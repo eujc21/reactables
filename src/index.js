@@ -10,6 +10,7 @@ export { KonamiCode } from './components/konami_code'
 export { HeatBar } from './components/heat_bar'
 export { Navbar, NavbarLink } from './components/navbar'
 export { Nav, NavLink } from './components/nav'
+export { TextSelector, TextSelectorOption } from './components/text_selector'
 export HiddenPanel from './components/hidden_panel'
 export Code from './components/code'
 
