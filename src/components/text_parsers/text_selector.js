@@ -10,6 +10,11 @@ export class TextSelector extends React.Component {
     textMenuOptions: PropTypes.array
   }
 
+  static defaultProps = {
+    onSelect: ()=>{},
+    styles: {base: {}}
+  }
+
   state = { selection: '', pageX: 0, pageY: 0 }
 
   componentDidMount(){

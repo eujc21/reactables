@@ -19,7 +19,7 @@ export class TextHighlighter extends React.Component {
     id: false,
     delimiter: '#!#',
     textMenuOptions: null,
-    styles: {}
+    styles: {base: {}, highlighted: {}}
   }
 
   state = { pageX: 0, pageY: 0, matches: [], selection: ''}
