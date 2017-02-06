@@ -167,6 +167,17 @@ class Charts extends React.Component {
               <Sankey
                 isResponsive
                 data={ this.props.sankeyData }
+                tooltip={ (obj) =>
+                  <div style={ style.tooltip }>
+                    <h3 style={{ margin: 0}}>{ obj.data.age}</h3>
+                    <p style={{ marginBottom: 0}}>
+                      Node: { obj.data.name }
+                    </p>
+                    <p style={{ marginBottom: 0}}>
+                      Value: { obj.data.value }
+                    </p>
+                  </div>
+                }
               />
               <Code type="jsx">
                 <Sankey isResponsive data={{ nodes: [], links: []}}/>
