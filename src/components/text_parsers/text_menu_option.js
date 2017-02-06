@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react'
+import merge from 'lodash/merge'
 
 export class TextMenuOption extends React.Component {
   static propTypes = {
