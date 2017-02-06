@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react'
 import merge from 'lodash/merge'
 import { TextMenu } from './text_menu'
+import isEqual from 'lodash/isEqual'
 
 //const regex = /#!#(.*?)#!#(.*?)#!#/gi
 
@@ -28,8 +29,9 @@ export class TextHighlighter extends React.Component {
     document.addEventListener('click', this.onClickOutside)
   }
 
-  componentWillUpdate(){
-    // this.parseText(this.props.text)
+  componentWillUpdate(nextProps, nextState){
+    if(!isEqual(nextProps.text, this.props.text))
+      this.parseText(this.props.text)
   }
 
   componentWillUnmount(){
