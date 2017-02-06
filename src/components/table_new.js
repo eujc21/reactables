@@ -36,7 +36,8 @@ export class Table extends React.Component {
     height: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number
-    ])
+    ]),
+    styles: PropTypes.object
   }
 
   static defaultProps = {
@@ -55,7 +56,8 @@ export class Table extends React.Component {
     filter: '',
     sort: '',
     order: 'asc',
-    width: '100%'
+    width: '100%',
+    styles: {}
   }
 
   state = {
@@ -100,7 +102,7 @@ export class Table extends React.Component {
 
     const data = tableData.reduce((array, item) => {
 
-      for(var i = 0; i < keys.length; i++){
+      for(let i = 0; i < keys.length; i++){
         const field = String(item[keys[i]])
 
         if ( field.toLowerCase().indexOf( input.toLowerCase() ) > -1 ) {
@@ -244,10 +246,9 @@ export class Table extends React.Component {
   }
 
   getColumnWidths =()=>{
-    const { controls, include, exclude, columnOrder, headings, isScrollable } = this.props
+    const { include, exclude, columnOrder, headings, isScrollable } = this.props
     const { tableData } = this.state
     let tableWidth = ReactDOM.findDOMNode(this).clientWidth
-    //const controlsCount = Object.keys(controls).length > 0 ? Object.keys(controls).length : 0
 
     // TODO: Address this bug with calculating column widths
     // TODO: Also needs initial data for calculation of width if scrollable
@@ -421,7 +422,8 @@ export class Table extends React.Component {
       height,
       selectColor,
       formatters,
-      headings
+      headings,
+      styles
     } = this.props
 
     let style = {
@@ -488,6 +490,8 @@ export class Table extends React.Component {
       }
     }
 
+    _.merge(style, styles)
+
     // Set column order or get properties
     let tableProperties = this._getTableProperties()
 
@@ -516,14 +520,12 @@ export class Table extends React.Component {
               { tableProperties.map((propertyKey, propertyIndex) =>
                 <td
                   key={ propertyIndex }
-                  style={
-                  { ...style.tbody.td,
+                  style={{ ...style.tbody.td,
                     textAlign: headings && headings[propertyKey] && headings[propertyKey].justify ? headings[propertyKey].justify :  null,
                     width: headings && headings[propertyKey] && headings[propertyKey].width ? headings[propertyKey].width : cellWidth,
                     maxWidth: headings && headings[propertyKey] && headings[propertyKey].width ? headings[propertyKey].width : cellWidth,
                     minWidth: headings && headings[propertyKey] && headings[propertyKey].minWidth ? headings[propertyKey].minWidth : null
-                  }
-                  }>
+                  }}>
                   {
                     /* Apply Formatters */
                     formatters && formatters[propertyKey]
