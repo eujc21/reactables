@@ -11,12 +11,15 @@ export class TextHighlighter extends React.Component {
     delimiter: PropTypes.string,
     id: PropTypes.bool,
     text: PropTypes.string,
-    textMenuOptions: PropTypes.array
+    textMenuOptions: PropTypes.array,
+    styles: PropTypes.object
   }
 
   static defaultProps = {
     id: false,
-    textMenuOptions: null
+    delimiter: '#!#',
+    textMenuOptions: null,
+    styles: {}
   }
 
   state = { pageX: 0, pageY: 0, matches: [], selection: ''}
@@ -82,6 +85,7 @@ export class TextHighlighter extends React.Component {
         backgroundColor: 'red',
         color: 'white',
         borderRadius: 2,
+        padding: '0 3px',
         cursor: 'pointer'
       }
     }
