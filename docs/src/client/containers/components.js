@@ -176,6 +176,7 @@ class Components extends React.Component {
                 <NavLink to="#code" styles={ style.navlink }>Code</NavLink>
                 <NavLink to="#text_selector" styles={ style.navlink }>Text Selector</NavLink>
                 <NavLink to="#text_highlighter" styles={ style.navlink }>Text Highlighter</NavLink>
+                <NavLink to="#text_menu_option" styles={ style.navlink }>Text Menu Option</NavLink>
               </Nav>
             </div> : null
           }
@@ -374,11 +375,11 @@ class Components extends React.Component {
               </TextSelector>
 
               <Code>
-                <TextSelector/>
+                <TextSelector textMenuOptions={['<TextMenuOption>Option</TextMenuOption>']}/>
               </Code>
             </Section>
 
-            <Section name="Text Highlighter">
+            <Section id={ 'text_highlighter' } name="Text Highlighter">
               <TextHighlighter
                 delimiter={ '#!#' }
                 id={ true }
@@ -387,8 +388,19 @@ class Components extends React.Component {
                   <TextMenuOption
                     onClick={ this.handleTextSelectorOption }>Option 1</TextMenuOption>,
                 ]}
-                styles={{}}
               />
+              <Code>
+                <TextHighlighter textMenuOptions={['<TextMenuOption>Option</TextMenuOption>']}/>
+              </Code>
+            </Section>
+
+            <Section id={ 'text_menu_option' } name="Text Menu Option">
+              <div style={{ backgroundColor: 'black', color: 'white', borderRadius: 3, fontSize: 12}}>
+                <TextMenuOption onClick={()=>{}}>Option</TextMenuOption>
+              </div>
+              <Code>
+                <TextMenuOption onClick={()=>{}}>Option</TextMenuOption>
+              </Code>
             </Section>
 
           </div>
