@@ -22,8 +22,8 @@ import {
   Code,
   HiddenPanel,
   TextSelector,
-  TextSelectorOption,
-  TextHighlighter
+  TextHighlighter,
+  TextMenuOption
 } from '../../../../src/index'
 
 class Components extends React.Component {
@@ -380,10 +380,9 @@ class Components extends React.Component {
 
             <Section name="Text Highlighter">
               <TextHighlighter
-                tag="**"
-                wrapper="!!"
-                match="porta"
-                text="Lorem ipsum dolor sit amet, arcu **lobortis** massa !!adipiscing!! tortor dui, porta dolor enim, dui pulvinar amet mauris enim vitae et, pede sagittis ac felis erat urna libero. Integer tortor in risus taciti vestibulum, in dui. Purus quisque neque massa enim enim urna, dolore bibendum, ac eget quisque, a sit. Velit mauris venenatis ornare a turpis, sed id, nulla vitae, sed eleifend commodo, feugiat voluptate tempor. Pretium non metus maecenas, aliquet magna vivamus, vivamus mauris dapibus proin ipsum, leo laoreet morbi vestibulum at ac eget, maecenas pede nec vitae lacinia purus. A praesent sit eros fermentum bibendum ullamcorper, sapien facilisis velit donec velit sapien hendrerit. Praesent quia lorem tempus et congue consequat."
+                delimiter={ '#!#' }
+                id={ true }
+                text="Lorem ipsum dolor sit amet, arcu #!#123#!#lobortis#!# massa adipiscing tortor dui, #!#567#!#porta#!# dolor enim, dui pulvinar amet mauris enim vitae et, pede sagittis ac felis erat urna libero. Integer tortor in risus taciti vestibulum, in dui. Purus quisque neque massa enim enim urna, dolore bibendum, ac eget quisque, a sit. Velit mauris venenatis ornare a turpis, sed id, nulla vitae, sed eleifend commodo, feugiat voluptate tempor. Pretium non metus maecenas, aliquet magna vivamus, vivamus mauris dapibus proin ipsum, leo laoreet morbi vestibulum at ac eget, maecenas pede nec vitae lacinia purus. A praesent sit eros fermentum bibendum ullamcorper, sapien facilisis velit donec velit sapien hendrerit. Praesent quia lorem tempus et congue consequat."
                 textMenuOptions={[
                   <TextMenuOption
                     onClick={ this.handleTextSelectorOption }>Option 1</TextMenuOption>,
