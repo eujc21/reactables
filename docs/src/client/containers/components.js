@@ -174,8 +174,8 @@ class Components extends React.Component {
                 <NavLink to="#element-loader" styles={ style.navlink }>ElementLoader</NavLink>
                 <NavLink to="#hidden-panel" styles={ style.navlink }>HiddenPanel</NavLink>
                 <NavLink to="#code" styles={ style.navlink }>Code</NavLink>
-                <NavLink to="#text_selector" styles={ style.navlink }>Code</NavLink>
-                <NavLink to="#text_highlighter" styles={ style.navlink }>Code</NavLink>
+                <NavLink to="#text_selector" styles={ style.navlink }>Text Selector</NavLink>
+                <NavLink to="#text_highlighter" styles={ style.navlink }>Text Highlighter</NavLink>
               </Nav>
             </div> : null
           }
