@@ -49,7 +49,6 @@ export class TextSelector extends React.Component {
         return
       }
 
-
       select.removeAllRanges();
       select.addRange(range);
     }
