@@ -9,14 +9,14 @@ export class TextHighlighter extends React.Component {
 
   static propTypes = {
     delimiter: PropTypes.string,
-    id: PropTypes.bool,
+    dataId: PropTypes.bool,
     text: PropTypes.string,
     textMenuOptions: PropTypes.array,
     styles: PropTypes.object
   }
 
   static defaultProps = {
-    id: false,
+    dataId: false,
     delimiter: '#!#',
     textMenuOptions: null,
     styles: {base: {}, highlighted: {}}
@@ -50,8 +50,8 @@ export class TextHighlighter extends React.Component {
   }
 
   getRegex=()=>{
-    const { delimiter, id } = this.props
-    return new RegExp(`${delimiter}${ id ? '(.*?)' + delimiter : '' }(.*?)${delimiter}`, 'gi')
+    const { delimiter, dataId } = this.props
+    return new RegExp(`${delimiter}${ dataId ? '(.*?)' + delimiter : '' }(.*?)${delimiter}`, 'gi')
   }
 
   parseText =(text)=>{
@@ -61,8 +61,8 @@ export class TextHighlighter extends React.Component {
     let match = null
     while((match = regex.exec(text)) !== null){
       matches.push({
-        id: this.props.id ? match[1] : null,
-        value: this.props.id ? match[2] : match[1]
+        dataId: this.props.dataId ? match[1] : null,
+        value: this.props.dataId ? match[2] : match[1]
       })
     }
 
@@ -108,6 +108,7 @@ export class TextHighlighter extends React.Component {
                 ? <Highlighted
                     styles={ style.highlighted }
                     textMenuOptions={ textMenuOptions }
+                    dataId={ matches[i].dataId }
                   >
                     { matches[i].value }
                   </Highlighted>
@@ -147,11 +148,12 @@ class Highlighted extends React.Component {
   }
 
   render(){
-    const { styles, textMenuOptions, children } = this.props
+    const { styles, textMenuOptions, dataId, children } = this.props
 
     return(
       <span
         ref={ node => this.node = node }
+        data-id={ dataId }
         style={ styles }
         onClick={ this.handleClick }
       >
