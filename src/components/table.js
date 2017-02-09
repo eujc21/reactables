@@ -527,7 +527,7 @@ export class Table extends React.Component {
                   {
                     /* Apply Formatters */
                     formatters && formatters[propertyKey]
-                      ? formatters[propertyKey]( item )
+                      ? formatters[propertyKey]( item, rowIndex )
                       : item[propertyKey]
                   }
                 </td>
