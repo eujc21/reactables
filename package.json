@@ -9,7 +9,8 @@
     "prebuild": "rimraf lib",
     "build": "cross-env babel --out-dir lib --ignore *.test.js src && copyfiles ./src/styles/* -f lib/styles && copyfiles ./src/vendor/fonts/* -f lib/vendor/fonts",
     "test": "mocha test/*.spec.js --require test/.setup.js --compilers js:babel-core/register",
-    "start": "cross-env NODE_ENV=production nodemon ./docs/server.js --exec babel-node --presets es2015,stage-0"
+    "start": "cross-env NODE_ENV=production nodemon ./docs/server.js --exec babel-node --presets es2015,stage-0",
+    "crane-run": "npm install & npm run test & npm run start"
   },
   "repository": {
     "type": "git",

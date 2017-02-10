@@ -1,0 +1,7 @@
+containers:
+  reactables:
+    image: mkenney/npm:latest
+    run:
+      volume: ["${pwd}:/src"]
+      publish: ["8080:8080"]
+      cmd: ["/run-as-user", "/usr/local/bin/npm run crane-run"]
