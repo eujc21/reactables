@@ -20,7 +20,10 @@ import {
   Nav,
   NavLink,
   Code,
-  HiddenPanel
+  HiddenPanel,
+  TextSelector,
+  TextHighlighter,
+  TextMenuOption
 } from '../../../../src/index'
 
 class Components extends React.Component {
@@ -62,6 +65,14 @@ class Components extends React.Component {
     togglePanel(!isPanelVisible)
   }
 
+  handleTextSelectorOption =(text)=>{
+    console.log(text)
+  }
+
+  handleTextSelection =(text)=>{
+    console.log(text)
+  }
+
   render(){
 
     const { inputText, isMobile } = this.props
@@ -72,24 +83,24 @@ class Components extends React.Component {
       },
       container: {
         display: 'flex',
-        //flexWrap: 'wrap-reverse',
         justifyContent: 'center',
         position: 'relative'
       },
       navContainer: {
-        //visibility: 'collapse',
         position: 'relative',
         order: 1,
-        padding: '60px 60px 0 0',
-        flexShrink: '0'
+        padding: '60px 60px 0 0'
       },
       contentContainer: {
-        flexShrink: 1,
-        position: 'relative',
-        flexDirection: 'column',
         display: 'flex',
+        flexDirection: 'column',
+        position: 'relative',
         maxWidth: 600,
+        padding: '0 10px',
         order: 2,
+      },
+      componentContainer:{
+        width: '100%'
       },
       nav: {
         base: { width: 150 },
@@ -124,6 +135,9 @@ class Components extends React.Component {
         icon: { fontSize: 6, paddingLeft: 4 }
       },
       datePicker: {
+        base: {
+          width: '100%'
+        },
         input: {
           base: {
             height: 26,
@@ -160,6 +174,9 @@ class Components extends React.Component {
                 <NavLink to="#element-loader" styles={ style.navlink }>ElementLoader</NavLink>
                 <NavLink to="#hidden-panel" styles={ style.navlink }>HiddenPanel</NavLink>
                 <NavLink to="#code" styles={ style.navlink }>Code</NavLink>
+                <NavLink to="#text_selector" styles={ style.navlink }>Text Selector</NavLink>
+                <NavLink to="#text_highlighter" styles={ style.navlink }>Text Highlighter</NavLink>
+                <NavLink to="#text_menu_option" styles={ style.navlink }>Text Menu Option</NavLink>
               </Nav>
             </div> : null
           }
@@ -167,13 +184,20 @@ class Components extends React.Component {
           <div style={ style.contentContainer }>
 
             <Section id="button" name="Button">
+              <div style={ style.componentContainer }>
               { [0,1,2,3,4].map(num =>
                 <Button
                   key={ num }
                   onClick={ this.handleButtonClick }
-                  styles={{ backgroundColor: `#${3 + (num * 2) + 'A424A'}`, color: '#ffffff', marginRight: 10}}
+                  styles={{
+                    backgroundColor: `#${3 + (num * 2) + 'A424A'}`,
+                    color: '#ffffff',
+                    marginRight: 10,
+                    height: 25
+                  }}
                 />
               )}
+              </div>
               <Code type="jsx">
                 <Button
                   text="button"
@@ -189,7 +213,9 @@ class Components extends React.Component {
               <Input
                 text={ inputText }
                 onChange={ this.handleInputChange }
-                onSubmit={ this.handleInputSubmit } />
+                onSubmit={ this.handleInputSubmit }
+                styles={{ base: { width:'100%'}}}
+              />
               <Code type="jsx">
                 <Input
                   placeholder={ 'Search...' }
@@ -219,16 +245,19 @@ class Components extends React.Component {
             </Section>
 
             <Section id="dropdown" name="Dropdown">
-              <Dropdown node={
-                <span style={ style.dropdown.base }>
-                  <p style={ style.dropdown.text }>Dropdown</p>
-                  <i style={ style.dropdown.icon} className="icon-arrow-down"/>
-                </span>
-              }>
-                <DropdownOption text="Option 1" onClick={ this.handleDropdownClick }/>
-                <DropdownOption text="Option 2" onClick={ this.handleDropdownClick }/>
-                <DropdownOption text="Option 3" onClick={ this.handleDropdownClick }/>
-              </Dropdown>
+              <div style={ style.componentContainer }>
+                <Dropdown node={
+                  <span style={ style.dropdown.base }>
+                    <p style={ style.dropdown.text }>Dropdown</p>
+                    <i style={ style.dropdown.icon} className="icon-arrow-down"/>
+                  </span>
+                }>
+
+                  <DropdownOption text="Option 1" onClick={ this.handleDropdownClick }/>
+                  <DropdownOption text="Option 2" onClick={ this.handleDropdownClick }/>
+                  <DropdownOption text="Option 3" onClick={ this.handleDropdownClick }/>
+                </Dropdown>
+              </div>
               <Code type={ 'jsx' }>
                 <Dropdown node="Node">
                 </Dropdown>
@@ -238,8 +267,6 @@ class Components extends React.Component {
             <Section id="date-time-picker" name="DateTimePicker">
 
               <DateTimePicker
-                isRangePicker
-                isTimePicker
                 canClear
                 placeholder={ 'Date Time' }
                 onChange={ this.handleDateChange }
@@ -292,11 +319,13 @@ class Components extends React.Component {
 
             <Section id="element-loader" name="ElementLoader">
 
-              <ElementLoader action={ 'DEMO_CALL' }>
-                <div style={{ border: '1px solid black', width: 100, backgroundColor: 'grey', textAlign: 'center', padding: '20px 0'}}>
-                  <p>Wrapped Content</p>
-                </div>
-              </ElementLoader>
+              <div style={ style.componentContainer }>
+                <ElementLoader action={ 'DEMO_CALL' }>
+                  <div style={{ border: '1px solid black', width: 100, backgroundColor: 'grey', textAlign: 'center', padding: '20px 0'}}>
+                    <p>Wrapped Content</p>
+                  </div>
+                </ElementLoader>
+              </div>
 
               <Code type="jsx">
                 <ElementLoader spinner={ '<span className="optional-custom-spinner" />' } action="DEMO_CALL">
@@ -308,7 +337,16 @@ class Components extends React.Component {
             </Section>
 
             <Section id="hidden-panel" name="HiddenPanel">
-              <Button text={ 'Toggle Panel' } onClick={ this.handleTogglePanel } styles={{ backgroundColor: 'rgb(58, 66, 74)', color: 'white'}}/>
+              <div style={ style.componentContainer }>
+                <Button
+                  text={ 'Toggle Panel' }
+                  onClick={ this.handleTogglePanel }
+                  styles={{
+                    backgroundColor: 'rgb(58, 66, 74)',
+                    color: 'white',
+                    height: 25
+                  }}/>
+              </div>
 
               <Code type={ 'JSX' }>
                 <HiddenPanel />
@@ -320,6 +358,51 @@ class Components extends React.Component {
                 <Code type="jsx"><p>Display properly formatted code</p></Code>
               </Code>
             </Section>
+
+
+            <Section id="text_selector" name="Text Selector">
+              <TextSelector
+                onSelect={ this.handleTextSelection }
+                textMenuOptions={[
+                  <TextMenuOption
+                    onClick={ this.handleTextSelectorOption }>Option 1</TextMenuOption>,
+                  <TextMenuOption
+                    onClick={ this.handleTextSelectorOption }>Option 2</TextMenuOption>,
+                  <TextMenuOption
+                    onClick={ this.handleTextSelectorOption }>Option 3</TextMenuOption>
+                ]}>
+                Lorem ipsum dolor sit amet, arcu lobortis massa adipiscing tortor dui, porta dolor enim, dui pulvinar amet mauris enim vitae et, pede sagittis ac felis erat urna libero. Integer tortor in risus taciti vestibulum, in dui. Purus quisque neque massa enim enim urna, dolore bibendum, ac eget quisque, a sit. Velit mauris venenatis ornare a turpis, sed id, nulla vitae, sed eleifend commodo, feugiat voluptate tempor. Pretium non metus maecenas, aliquet magna vivamus, vivamus mauris dapibus proin ipsum, leo laoreet morbi vestibulum at ac eget, maecenas pede nec vitae lacinia purus. A praesent sit eros fermentum bibendum ullamcorper, sapien facilisis velit donec velit sapien hendrerit. Praesent quia lorem tempus et congue consequat.
+              </TextSelector>
+
+              <Code>
+                <TextSelector textMenuOptions={['<TextMenuOption>Option</TextMenuOption>']}/>
+              </Code>
+            </Section>
+
+            <Section id={ 'text_highlighter' } name="Text Highlighter">
+              <TextHighlighter
+                delimiter={ '#!#' }
+                dataId={ true }
+                text="Lorem ipsum dolor sit amet, arcu #!#123#!#lobortis#!# massa adipiscing tortor dui, #!#567#!#porta#!# dolor enim, dui pulvinar amet mauris enim vitae et, pede sagittis ac felis erat urna libero. Integer tortor in risus taciti vestibulum, in dui. Purus quisque neque massa enim enim urna, dolore bibendum, ac eget quisque, a sit. Velit mauris venenatis ornare a turpis, sed id, nulla vitae, sed eleifend commodo, feugiat voluptate tempor. Pretium non metus maecenas, aliquet magna vivamus, vivamus mauris dapibus proin ipsum, leo laoreet morbi vestibulum at ac eget, maecenas pede nec vitae lacinia purus. A praesent sit eros fermentum bibendum ullamcorper, sapien facilisis velit donec velit sapien hendrerit. Praesent quia lorem tempus et congue consequat."
+                textMenuOptions={[
+                  <TextMenuOption
+                    onClick={ this.handleTextSelectorOption }>Option 1</TextMenuOption>,
+                ]}
+              />
+              <Code>
+                <TextHighlighter textMenuOptions={['<TextMenuOption>Option</TextMenuOption>']}/>
+              </Code>
+            </Section>
+
+            <Section id={ 'text_menu_option' } name="Text Menu Option">
+              <div style={{ backgroundColor: 'black', color: 'white', borderRadius: 3, fontSize: 12}}>
+                <TextMenuOption onClick={()=>{}}>Option</TextMenuOption>
+              </div>
+              <Code>
+                <TextMenuOption onClick={()=>{}}>Option</TextMenuOption>
+              </Code>
+            </Section>
+
           </div>
         </div>
 

@@ -5,12 +5,16 @@ const Code =({ type, styles, children })=>{
 
   const style = {
     base:{
+      display: 'flex',
+      flexWrap: 'wrap',
+      width: '100%',
       border: '1px solid rgba(16,16,16,0.1)',
       borderRadius: 2,
       marginTop: 10,
     },
     header:{
       base:{
+        width: '100%',
         padding: 5,
         backgroundColor: '#32b1d1',
       },
@@ -21,6 +25,8 @@ const Code =({ type, styles, children })=>{
       }
     },
     code:{
+      width: '100%',
+      whiteSpace: 'pre-wrap',
       margin: 0,
       backgroundColor: 'rgba(56, 210, 224, 0.1)',
       padding: 10

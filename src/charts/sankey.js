@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import * as d3 from 'd3'
 import { sankey } from 'd3-sankey'
 import isEqual from 'lodash/isEqual'
-import { initialize, remove, generateGUID } from './common'
+import { initialize, remove, generateGUID, createTooltipContainer, renderTooltip } from './common'
 import '../styles/charts.css'
 
 
@@ -54,6 +54,7 @@ export class Sankey extends React.Component {
     this.svg = initialize(this.chartContainer, this.GUID, initialWidth, initialHeight, margin, isResponsive)
 
     this.renderChart()
+    this.tooltipContainer = createTooltipContainer()
   }
 
   componentDidUpdate(prevProps){
@@ -80,7 +81,7 @@ export class Sankey extends React.Component {
 
   appendNodes =()=>{
 
-    const { data, onClick } = this.props
+    const { data, tooltip, onClick } = this.props
 
     let color = d3.scaleOrdinal(d3.schemeCategory20)
 
@@ -107,8 +108,31 @@ export class Sankey extends React.Component {
       .attr("width", this.sankey.nodeWidth())
       .style("fill", (d) => d.color = d.fillColor || color(d.name.replace(/ .*/, "")))
       .style("stroke", (d) => d.strokeColor || d3.rgb(d.color).darker(2))
-      .append("title")
-      .text((d) => d.name + "\n" + this.formatter(d.value))
+
+      /*==============*/
+      /* Call Tooltip */
+      /*==============*/
+
+      .on("mouseover", (d, i) => {
+
+        this.tooltipContainer.transition()
+          .duration(200)
+          .style("opacity", 1)
+
+        this.tooltipContainer
+          .html(renderTooltip(tooltip, {data: d, index: i}) )
+          .style("left", (d3.event.pageX) + "px")
+          .style("top", (d3.event.pageY) + "px")
+      })
+
+      .on("mouseout", d => {
+        this.tooltipContainer.transition()
+          .duration(500)
+          .style("opacity", 0);
+      })
+
+      // .append("title")
+      // .text((d) => d.name + "\n" + this.formatter(d.value))
 
     node.append("text")
       .attr("x", -6)

@@ -20,6 +20,21 @@ export class Input extends React.Component {
     clearIconClass: 'icon-cross'
   }
 
+  componentDidMount(){
+    document.addEventListener('click', this.onClickOutside, false)
+  }
+
+  componentWillUnmount(){
+    document.removeEventListener('click', this.onClickOutside, false)
+  }
+
+  onClickOutside = (e) => {
+    if (this.node && this.node.contains(e.target))
+      return
+
+    this.node.style.outline = null
+  }
+
   handleTextChange =(e)=>{
     this.props.onChange(e.target.value)
   }
@@ -38,6 +53,10 @@ export class Input extends React.Component {
 
     if (e.key === 'Enter')
       this.props.onSubmit(text)
+  }
+
+  handleFocus =(e)=>{
+    e.target.parentNode.style.outline = '5px auto -webkit-focus-ring-color' //#969599
   }
 
   render(){
@@ -79,14 +98,16 @@ export class Input extends React.Component {
 
     return(
 
-      <div style={ style.base }>
+      <div ref={ node => this.node = node } style={ style.base }>
         <input
           style={ style.input }
           value={ text }
           type='text'
           placeholder={ placeholder }
           onChange={ this.handleTextChange }
-          onKeyPress={ this.handleKeyPress }/>
+          onKeyPress={ this.handleKeyPress }
+          onFocus={ this.handleFocus }
+        />
         { text && text.length > 0 ?
           <i
             className={ clearIconClass }

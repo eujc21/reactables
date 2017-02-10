@@ -51,6 +51,7 @@ export function makeResponsive (svg, GUID){
     .call(resize);
 
   select(window).on("resize." + GUID, resize)
+  resize()
 
   // get width of container and resize svg to fit it
   function resize() {

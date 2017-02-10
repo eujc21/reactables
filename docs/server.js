@@ -31,7 +31,10 @@ function renderFullPage(html) {
         <style>
           html { font-family: Helvetica, arial, sans-serif }
           html, body, #root { 
-            margin: 0; overflow-y: scroll;  -webkit-overflow-scrolling: touch;
+            margin: 0; 
+            overflow-y: scroll;  
+            -webkit-overflow-scrolling: touch;
+            
           }
           body { background-color: #f4f4f4; }
         </style>
