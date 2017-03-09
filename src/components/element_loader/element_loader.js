@@ -69,7 +69,7 @@ class ElementLoader extends React.Component {
 
     const { spinner } = this.props
 
-    let style = {
+    let styles = {
       base:{
         display: 'flex',
         justifyContent: 'center',
@@ -90,14 +90,14 @@ class ElementLoader extends React.Component {
     return(
       <div style={{
         ...this.state.style,
-        ...style.base
+        ...styles.base
       }}>
         { spinner
           ? spinner
           : <div className='element-loader'>
-              <span style={ style.span } />
-              <span style={ style.span } />
-              <span style={ style.span } />
+              <span style={ styles.span } />
+              <span style={ styles.span } />
+              <span style={ styles.span } />
             </div>
         }
       </div>

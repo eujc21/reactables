@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react'
-import { getTop } from '../utils/utils'
 import merge from 'lodash/merge'
 
 export class Nav extends React.Component {
@@ -7,11 +6,11 @@ export class Nav extends React.Component {
   static propTypes = {
     initialTop: PropTypes.number,
     offsetTop: PropTypes.number,
-    styles: PropTypes.object
+    style: PropTypes.object
   }
 
   static defaultProps = {
-    styles: {},
+    style: {},
     offsetTop: 0
   }
 
@@ -19,7 +18,7 @@ export class Nav extends React.Component {
 
   componentDidMount(){
     // set top and offset
-    this.top = getTop(this.container)
+    this.top = this.getTop(this.container)
     this.paddingTop = parseInt(window.getComputedStyle(this.container.parentNode).paddingTop)
     this.adjustOffset()
 
@@ -28,6 +27,17 @@ export class Nav extends React.Component {
 
   componentWillUnmount(){
     window.removeEventListener('scroll', this.adjustOffset)
+  }
+
+  getTop =(el)=>{
+    const element = el.getBoundingClientRect()
+    const body = document.body
+    const doc = document.documentElement
+
+    const scrollTop = window.pageYOffset || doc.scrollTop || body.scrollTop
+    const clientTop = doc.clientTop || body.clientTop || 0
+
+    return element.top +  scrollTop - clientTop
   }
 
   adjustOffset =()=>{
@@ -50,9 +60,9 @@ export class Nav extends React.Component {
   }
 
   render(){
-    const { children, styles } = this.props
+    const { children, style } = this.props
 
-    const style = {
+    const styles = {
       base: {
         position: 'relative',
         width: 200,
@@ -73,11 +83,11 @@ export class Nav extends React.Component {
       }
     }
 
-    merge(style, styles)
+    merge(styles, style)
 
     return (
-      <div ref={ container => this.container = container } style={ style.base }>
-        <ul style={ style.nav }>
+      <div ref={ container => this.container = container } style={ styles.base }>
+        <ul style={ styles.nav }>
           {
             children ? React.Children.map(children, (child, i) => {
               return React.cloneElement(child, {
@@ -95,13 +105,13 @@ export class Nav extends React.Component {
 export class NavLink extends React.Component {
   static propTypes = {
     to: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
-    styles: PropTypes.object,
+    style: PropTypes.object,
     hoverColor: PropTypes.string,
     backgroundColor: PropTypes.string
   }
 
   static defaultProps = {
-    styles: {},
+    style: {},
     hoverColor: '#ffffff',
     backgroundColor: 'transparent'
   }
@@ -127,9 +137,9 @@ export class NavLink extends React.Component {
   }
 
   render(){
-    const { to, children, styles, hoverColor, backgroundColor } = this.props
+    const { to, children, style, hoverColor, backgroundColor } = this.props
 
-    const style = {
+    const styles = {
       base: {
         position: 'relative',
         backgroundColor: this.state.isHovered ? hoverColor : backgroundColor,
@@ -148,17 +158,17 @@ export class NavLink extends React.Component {
       }
     }
 
-    merge(style, styles)
+    merge(styles, style)
 
     return(
       <li
-        style={ style.base }
+        style={ styles.base }
         onMouseEnter={ this.handleHover }
         onMouseLeave={ this.handleHover }
       >
         { typeof to === 'string'
-          ? <a style={ style.link } href={ to }>{ children }</a>
-          : <a style={ style.link } href='' onClick={ to }>{ children }</a>
+          ? <a style={ styles.link } href={ to }>{ children }</a>
+          : <a style={ styles.link } href='' onClick={ to }>{ children }</a>
         }
       </li>
     )

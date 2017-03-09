@@ -1,4 +1,7 @@
 import React, { PropTypes } from 'react'
+import merge from 'lodash/merge'
+
+// TODO: 1. Allow for 'style' prop, 2. Optional alpha overlay,
 
 class HiddenPanel extends React.Component {
 
@@ -11,14 +14,16 @@ class HiddenPanel extends React.Component {
       PropTypes.string,
       PropTypes.number
     ]),
+    style: PropTypes.object
   }
 
   static defaultProps = {
     isVisible: false,
     position: 'right',
-    animationTime: '1s',
+    animationTime: '0.5s',
     width: 200,
-    offSet: 0
+    offSet: 0,
+    style: {}
   }
 
   componentDidMount(){
@@ -33,38 +38,43 @@ class HiddenPanel extends React.Component {
     this.setState({length: window.innerHeight - this.props.offSet})
   }
 
-  setVisibility(style){
+  setVisibility=(styles)=>{
     const { position, isVisible, width } = this.props
-    style[position] = isVisible ? 0 : -width
-    return style
+    styles.panel[position] = isVisible ? 0 : -width
+    return styles
   }
 
   render(){
 
-    const { offSet, position, width, animationTime, children } = this.props
-    const height = window.innerHeight - this.props.offSet
+    const { offSet, position, width, animationTime, style, children } = this.props
+    const height = window.innerHeight - offSet
 
-
-    let style = {
-      top: 0,
-      backgroundColor: 'transparent',
-      width: (position === 'right' || position === 'left') ? width : height,
-      height: (position === 'bottom' || position === 'top') ? width : height,
-      position: 'fixed',
-      zIndex: 1000000,
-      transition: animationTime,
+    let styles = {
+      panel: {
+        top: 0,
+        backgroundColor: 'transparent',
+        width: (position === 'right' || position === 'left') ? width : height,
+        height: (position === 'bottom' || position === 'top') ? width : height,
+        position: 'fixed',
+        zIndex: 1000000,
+        transition: animationTime,
+        boxSizing: 'border-box'
+      },
+      overlay: {}
     }
 
     // append positioning while visible
-    style = this.setVisibility(style)
+    styles = this.setVisibility(styles)
+
+    merge(styles, style)
 
     //calculate offSet
     if(offSet){
-      style.top = position === 'left' || position === 'right' ? offSet : style.top
+      styles.top = position === 'left' || position === 'right' ? offSet : styles.top
     }
 
     return(
-      <div ref={ panel => this.panel = panel } style={ style }>
+      <div style={ styles.panel }>
         { children }
       </div>
     )

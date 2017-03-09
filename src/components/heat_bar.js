@@ -8,7 +8,7 @@ export class HeatBar extends React.Component {
     outOf: PropTypes.number.isRequired,
     title: PropTypes.string,
     isScoreVisible: PropTypes.bool,
-    styles: PropTypes.object,
+    style: PropTypes.object,
     barColors: PropTypes.arrayOf((propValue, key, componentName, location, propFullName) => {
       if (propValue.length !== 4) {
         return new Error(
@@ -30,15 +30,15 @@ export class HeatBar extends React.Component {
     title: '',
     barColors: [ '#27ae60', '#dfea10', '#efec13', '#e74c3c' ],
     isScoreVisible: true,
-    styles: {}
+    style: {}
   }
 
 
   render(){
-    const { score, outOf, title, barColors, isScoreVisible, styles } = this.props
+    const { score, outOf, title, barColors, isScoreVisible, style } = this.props
     const [ gradientOne, gradientTwo, gradientThree, gradientFour ] = barColors
 
-    const style = {
+    const styles = {
       base: {
         width: '100%'
       },
@@ -67,16 +67,16 @@ export class HeatBar extends React.Component {
       }
     }
 
-    merge(style, styles)
+    merge(styles, style)
 
     return(
-      <div style={ style.base }>
-        <div style={ style.header }>
+      <div style={ styles.base }>
+        <div style={ styles.header }>
           <span>{ title }</span>
           <span>{ isScoreVisible ? score : null }</span>
         </div>
-        <div style={ style.bar }>
-          <div style={ style.indicatorLine } />
+        <div style={ styles.bar }>
+          <div style={ styles.indicatorLine } />
         </div>
       </div>
     )

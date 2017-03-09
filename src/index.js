@@ -13,6 +13,7 @@ export { Nav, NavLink } from './components/nav'
 export { TextSelector } from './components/text_parsers/text_selector'
 export { TextHighlighter } from './components/text_parsers/text_highlighter'
 export { TextMenuOption } from './components/text_parsers/text_menu_option'
+export { Pagination } from './components/pagination'
 export HiddenPanel from './components/hidden_panel'
 export Code from './components/code'
 

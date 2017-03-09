@@ -36,7 +36,7 @@ class App extends React.Component {
     const NAV_BREAK_POINT = 440
     const { pageScrollPosition } = this.props
 
-    const style = {
+    const styles = {
       base: {
         position: 'relative',
         display: 'table',
@@ -85,20 +85,20 @@ class App extends React.Component {
     }
 
     return(
-      <div style={ style.base }>
-        <Navbar responsiveWidth={ 767 } styles={ style.navbar }>
+      <div style={ styles.base }>
+        <Navbar responsiveWidth={ 767 } style={ styles.navbar }>
           <NavbarLink
             to={ ()=> this.handleRoute(BASE_PATH) }
             appendResponsive={ 'bar' }
-            styles={ style.navbar.title }>Reactables</NavbarLink>
+            style={ styles.navbar.title }>Reactables</NavbarLink>
           <NavbarLink
             to={ ()=> this.handleRoute(BASE_PATH) }
             isActive={ window.location.pathname === '/' }
-            styles={ style.navlink }>Components</NavbarLink>
+            style={ styles.navlink }>Components</NavbarLink>
           <NavbarLink
             to={ ()=> this.handleRoute(BASE_PATH + 'charts') }
             isActive={ window.location.pathname === '/charts' }
-            styles={ style.navlink }>Charts</NavbarLink>
+            style={ styles.navlink }>Charts</NavbarLink>
         </Navbar>
 
         <Hero

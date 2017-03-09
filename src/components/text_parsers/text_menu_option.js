@@ -3,7 +3,12 @@ import merge from 'lodash/merge'
 
 export class TextMenuOption extends React.Component {
   static propTypes = {
-    onClick: PropTypes.func
+    onClick: PropTypes.func,
+    style: PropTypes.object
+  }
+
+  static defaultProps = {
+    style: {}
   }
 
   onClick =()=>{
@@ -12,18 +17,18 @@ export class TextMenuOption extends React.Component {
   }
 
   render(){
-    const { children, styles } = this.props
+    const { children, style } = this.props
 
-    const style = {
+    const styles = {
       display: 'inline-block',
       padding: 6,
       cursor: 'pointer'
     }
 
-    merge(style, styles)
+    merge(styles, style)
 
     return(
-      <li style={ style } onMouseDown={ this.onClick }>
+      <li style={ styles } onMouseDown={ this.onClick }>
         { children }
       </li>
     )

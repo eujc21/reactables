@@ -12,14 +12,14 @@ export class TextHighlighter extends React.Component {
     dataId: PropTypes.bool,
     text: PropTypes.string,
     textMenuOptions: PropTypes.array,
-    styles: PropTypes.object
+    style: PropTypes.object
   }
 
   static defaultProps = {
     dataId: false,
     delimiter: '#!#',
     textMenuOptions: null,
-    styles: {base: {}, highlighted: {}}
+    style: {base: {}, highlighted: {}}
   }
 
   state = { pageX: 0, pageY: 0, matches: [], selection: ''}
@@ -71,12 +71,12 @@ export class TextHighlighter extends React.Component {
 
 
   render(){
-    const { text, textMenuOptions, styles } = this.props
+    const { text, textMenuOptions, style } = this.props
     const { matches } = this.state
     const TEXT_HIGHLIGHTER = '#!__TEXT_HIGHLIGHTER__!#'
     const regex = this.getRegex()
 
-    const style = {
+    const styles = {
       base: {
         position: 'relative'
       },
@@ -90,12 +90,12 @@ export class TextHighlighter extends React.Component {
       }
     }
 
-    merge(style, styles)
+    merge(styles, style)
 
     return(
       <div
         ref={ node => this.node = node }
-        style={ style.base }
+        style={ styles.base }
       >
         { text
           .replace(regex, TEXT_HIGHLIGHTER)
@@ -106,7 +106,7 @@ export class TextHighlighter extends React.Component {
 
               { matches[i]
                 ? <Highlighted
-                    styles={ style.highlighted }
+                    styles={ styles.highlighted }
                     textMenuOptions={ textMenuOptions }
                     dataId={ matches[i].dataId }
                   >

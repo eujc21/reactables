@@ -81,7 +81,7 @@ export default class Day extends React.Component {
 
     const { date } = this.props
 
-    const style = {
+    const styles = {
       base: {
         display: 'inline-block',
         margin: 3,
@@ -95,7 +95,7 @@ export default class Day extends React.Component {
       }
     }
     return(
-      <div style={ style.base } onClick={ this.onClick }>
+      <div style={ styles.base } onClick={ this.onClick }>
         { date.date() }
       </div>
     )

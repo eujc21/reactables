@@ -42,7 +42,7 @@ export default class Calendar extends React.Component {
 
 
   render() {
-    const style = {
+    const styles = {
       base: {
         backgroundColor: 'white',
         borderRadius: 3,
@@ -72,19 +72,19 @@ export default class Calendar extends React.Component {
     }
 
     return(
-      <div style={ style.base }>
-        { this.renderDaysOfTheWeek(style) }
+      <div style={ styles.base }>
+        { this.renderDaysOfTheWeek(styles) }
         { this.renderWeeks(weeks) }
       </div>
     )
   }
 
-  renderDaysOfTheWeek =(style)=>{
+  renderDaysOfTheWeek =(styles)=>{
 
     return(
       <div>
         { this.daysOfTheWeek.map(day =>
-          <div key={ day } style={ style.day }>
+          <div key={ day } style={ styles.day }>
             { day.substring(0, 2) }
           </div>)
         }
@@ -94,13 +94,13 @@ export default class Calendar extends React.Component {
 
   renderWeeks =(weeks)=>{
     const { selectedDate, rangeDate, calendarDate } = this.props
-    const style = {
+    const styles = {
       base: {
         whiteSpace: 'nowrap'
       }
     }
     return(
-      <div style={ style.base }>
+      <div style={ styles.base }>
         { weeks.map((week, i) =>
           <div key={ i }>
             { week.map((date, i) =>

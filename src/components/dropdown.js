@@ -11,14 +11,15 @@ class Dropdown extends React.Component {
       if (propValue[key].type !== DropdownOption)
         return new Error('One or more children are not of type DropdownItem')
     }),
-    styles: PropTypes.object
+    style: PropTypes.object
   }
 
 
   static defaultProps = {
     animate: false,
     menuDirection: 'right',
-    isDisabled: false
+    isDisabled: false,
+    style: {}
   }
 
   state = { isHighlighted: false, isMenuVisible: false }
@@ -79,9 +80,9 @@ class Dropdown extends React.Component {
 
   render(){
 
-    const { isDisabled, children, styles } = this.props
+    const { isDisabled, children, style } = this.props
 
-    let style = {
+    let styles = {
       base: {
         display: 'inline-block',
         position: 'relative',
@@ -116,22 +117,22 @@ class Dropdown extends React.Component {
       }
     }
 
-    merge(style, styles)
+    merge(styles, style)
 
     return(
-      <span ref={ main => this.main = main } style={ style.base }>
+      <span ref={ main => this.main = main } style={ styles.base }>
         <div
-          style={ style.node }
+          style={ styles.node }
           onMouseEnter={ this.toggleButtonHighlight }
           onMouseLeave={ this.toggleButtonHighlight }
           onClick={ this.toggleMenu }>
 
-          <div style={ style.node }>
+          <div style={ styles.node }>
             { this.props.node }
           </div>
 
         </div>
-        <div style={ style.menu } onClick={ this.handleMenuClick }>
+        <div style={ styles.menu } onClick={ this.handleMenuClick }>
           {
             React.Children.map(children, (child, i) => {
               return React.cloneElement(child, {

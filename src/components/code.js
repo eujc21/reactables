@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react'
 import merge from 'lodash/merge'
 
-const Code =({ type, styles, children })=>{
+const Code =({ type, style, children })=>{
 
-  const style = {
+  const styles = {
     base:{
       display: 'flex',
       flexWrap: 'wrap',
@@ -34,14 +34,14 @@ const Code =({ type, styles, children })=>{
 
   }
 
-  merge(style, styles)
+  merge(styles, style)
 
   return (
-    <div style={ style.base }>
-      <div style={ style.header.base }>
-        <h5 style={ style.header.text }>{ type.toUpperCase() }</h5>
+    <div style={ styles.base }>
+      <div style={ styles.header.base }>
+        <h5 style={ styles.header.text }>{ type.toUpperCase() }</h5>
       </div>
-      <pre style={ style.code }><code>
+      <pre style={ styles.code }><code>
         { JsxString(children) }
       </code></pre>
     </div>
@@ -50,7 +50,7 @@ const Code =({ type, styles, children })=>{
 
 Code.propTypes = {
   type: PropTypes.string.isRequired,
-  styles: PropTypes.object
+  style: PropTypes.object
 }
 
 Code.defaultProps = {

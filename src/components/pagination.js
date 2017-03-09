@@ -14,7 +14,7 @@ const Pagination =({
   nextText,
   maintainSkipWidth,
   onClick,
-  styles })=>{
+  style })=>{
 
   const handleNext=()=>{
     const pageNumber = page + 1
@@ -41,7 +41,7 @@ const Pagination =({
     onClick(pageCount)
   }
 
-  const style = {
+  const styles = {
     ul: {
       display: 'flex',
       listStyleType: 'none',
@@ -83,19 +83,19 @@ const Pagination =({
     }
   }
 
-  merge(style, styles)
+  merge(styles, style)
 
   const First =()=>{
     if(!showFirst) return null
     return(
-      <li style={ page <= 1 ? style.pageControl.disabled : style.pageControl.base } onClick={ handleFirst }>
+      <li style={ page <= 1 ? styles.pageControl.disabled : styles.pageControl.base } onClick={ handleFirst }>
         { firstText }
       </li>
     )
   }
 
   const Prev =()=>{
-    return(<li style={ page <= 1 ? style.pageControl.disabled : style.pageControl.base} onClick={ handlePrev }>{ prevText }</li>)
+    return(<li style={ page <= 1 ? styles.pageControl.disabled : styles.pageControl.base} onClick={ handlePrev }>{ prevText }</li>)
   }
 
   const LeftEllipses =()=>{
@@ -104,7 +104,7 @@ const Pagination =({
     if(pageSkip * 2 >= pageCount) return null
     if(page <= pageSkip + 1) return null
 
-    return(<li style={ style.ellipses }>...</li>)
+    return(<li style={ styles.ellipses }>...</li>)
   }
 
   const buildPages =()=>{
@@ -137,7 +137,7 @@ const Pagination =({
     return [...front, page, ...back].map(pageNumber =>
       <li
         key={ pageNumber }
-        style={ page !== pageNumber ? style.pageNumber : style.selected }
+        style={ page !== pageNumber ? styles.pageNumber : styles.selected }
         onClick={ ()=> handleSkip(pageNumber) }
       >{pageNumber}</li>)
   }
@@ -147,20 +147,20 @@ const Pagination =({
     if(pageSkip * 2 >= pageCount) return null
     if(page >= (pageCount - pageSkip)) return null
 
-    return(<li style={ style.ellipses }>...</li>)
+    return(<li style={ styles.ellipses }>...</li>)
   }
 
   const Next =()=>{
-    return(<li style={ page >= pageCount ? style.pageControl.disabled : style.pageControl.base } onClick={ handleNext }>{ nextText }</li>)
+    return(<li style={ page >= pageCount ? styles.pageControl.disabled : styles.pageControl.base } onClick={ handleNext }>{ nextText }</li>)
   }
 
   const Last =()=>{
     if(!showLast) return null
-    return(<li style={ page >= pageCount ? style.pageControl.disabled : style.pageControl.base} onClick={ handleLast }>{ lastText }</li>)
+    return(<li style={ page >= pageCount ? styles.pageControl.disabled : styles.pageControl.base} onClick={ handleLast }>{ lastText }</li>)
   }
 
   return(
-    <ul style={ style.ul }>
+    <ul style={ styles.ul }>
       <First />
       <Prev />
       <LeftEllipses/>
@@ -186,7 +186,7 @@ Pagination.propTypes = {
   prevText: PropTypes.node,
   maintainSkipWidth: PropTypes.bool,
   onClick: PropTypes.func.isRequired,
-  styles: PropTypes.object
+  style: PropTypes.object
 }
 
 Pagination.defaultProps = {
@@ -199,7 +199,7 @@ Pagination.defaultProps = {
   lastText: 'Last',
   nextText: 'Next',
   prevText: 'Prev',
-  styles:{}
+  style:{}
 }
 
 export { Pagination }

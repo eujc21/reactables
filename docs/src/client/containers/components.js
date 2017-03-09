@@ -5,7 +5,6 @@ import Section from '../components/section'
 
 import {
   Navbar,
-  NavbarLink,
   Input,
   DateTimePicker,
   Button,
@@ -23,7 +22,8 @@ import {
   HiddenPanel,
   TextSelector,
   TextHighlighter,
-  TextMenuOption
+  TextMenuOption,
+  Pagination
 } from '../../../../src/index'
 
 class Components extends React.Component {
@@ -73,11 +73,15 @@ class Components extends React.Component {
     console.log(text)
   }
 
+  handlePaginationClick =(page)=>{
+    this.props.updatePaginationPage(page)
+  }
+
   render(){
 
-    const { inputText, isMobile } = this.props
+    const { paginationPage, paginationCount, inputText, isMobile } = this.props
 
-    const style = {
+    const styles = {
       base: {
         position: 'relative',
       },
@@ -148,48 +152,49 @@ class Components extends React.Component {
     }
 
     return(
-      <div style={ style.base }>
+      <div style={ styles.base }>
 
-        <HiddenPanel position={ 'right' } isVisible={ this.props.isPanelVisible }>
-          <div style={ style.hiddenPanel }>
-            <h4 style={{ marginTop: 0}}>Hidden Panel</h4>
+        <HiddenPanel position={ 'right' } isVisible={ this.props.isPanelVisible } style={{ panel: {height: '100vh'}}}>
+          <div style={ styles.hiddenPanel }>
+            <h4 style={{ marginTop: 0 }}>Hidden Panel</h4>
           </div>
         </HiddenPanel>
 
-        <div style={ style.container }>
+        <div style={ styles.container }>
 
           {!isMobile ?
-            <div style={ style.navContainer }>
-              <Nav offsetTop={ 70 } styles={ style.nav }>
-                <NavLink to="#button" styles={ style.navlink }>Button</NavLink>
-                <NavLink to="#input" styles={ style.navlink }>Input</NavLink>
-                <NavLink to="#select" styles={ style.navlink }>Select</NavLink>
-                <NavLink to="#dropdown" styles={ style.navlink }>Dropdown</NavLink>
-                <NavLink to="#date-time-picker" styles={ style.navlink }>Date Picker</NavLink>
-                <NavLink to="#table" styles={ style.navlink }>Table</NavLink>
-                <NavLink to="#nav" styles={ style.navlink }>Nav</NavLink>
-                <NavLink to="#navbar" styles={ style.navlink }>Navbar</NavLink>
-                <NavLink to="#heat-bar" styles={ style.navlink }>HeatBar</NavLink>
-                <NavLink to="#progress-bar" styles={ style.navlink }>ProgressBar</NavLink>
-                <NavLink to="#element-loader" styles={ style.navlink }>ElementLoader</NavLink>
-                <NavLink to="#hidden-panel" styles={ style.navlink }>HiddenPanel</NavLink>
-                <NavLink to="#code" styles={ style.navlink }>Code</NavLink>
-                <NavLink to="#text_selector" styles={ style.navlink }>Text Selector</NavLink>
-                <NavLink to="#text_highlighter" styles={ style.navlink }>Text Highlighter</NavLink>
-                <NavLink to="#text_menu_option" styles={ style.navlink }>Text Menu Option</NavLink>
+            <div style={ styles.navContainer }>
+              <Nav offsetTop={ 70 } style={ styles.nav }>
+                <NavLink to="#button" style={ styles.navlink }>Button</NavLink>
+                <NavLink to="#input" style={ styles.navlink }>Input</NavLink>
+                <NavLink to="#select" style={ styles.navlink }>Select</NavLink>
+                <NavLink to="#dropdown" style={ styles.navlink }>Dropdown</NavLink>
+                <NavLink to="#date-time-picker" style={ styles.navlink }>Date Picker</NavLink>
+                <NavLink to="#table" style={ styles.navlink }>Table</NavLink>
+                <NavLink to="#nav" style={ styles.navlink }>Nav</NavLink>
+                <NavLink to="#navbar" style={ styles.navlink }>Navbar</NavLink>
+                <NavLink to="#heat-bar" style={ styles.navlink }>HeatBar</NavLink>
+                <NavLink to="#progress-bar" style={ styles.navlink }>ProgressBar</NavLink>
+                <NavLink to="#pagination" style={ styles.navlink }>Pagination</NavLink>
+                <NavLink to="#element-loader" style={ styles.navlink }>ElementLoader</NavLink>
+                <NavLink to="#hidden-panel" style={ styles.navlink }>HiddenPanel</NavLink>
+                <NavLink to="#code" style={ styles.navlink }>Code</NavLink>
+                <NavLink to="#text_selector" style={ styles.navlink }>Text Selector</NavLink>
+                <NavLink to="#text_highlighter" style={ styles.navlink }>Text Highlighter</NavLink>
+                <NavLink to="#text_menu_option" style={ styles.navlink }>Text Menu Option</NavLink>
               </Nav>
             </div> : null
           }
 
-          <div style={ style.contentContainer }>
+          <div style={ styles.contentContainer }>
 
             <Section id="button" name="Button">
-              <div style={ style.componentContainer }>
+              <div style={ styles.componentContainer }>
               { [0,1,2,3,4].map(num =>
                 <Button
                   key={ num }
                   onClick={ this.handleButtonClick }
-                  styles={{
+                  style={{
                     backgroundColor: `#${3 + (num * 2) + 'A424A'}`,
                     color: '#ffffff',
                     marginRight: 10,
@@ -204,7 +209,7 @@ class Components extends React.Component {
                   isHoverable={ true }
                   isDisabled={ false }
                   onClick={ this.handleButtonClick }
-                  styles={{base: {}}}
+                  style={{base: {}}}
                 />
               </Code>
             </Section>
@@ -214,7 +219,7 @@ class Components extends React.Component {
                 text={ inputText }
                 onChange={ this.handleInputChange }
                 onSubmit={ this.handleInputSubmit }
-                styles={{ base: { width:'100%'}}}
+                style={{ base: { width:'100%'}}}
               />
               <Code type="jsx">
                 <Input
@@ -222,7 +227,7 @@ class Components extends React.Component {
                   text={ 'String' }
                   onChange={ this.handleInputChange }
                   onSubmit={ this.handleInputSubmit }
-                  styles={{
+                  style={{
                     base: {},
                     input: {},
                     submitIcon: {},
@@ -245,11 +250,11 @@ class Components extends React.Component {
             </Section>
 
             <Section id="dropdown" name="Dropdown">
-              <div style={ style.componentContainer }>
+              <div style={ styles.componentContainer }>
                 <Dropdown node={
-                  <span style={ style.dropdown.base }>
-                    <p style={ style.dropdown.text }>Dropdown</p>
-                    <i style={ style.dropdown.icon} className="icon-arrow-down"/>
+                  <span style={ styles.dropdown.base }>
+                    <p style={ styles.dropdown.text }>Dropdown</p>
+                    <i style={ styles.dropdown.icon} className="icon-arrow-down"/>
                   </span>
                 }>
 
@@ -270,7 +275,7 @@ class Components extends React.Component {
                 canClear
                 placeholder={ 'Date Time' }
                 onChange={ this.handleDateChange }
-                styles={ style.datePicker }
+                style={ styles.datePicker }
               />
 
               <Code type={ 'jsx' }>
@@ -280,7 +285,7 @@ class Components extends React.Component {
 
 
             <Section id="table" name="Table">
-              <div style={ style.tableContainer }>
+              <div style={ styles.tableContainer }>
                 <Table isHoverable isStriped tableData={ this.props.tableData }/>
               </div>
 
@@ -313,13 +318,44 @@ class Components extends React.Component {
             <Section id="progress-bar" name="ProgressBar">
               <ProgressBar showUnits={ true } completed={ this.props.completed } outOf={ this.props.outOf}/>
               <Code type={ 'jsx' }>
-                <ProgressBar completed={ 4 } outOf={ 100 } showUnits={ true } units={ 'percent' } styles={{ base: {}, units:{}, bar:{}, completed:{}}}/>
+                <ProgressBar completed={ 4 } outOf={ 100 } showUnits={ true } units={ 'percent' } style={{ base: {}, units:{}, bar:{}, completed:{}}}/>
+              </Code>
+            </Section>
+
+            <Section id="pagination" name="Pagination">
+
+              <Pagination
+                page={ paginationPage }
+                pageCount={ paginationCount }
+                pageSkip={ 3 }
+                showFirst
+                showLast
+                showEllipses
+                maintainSkipWidth
+                onClick={ this.handlePaginationClick }
+              />
+
+              <Code type={ 'jsx' }>
+                <Pagination
+                  page={ paginationPage }
+                  pageCount={ paginationCount }
+                  pageSkip={ 3 }
+                  showFirst
+                  showLast
+                  showEllipses
+                  maintainSkipWidth
+                  firstText={'First'}
+                  lastText={'Last'}
+                  nextText={'Next'}
+                  prevText={'Prev'}
+                  onClick={()=>{}}
+                  styles={{ul:{}, pageControl:{base:{}, disabled:{}}, pageNumber:{}, selected:{}, ellipses:{}}}/>
               </Code>
             </Section>
 
             <Section id="element-loader" name="ElementLoader">
 
-              <div style={ style.componentContainer }>
+              <div style={ styles.componentContainer }>
                 <ElementLoader action={ 'DEMO_CALL' }>
                   <div style={{ border: '1px solid black', width: 100, backgroundColor: 'grey', textAlign: 'center', padding: '20px 0'}}>
                     <p>Wrapped Content</p>
@@ -337,11 +373,11 @@ class Components extends React.Component {
             </Section>
 
             <Section id="hidden-panel" name="HiddenPanel">
-              <div style={ style.componentContainer }>
+              <div style={ styles.componentContainer }>
                 <Button
                   text={ 'Toggle Panel' }
                   onClick={ this.handleTogglePanel }
-                  styles={{
+                  style={{
                     backgroundColor: 'rgb(58, 66, 74)',
                     color: 'white',
                     height: 25
@@ -413,6 +449,8 @@ class Components extends React.Component {
 
 function mapStateToProps(state){
   return {
+    paginationPage: state.components.paginationPage,
+    paginationCount: state.components.paginationCount,
     isMobile: state.app.isMobile,
     inputText: state.components.inputText,
     outOf: state.components.outOf,
@@ -423,6 +461,7 @@ function mapStateToProps(state){
 }
 
 export default connect(mapStateToProps, {
+  updatePaginationPage: actions.updatePaginationPage,
   updateInputText: actions.updateInputText,
   demoCall: actions.demoCall,
   incrementCompleted: actions.incrementCompleted,
