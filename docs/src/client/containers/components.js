@@ -60,9 +60,8 @@ class Components extends React.Component {
     console.log(date1, date2)
   }
 
-  handleTogglePanel =()=>{
-    const { togglePanel, isPanelVisible } = this.props
-    togglePanel(!isPanelVisible)
+  handlePanelVisibility =(shouldShow)=>{
+    this.props.togglePanel(shouldShow)
   }
 
   handleTextSelectorOption =(text)=>{
@@ -154,7 +153,13 @@ class Components extends React.Component {
     return(
       <div style={ styles.base }>
 
-        <HiddenPanel position={ 'right' } isVisible={ this.props.isPanelVisible } style={{ panel: {height: '100vh'}}}>
+        <HiddenPanel
+          position={ 'left' }
+          isVisible={ this.props.isPanelVisible }
+          onClickOutside={ ()=> this.handlePanelVisibility(false) }
+          width={414}
+          style={{ panel: {height: '100vh'}}}
+        >
           <div style={ styles.hiddenPanel }>
             <h4 style={{ marginTop: 0 }}>Hidden Panel</h4>
           </div>
@@ -375,8 +380,8 @@ class Components extends React.Component {
             <Section id="hidden-panel" name="HiddenPanel">
               <div style={ styles.componentContainer }>
                 <Button
-                  text={ 'Toggle Panel' }
-                  onClick={ this.handleTogglePanel }
+                  text={ 'Show Panel' }
+                  onClick={ ()=> this.handlePanelVisibility(true) }
                   style={{
                     backgroundColor: 'rgb(58, 66, 74)',
                     color: 'white',

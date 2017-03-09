@@ -9,12 +9,11 @@ class HiddenPanel extends React.Component {
     isVisible: PropTypes.bool,
     offSet: PropTypes.number,
     position: PropTypes.oneOf(['top', 'bottom', 'left', 'right']),
+    width: PropTypes.number,
     animationTime: PropTypes.string,
-    width: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number
-    ]),
-    style: PropTypes.object
+    style: PropTypes.object,
+    onClickOutside: PropTypes.func,
+    onClick: PropTypes.func
   }
 
   static defaultProps = {
@@ -27,11 +26,38 @@ class HiddenPanel extends React.Component {
   }
 
   componentDidMount(){
-    window.addEventListener('resize', this.calculateHeightOffset, false);
+    window.addEventListener('resize', this.calculateHeightOffset, false)
   }
 
   componentWillUnmount(){
-    window.removeEventListener('resize', this.calculateHeightOffset, false);
+    window.removeEventListener('resize', this.calculateHeightOffset, false)
+    document.removeEventListener('click', this.onClickOutside, false)
+  }
+
+  componentWillReceiveProps(nextProps){
+    if(nextProps.isVisible) {
+      document.addEventListener('click', this.onClickOutside, false)
+    }
+
+    if(nextProps.isVisible === false ){
+      document.removeEventListener('click', this.onClickOutside, false)
+    }
+  }
+
+  onClick =()=>{
+    if(this.props.onClick)
+      this.props.onClick()
+  }
+
+  onClickOutside =(e)=>{
+    if (this.panel && this.panel.contains(e.target))
+      return
+
+    if(!this.props.isVisible)
+      return
+
+    if(this.props.onClickOutside)
+      this.props.onClickOutside()
   }
 
   calculateHeightOffset =()=>{
@@ -46,7 +72,7 @@ class HiddenPanel extends React.Component {
 
   render(){
 
-    const { offSet, position, width, animationTime, style, children } = this.props
+    const { offSet, position, width, animationTime, isVisible, style, children } = this.props
     const height = window.innerHeight - offSet
 
     let styles = {
@@ -60,12 +86,22 @@ class HiddenPanel extends React.Component {
         transition: animationTime,
         boxSizing: 'border-box'
       },
-      overlay: {}
+      overlay: {
+        position: 'fixed',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        zIndex: 999999,
+        backgroundColor: 'rgba(0,0,0,0.5)',
+        transition: `all ${animationTime} ease-in-out`
+      }
     }
 
     // append positioning while visible
     styles = this.setVisibility(styles)
 
+    // merge styles
     merge(styles, style)
 
     //calculate offSet
@@ -74,8 +110,14 @@ class HiddenPanel extends React.Component {
     }
 
     return(
-      <div style={ styles.panel }>
-        { children }
+      <div>
+        <div
+          ref={ panel => this.panel = panel }
+          style={ styles.panel }
+        >
+          { children }
+        </div>
+        { isVisible ? <div style={ styles.overlay } /> : null }
       </div>
     )
   }
