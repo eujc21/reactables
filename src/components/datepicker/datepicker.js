@@ -79,7 +79,7 @@ export default class DatePicker extends React.Component {
         borderRadius: 2
       },
       icon: {
-        fontSize: 6,
+        fontSize: 14,
         paddingLeft: 3
       }
     }
@@ -89,7 +89,7 @@ export default class DatePicker extends React.Component {
     return(
       <div style={ styles.base }>
         <div style={ styles.arrow } onClick={ ()=>this.handleMonthChange(-1) }>
-          <i className="icon-arrow-left"/>
+          <i className="material-icons">keyboard_arrow_left</i>
         </div>
         <div style={ styles.date }>
           <p style={ styles.month }>{ month.format('MMM') }</p>
@@ -98,7 +98,7 @@ export default class DatePicker extends React.Component {
             node={
               <div style={ styles.year }>
                 { month.format('YYYY') }
-                <i style={ styles.icon } className="icon-arrow-down" />
+                <i style={ styles.icon } className="material-icons">keyboard_arrow_down</i>
               </div>
             }
             menuDirection={ 'right' }>
@@ -107,7 +107,7 @@ export default class DatePicker extends React.Component {
 
         </div>
         <div style={ styles.arrow }>
-          <i className="icon-arrow-right" onClick={ ()=>this.handleMonthChange(1) }/>
+          <i className="material-icons" onClick={ ()=>this.handleMonthChange(1) }>keyboard_arrow_right</i>
         </div>
       </div>
 

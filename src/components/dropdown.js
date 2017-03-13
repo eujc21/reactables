@@ -148,11 +148,11 @@ class Dropdown extends React.Component {
 
 const DropdownOption =({ text, position, onClick, styles })=>{
 
-  const onEnterMenuItem = (e) =>{
+  const onMouseOver = (e) =>{
     e.target.style.backgroundColor = '#f9f9f9'
   }
 
-  const onLeaveMenuItem = (e) =>{
+  const onMouseLeave = (e) =>{
     e.target.style.backgroundColor = 'white'
   }
 
@@ -185,8 +185,8 @@ const DropdownOption =({ text, position, onClick, styles })=>{
   return (
     <div
        style={ style }
-       onMouseEnter={ onEnterMenuItem }
-       onMouseLeave={ onLeaveMenuItem }
+       onMouseOver={ onMouseOver }
+       onMouseLeave={ onMouseLeave }
        onClick={ handleClick }
     >
       { text }

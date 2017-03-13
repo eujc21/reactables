@@ -95,6 +95,7 @@ class Navbar extends React.Component {
       menuButton: {
         margin: '0 15px',
         padding: '5px 10px',
+        backgroundColor: null
       },
       menu:{
         position: 'absolute',
@@ -163,7 +164,7 @@ class Navbar extends React.Component {
             { links.bar }
           </ul>
           <Button
-            text={ <i className="icon-hamburger"/>}
+            text={ <i className="material-icons" style={{ color: 'white' }}>menu</i>}
             style={ styles.menuButton }
             onClick={ this.toggleMobileMenu }
           />

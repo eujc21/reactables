@@ -395,14 +395,14 @@ export class Table extends React.Component {
                 }
             }}>
               { heading.display }
+              { lastKey === tableProperties[i] ?
+                <i
+                  className='material-icons'
+                  style={{ marginLeft: 5, fontSize: 16}}>
+                  { order === 'asc' ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }
+                </i>: null
+              }
             </p>
-
-            { lastKey === tableProperties[i] ?
-              <i
-                className={ order === 'asc' ? 'icon-arrow-up' : 'icon-arrow-down' }
-                style={{ marginLeft: 5, fontSize: 6}}/> : null
-            }
-
           </th>
         )}
       </tr>
@@ -453,9 +453,10 @@ export class Table extends React.Component {
           fontWeight: 300,
         },
         p: {
+          display: 'flex',
+          alignItems: 'center',
           padding: 0,
-          margin: 0,
-          display: 'inline-block'
+          margin: 0
         },
         controls: {
           textAlign: 'center'

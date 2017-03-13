@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react'
 import moment from 'moment'
 import merge from 'lodash/merge'
-import '../../styles/icons.css'
 
 export default class DateInput extends React.Component {
 
@@ -123,7 +122,7 @@ export default class DateInput extends React.Component {
     if(!startDate && !endDate) return
 
     return(
-      <i style={ styles.clearIcon } className="icon-cross-circle" onClick={ this.handleClearClick }/>
+      <i style={ styles.clearIcon } className="material-icons" onClick={ this.handleClearClick }>clear</i>
     )
   }
 }

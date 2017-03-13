@@ -10,8 +10,6 @@ import moment from 'moment'
 import isEqual from 'lodash/isEqual'
 import merge from 'lodash/merge'
 
-import '../../styles/icons.css'
-
 export class DateTimePicker extends React.Component {
 
   static propTypes = {

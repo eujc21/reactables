@@ -1,7 +1,7 @@
 import React from 'react'
 import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
-import { Navbar, NavbarLink } from '../../../../src/index'
+import { Navbar, NavbarLink, withMediaQueries } from '../../../../src/index'
 import { setPageScrollPosition, setMobileView } from '../actions/demo_actions'
 import Hero from '../components/hero'
 import { BASE_PATH } from '../router/router'
@@ -34,7 +34,7 @@ class App extends React.Component {
   render() {
 
     const NAV_BREAK_POINT = 440
-    const { pageScrollPosition } = this.props
+    const { pageScrollPosition, mediaQuery, breakPoints, orientation } = this.props
 
     const styles = {
       base: {
@@ -96,6 +96,10 @@ class App extends React.Component {
             isActive={ window.location.pathname === '/' }
             style={ styles.navlink }>Components</NavbarLink>
           <NavbarLink
+            to={ ()=> this.handleRoute(BASE_PATH + 'layout') }
+            isActive={ window.location.pathname === '/layout' }
+            style={ styles.navlink }>Layout</NavbarLink>
+          <NavbarLink
             to={ ()=> this.handleRoute(BASE_PATH + 'charts') }
             isActive={ window.location.pathname === '/charts' }
             style={ styles.navlink }>Charts</NavbarLink>
@@ -104,11 +108,17 @@ class App extends React.Component {
         <Hero
           title="Reactables"
           tagline="Customizable React.js Components" />
-        { this.props.children }
+        { React.cloneElement(this.props.children, {
+          mediaQuery,
+          orientation,
+          breakPoints
+        }) }
       </div>
     )
   }
 }
+
+// Media Queries
 
 function mapStateToProps(state){
   return {
@@ -119,5 +129,5 @@ function mapStateToProps(state){
 export default connect(mapStateToProps, {
   setPageScrollPosition,
   setMobileView
-})(App)
+})(withMediaQueries(App))
 

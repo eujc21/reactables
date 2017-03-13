@@ -35,6 +35,16 @@ export default function configureRouter(history, store){
         },
         childRoutes: [
           {
+            path: BASE_PATH + 'layout',
+            getComponent(location, cb) {
+              System
+                .import('../containers/layout')
+                .then(loadRoute(cb))
+                .then(setScrollTop)
+                .catch(errorLoading)
+            }
+          },
+          {
             path: BASE_PATH + 'charts',
             getComponent(location, cb) {
               System

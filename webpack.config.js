@@ -120,6 +120,9 @@ module.exports = function(){
       ],
       vendor6: [
         'lodash'
+      ],
+      vendor7: [
+        'material-design-icons'
       ]
     }
   }

@@ -5,8 +5,6 @@ export class Input extends React.Component {
   static propTypes = {
     placeholder: PropTypes.string,
     text: PropTypes.string,
-    iconClass: PropTypes.string,
-    clearIconClass: PropTypes.string,
     onChange: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
     style: PropTypes.object
@@ -16,8 +14,6 @@ export class Input extends React.Component {
     placeholder: 'Search...',
     text: '',
     style: {},
-    iconClass: 'icon-search',
-    clearIconClass: 'icon-cross'
   }
 
   componentDidMount(){
@@ -60,7 +56,7 @@ export class Input extends React.Component {
   }
 
   render(){
-    const { placeholder, text, iconClass, clearIconClass, style } = this.props
+    const { placeholder, text, style } = this.props
 
     const styles = {
       base: {
@@ -110,14 +106,17 @@ export class Input extends React.Component {
         />
         { text && text.length > 0 ?
           <i
-            className={ clearIconClass }
+            className='material-icons'
             style={ styles.clearIcon }
-            onClick={ this.handleClear }/> : null }
-        { iconClass ?
-          <i
-            className={ iconClass }
-            style={ styles.submitIcon }
-            onClick={ this.handleSubmit }/> : null }
+            onClick={ this.handleClear }>clear</i> : null
+        }
+
+        <i
+          className='material-icons'
+          style={ styles.submitIcon }
+          onClick={ this.handleSubmit }>
+          search
+        </i>
       </div>
 
     )
