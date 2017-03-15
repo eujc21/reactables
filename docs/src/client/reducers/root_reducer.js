@@ -1,5 +1,13 @@
 import { combineReducers } from 'redux'
-import { SET_MOBILE_VIEW, SET_PAGE_SCROLL_POSITION, UPDATE_INPUT_TEXT, INCREMENT_COMPLETED, TOGGLE_PANEL, GENERATE_CHART_DATA } from '../actions/demo_actions'
+import {
+  SET_MOBILE_VIEW,
+  SET_PAGE_SCROLL_POSITION,
+  UPDATE_INPUT_TEXT,
+  UPDATE_FILTER_INPUT_TEXT,
+  INCREMENT_COMPLETED,
+  TOGGLE_PANEL,
+  GENERATE_CHART_DATA
+} from '../actions/demo_actions'
 import { elementLoaderReducer } from '../../../../src/index'
 import moment from 'moment'
 
@@ -40,10 +48,12 @@ const initialComponentsState = {
 }
 
 function components(state = initialComponentsState, action) {
-
   switch(action.type){
     case UPDATE_INPUT_TEXT:
       return { ...state, inputText: action.text }
+
+    case UPDATE_FILTER_INPUT_TEXT:
+      return { ...state, inputFilterText: action.inputFilterText }
 
     case INCREMENT_COMPLETED:
       let completed = state.completed + action.increment

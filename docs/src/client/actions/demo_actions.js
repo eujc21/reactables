@@ -37,6 +37,14 @@ export function updateInputText(text){
   }
 }
 
+export const UPDATE_FILTER_INPUT_TEXT = 'UPDATE_FILTER_INPUT_TEXT'
+export function updateFilterInputText(text){
+  return {
+    type: UPDATE_FILTER_INPUT_TEXT,
+    inputFilterText: text
+  }
+}
+
 export const INCREMENT_COMPLETED = 'INCREMENT_COMPLETED'
 export function incrementCompleted(increment){
   return {

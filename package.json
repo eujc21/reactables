@@ -4,13 +4,14 @@
   "description": "Customizable React.js components",
   "main": "lib/index.js",
   "scripts": {
-    "dev-docs": "cross-env NODE_ENV=development nodemon ./docs/server.js --exec babel-node --presets es2015,stage-0 --ignore /docs/src/client --ignore ./src --ignore ./test",
+    "dev-docs": "cross-env NODE_ENV=development nodemon ./docs/server.js --exec ./node_modules/.bin/babel-node --presets es2015,stage-0 --ignore /docs/src/client --ignore ./src --ignore ./test",
     "build-docs": "cross-env NODE_ENV=production webpack",
     "prebuild": "rimraf lib",
     "build": "cross-env babel --out-dir lib --ignore *.test.js src && copyfiles ./src/styles/* -f lib/styles && copyfiles ./src/vendor/fonts/* -f lib/vendor/fonts",
     "test": "mocha test/*.spec.js --require test/.setup.js --compilers js:babel-core/register",
     "start": "cross-env NODE_ENV=production nodemon ./docs/server.js --exec babel-node --presets es2015,stage-0",
-    "crane-run": "npm install & npm run test & npm run start"
+    "storybook": "start-storybook -p 6006 -c .storybook",
+    "build-storybook": "build-storybook"
   },
   "repository": {
     "type": "git",
@@ -36,6 +37,7 @@
   "dependencies": {
     "d3": "^4.4.2",
     "d3-sankey": "^0.4.1",
+    "getstorybook": "^1.7.0",
     "lodash": "^4.17.4",
     "moment": "^2.17.1",
     "react": "^15.4.2",
@@ -44,7 +46,8 @@
     "redux": "^3.6.0"
   },
   "devDependencies": {
-    "babel-cli": "^6.18.0",
+    "@kadira/storybook": "^2.35.3",
+    "babel-cli": "^6.23.0",
     "babel-core": "^6.21.0",
     "babel-loader": "^6.2.10",
     "babel-polyfill": "^6.20.0",

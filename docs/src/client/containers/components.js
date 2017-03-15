@@ -44,6 +44,10 @@ class Components extends React.Component {
     this.props.updateInputText(text)
   }
 
+  handleFilterInputChange =(text)=>{
+    this.props.updateFilterInputText(text)
+  }
+
   handleInputSubmit =(text)=>{
 
   }
@@ -75,7 +79,7 @@ class Components extends React.Component {
 
   render(){
 
-    const { inputText, isMobile } = this.props
+    const { inputText, inputFilterText, isMobile } = this.props
 
     const style = {
       base: {
@@ -167,6 +171,7 @@ class Components extends React.Component {
                 <NavLink to="#dropdown" styles={ style.navlink }>Dropdown</NavLink>
                 <NavLink to="#date-time-picker" styles={ style.navlink }>Date Picker</NavLink>
                 <NavLink to="#table" styles={ style.navlink }>Table</NavLink>
+                <NavLink to="#table-filtered" styles={ style.navlink }>Table w/Filter</NavLink>
                 <NavLink to="#nav" styles={ style.navlink }>Nav</NavLink>
                 <NavLink to="#navbar" styles={ style.navlink }>Navbar</NavLink>
                 <NavLink to="#heat-bar" styles={ style.navlink }>HeatBar</NavLink>
@@ -286,6 +291,29 @@ class Components extends React.Component {
 
               <Code type={ 'jsx' }>
                 <Table tableData={ this.props.tableData }/>
+              </Code>
+            </Section>
+
+            <Section id="table-filtered" name="Table Filter">
+              <div style={ style.tableContainer }>
+                <Input
+                  text={ inputFilterText || ''}
+                  onChange={ this.handleFilterInputChange }
+                  onSubmit={ this.handleFilterInputChange }
+                  styles={{ base: { width:'100%'}}}
+                />
+                <Table
+                  isHoverable
+                  isStriped
+                  tableData={ this.props.tableData }
+                  filter={inputFilterText || ''}
+                />
+              </div>
+
+              <Code type={ 'jsx' }>
+                <Table
+                  filter={inputFilterText || ''}
+                  tableData={ this.props.tableData }/>
               </Code>
             </Section>
 
@@ -415,6 +443,7 @@ function mapStateToProps(state){
   return {
     isMobile: state.app.isMobile,
     inputText: state.components.inputText,
+    inputFilterText: state.components.inputFilterText,
     outOf: state.components.outOf,
     completed: state.components.completed,
     tableData: state.components.tableData,
@@ -424,6 +453,7 @@ function mapStateToProps(state){
 
 export default connect(mapStateToProps, {
   updateInputText: actions.updateInputText,
+  updateFilterInputText: actions.updateFilterInputText,
   demoCall: actions.demoCall,
   incrementCompleted: actions.incrementCompleted,
   togglePanel: actions.togglePanel
