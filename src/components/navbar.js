@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react'
 import { Button } from './button'
 import merge from 'lodash/merge'
+import isFunction from 'lodash/isFunction'
 
 class Navbar extends React.Component {
   static propTypes = {
@@ -128,7 +129,7 @@ class Navbar extends React.Component {
       .toArray(children)
       .reduce((obj, link)=>{
         const { append } = link.props
-        obj[append].push(React.cloneElement(
+        obj[append || 'left'].push(React.cloneElement(
           link, { isMobile: false }
         ))
         return obj
@@ -149,7 +150,7 @@ class Navbar extends React.Component {
       .toArray(children)
       .reduce((obj, link)=>{
         const { appendResponsive } = link.props
-        obj[appendResponsive].push(React.cloneElement(
+        obj[appendResponsive || 'menu'].push(React.cloneElement(
           link, { isMobile: appendResponsive !== 'bar' }
         ))
         return obj
@@ -184,16 +185,12 @@ class Navbar extends React.Component {
 }
 
 
-
-
-
-
 class NavbarLink extends React.Component {
 
   static propTypes =  {
     append: PropTypes.oneOf(['left', 'right']),
     appendResponsive: PropTypes.oneOf(['bar', 'menu', 'hide']),
-    to: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
+    to: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     isActive: PropTypes.bool,
     style: PropTypes.object
   }
@@ -233,9 +230,36 @@ class NavbarLink extends React.Component {
     return styles
   }
 
+
+  renderLinkType =(styles)=>{
+    const {children, to, isMobile } = this.props
+    const linkStyle = isMobile ? styles.menuLink.base : styles.link.base
+
+    if(typeof to === 'string')
+      return (
+        <a
+          style={ linkStyle }
+          href={ to }
+        >{ children }</a>)
+
+    if(isFunction(to))
+      return (
+        <a
+          style={ linkStyle }
+          onClick={ to }
+        >{ children }</a>)
+
+    return(
+      <div style={ linkStyle }>
+        { children }
+      </div>
+    )
+  }
+
+
   render() {
 
-    const { children, to, isMobile, style } = this.props
+    const { style } = this.props
 
     let styles = {
       base: {
@@ -289,11 +313,13 @@ class NavbarLink extends React.Component {
     this.setLinkColor(styles)
 
     return (
-      <li style={ styles.base } onMouseEnter={ this.handleHover } onMouseLeave={ this.handleHover }>
-        { typeof to === 'string'
-          ? <a style={ isMobile ? style.menuLink.base : styles.link.base } href={ to }>{ children }</a>
-          : <a style={ isMobile ? style.menuLink.base : styles.link.base } onClick={ to }>{ children }</a>
-        }
+      <li
+        style={ styles.base }
+        onMouseEnter={ this.handleHover }
+        onMouseLeave={ this.handleHover }
+      >
+        { this.renderLinkType(styles) }
+
       </li>
     )
   }

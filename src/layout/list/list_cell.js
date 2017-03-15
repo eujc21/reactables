@@ -27,8 +27,7 @@ export default class ListCell extends React.Component {
 
     const styles = {
       base: {
-        width: 414,
-        maxWidth: 414,
+        //width: 'inherit',
         borderBottom: '1px solid #ccc',
         backgroundColor: '#fff'
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Nav, NavLink, Code, List, ListGroup, ListToolbar, ListCell, Grid, GridItem } from '../../../../src/index'
+import { Nav, NavLink, Code, List, ListGroup, ListToolbar, ListCell, Grid, GridItem, withMediaQueries } from '../../../../src/index'
 import { connect } from 'react-redux'
 import { incrementList } from '../actions/layout_actions'
 import Section from '../components/section'
@@ -218,4 +218,4 @@ function mapStateToProps(state){
 
 export default connect(mapStateToProps, {
   incrementList
-})(Layout)
+})(withMediaQueries(Layout))

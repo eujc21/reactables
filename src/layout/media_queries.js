@@ -54,15 +54,27 @@ export default function withMediaQueries(WrappedComponent, options = {}){
         this[size].addListener(this.handleSizeChange.bind(null, size))
 
         if(this[size].matches)
-          mediaQuery = { sizeName: size, sizeValue: Size[size], ...setWidthRanges(size) }
+          mediaQuery = {
+          sizeName: size,
+            sizeValue: Size[size],
+            ...setWidthRanges(size)
+        }
       }
+
+      // media query undefined
+      if(Object.keys(mediaQuery).length === 0)
+        mediaQuery = {
+          sizeName: 'xxl',
+          sizeValue: Size['xxl'],
+          ...setWidthRanges('xxl')
+        }
 
       //orientation
       this.orientation = window.matchMedia("(orientation: portrait)")
       this.orientation.addListener(this.handleOrientationChange)
       const orientation = this.orientation.matches ? 'portrait' : 'landscape'
 
-      this.setState({ orientation, mediaQuery})
+      this.setState({ orientation , mediaQuery})
     }
 
     componentWillUnmount() {
@@ -92,7 +104,10 @@ export default function withMediaQueries(WrappedComponent, options = {}){
 
 
     render() {
-      return <WrappedComponent { ...this.props } { ...this.state } breakPoints={ breakPoints } />
+      return <WrappedComponent
+        { ...this.props }
+        { ...this.state }
+        breakPoints={ breakPoints }/>
     }
   }
 

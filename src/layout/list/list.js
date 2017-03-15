@@ -57,6 +57,7 @@ export default class List extends React.Component{
       base: {
         display: 'flex',
         flexDirection: 'column',
+        flexShrink: 0,
         width: '100%',
         maxWidth: 414,
         boxSizing: 'border-box',

@@ -216,7 +216,7 @@ const rootReducer = combineReducers({
   charts,
   layout,
   errorMessage,
-  elementLoaderReducer,
+  elementLoaderReducer
 });
 
 export default rootReducer
