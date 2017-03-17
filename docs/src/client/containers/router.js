@@ -108,14 +108,14 @@ class Router extends React.Component {
           <div>
             <Navbar responsiveWidth={ 767 } style={ styles.navbar }>
               <RouterLink
-                to={ BASE_PATH }
+                to={ '/' }
                 label="Reactables"
                 allowActive={ false }
                 appendResponsive="bar"
                 style={ styles.navlink }/>
-              <RouterLink exact to={ BASE_PATH } label="Components" style={ styles.navlink }/>
-              <RouterLink to={ BASE_PATH + 'layout' } label="Layout" style={ styles.navlink }/>
-              <RouterLink to={ BASE_PATH + 'charts' } label="Charts" style={ styles.navlink }/>
+              <RouterLink exact to={ '/' } label="Components" style={ styles.navlink }/>
+              <RouterLink to={ '/layout' } label="Layout" style={ styles.navlink }/>
+              <RouterLink to={ '/charts' } label="Charts" style={ styles.navlink }/>
             </Navbar>
 
             <Hero
