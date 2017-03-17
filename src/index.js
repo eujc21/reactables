@@ -19,6 +19,7 @@ export { TextMenuOption } from './components/text_parsers/text_menu_option'
 export { Pagination } from './components/pagination'
 export HiddenPanel from './components/hidden_panel'
 export Code from './components/code'
+export { TextFinder, TextFinderBar } from './components/text_parsers/text_finder'
 
 export ElementLoader from './components/element_loader/element_loader'
 export elementLoaderMiddleware from './components/element_loader/element_loader_middleware'

@@ -20,7 +20,7 @@ const Toolbar =({size, children, style})=>{
     fontFamily: 'Helvetica Neue, Helvetica, Arial'
   }
 
-  merge(styles, style, {height: 64})
+  merge(styles, style)
 
   return(
     <div style={ styles }>

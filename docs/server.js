@@ -1,6 +1,6 @@
 import express from 'express'
 import path from 'path'
-const port = process.env.PORT || 8081
+const port = process.env.PORT || 8080
 
 const app = express()
 

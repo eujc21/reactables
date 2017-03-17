@@ -103,7 +103,7 @@ class Router extends React.Component {
     }
 
     return(
-      <BrowserRouter>
+      <BrowserRouter basename={ BASE_PATH }>
         <ScrollToTop>
           <div>
             <Navbar responsiveWidth={ 767 } style={ styles.navbar }>
@@ -122,7 +122,7 @@ class Router extends React.Component {
               title="Reactables"
               tagline="Customizable React.js Components" />
 
-            <Route exact path="/" render={ Components } />
+            <Route exact path="/" component={ Components } />
             <Route path="/layout" component={ Layout } />
             <Route path="/charts" component={ Charts } />
           </div>
