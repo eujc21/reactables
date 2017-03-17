@@ -32,7 +32,11 @@ module.exports = function(){
         {
           test: /\.js$/,
           loader: 'babel-loader',
-          exclude: [/node_modules/, './lib', './docs/server', './test', './src'],
+          include: [
+            path.join(PROJECT_ROOT, 'docs/src/client'),
+            path.join(PROJECT_ROOT, 'src')
+          ],
+          exclude: [/node_modules/, /lib/, /test/],
           query:{
             plugins: [],
             presets: ["es2015", 'stage-0', 'react']
@@ -82,7 +86,7 @@ module.exports = function(){
     config.plugins.push(
       new webpack.IgnorePlugin(/^\.\/locale$/,/moment$/),
       new webpack.optimize.CommonsChunkPlugin({
-        names: ['vendor1', 'vendor2', 'vendor3', 'vendor4', 'vendor5', 'vendor6', 'manifest'],
+        names: ['vendor1', 'vendor2', 'vendor3', 'vendor4', 'vendor5', 'vendor6', 'vendor7', 'manifest'],
       }),
       new webpack.optimize.UglifyJsPlugin({
         comments: false,
@@ -120,6 +124,9 @@ module.exports = function(){
       ],
       vendor6: [
         'lodash'
+      ],
+      vendor7: [
+        'material-design-icons'
       ]
     }
   }

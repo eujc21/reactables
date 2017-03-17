@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 
 export const TextMenu = ({textMenuOptions, pageX, pageY, selection}) =>{
 
-  const style = {
+  const styles = {
     base:{
       visibility: selection.length ? 'visible' : 'hidden',
       left: pageX + 10,
@@ -29,8 +29,8 @@ export const TextMenu = ({textMenuOptions, pageX, pageY, selection}) =>{
     }
   }
   return(
-    <div style={ style.base }>
-      <ul style={ style.options }>
+    <div style={ styles.base }>
+      <ul style={ styles.options }>
         { textMenuOptions
           ? textMenuOptions.map((option, i) =>
             React.cloneElement(option, {
@@ -40,7 +40,7 @@ export const TextMenu = ({textMenuOptions, pageX, pageY, selection}) =>{
           : null
         }
       </ul>
-      <div style={ style.arrowDown }/>
+      <div style={ styles.arrowDown }/>
     </div>
   )
 }

@@ -29,6 +29,14 @@ export function setMobileView(isMobile){
   }
 }
 
+export const UPDATE_PAGINATION_PAGE = 'UPDATE_PAGINATION_PAGE'
+export function updatePaginationPage(page){
+  return {
+    type: UPDATE_PAGINATION_PAGE,
+    page
+  }
+}
+
 export const UPDATE_INPUT_TEXT = 'UPDATE_INPUT_TEXT'
 export function updateInputText(text){
   return {

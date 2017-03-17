@@ -8,7 +8,7 @@ export default class DatePicker extends React.Component {
   static propTypes = {
     month: PropTypes.object,
     onChange: PropTypes.func,
-    styles: PropTypes.object
+    style: PropTypes.object
   }
 
   state = { years: []}
@@ -45,9 +45,9 @@ export default class DatePicker extends React.Component {
 
   render(){
 
-    const { month, styles } = this.props
+    const { month, style } = this.props
 
-    const style = {
+    const styles = {
       base:{
         display: 'flex',
         justifyContent: 'space-between',
@@ -79,26 +79,26 @@ export default class DatePicker extends React.Component {
         borderRadius: 2
       },
       icon: {
-        fontSize: 6,
+        fontSize: 14,
         paddingLeft: 3
       }
     }
 
-    merge(style, styles)
+    merge(styles, style)
 
     return(
-      <div style={ style.base }>
-        <div style={ style.arrow } onClick={ ()=>this.handleMonthChange(-1) }>
-          <i className="icon-arrow-left"/>
+      <div style={ styles.base }>
+        <div style={ styles.arrow } onClick={ ()=>this.handleMonthChange(-1) }>
+          <i className="material-icons">keyboard_arrow_left</i>
         </div>
-        <div style={ style.date }>
-          <p style={ style.month }>{ month.format('MMM') }</p>
+        <div style={ styles.date }>
+          <p style={ styles.month }>{ month.format('MMM') }</p>
 
           <Dropdown
             node={
-              <div style={ style.year }>
+              <div style={ styles.year }>
                 { month.format('YYYY') }
-                <i style={ style.icon } className="icon-arrow-down" />
+                <i style={ styles.icon } className="material-icons">keyboard_arrow_down</i>
               </div>
             }
             menuDirection={ 'right' }>
@@ -106,8 +106,8 @@ export default class DatePicker extends React.Component {
           </Dropdown>
 
         </div>
-        <div style={ style.arrow }>
-          <i className="icon-arrow-right" onClick={ ()=>this.handleMonthChange(1) }/>
+        <div style={ styles.arrow }>
+          <i className="material-icons" onClick={ ()=>this.handleMonthChange(1) }>keyboard_arrow_right</i>
         </div>
       </div>
 

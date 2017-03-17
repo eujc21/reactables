@@ -1,7 +1,7 @@
 import React from 'react'
 const Hero =({title, tagline})=>{
 
-  const style = {
+  const styles = {
     base: {
       position: 'relative',
       display: 'flex',
@@ -22,9 +22,9 @@ const Hero =({title, tagline})=>{
   }
 
   return (
-    <div style={ style.base }>
-      <h1 style={ style.title }>{ title }</h1>
-      <p style={ style.tagline }>{ tagline }</p>
+    <div style={ styles.base }>
+      <h1 style={ styles.title }>{ title }</h1>
+      <p style={ styles.tagline }>{ tagline }</p>
     </div>
   )
 }

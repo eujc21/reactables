@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react'
 import moment from 'moment'
 import merge from 'lodash/merge'
-import '../../styles/icons.css'
 
 export default class DateInput extends React.Component {
 
@@ -17,7 +16,7 @@ export default class DateInput extends React.Component {
     placeholder: PropTypes.string,
     onInputClick: PropTypes.func,
     onClearClick: PropTypes.func,
-    styles: PropTypes.object
+    style: PropTypes.object
   }
 
   handleInputClick =()=>{
@@ -30,9 +29,9 @@ export default class DateInput extends React.Component {
 
   render(){
 
-    const { endDate, styles } = this.props
+    const { endDate, style } = this.props
 
-    const style = {
+    const styles = {
       base: {
         display: 'flex',
         justifyContent: 'space-between',
@@ -66,26 +65,26 @@ export default class DateInput extends React.Component {
       }
     }
 
-    merge(style, styles)
+    merge(styles, style)
     return(
-      <div style={ style.base }>
-        <div style={ style.text } onClick={ this.handleInputClick }>
-          { this.renderPlaceholder(style) }
+      <div style={ styles.base }>
+        <div style={ styles.text } onClick={ this.handleInputClick }>
+          { this.renderPlaceholder(styles) }
           { this.renderStartDate() }
-          { endDate ? <div style={ style.divider }>-</div> : null }
+          { endDate ? <div style={ styles.divider }>-</div> : null }
           { this.renderEndDate() }
         </div>
-        { this.renderClearDatesIcon(style) }
+        { this.renderClearDatesIcon(styles) }
 
       </div>
     )
   }
 
-  renderPlaceholder =(style)=>{
+  renderPlaceholder =(styles)=>{
     const { startDate, endDate, placeholder } = this.props
     if(!startDate && !endDate)
       return(
-        (<div style={ style.placeholder }>{ placeholder }</div>)
+        (<div style={ styles.placeholder }>{ placeholder }</div>)
       )
   }
 
@@ -117,13 +116,13 @@ export default class DateInput extends React.Component {
     )
   }
 
-  renderClearDatesIcon =(style)=>{
+  renderClearDatesIcon =(styles)=>{
     const { startDate, endDate, canClear } =  this.props
     if(!canClear) return
     if(!startDate && !endDate) return
 
     return(
-      <i style={ style.clearIcon } className="icon-cross-circle" onClick={ this.handleClearClick }/>
+      <i style={ styles.clearIcon } className="material-icons" onClick={ this.handleClearClick }>clear</i>
     )
   }
 }

@@ -2,7 +2,7 @@ import React from 'react'
 
 const Section =({ id, name, children })=>{
 
-  const style = {
+  const styles = {
     base:{
       //flex: 1,
       //width: '100%',
@@ -21,9 +21,9 @@ const Section =({ id, name, children })=>{
   }
 
   return (
-    <div style={ style.base }>
-      <h2 style={ style.heading }>
-        <span style={ style.span } id={ id } />
+    <div style={ styles.base }>
+      <h2 style={ styles.heading }>
+        <span style={ styles.span } id={ id } />
         { name }
       </h2>
       { children }

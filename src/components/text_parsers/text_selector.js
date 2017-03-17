@@ -7,12 +7,13 @@ export class TextSelector extends React.Component {
 
   static propTypes = {
     onSelect: PropTypes.func,
-    textMenuOptions: PropTypes.array
+    textMenuOptions: PropTypes.array,
+    style: PropTypes.object
   }
 
   static defaultProps = {
     onSelect: ()=>{},
-    styles: {base: {}}
+    style: {base: {}}
   }
 
   state = { selection: '', pageX: 0, pageY: 0 }
@@ -85,22 +86,22 @@ export class TextSelector extends React.Component {
   }
 
   render(){
-    const { children, textMenuOptions, styles } = this.props
+    const { children, textMenuOptions, style } = this.props
     const { selection, pageX, pageY } = this.state
 
-    const style = {
+    const styles = {
       base:{
         position: 'relative',
         userSelect: 'contain', // lacking browser support
       }
     }
 
-    merge(style, styles)
+    merge(styles, style)
 
     return(
       <div
         ref={ node => this.node = node }
-        style={ style.base }
+        style={ styles.base }
         onMouseUp={ this.onMouseUp }
         onMouseDown={ this.onMouseDown }
       >

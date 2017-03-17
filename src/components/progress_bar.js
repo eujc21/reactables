@@ -7,7 +7,7 @@ export class ProgressBar extends React.Component {
     outOf: PropTypes.number.isRequired,
     showUnits: PropTypes.bool,
     units: PropTypes.oneOf(['percent', 'number']),
-    styles: PropTypes.object
+    style: PropTypes.object
   }
 
   static defaultProps = {
@@ -15,7 +15,7 @@ export class ProgressBar extends React.Component {
     outOf: 0,
     showUnits: false,
     units: 'percent',
-    styles: {}
+    style: {}
   }
 
   state = { percentageComplete: 0 }
@@ -47,7 +47,7 @@ export class ProgressBar extends React.Component {
     return percentageComplete
   }
 
-  renderUnits(style){
+  renderUnits(styles){
     const { showUnits, units, completed, outOf } = this.props
     const { percentageComplete } = this.state
 
@@ -59,17 +59,17 @@ export class ProgressBar extends React.Component {
       : `${percentageComplete}%`
 
     return(
-      <p className="units" style={ style.units }>
+      <p className="units" style={ styles.units }>
         { display }
       </p>
     )
   }
 
   render(){
-    const { styles } = this.props
+    const { style } = this.props
     const { percentageComplete } = this.state
 
-    const style = {
+    const styles = {
       base: {
         width: '100%',
       },
@@ -96,13 +96,13 @@ export class ProgressBar extends React.Component {
       }
     }
 
-   merge(style, styles)
+   merge(styles, style)
 
     return(
-      <div style={ style.base }>
-        { this.renderUnits(style) }
-        <div style={ style.bar }>
-          <div style={ style.completed }></div>
+      <div style={ styles.base }>
+        { this.renderUnits(styles) }
+        <div style={ styles.bar }>
+          <div style={ styles.completed }></div>
         </div>
       </div>
     )

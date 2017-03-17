@@ -7,14 +7,14 @@ export class Button extends React.Component {
     isHoverable: PropTypes.bool,
     isDisabled: PropTypes.bool,
     onClick: PropTypes.func,
-    styles: PropTypes.object
+    style: PropTypes.object
   }
 
   static defaultProps = {
     text: 'Button',
     isHoverable: false,
     isDisabled: false,
-    styles: {}
+    style: {}
   }
 
   state = { isHovered: false }
@@ -43,9 +43,9 @@ export class Button extends React.Component {
   }
 
   render(){
-    const { text, isDisabled, styles } = this.props
+    const { text, isDisabled, style } = this.props
 
-    const style = {
+    const styles = {
       color: '#000000',
       fontSize: 12,
       fontWeight: 200,
@@ -60,11 +60,11 @@ export class Button extends React.Component {
       boxShadow: this.state.isHovered ? '0px 2px 4px 0px rgba(0,0,0, 0.35)' : null
     }
 
-    merge(style, styles)
+    merge(styles, style)
 
     return(
       <button
-        style={ style }
+        style={ styles }
         onClick={ this.handleClick }
         onMouseEnter={ this.handleMouseEnter }
         onMouseLeave={ this.handleMouseLeave }

@@ -14,7 +14,7 @@ class Charts extends React.Component {
 
     const {isMobile} = this.props
 
-    const style = {
+    const styles = {
       base: {
         position: 'relative',
       },
@@ -55,22 +55,22 @@ class Charts extends React.Component {
     }
 
     return(
-      <div style={ style.base }>
+      <div style={ styles.base }>
 
-        <div style={ style.container }>
+        <div style={ styles.container }>
 
           {!isMobile ?
-            <div style={ style.navContainer }>
-              <Nav offsetTop={ 70 } styles={ style.nav }>
-                <NavLink to="#line" styles={ style.navlink }>Line</NavLink>
-                <NavLink to="#bar" styles={ style.navlink }>Bar</NavLink>
-                <NavLink to="#pie" styles={ style.navlink }>Pie</NavLink>
-                <NavLink to="#sankey" styles={ style.navlink }>Sankey</NavLink>
+            <div style={ styles.navContainer }>
+              <Nav offsetTop={ 70 } style={ styles.nav }>
+                <NavLink to="#line" style={ styles.navlink }>Line</NavLink>
+                <NavLink to="#bar" style={ styles.navlink }>Bar</NavLink>
+                <NavLink to="#pie" style={ styles.navlink }>Pie</NavLink>
+                <NavLink to="#sankey" style={ styles.navlink }>Sankey</NavLink>
               </Nav>
             </div> : null
           }
 
-          <div style={ style.contentContainer }>
+          <div style={ styles.contentContainer }>
 
             <Section id="line" name="Line">
               <LineChart
@@ -81,7 +81,7 @@ class Charts extends React.Component {
                 xProp="date"
                 yProp="count"
                 tooltip={ (obj) =>
-                  <div style={ style.tooltip }>{ obj.data.count }</div>
+                  <div style={ styles.tooltip }>{ obj.data.count }</div>
                 }/>
               <Code type="jsx">
                 <LineChart
@@ -108,7 +108,7 @@ class Charts extends React.Component {
                 initialHeight={ 480 } //480
                 yProp={ ['count', 'number'] }
                 tooltip={ (obj) =>
-                  <div style={ style.tooltip }>
+                  <div style={ styles.tooltip }>
                     <h3 style={{ margin: 0}}>{ obj.data.year }</h3>
                     <p style={{ marginBottom: 0}}>
                       Count: { obj.data.count }
@@ -143,7 +143,7 @@ class Charts extends React.Component {
                 valueProp="population"
                 hideLabelPercentage={ 3 }
                 tooltip={ (obj) =>
-                  <div style={ style.tooltip }>
+                  <div style={ styles.tooltip }>
                     <h3 style={{ margin: 0}}>{ obj.data.age}</h3>
                     <p style={{ marginBottom: 0}}>
                       Pop: { obj.data.population }
@@ -168,7 +168,7 @@ class Charts extends React.Component {
                 isResponsive
                 data={ this.props.sankeyData }
                 tooltip={ (obj) =>
-                  <div style={ style.tooltip }>
+                  <div style={ styles.tooltip }>
                     <h3 style={{ margin: 0}}>{ obj.data.age}</h3>
                     <p style={{ marginBottom: 0}}>
                       Node: { obj.data.name }

@@ -8,7 +8,7 @@ export default class TimePicker extends React.Component {
   static propTypes = {
     date: PropTypes.object,
     onChange: PropTypes.func.isRequired,
-    styles: PropTypes.object
+    style: PropTypes.object
   }
 
   constructor(props){
@@ -67,9 +67,9 @@ export default class TimePicker extends React.Component {
   }
 
   render(){
-    const { date, styles } = this.props
+    const { date, style } = this.props
 
-    const style = {
+    const styles = {
       base: {
         display: 'flex',
         justifyContent: 'center',
@@ -78,10 +78,10 @@ export default class TimePicker extends React.Component {
       }
     }
 
-    merge(style, styles)
+    merge(styles, style)
 
     return(
-      <div style={ style.base }>
+      <div style={ styles.base }>
         <Select
           height={ 22 }
           width={ 50 }

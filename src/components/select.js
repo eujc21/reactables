@@ -8,7 +8,7 @@ class Select extends React.Component {
     value: PropTypes.string,
     onChange: PropTypes.func.isRequired,
     isArrowVisible: PropTypes.bool,
-    styles: PropTypes.object,
+    style: PropTypes.object,
     children: PropTypes.oneOfType([
       PropTypes.arrayOf((propValue, key, componentName) => {
         if (propValue[key].type !== SelectOption)
@@ -24,6 +24,7 @@ class Select extends React.Component {
   static defaultProps = {
     placeholder: 'Select an option...',
     isArrowVisible: true,
+    style: {}
   }
 
   handleSelect =(e)=>{
@@ -50,9 +51,9 @@ class Select extends React.Component {
   }
 
   render(){
-    const { children, defaultValue, value, disabled, isArrowVisible, styles } = this.props
+    const { children, defaultValue, value, disabled, isArrowVisible, style } = this.props
 
-    const style = {
+    const styles = {
       height: 37,
       width: '100%',
       paddingLeft: 5,
@@ -63,11 +64,11 @@ class Select extends React.Component {
       WebkitAppearance: isArrowVisible ? null : 'none'
     }
 
-    merge(style, styles)
+    merge(styles, style)
 
     return(
       <select
-        style={ style }
+        style={ styles }
         defaultValue={ defaultValue }
         value={ value }
         onChange={ this.handleSelect }

@@ -5,19 +5,15 @@ export class Input extends React.Component {
   static propTypes = {
     placeholder: PropTypes.string,
     text: PropTypes.string,
-    iconClass: PropTypes.string,
-    clearIconClass: PropTypes.string,
     onChange: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
-    styles: PropTypes.object
+    style: PropTypes.object
   }
 
   static defaultProps = {
     placeholder: 'Search...',
     text: '',
-    styles: {},
-    iconClass: 'icon-search',
-    clearIconClass: 'icon-cross'
+    style: {},
   }
 
   componentDidMount(){
@@ -60,9 +56,9 @@ export class Input extends React.Component {
   }
 
   render(){
-    const { placeholder, text, iconClass, clearIconClass, styles } = this.props
+    const { placeholder, text, style } = this.props
 
-    const style = {
+    const styles = {
       base: {
         display: 'flex',
         alignItems: 'center',
@@ -94,13 +90,13 @@ export class Input extends React.Component {
       }
     }
 
-    merge(style, styles)
+    merge(styles, style)
 
     return(
 
-      <div ref={ node => this.node = node } style={ style.base }>
+      <div ref={ node => this.node = node } style={ styles.base }>
         <input
-          style={ style.input }
+          style={ styles.input }
           value={ text }
           type='text'
           placeholder={ placeholder }
@@ -110,14 +106,17 @@ export class Input extends React.Component {
         />
         { text && text.length > 0 ?
           <i
-            className={ clearIconClass }
-            style={ style.clearIcon }
-            onClick={ this.handleClear }/> : null }
-        { iconClass ?
-          <i
-            className={ iconClass }
-            style={ style.submitIcon }
-            onClick={ this.handleSubmit }/> : null }
+            className='material-icons'
+            style={ styles.clearIcon }
+            onClick={ this.handleClear }>clear</i> : null
+        }
+
+        <i
+          className='material-icons'
+          style={ styles.submitIcon }
+          onClick={ this.handleSubmit }>
+          search
+        </i>
       </div>
 
     )
