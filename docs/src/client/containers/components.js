@@ -453,7 +453,7 @@ class Components extends React.Component {
             <Section id="text_finder" name="Text Finder">
               <TextFinder
                 elementToScroll={ document.getElementsByTagName('body')[0] }
-                classToScrollTo={ 'hook' }
+                classToScrollTo={ ' ' }
                 scrollOffset={ 0 }
                 element="span"
                 attribute="data-id"
