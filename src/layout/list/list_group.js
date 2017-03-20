@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react'
 import { HiddenPanel } from '../../index'
 import TransitionGroup from 'react-addons-transition-group'
+import merge from 'lodash/merge'
 
 
 export default class ListGroup extends React.Component {
@@ -10,19 +11,21 @@ export default class ListGroup extends React.Component {
     shouldShow: PropTypes.bool,
     isResponsive: PropTypes.bool,
     onClickOutside: PropTypes.func,
-    listAnimationTime: PropTypes.number
+    listAnimationTime: PropTypes.number,
+    style: PropTypes.object
   }
 
   static defaultProps = {
     shouldShow: false,
     isResponsive: false,
     listAnimationTime: 0.4,
+    style: { base: {}, hiddenPanel: {}},
     onClickOutside: ()=>{}
   }
 
   render(){
 
-    const { isResponsive, shouldShow, selectedIndex, transitionTime, children } = this.props
+    const { isResponsive, shouldShow, selectedIndex, transitionTime, style, children } = this.props
 
     const styles = {
       base:{
@@ -38,6 +41,8 @@ export default class ListGroup extends React.Component {
         }
       }
     }
+
+    merge(styles, style)
 
     const lists = React.Children.toArray(children).map((list, i) =>{
       return React.cloneElement(list, {

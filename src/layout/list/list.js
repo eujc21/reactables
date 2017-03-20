@@ -13,7 +13,7 @@ export default class List extends React.Component{
   }
 
   static defaultProps = {
-    style: {}
+    style: { base: {}, cells:{} }
   }
 
   /* Update state and set animation type */
@@ -40,13 +40,15 @@ export default class List extends React.Component{
   }
 
   push=(done)=>{
-    TweenMax.fromTo(this.list, this.props.transitionTime, {x: 0}, {x: -414, opacity: 1, onComplete: ()=>{
+    const { style } = this.props
+    TweenMax.fromTo(this.list, this.props.transitionTime, {x: 0}, {x: -style.base.maxWidth || -414, opacity: 1, onComplete: ()=>{
       TweenMax.to(this.list, 0, {x: 0, onComplete: done})
     }})
   }
 
   pop=(done)=>{
-    TweenMax.fromTo(this.list, this.props.transitionTime, {x: -414}, {x: 0, onComplete: done})
+    const { style } = this.props
+    TweenMax.fromTo(this.list, this.props.transitionTime, {x: -style.base.maxWidth || -414}, {x: 0, onComplete: done})
   }
 
   render() {
@@ -63,9 +65,6 @@ export default class List extends React.Component{
         boxSizing: 'border-box',
         boxShadow: !selectedIndex ? '0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12)' : null,
         zIndex: listIndex
-      },
-      fixedBar:{
-
       },
       cells:{
         display: 'flex',

@@ -24,7 +24,9 @@ import {
   TextSelector,
   TextHighlighter,
   TextMenuOption,
-  Pagination
+  Pagination,
+  TextFinderBar,
+  TextFinder
 } from '../../../../src/index'
 
 class Components extends React.Component {
@@ -155,11 +157,14 @@ class Components extends React.Component {
       }
     }
 
+
+
     return(
-      <div style={ styles.base }>
+      <div id="container" ref={ container => this.container = container } style={ styles.base }>
+
 
         <HiddenPanel
-          position={ 'left' }
+          position={ 'right' }
           isVisible={ this.props.isPanelVisible }
           onClickOutside={ ()=> this.handlePanelVisibility(false) }
           width={414}
@@ -452,7 +457,7 @@ class Components extends React.Component {
               <TextHighlighter
                 delimiter={ '#!#' }
                 dataId={ true }
-                text="Lorem ipsum dolor sit amet, arcu #!#123#!#lobortis#!# massa adipiscing tortor dui, #!#567#!#porta#!# dolor enim, dui pulvinar amet mauris enim vitae et, pede sagittis ac felis erat urna libero. Integer tortor in risus taciti vestibulum, in dui. Purus quisque neque massa enim enim urna, dolore bibendum, ac eget quisque, a sit. Velit mauris venenatis ornare a turpis, sed id, nulla vitae, sed eleifend commodo, feugiat voluptate tempor. Pretium non metus maecenas, aliquet magna vivamus, vivamus mauris dapibus proin ipsum, leo laoreet morbi vestibulum at ac eget, maecenas pede nec vitae lacinia purus. A praesent sit eros fermentum bibendum ullamcorper, sapien facilisis velit donec velit sapien hendrerit. Praesent quia lorem tempus et congue consequat."
+                text="Lorem ipsum dolor sit amet, arcu #!#123#!#lobortis#!# massa adipiscing tortor dui, #!#123#!#porta#!# dolor enim, dui pulvinar amet mauris enim vitae et, pede sagittis ac felis erat urna libero. Integer tortor in risus taciti vestibulum, in dui. Purus quisque neque massa enim enim urna, dolore bibendum, ac eget quisque, a sit. Velit mauris venenatis ornare a turpis, sed id, nulla vitae, sed eleifend commodo, feugiat voluptate tempor. Pretium non metus maecenas, aliquet magna vivamus, vivamus mauris dapibus proin ipsum, leo laoreet morbi vestibulum at ac eget, maecenas pede nec vitae lacinia purus. A praesent sit eros fermentum bibendum ullamcorper, sapien facilisis velit donec velit sapien hendrerit. Praesent quia lorem tempus et congue consequat."
                 textMenuOptions={[
                   <TextMenuOption
                     onClick={ this.handleTextSelectorOption }>Option 1</TextMenuOption>,
@@ -470,6 +475,39 @@ class Components extends React.Component {
               <Code>
                 <TextMenuOption onClick={()=>{}}>Option</TextMenuOption>
               </Code>
+            </Section>
+
+            <Section id="text_finder" name="Text Finder">
+              <TextFinder
+                elementToScroll={ document.getElementsByTagName('body')[0] }
+                classToScrollTo={ ' ' }
+                scrollOffset={ 0 }
+                element="span"
+                attribute="data-id"
+                attrValue="1"
+                displayValue="leo"
+                onClear={ ()=>{} }
+              />
+
+              <div className="hook">
+                <div>
+                  <div>
+                    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dapibus, elit non blandit ornare, ex justo laoreet neque, feugiat accumsan est neque at orci. Aenean aliquet risus nisl, tempus malesuada quam tempus et. Integer sollicitudin, nunc tristique malesuada aliquam, erat nulla bibendum sapien, et mattis justo lacus in augue. Aliquam sollicitudin, risus ut ullamcorper vulputate, odio neque venenatis nulla, ut luctus ex libero non purus. Aliquam condimentum arcu id lorem maximus malesuada. Mauris in condimentum urna. Ut elementum tempor orci, vel blandit sem. Curabitur et eleifend quam, et lobortis elit. Nullam ac ipsum tempus, fringilla turpis at, facilisis orci. Fusce in suscipit nulla. Nulla ut neque tempus lorem rhoncus lobortis nec mattis ex. Aliquam erat volutpat."</div>
+                  </div>
+                  <div>
+                    Nulla bibendum aliquet risus, sit amet ultrices urna vestibulum at. Curabitur consequat dictum ullamcorper. Fusce venenatis nulla mauris, ac pulvinar quam tristique eget. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec feugiat aliquam ligula sed tempor. Fusce eget lorem venenatis, molestie erat malesuada, gravida arcu. Nunc tempor, lectus viverra viverra dignissim, nibh felis lobortis orci, id commodo <span className="test-class another-one" data-id="1">leo</span> justo nec augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Ut vel ante vitae urna malesuada finibus. Cras mollis sollicitudin enim, sed faucibus metus rhoncus tempus. Quisque quis sapien in enim accumsan mattis eget at est. Maecenas facilisis fringilla odio. Donec id risus non mi lacinia cursus eget id nunc. Vivamus rutrum odio imperdiet, luctus sem sit amet, dictum enim. In vitae dignissim diam."
+                  </div>
+                  <div>
+                    In nec condimentum felis. Etiam quis dui tellus. Morbi mollis hendrerit nulla eget finibus. Donec semper malesuada laoreet. Duis id enim vitae lorem fermentum cursus. Fusce sed lorem a justo tristique egestas vel ac sapien. Aenean dictum sapien eget eros accumsan interdum quis in est. Fusce sollicitudin augue nisl, quis eleifend lorem ultricies vitae. Nullam volutpat semper facilisis. Pellentesque luctus neque ac dui rhoncus eleifend. Proin congue mollis porta.
+                  </div>
+                  <div>
+                    Maecenas ut suscipit <span data-id="1">leo</span>, eget sagittis justo. Morbi sollicitudin vulputate lacus, eget tristique diam blandit laoreet. Praesent laoreet nisl non ante tempor, id dictum erat scelerisque. Donec scelerisque in massa ut cursus. Donec tincidunt enim mauris, eget ultricies neque iaculis vitae. Nam laoreet efficitur ex in tincidunt. Suspendisse eget diam quis sapien imperdiet elementum. In ultrices eros nec accumsan malesuada. Integer fringilla ipsum ligula, sed rhoncus sem dapibus eget. Fusce a accumsan nisi. Praesent blandit rutrum dapibus. Maecenas pellentesque lacus eget dui auctor dapibus sed nec purus. Nullam eget sodales nisi. Suspendisse sed pulvinar <span data-id="1">leo</span>. Integer dapibus condimentum porta. Quisque ac tempus dui, lobortis aliquam enim.
+                  </div>
+                  <div>
+                    Morbi eu aliquam dui, sed ullamcorper nulla. Curabitur viverra ligula varius tellus pretium, non consectetur sem eleifend. Praesent iaculis placerat <span data-id="1">leo</span>, interdum fermentum odio consequat commodo. Sed dignissim arcu auctor, dictum <span data-id="1">leo</span> vel, lacinia orci. Donec in ornare orci. Suspendisse lobortis, justo eu euismod iaculis, mauris ligula volutpat velit, maximus semper sapien nisl ut sapien. Nulla vitae aliquet sem. Proin in pulvinar erat. Curabitur lacinia, nibh eu tempor egestas, massa elit faucibus turpis, at sodales <span data-id="1">leo</span> orci in dolor. Ut vel dictum velit. Phasellus neque metus, interdum vitae quam ac, mattis vehicula diam. Donec et risus in mauris placerat condimentum.
+                  </div>
+                </div>
+              </div>
             </Section>
 
           </div>

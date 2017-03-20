@@ -6,6 +6,7 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import configureStore from './store/configure_store'
 import Router from './containers/router'
+import './styles/text_finder.css'
 
 const store = configureStore(window.__initialState__)
 

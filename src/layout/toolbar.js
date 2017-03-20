@@ -3,10 +3,6 @@ import merge from 'lodash/merge'
 
 const Toolbar =({size, children, style})=>{
 
-  if(style && style.hasOwnProperty('height')){
-    console.warn(`Toolbar: style property contains height. This will be overwritten`)
-  }
-
   const styles = {
     display: 'flex',
     backgroundColor: '#673AB7',
@@ -20,7 +16,7 @@ const Toolbar =({size, children, style})=>{
     fontFamily: 'Helvetica Neue, Helvetica, Arial'
   }
 
-  merge(styles, style, {height: 64})
+  merge(styles, style)
 
   return(
     <div style={ styles }>

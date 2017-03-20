@@ -1,0 +1,15 @@
+.pulse-highlight {
+  animation:  pulse 1s ease-in-out;
+}
+
+@keyframes pulse {
+  0%{
+    background-color: #FF4136;
+  }
+  50% {
+    background-color: #546E7A;
+  }
+  100% {
+    background-color: #FF4136;
+  }
+}
