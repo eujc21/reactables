@@ -4,14 +4,13 @@
   "description": "Customizable React.js components",
   "main": "lib/index.js",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development nodemon ./docs/server.js --exec babel-node --presets es2015,stage-0 --ignore /docs/src/client --ignore ./src --ignore ./test",
+    "dev": "cross-env nodemon ./docs/server.js --exec ./node_modules/.bin/babel-node --ignore ./docs/src/client --ignore ./src --ignore ./test",
     "build-docs": "cross-env NODE_ENV=production webpack",
     "prebuild": "rimraf lib",
     "build": "cross-env babel --out-dir lib --ignore *.test.js src && copyfiles ./src/styles/* -f lib/styles && copyfiles ./src/vendor/fonts/* -f lib/vendor/fonts",
     "test": "mocha test/*.spec.js --require test/.setup.js --compilers js:babel-core/register",
     "start": "cross-env NODE_ENV=production nodemon ./docs/server.js --exec babel-node --presets es2015,stage-0",
-    "storybook": "start-storybook -p 6006 -c .storybook",
-    "build-storybook": "build-storybook"
+    "start-dev": "dotenv -e .env-dev npm run dev"
   },
   "repository": {
     "type": "git",
@@ -37,6 +36,12 @@
     "url": "https://github.com/phil3903/reactables/issues"
   },
   "homepage": "https://github.com/phil3903/reactables#readme",
+  "babel": {
+    "presets": [
+      "stage-0",
+      "es2015"
+    ]
+  },
   "dependencies": {
     "d3": "^4.7.3",
     "d3-sankey": "^0.4.2",
@@ -65,6 +70,7 @@
     "copyfiles": "^1.2.0",
     "cross-env": "^3.2.3",
     "css-loader": "^0.27.3",
+    "dotenv-cli": "^1.1.1",
     "enzyme": "^2.7.1",
     "expect": "^1.20.2",
     "express": "^4.15.2",

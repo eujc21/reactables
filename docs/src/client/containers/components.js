@@ -83,7 +83,7 @@ class Components extends React.Component {
 
   render(){
 
-    const { paginationPage, paginationCount, inputText, isMobile } = this.props
+    const { paginationPage, paginationCount, inputText, isMobile, inputFilterText } = this.props
 
     const styles = {
       base: {
@@ -173,27 +173,6 @@ class Components extends React.Component {
         <div style={ styles.container }>
 
           {!isMobile ?
-<<<<<<< HEAD
-            <div style={ style.navContainer }>
-              <Nav offsetTop={ 70 } styles={ style.nav }>
-                <NavLink to="#button" styles={ style.navlink }>Button</NavLink>
-                <NavLink to="#input" styles={ style.navlink }>Input</NavLink>
-                <NavLink to="#select" styles={ style.navlink }>Select</NavLink>
-                <NavLink to="#dropdown" styles={ style.navlink }>Dropdown</NavLink>
-                <NavLink to="#date-time-picker" styles={ style.navlink }>Date Picker</NavLink>
-                <NavLink to="#table" styles={ style.navlink }>Table</NavLink>
-                <NavLink to="#table-filtered" styles={ style.navlink }>Table w/Filter</NavLink>
-                <NavLink to="#nav" styles={ style.navlink }>Nav</NavLink>
-                <NavLink to="#navbar" styles={ style.navlink }>Navbar</NavLink>
-                <NavLink to="#heat-bar" styles={ style.navlink }>HeatBar</NavLink>
-                <NavLink to="#progress-bar" styles={ style.navlink }>ProgressBar</NavLink>
-                <NavLink to="#element-loader" styles={ style.navlink }>ElementLoader</NavLink>
-                <NavLink to="#hidden-panel" styles={ style.navlink }>HiddenPanel</NavLink>
-                <NavLink to="#code" styles={ style.navlink }>Code</NavLink>
-                <NavLink to="#text_selector" styles={ style.navlink }>Text Selector</NavLink>
-                <NavLink to="#text_highlighter" styles={ style.navlink }>Text Highlighter</NavLink>
-                <NavLink to="#text_menu_option" styles={ style.navlink }>Text Menu Option</NavLink>
-=======
             <div style={ styles.navContainer }>
               <Nav offsetTop={ 70 } style={ styles.nav }>
                 <NavLink to="#button" style={ styles.navlink }>Button</NavLink>
@@ -202,18 +181,17 @@ class Components extends React.Component {
                 <NavLink to="#dropdown" style={ styles.navlink }>Dropdown</NavLink>
                 <NavLink to="#date-time-picker" style={ styles.navlink }>Date Picker</NavLink>
                 <NavLink to="#table" style={ styles.navlink }>Table</NavLink>
+                <NavLink to="#table-filtered" style={ styles.navlink }>Table w/Filter</NavLink>
                 <NavLink to="#nav" style={ styles.navlink }>Nav</NavLink>
                 <NavLink to="#navbar" style={ styles.navlink }>Navbar</NavLink>
                 <NavLink to="#heat-bar" style={ styles.navlink }>HeatBar</NavLink>
                 <NavLink to="#progress-bar" style={ styles.navlink }>ProgressBar</NavLink>
-                <NavLink to="#pagination" style={ styles.navlink }>Pagination</NavLink>
                 <NavLink to="#element-loader" style={ styles.navlink }>ElementLoader</NavLink>
                 <NavLink to="#hidden-panel" style={ styles.navlink }>HiddenPanel</NavLink>
                 <NavLink to="#code" style={ styles.navlink }>Code</NavLink>
                 <NavLink to="#text_selector" style={ styles.navlink }>Text Selector</NavLink>
                 <NavLink to="#text_highlighter" style={ styles.navlink }>Text Highlighter</NavLink>
                 <NavLink to="#text_menu_option" style={ styles.navlink }>Text Menu Option</NavLink>
->>>>>>> master
               </Nav>
             </div> : null
           }
@@ -327,7 +305,7 @@ class Components extends React.Component {
             </Section>
 
             <Section id="table-filtered" name="Table Filter">
-              <div style={ style.tableContainer }>
+              <div style={ styles.tableContainer }>
                 <Input
                   text={ inputFilterText || ''}
                   onChange={ this.handleFilterInputChange }

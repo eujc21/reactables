@@ -30,11 +30,11 @@ function renderFullPage(html) {
         <title>Reactables</title>
         <style>
           html { font-family: Helvetica, arial, sans-serif }
-          html, body, #root { 
-            margin: 0; 
-            overflow-y: scroll;  
+          html, body, #root {
+            margin: 0;
+            overflow-y: scroll;
             -webkit-overflow-scrolling: touch;
-            
+
           }
           body { background-color: #f4f4f4; }
         </style>
@@ -71,4 +71,3 @@ app.get('/api/test1', (req, res)=>{
 app.use(handleRender)
 
 let server = app.listen(port, ()=> console.log(`Server is listening on port: ${server.address().port}...`))
-
