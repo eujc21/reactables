@@ -339,8 +339,6 @@ class Components extends React.Component {
                 page={ paginationPage }
                 pageCount={ paginationCount }
                 pageSkip={ 3 }
-                showFirst
-                showLast
                 showEllipses
                 maintainSkipWidth
                 onClick={ this.handlePaginationClick }
@@ -351,8 +349,6 @@ class Components extends React.Component {
                   page={ paginationPage }
                   pageCount={ paginationCount }
                   pageSkip={ 3 }
-                  showFirst
-                  showLast
                   showEllipses
                   maintainSkipWidth
                   firstText={'First'}

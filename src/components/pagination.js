@@ -50,15 +50,16 @@ const Pagination =({
     },
     pageControl: {
       base:{
-        border: '1px solid rgba(16,16,16,0.1)',
-        backgroundColor: 'rgba(56, 210, 224, 0.1)',
+        //border: '1px solid rgba(16,16,16,0.1)',
+        backgroundColor: '#525252',
+        color: '#fff',
         borderRadius: 2,
         margin: '0 3px',
         padding: 7,
         cursor: 'pointer'
       },
       disabled:{
-        border: '1px solid rgba(16,16,16,0.1)',
+        //border: '1px solid rgba(16,16,16,0.1)',
         borderRadius: 2,
         margin: '0 3px',
         padding: 7,
@@ -73,13 +74,16 @@ const Pagination =({
     selected: {
       margin: '0 3px',
       padding: 7,
-      border: '1px solid rgba(16,16,16,0.1)',
+      //border: '1px solid rgba(16,16,16,0.1)',
       borderRadius: 2,
-      backgroundColor: 'rgba(56, 210, 224, 0.1)',
+      backgroundColor: '#525252',
+      color: '#fff'
     },
     ellipses: {
-      margin: '0 3px',
-      padding: 7
+      margin: 0,
+      padding: 7,
+      whiteSpace: 'nowrap',
+      cursor: 'pointer'
     }
   }
 
@@ -104,8 +108,29 @@ const Pagination =({
     if(pageSkip * 2 >= pageCount) return null
     if(page <= pageSkip + 1) return null
 
-    return(<li style={ styles.ellipses }>...</li>)
+    return(
+      <li
+        style={ styles.ellipses }
+        onClick={()=> handleSkip(1)}>
+        1 ...
+      </li>
+    )
   }
+
+  const RightEllipses =()=>{
+    if(!showEllipses) return null
+    if(pageSkip * 2 >= pageCount) return null
+    if(page >= (pageCount - pageSkip)) return null
+
+    return(
+      <li
+        onClick={ ()=> handleSkip(pageCount) }
+        style={ styles.ellipses }>
+        ... { pageCount }
+      </li>
+    )
+  }
+
 
   const buildPages =()=>{
     if(pageSkip <= 0) return null
@@ -140,14 +165,6 @@ const Pagination =({
         style={ page !== pageNumber ? styles.pageNumber : styles.selected }
         onClick={ ()=> handleSkip(pageNumber) }
       >{pageNumber}</li>)
-  }
-
-  const RightEllipses =()=>{
-    if(!showEllipses) return null
-    if(pageSkip * 2 >= pageCount) return null
-    if(page >= (pageCount - pageSkip)) return null
-
-    return(<li style={ styles.ellipses }>...</li>)
   }
 
   const Next =()=>{
