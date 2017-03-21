@@ -6,6 +6,7 @@ export class Button extends React.Component {
     text: PropTypes.node,
     isHoverable: PropTypes.bool,
     isDisabled: PropTypes.bool,
+    isSelected: PropTypes.bool,
     onClick: PropTypes.func,
     style: PropTypes.object
   }
@@ -28,10 +29,8 @@ export class Button extends React.Component {
     onClick()
   }
 
-  handleMouseEnter = () =>{
-    if(this.props.isDisabled)
-      return
-
+  handleMouseOver = () =>{
+    if(this.props.isDisabled) return
     this.setState({isHovered: true})
   }
 
@@ -44,7 +43,8 @@ export class Button extends React.Component {
   }
 
   render(){
-    const { text, isDisabled, style } = this.props
+    const { text, isDisabled, isSelected, style } = this.props
+    const { isHovered } = this.state
 
     const styles = {
       base:{
@@ -58,11 +58,10 @@ export class Button extends React.Component {
         borderRadius: 2,
         cursor: isDisabled ? null : 'pointer',
         padding: 5,
-        transition: 'box-shadow 0.5s ease',
-        boxShadow: this.state.isHovered ? '0px 2px 4px 0px rgba(0,0,0, 0.35)' : null
+        transition: 'box-shadow 0.5s ease'
       },
       hovered: {
-
+        boxShadow: '0px 2px 4px 0px rgba(0,0,0, 0.35)'
       },
       selected:{
 
@@ -71,14 +70,17 @@ export class Button extends React.Component {
 
       }
     }
-
     merge(styles, style)
+
+    if(isHovered) merge(styles.base, styles.hovered)
+    if(isSelected) merge(styles.base, styles.selected)
+    if(isDisabled) merge(styles.base, styles.disabled)
 
     return(
       <button
         style={ styles.base }
         onClick={ this.handleClick }
-        onMouseEnter={ this.handleMouseEnter }
+        onMouseOver={ this.handleMouseOver }
         onMouseLeave={ this.handleMouseLeave }
         onFocus={ this.handleFocus }
       >
