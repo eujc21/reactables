@@ -133,6 +133,7 @@ class Router extends React.Component {
             <Route path="/layout" component={ Layout } />
             <Route path="/charts" component={ Charts } />
             <Route path="/scratch" component={ Scratch } />
+
            </div>
         </ScrollToTop>
       </BrowserRouter>

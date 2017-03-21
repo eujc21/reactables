@@ -14,6 +14,7 @@ export class Button extends React.Component {
     text: 'Button',
     isHoverable: false,
     isDisabled: false,
+    isSelected: false,
     style: {}
   }
 
@@ -46,25 +47,36 @@ export class Button extends React.Component {
     const { text, isDisabled, style } = this.props
 
     const styles = {
-      color: '#000000',
-      fontSize: 12,
-      fontWeight: 200,
-      fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif',
-      letterSpacing: 1,
-      backgroundColor: '#f9f9f9',
-      border: 'none',
-      borderRadius: 2,
-      cursor: isDisabled ? null : 'pointer',
-      padding: 5,
-      transition: 'box-shadow 0.5s ease',
-      boxShadow: this.state.isHovered ? '0px 2px 4px 0px rgba(0,0,0, 0.35)' : null
+      base:{
+        color: '#000000',
+        fontSize: 12,
+        fontWeight: 200,
+        fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif',
+        letterSpacing: 1,
+        backgroundColor: '#f9f9f9',
+        border: 'none',
+        borderRadius: 2,
+        cursor: isDisabled ? null : 'pointer',
+        padding: 5,
+        transition: 'box-shadow 0.5s ease',
+        boxShadow: this.state.isHovered ? '0px 2px 4px 0px rgba(0,0,0, 0.35)' : null
+      },
+      hovered: {
+
+      },
+      selected:{
+
+      },
+      disabled:{
+
+      }
     }
 
     merge(styles, style)
 
     return(
       <button
-        style={ styles }
+        style={ styles.base }
         onClick={ this.handleClick }
         onMouseEnter={ this.handleMouseEnter }
         onMouseLeave={ this.handleMouseLeave }
