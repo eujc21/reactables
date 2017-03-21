@@ -4,7 +4,6 @@ import merge from 'lodash/merge'
 export class Button extends React.Component {
   static propTypes = {
     text: PropTypes.node,
-    isHoverable: PropTypes.bool,
     isDisabled: PropTypes.bool,
     isSelected: PropTypes.bool,
     onClick: PropTypes.func,
@@ -13,7 +12,6 @@ export class Button extends React.Component {
 
   static defaultProps = {
     text: 'Button',
-    isHoverable: false,
     isDisabled: false,
     isSelected: false,
     style: {}
