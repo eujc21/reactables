@@ -1,0 +1,1 @@
+webpackJsonp([11,12],{326:function(module,exports){(function(__dirname){module.exports={STATIC_PATH:__dirname}}).call(exports,"/")},864:function(module,exports,__webpack_require__){module.exports=__webpack_require__(326)}},[864]);
