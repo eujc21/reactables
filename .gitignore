@@ -2,4 +2,6 @@ node_modules
 .idea
 lib
 npm-debug.log
-.yarn.lock
+yarn.lock
+.env-dev
+.DS_Store
