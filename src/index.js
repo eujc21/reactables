@@ -2,7 +2,7 @@ import './styles/material-icons.css'
 
 // Components
 export { ProgressBar } from './components/progress_bar'
-export { Table } from './components/table'
+export { Table } from './components/table/'
 export { Dropdown, DropdownOption } from './components/dropdown'
 export { Select, SelectOption } from './components/select'
 export { Input } from './components/input'
@@ -45,6 +45,3 @@ export GridItem from './layout/grid/grid_item'
 export BaseContainer from './layout/containers/base_container'
 export Container from './layout/containers/container'
 export Wrapper from './layout/containers/wrapper'
-
-
-
