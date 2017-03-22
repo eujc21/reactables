@@ -6,6 +6,7 @@ import Bundle from './bundle'
 import loadComponents from 'bundle-loader?lazy!../containers/components'
 import loadLayout from 'bundle-loader?lazy!../containers/layout'
 import loadCharts from 'bundle-loader?lazy!../containers/charts'
+import loadScratch from 'bundle-loader?lazy!../containers/scratch'
 
 import ScrollToTop from '../components/scroll_to_top'
 
@@ -26,6 +27,12 @@ const Layout = () => (
 const Charts = () => (
   <Bundle load={loadCharts}>
     {Charts => Charts ? <Charts /> : null }
+  </Bundle>
+)
+
+const Scratch = () =>(
+  <Bundle load={loadScratch}>
+    {Scratch => Scratch ? <Scratch /> : null }
   </Bundle>
 )
 
@@ -125,7 +132,9 @@ class Router extends React.Component {
             <Route exact path="/" component={ Components } />
             <Route path="/layout" component={ Layout } />
             <Route path="/charts" component={ Charts } />
-          </div>
+            <Route path="/scratch" component={ Scratch } />
+
+           </div>
         </ScrollToTop>
       </BrowserRouter>
     )

@@ -138,7 +138,9 @@ export class TextFinder extends React.Component {
         margin: 0
       },
       button:{
-        marginLeft: 5
+        base:{
+          marginLeft: 5
+        }
       }
     }
 

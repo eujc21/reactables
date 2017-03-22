@@ -94,9 +94,11 @@ class Navbar extends React.Component {
         listStyleType: 'none'
       },
       menuButton: {
-        margin: '0 15px',
-        padding: '5px 10px',
-        backgroundColor: null
+        base:{
+          margin: '0 15px',
+          padding: '5px 10px',
+          backgroundColor: null
+        }
       },
       menu:{
         position: 'absolute',

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Nav, NavLink, Code, List, ListGroup, ListToolbar, ListCell, Grid, GridItem, withMediaQueries } from '../../../../src/index'
+import { Nav, NavLink, Code, List, ListGroup, ListMenu, ListToolbar, ListCell, Grid, GridItem, withMediaQueries, Button } from '../../../../src/index'
 import { connect } from 'react-redux'
 import { incrementList } from '../actions/layout_actions'
 import Section from '../components/section'
@@ -74,9 +74,19 @@ export default withMediaQueries(MyComponent, optionalBreakPoints)
 
 class Layout extends React.Component {
 
+  state = { isListMenuVisible: false }
+
   handleIncrementList =(increment)=>{
     const index = this.props.listIndex + increment
     this.props.incrementList(index)
+  }
+
+  showListMenu =()=>{
+    this.setState({ isListMenuVisible: true })
+  }
+
+  hideListMenu =()=>{
+    this.setState({ isListMenuVisible: false })
   }
   render(){
 
@@ -160,27 +170,46 @@ class Layout extends React.Component {
 
             <ListGroup selectedIndex={ this.props.listIndex } transitionTime={ 0.3 }>
               <List>
+
                 <ListToolbar type="fixed">
                   <p style={{padding: 0, margin: 0}}> List 0 </p>
                 </ListToolbar>
+
                 { [0,1,2,3].map(item =>
                   <ListCell key={ item } style={ styles.listCell } onClick={ ()=> this.handleIncrementList(1)}>
                     Item { item }
                   </ListCell>
                 )}
+
               </List>
               <List>
-                <ListToolbar type="fixed">
+                {/* List Toolbar*/}
+                <ListToolbar type="fixed" style={{ display: 'flex', justifyContent: 'space-between'}}>
                   <i className="material-icons" style={{cursor: 'pointer'}} onClick={ ()=>this.handleIncrementList(-1) }>keyboard_arrow_left</i>
                   <p style={{padding: 0, margin: 0}}>
                      List 1
                   </p>
+                  <Button text={'Menu'} onClick={ this.showListMenu }/>
                 </ListToolbar>
+
+                {/* List Cells */}
                 { [0,1,2,3].map(item =>
                   <ListCell key={ item } style={ styles.listCell } onClick={()=>{}}>
                     Item { item }
                   </ListCell>
                 )}
+
+                {/* Hidden List Menu */}
+                <ListMenu>
+                  <ListToolbar style={{ display: 'flex', justifyContent: 'space-between'}}>
+                    <p style={{padding: 0, margin: 0}}>
+                      Menu
+                    </p>
+                    <Button text={'Apply'} onClick={ this.hideListMenu }/>
+                  </ListToolbar>
+                  <div> List Menu Content </div>
+                </ListMenu>
+
               </List>
             </ListGroup>
 

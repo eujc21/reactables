@@ -4,16 +4,16 @@ import merge from 'lodash/merge'
 export class Button extends React.Component {
   static propTypes = {
     text: PropTypes.node,
-    isHoverable: PropTypes.bool,
     isDisabled: PropTypes.bool,
+    isSelected: PropTypes.bool,
     onClick: PropTypes.func,
     style: PropTypes.object
   }
 
   static defaultProps = {
     text: 'Button',
-    isHoverable: false,
     isDisabled: false,
+    isSelected: false,
     style: {}
   }
 
@@ -27,10 +27,8 @@ export class Button extends React.Component {
     onClick()
   }
 
-  handleMouseEnter = () =>{
-    if(this.props.isDisabled)
-      return
-
+  handleMouseOver = () =>{
+    if(this.props.isDisabled) return
     this.setState({isHovered: true})
   }
 
@@ -43,30 +41,44 @@ export class Button extends React.Component {
   }
 
   render(){
-    const { text, isDisabled, style } = this.props
+    const { text, isDisabled, isSelected, style } = this.props
+    const { isHovered } = this.state
 
     const styles = {
-      color: '#000000',
-      fontSize: 12,
-      fontWeight: 200,
-      fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif',
-      letterSpacing: 1,
-      backgroundColor: '#f9f9f9',
-      border: 'none',
-      borderRadius: 2,
-      cursor: isDisabled ? null : 'pointer',
-      padding: 5,
-      transition: 'box-shadow 0.5s ease',
-      boxShadow: this.state.isHovered ? '0px 2px 4px 0px rgba(0,0,0, 0.35)' : null
-    }
+      base:{
+        color: '#000000',
+        fontSize: 12,
+        fontWeight: 200,
+        fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif',
+        letterSpacing: 1,
+        backgroundColor: '#f9f9f9',
+        border: 'none',
+        borderRadius: 2,
+        cursor: isDisabled ? null : 'pointer',
+        padding: 5,
+        transition: 'box-shadow 0.5s ease'
+      },
+      hovered: {
+        boxShadow: '0px 2px 4px 0px rgba(0,0,0, 0.35)'
+      },
+      selected:{
 
+      },
+      disabled:{
+
+      }
+    }
     merge(styles, style)
+
+    if(isHovered) merge(styles.base, styles.hovered)
+    if(isSelected) merge(styles.base, styles.selected)
+    if(isDisabled) merge(styles.base, styles.disabled)
 
     return(
       <button
-        style={ styles }
+        style={ styles.base }
         onClick={ this.handleClick }
-        onMouseEnter={ this.handleMouseEnter }
+        onMouseOver={ this.handleMouseOver }
         onMouseLeave={ this.handleMouseLeave }
         onFocus={ this.handleFocus }
       >
