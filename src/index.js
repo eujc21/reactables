@@ -1,8 +1,9 @@
 import './styles/material-icons.css'
 
 // Components
+export { Table as TestTable } from './components/table/'
 export { ProgressBar } from './components/progress_bar'
-export { Table } from './components/table/'
+export { Table } from './components/table'
 export { Dropdown, DropdownOption } from './components/dropdown'
 export { Select, SelectOption } from './components/select'
 export { Input } from './components/input'

@@ -27,7 +27,8 @@ import {
   TextMenuOption,
   Pagination,
   TextFinderBar,
-  TextFinder
+  TextFinder,
+  TestTable
 } from '../../../../src/index'
 
 class Components extends React.Component {
@@ -181,6 +182,7 @@ class Components extends React.Component {
           {!isMobile ?
             <div style={ styles.navContainer }>
               <Nav offsetTop={ 70 } style={ styles.nav }>
+                <NavLink to="#testTable" style={ styles.navlink }>TestTable</NavLink>
                 <NavLink to="#button" style={ styles.navlink }>Button</NavLink>
                 <NavLink to="#input" style={ styles.navlink }>Input</NavLink>
                 <NavLink to="#select" style={ styles.navlink }>Select</NavLink>
@@ -203,7 +205,22 @@ class Components extends React.Component {
           }
 
           <div style={ styles.contentContainer }>
+            <Section id="testTable" name="testTable">
+              <div style={ styles.tableContainer }>
+                {
+                  <TestTable
+                    data={this.props.tableFakerData}
+                    headers={Object.keys(this.props.tableFakerData[0])}
+                  />
+                }
+              </div>
 
+              <Code type={ 'jsx' }>
+                <TestTable
+                  data={`[Objects]`}
+                />
+              </Code>
+            </Section>
             <Section id="button" name="Button">
               <div style={ styles.componentContainer }>
               { [0,1,2,3,4].map(num =>
@@ -542,6 +559,7 @@ function mapStateToProps(state){
     outOf: state.components.outOf,
     completed: state.components.completed,
     tableData: state.components.tableData,
+    tableFakerData: state.components.tableFakerData,
     isPanelVisible: state.components.isPanelVisible
   }
 }

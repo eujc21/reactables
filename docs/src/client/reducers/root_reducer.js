@@ -2,7 +2,27 @@ import { combineReducers } from 'redux'
 import { UPDATE_PAGINATION_PAGE, SET_MOBILE_VIEW, SET_PAGE_SCROLL_POSITION, UPDATE_INPUT_TEXT, UPDATE_FILTER_INPUT_TEXT, INCREMENT_COMPLETED, TOGGLE_PANEL, GENERATE_CHART_DATA } from '../actions/demo_actions'
 import { INCREMENT_LIST } from '../actions/layout_actions'
 import { elementLoaderReducer } from '../../../../src/index'
+import Immutable from 'immutable'
+
 import moment from 'moment'
+import faker from 'faker'
+
+const fakerData = () => ({
+  firstName: faker.name.firstName(),
+  lastName: faker.name.lastName(),
+  file: faker.system.fileName(),
+  title: faker.name.title(),
+  jobType: faker.name.jobType(),
+  phoneNumber: faker.phone.phoneNumber()
+});
+
+const getFakeData = () => {
+  let fakerDataArray = new Array();
+  for (var i = 0; i < 100; i++) {
+    fakerDataArray.push(fakerData())
+  }
+  return fakerDataArray;
+}
 
 function errorMessage(state = null, action) {
   const { type, error } = action
@@ -36,6 +56,7 @@ function app(state = initialAppState, action){
 const initialComponentsState = {
   paginationPage: 5,
   paginationCount: 10,
+  tableFakerData: getFakeData(),
   tableData: [{a:1, b:2, c: 3}, {a:2, b: 3, c: 4}, {a:3, b: 4, c: 5}],
   completed: 0,
   outOf: 100,
