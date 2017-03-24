@@ -1,1 +1,1 @@
-\import koaApp from './server/entry'
+import koaApp from './server/entry'
