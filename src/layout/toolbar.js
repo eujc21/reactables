@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import merge from 'lodash/merge'
 
-const Toolbar =({size, children, style})=>{
+const Toolbar =({children, style})=>{
 
   const styles = {
     display: 'flex',
