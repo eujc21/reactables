@@ -41,8 +41,7 @@ export default class Button extends React.Component {
   }
 
   render(){
-    const { text, isDisabled, isSelected, style } = this.props
-    const { isHovered } = this.state
+    const { text, style } = this.props
 
     const styles = {
       base:{
@@ -53,25 +52,26 @@ export default class Button extends React.Component {
         backgroundColor: '#f9f9f9',
         border: 'none',
         borderRadius: 2,
-        cursor: isDisabled ? null : 'pointer',
+        cursor: 'default',
         padding: 5,
-        transition: 'box-shadow 0.5s ease'
+        transition: 'all 0.5s ease'
       },
       hovered: {
-        boxShadow: '0px 2px 4px 0px rgba(0,0,0, 0.35)'
+        //boxShadow: '0px 2px 4px 0px rgba(0,0,0, 0.35)'
+        cursor: 'pointer'
+      },
+      disabled:{
+        cursor: 'default'
       },
       selected:{
 
       },
-      disabled:{
-
-      }
     }
-    merge(styles, style)
 
-    if(isHovered) merge(styles.base, styles.hovered)
-    if(isSelected) merge(styles.base, styles.selected)
-    if(isDisabled) merge(styles.base, styles.disabled)
+    merge(styles, style)
+    if(this.state.isHovered) merge(styles.base, styles.hovered)
+    if(this.props.isSelected) merge(styles.base, styles.selected)
+    if(this.props.isDisabled) merge(styles.base, styles.disabled)
 
     return(
       <button
