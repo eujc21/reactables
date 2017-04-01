@@ -63,7 +63,7 @@ const Pagination =({
         borderRadius: 2,
         margin: '0 3px',
         padding: 7,
-        cursor: 'not-allowed'
+        cursor: 'default'
       }
     },
     pageNumber: {
