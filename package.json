@@ -4,12 +4,13 @@
   "description": "Customizable React.js components",
   "main": "lib/index.js",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development nodemon ./docs/server.js --exec babel-node --presets es2015,stage-0 --ignore /docs/src/client --ignore ./src --ignore ./test",
+    "dev": "cross-env NODE_ENV=development nodemon ./src/docs/dev-server.js --exec babel-node --presets es2015,stage-0  --ignore ./src/lib --ignore ./test",
+    "prebuild-docs": "rimraf docs",
     "build-docs": "cross-env NODE_ENV=production webpack",
     "prebuild": "rimraf lib",
-    "build": "cross-env babel --out-dir lib --ignore *.test.js src && copyfiles ./src/styles/* -f lib/styles && copyfiles ./src/vendor/fonts/* -f lib/vendor/fonts",
+    "build": "cross-env babel --out-dir lib --ignore *.test.js src/lib && copyfiles ./src/styles/* -f lib/styles && copyfiles ./src/vendor/fonts/* -f lib/vendor/fonts",
     "test": "mocha test/*.spec.js --require test/.setup.js --compilers js:babel-core/register",
-    "start": "cross-env NODE_ENV=production nodemon ./docs/server.js --exec babel-node --presets es2015,stage-0"
+    "start": "cross-env NODE_ENV=production nodemon .src/docs/dev-server.js --exec babel-node --presets es2015,stage-0"
   },
   "repository": {
     "type": "git",
@@ -44,10 +45,13 @@
     "moment": "^2.17.1",
     "react": "^15.4.2",
     "react-addons-transition-group": "^15.4.2",
-    "react-dom": "^15.4.2",
     "react-redux": "^5.0.3",
     "react-router-dom": "^4.0.0",
     "redux": "^3.6.0"
+  },
+  "peerDependencies": {
+    "react": "^0.14.0 || ^15.0.0",
+    "react-dom": "^0.14.0 || ^15.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.24.0",
@@ -73,6 +77,8 @@
     "mocha": "^3.2.0",
     "morgan": "^1.8.1",
     "path": "^0.12.7",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
     "react-addons-test-utils": "^15.4.2",
     "react-router": "^4.0.0",
     "react-router-dom": "^4.0.0",

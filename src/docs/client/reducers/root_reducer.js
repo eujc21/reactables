@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 import { UPDATE_PAGINATION_PAGE, SET_MOBILE_VIEW, SET_PAGE_SCROLL_POSITION, UPDATE_INPUT_TEXT, INCREMENT_COMPLETED, TOGGLE_PANEL, GENERATE_CHART_DATA } from '../actions/demo_actions'
 import { INCREMENT_LIST } from '../actions/layout_actions'
-import { elementLoaderReducer } from '../../../../src/index'
+import { elementLoaderReducer } from '../../../lib/index'
 import moment from 'moment'
 
 function errorMessage(state = null, action) {

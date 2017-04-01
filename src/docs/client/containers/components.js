@@ -28,7 +28,7 @@ import {
   Pagination,
   TextFinderBar,
   TextFinder
-} from '../../../../src/index'
+} from '../../../lib/index'
 
 class Components extends React.Component {
 

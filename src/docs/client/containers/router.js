@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter, Route, Link } from 'react-router-dom'
-import { Navbar, NavbarLink } from '../../../../src/index'
+import { Navbar, NavbarLink } from '../../../lib/index'
 import Hero from '../components/hero'
 import Bundle from './bundle'
 import loadComponents from 'bundle-loader?lazy!../containers/components'

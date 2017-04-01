@@ -13,7 +13,7 @@ module.exports = function(){
     devtool: 'source-map',
     entry: {
       client: [
-        path.join(PROJECT_ROOT, 'docs/src/client/client.js'),
+        path.join(PROJECT_ROOT, 'src/docs/client/client.js'),
       ],
     },
     output:{
@@ -33,10 +33,8 @@ module.exports = function(){
           test: /\.js$/,
           loader: 'babel-loader',
           include: [
-            path.join(PROJECT_ROOT, 'docs/src/client'),
             path.join(PROJECT_ROOT, 'src')
           ],
-          exclude: [/node_modules/, /lib/, /test/],
           query:{
             plugins: [],
             presets: ["es2015", 'stage-0', 'react']
@@ -95,10 +93,13 @@ module.exports = function(){
       }),
       new HtmlWebpackPlugin({
         title: 'Reactables',
-        template: path.join(PROJECT_ROOT, 'docs/src/index.template.html'),
+        template: path.join(PROJECT_ROOT, 'src/docs/index.template.html'),
         inject: 'body',
         filename: path.join(PROJECT_ROOT, 'docs/index.html'),
-        minify: { collapseWhitespace: true, minifyCSS: true, minifyJS: true }
+        minify: { collapseWhitespace: true, minifyCSS: true, minifyJS: true },
+        files: {
+
+        }
       })
     )
     config.entry = {

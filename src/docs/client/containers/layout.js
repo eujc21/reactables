@@ -1,5 +1,5 @@
 import React from 'react'
-import { Nav, NavLink, Code, List, ListGroup, ListMenu, ListToolbar, ListCell, Grid, GridItem, withMediaQueries, Button } from '../../../../src/index'
+import { Nav, NavLink, Code, List, ListGroup, ListMenu, ListToolbar, ListCell, Grid, GridItem, withMediaQueries, Button } from '../../../lib/index'
 import { connect } from 'react-redux'
 import { incrementList } from '../actions/layout_actions'
 import Section from '../components/section'

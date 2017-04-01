@@ -1,5 +1,5 @@
 import React from 'react'
-import { BaseContainer, Wrapper, Nav, NavLink, Code, List, ListGroup, ListMenu, ListToolbar, ListCell, Grid, GridItem, withMediaQueries, Button } from '../../../../src/index'
+import { BaseContainer, Wrapper, Nav, NavLink, Code, List, ListGroup, ListMenu, ListToolbar, ListCell, Grid, GridItem, withMediaQueries, Button } from '../../../lib/index'
 
 class Scratch extends React.Component {
 
