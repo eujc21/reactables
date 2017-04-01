@@ -4,7 +4,7 @@
   "description": "Customizable React.js components",
   "main": "lib/index.js",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development nodemon ./src/docs/dev-server.js --exec babel-node --presets es2015,stage-0  --ignore ./src/lib --ignore ./test",
+    "dev": "cross-env NODE_ENV=development nodemon ./src/docs/dev-server.js --exec babel-node --presets es2015,stage-0  --ignore ./src --ignore ./test",
     "prebuild-docs": "rimraf docs",
     "build-docs": "cross-env NODE_ENV=production webpack",
     "prebuild": "rimraf lib",

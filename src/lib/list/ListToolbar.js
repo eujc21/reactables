@@ -1,9 +1,7 @@
 import React, { PropTypes } from 'react'
 import merge from 'lodash/merge'
 
-const ListToolbar =({type})=>{
-
-  const { children, style } = this.props
+const ListToolbar =({type, children, style})=>{
 
   const styles = {
     base:{

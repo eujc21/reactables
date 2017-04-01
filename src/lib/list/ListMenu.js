@@ -4,8 +4,15 @@ import TweenMax from 'gsap/TweenMax'
 
 export default class ListMenu extends React.Component {
 
+  static propTypes = {
+    isVisible: PropTypes.bool
+  }
+
+  static defaultProps = {
+    isVisible: false
+  }
+
   componentDidMount() {
-    console.log('didMount')
     this.slideUp()
   }
 

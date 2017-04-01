@@ -1,10 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { withRouter, Link, NavLink } from 'react-router-dom'
-import { Navbar, NavbarLink, withMediaQueries } from '../../../lib/index'
+import { withRouter } from 'react-router-dom'
+import { withMediaQueries } from '../../../lib/index'
 import { setPageScrollPosition, setMobileView } from '../actions/demo_actions'
-import Hero from '../components/hero'
-import { BASE_PATH } from './router'
 
 class App extends React.Component {
 

@@ -120,9 +120,7 @@ class Router extends React.Component {
                 allowActive={ false }
                 appendResponsive="bar"
                 style={ styles.navlink }/>
-              <RouterLink exact to={ '/' } label="Components" style={ styles.navlink }/>
-              <RouterLink to={ '/layout' } label="Layout" style={ styles.navlink }/>
-              <RouterLink to={ '/charts' } label="Charts" style={ styles.navlink }/>
+              <RouterLink exact to={ '/' } label="Core" style={ styles.navlink }/>
             </Navbar>
 
             <Hero

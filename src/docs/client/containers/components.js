@@ -1,12 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import * as actions from '../actions/demo_actions'
+import { incrementList } from '../actions/layout_actions'
 import Section from '../components/section'
-import { withRouter } from 'react-router'
 
 import {
   Navbar,
-  Input,
+  SearchBar,
   DateTimePicker,
   Button,
   ButtonGroup,
@@ -22,15 +22,88 @@ import {
   NavLink,
   Code,
   HiddenPanel,
-  TextSelector,
-  TextHighlighter,
-  TextMenuOption,
+  List,
+  ListCell,
+  ListToolbar,
+  ListMenu,
+  ListGroup,
   Pagination,
-  TextFinderBar,
-  TextFinder
+  Grid,
+  GridItem,
+  withMediaQueries
 } from '../../../lib/index'
 
+const listExample =(index)=>
+  `<ListGroup selectedIndex={ ${index} } transitionTime={ 0.3 }>
+  <List key="0">
+    <ListToolbar type="fixed">
+      <p>List 1</p>
+    </ListToolbar>
+    <ListCell style={{}}>
+      Content
+    </ListCell>
+  </List>
+  <List key="1">
+    <ListToolbar type="fixed">
+      <p>List 2</p>
+    </ListToolbar>
+    <ListCell style={{}}>
+      Content
+    </ListCell>
+  </List>
+</ListGroup>`
+
+const currentPageMediaQuery=(breakPoints, mediaQuery, orientation)=>
+  `Break Points
+xs:  ${breakPoints.xs}
+sm:  ${breakPoints.sm}
+md:  ${breakPoints.md}
+lg:  ${breakPoints.lg}
+xl:  ${breakPoints.xl}
+xxl: ${breakPoints.xxl}
+
+Size Name:   ${mediaQuery.sizeName}
+Size Value:  ${mediaQuery.sizeValue }
+Min Width:   ${mediaQuery.minWidth}
+Max Width:   ${mediaQuery.maxWidth}
+Orientation: ${ orientation }
+`
+
+const mediaQueryExample =
+  `import { withMediaQueries } from 'reactables'
+
+class MyComponent extends React.Component { 
+
+  render(){
+  
+    const { 
+      mediaQuery,  // {sizeName,sizeValue,minWidth,maxWidth}
+      breakPoints, // {xs, sm, md, lg, xl, xxl}
+      orientation  // 'landscape' or 'portrait' 
+    } = this.props
+    
+    return(...)
+  }
+}
+
+// The optionalBreakPoints below are the defaults
+// You are not required to set these
+
+const optionalBreakPoints = {
+    // xxl - greater than 1440 (Infinity)
+    xl: 1440, // extra large  - between 1440 & 1030
+    lg: 1030, // large - between 1030 & 991
+    md: 991,  // medium - between 991 & 767
+    sm: 768,  // small - between 767 & 414
+    xs: 414,  // extra small - below 414
+}
+
+export default withMediaQueries(MyComponent, optionalBreakPoints)
+`
+
 class Components extends React.Component {
+
+  state = { isListMenuVisible: false }
 
   componentDidMount(){
     // this.props.demoCall()
@@ -38,6 +111,19 @@ class Components extends React.Component {
     //   this.props.demoCall()
     //   this.props.incrementCompleted(10)
     // }, 5000)
+  }
+
+  handleIncrementList =(increment)=>{
+    const index = this.props.listIndex + increment
+    this.props.incrementList(index)
+  }
+
+  showListMenu =()=>{
+    this.setState({ isListMenuVisible: true })
+  }
+
+  hideListMenu =()=>{
+    this.setState({ isListMenuVisible: false })
   }
 
   handleButtonClick =()=>{
@@ -82,7 +168,7 @@ class Components extends React.Component {
 
   render(){
 
-    const { paginationPage, paginationCount, inputText, isMobile } = this.props
+    const { paginationPage, paginationCount, inputText, isMobile, mediaQuery, breakPoints, orientation  } = this.props
 
     const styles = {
       base: {
@@ -150,6 +236,20 @@ class Components extends React.Component {
             height: 26,
             fontSize: 14
           }
+        }
+      },
+      gridItem: {
+        base:{
+          width: 60,
+          height: 60
+        }
+      },
+      listCell: {
+        base:{
+          height: 50,
+          display: 'flex',
+          alignItems: 'center',
+          padding: 10
         }
       }
     }
@@ -241,15 +341,15 @@ class Components extends React.Component {
               </Code>
             </Section>
 
-            <Section id="input" name="Input">
-              <Input
+            <Section id="search-bar" name="SearchBar">
+              <SearchBar
                 text={ inputText }
                 onChange={ this.handleInputChange }
                 onSubmit={ this.handleInputSubmit }
                 style={{ base: { width:'100%'}}}
               />
               <Code type="jsx">
-                <Input
+                <SearchBar
                   placeholder={ 'Search...' }
                   text={ 'String' }
                   onChange={ this.handleInputChange }
@@ -420,82 +520,83 @@ class Components extends React.Component {
               </Code>
             </Section>
 
+            <Section id="media-queries" name="Media Queries">
+              <Code type="Live">
+                {currentPageMediaQuery(breakPoints, mediaQuery, orientation)}
+              </Code>
 
-            <Section id="text_selector" name="Text Selector">
-              <TextSelector
-                onSelect={ this.handleTextSelection }
-                textMenuOptions={[
-                  <TextMenuOption
-                    onClick={ this.handleTextSelectorOption }>Option 1</TextMenuOption>,
-                  <TextMenuOption
-                    onClick={ this.handleTextSelectorOption }>Option 2</TextMenuOption>,
-                  <TextMenuOption
-                    onClick={ this.handleTextSelectorOption }>Option 3</TextMenuOption>
-                ]}>
-                Lorem ipsum dolor sit amet, arcu lobortis massa adipiscing tortor dui, porta dolor enim, dui pulvinar amet mauris enim vitae et, pede sagittis ac felis erat urna libero. Integer tortor in risus taciti vestibulum, in dui. Purus quisque neque massa enim enim urna, dolore bibendum, ac eget quisque, a sit. Velit mauris venenatis ornare a turpis, sed id, nulla vitae, sed eleifend commodo, feugiat voluptate tempor. Pretium non metus maecenas, aliquet magna vivamus, vivamus mauris dapibus proin ipsum, leo laoreet morbi vestibulum at ac eget, maecenas pede nec vitae lacinia purus. A praesent sit eros fermentum bibendum ullamcorper, sapien facilisis velit donec velit sapien hendrerit. Praesent quia lorem tempus et congue consequat.
-              </TextSelector>
-
-              <Code>
-                <TextSelector textMenuOptions={['<TextMenuOption>Option</TextMenuOption>']}/>
+              <Code type="jsx">
+                { mediaQueryExample }
               </Code>
             </Section>
 
-            <Section id={ 'text_highlighter' } name="Text Highlighter">
-              <TextHighlighter
-                delimiter={ '#!#' }
-                dataId={ true }
-                text="Lorem ipsum dolor sit amet, arcu #!#123#!#lobortis#!# massa adipiscing tortor dui, #!#123#!#porta#!# dolor enim, dui pulvinar amet mauris enim vitae et, pede sagittis ac felis erat urna libero. Integer tortor in risus taciti vestibulum, in dui. Purus quisque neque massa enim enim urna, dolore bibendum, ac eget quisque, a sit. Velit mauris venenatis ornare a turpis, sed id, nulla vitae, sed eleifend commodo, feugiat voluptate tempor. Pretium non metus maecenas, aliquet magna vivamus, vivamus mauris dapibus proin ipsum, leo laoreet morbi vestibulum at ac eget, maecenas pede nec vitae lacinia purus. A praesent sit eros fermentum bibendum ullamcorper, sapien facilisis velit donec velit sapien hendrerit. Praesent quia lorem tempus et congue consequat."
-                textMenuOptions={[
-                  <TextMenuOption
-                    onClick={ this.handleTextSelectorOption }>Option 1</TextMenuOption>,
-                ]}
-              />
-              <Code>
-                <TextHighlighter textMenuOptions={['<TextMenuOption>Option</TextMenuOption>']}/>
+            <Section id="list" name="List">
+
+              <ListGroup selectedIndex={ this.props.listIndex } transitionTime={ 0.3 }>
+                <List>
+
+                  <ListToolbar type="fixed">
+                    <p style={{padding: 0, margin: 0}}> List 0 </p>
+                  </ListToolbar>
+
+                  { [0,1,2,3].map(item =>
+                    <ListCell key={ item } style={ styles.listCell } onClick={ ()=> this.handleIncrementList(1)}>
+                      Item { item }
+                    </ListCell>
+                  )}
+
+                </List>
+                <List>
+                  {/* List Toolbar*/}
+                  <ListToolbar type="fixed" style={{ base: {display: 'flex', justifyContent: 'space-between'}}}>
+                    <i className="material-icons" style={{cursor: 'pointer'}} onClick={ ()=>this.handleIncrementList(-1) }>keyboard_arrow_left</i>
+                    <p style={{padding: 0, margin: 0}}>
+                      List 1
+                    </p>
+                    <Button text={'Menu'} onClick={ this.showListMenu }/>
+                  </ListToolbar>
+
+                  {/* List Cells */}
+                  { [0,1,2,3].map(item =>
+                    <ListCell key={ item } style={ styles.listCell } onClick={()=>{}}>
+                      Item { item }
+                    </ListCell>
+                  )}
+
+                  {/* Hidden List Menu */}
+                  <ListMenu isVisible={ this.state.isListMenuVisible }>
+                    <ListToolbar style={{ base: {display: 'flex', justifyContent: 'space-between'}}}>
+                      <p style={{padding: 0, margin: 0}}>
+                        Menu
+                      </p>
+                      <Button text={'Apply'} onClick={ this.hideListMenu }/>
+                    </ListToolbar>
+                    <div> List Menu Content </div>
+                  </ListMenu>
+
+                </List>
+              </ListGroup>
+
+              <Code type="jsx">
+                { listExample(this.props.listIndex) }
               </Code>
             </Section>
 
-            <Section id={ 'text_menu_option' } name="Text Menu Option">
-              <div style={{ backgroundColor: 'black', color: 'white', borderRadius: 3, fontSize: 12}}>
-                <TextMenuOption onClick={()=>{}}>Option</TextMenuOption>
-              </div>
-              <Code>
-                <TextMenuOption onClick={()=>{}}>Option</TextMenuOption>
+            <Section id="grid" name="Grid">
+
+              <Grid>
+                { [0,1,2,3,4,5,6,7,8].map(item =>
+                  <GridItem key={ item } style={ styles.gridItem }/>
+                )}
+              </Grid>
+
+              <Code type="jsx">
+                <Grid>
+                  <GridItem key={ 'key' } style={{base:{}, hovered:{}}}/>
+                </Grid>
               </Code>
+
             </Section>
-
-            {/*<Section id="text_finder" name="Text Finder">*/}
-              {/*<TextFinder*/}
-                {/*elementToScroll={ document.getElementsByTagName('body')[0] }*/}
-                {/*classToScrollTo={ ' ' }*/}
-                {/*scrollOffset={ 0 }*/}
-                {/*element="span"*/}
-                {/*attribute="data-id"*/}
-                {/*attrValue="1"*/}
-                {/*displayValue="leo"*/}
-                {/*onClear={ ()=>{} }*/}
-              {/*/>*/}
-
-              {/*<div className="hook">*/}
-                {/*<div>*/}
-                  {/*<div>*/}
-                    {/*<div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dapibus, elit non blandit ornare, ex justo laoreet neque, feugiat accumsan est neque at orci. Aenean aliquet risus nisl, tempus malesuada quam tempus et. Integer sollicitudin, nunc tristique malesuada aliquam, erat nulla bibendum sapien, et mattis justo lacus in augue. Aliquam sollicitudin, risus ut ullamcorper vulputate, odio neque venenatis nulla, ut luctus ex libero non purus. Aliquam condimentum arcu id lorem maximus malesuada. Mauris in condimentum urna. Ut elementum tempor orci, vel blandit sem. Curabitur et eleifend quam, et lobortis elit. Nullam ac ipsum tempus, fringilla turpis at, facilisis orci. Fusce in suscipit nulla. Nulla ut neque tempus lorem rhoncus lobortis nec mattis ex. Aliquam erat volutpat."</div>*/}
-                  {/*</div>*/}
-                  {/*<div>*/}
-                    {/*Nulla bibendum aliquet risus, sit amet ultrices urna vestibulum at. Curabitur consequat dictum ullamcorper. Fusce venenatis nulla mauris, ac pulvinar quam tristique eget. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec feugiat aliquam ligula sed tempor. Fusce eget lorem venenatis, molestie erat malesuada, gravida arcu. Nunc tempor, lectus viverra viverra dignissim, nibh felis lobortis orci, id commodo <span className="test-class another-one" data-id="1">leo</span> justo nec augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Ut vel ante vitae urna malesuada finibus. Cras mollis sollicitudin enim, sed faucibus metus rhoncus tempus. Quisque quis sapien in enim accumsan mattis eget at est. Maecenas facilisis fringilla odio. Donec id risus non mi lacinia cursus eget id nunc. Vivamus rutrum odio imperdiet, luctus sem sit amet, dictum enim. In vitae dignissim diam."*/}
-                  {/*</div>*/}
-                  {/*<div>*/}
-                    {/*In nec condimentum felis. Etiam quis dui tellus. Morbi mollis hendrerit nulla eget finibus. Donec semper malesuada laoreet. Duis id enim vitae lorem fermentum cursus. Fusce sed lorem a justo tristique egestas vel ac sapien. Aenean dictum sapien eget eros accumsan interdum quis in est. Fusce sollicitudin augue nisl, quis eleifend lorem ultricies vitae. Nullam volutpat semper facilisis. Pellentesque luctus neque ac dui rhoncus eleifend. Proin congue mollis porta.*/}
-                  {/*</div>*/}
-                  {/*<div>*/}
-                    {/*Maecenas ut suscipit <span data-id="1">leo</span>, eget sagittis justo. Morbi sollicitudin vulputate lacus, eget tristique diam blandit laoreet. Praesent laoreet nisl non ante tempor, id dictum erat scelerisque. Donec scelerisque in massa ut cursus. Donec tincidunt enim mauris, eget ultricies neque iaculis vitae. Nam laoreet efficitur ex in tincidunt. Suspendisse eget diam quis sapien imperdiet elementum. In ultrices eros nec accumsan malesuada. Integer fringilla ipsum ligula, sed rhoncus sem dapibus eget. Fusce a accumsan nisi. Praesent blandit rutrum dapibus. Maecenas pellentesque lacus eget dui auctor dapibus sed nec purus. Nullam eget sodales nisi. Suspendisse sed pulvinar <span data-id="1">leo</span>. Integer dapibus condimentum porta. Quisque ac tempus dui, lobortis aliquam enim.*/}
-                  {/*</div>*/}
-                  {/*<div>*/}
-                    {/*Morbi eu aliquam dui, sed ullamcorper nulla. Curabitur viverra ligula varius tellus pretium, non consectetur sem eleifend. Praesent iaculis placerat <span data-id="1">leo</span>, interdum fermentum odio consequat commodo. Sed dignissim arcu auctor, dictum <span data-id="1">leo</span> vel, lacinia orci. Donec in ornare orci. Suspendisse lobortis, justo eu euismod iaculis, mauris ligula volutpat velit, maximus semper sapien nisl ut sapien. Nulla vitae aliquet sem. Proin in pulvinar erat. Curabitur lacinia, nibh eu tempor egestas, massa elit faucibus turpis, at sodales <span data-id="1">leo</span> orci in dolor. Ut vel dictum velit. Phasellus neque metus, interdum vitae quam ac, mattis vehicula diam. Donec et risus in mauris placerat condimentum.*/}
-                  {/*</div>*/}
-                {/*</div>*/}
-              {/*</div>*/}
-            {/*</Section>*/}
 
           </div>
         </div>
@@ -514,7 +615,8 @@ function mapStateToProps(state){
     outOf: state.components.outOf,
     completed: state.components.completed,
     tableData: state.components.tableData,
-    isPanelVisible: state.components.isPanelVisible
+    isPanelVisible: state.components.isPanelVisible,
+    listIndex: state.layout.listIndex
   }
 }
 
@@ -523,5 +625,6 @@ export default connect(mapStateToProps, {
   updateInputText: actions.updateInputText,
   demoCall: actions.demoCall,
   incrementCompleted: actions.incrementCompleted,
-  togglePanel: actions.togglePanel
-})(Components)
+  togglePanel: actions.togglePanel,
+  incrementList
+})(withMediaQueries(Components))
