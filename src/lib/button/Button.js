@@ -50,7 +50,6 @@ export default class Button extends React.Component {
         fontSize: 12,
         fontWeight: 200,
         fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif',
-        letterSpacing: 1,
         backgroundColor: '#f9f9f9',
         border: 'none',
         borderRadius: 2,
