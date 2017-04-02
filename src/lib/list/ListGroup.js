@@ -52,7 +52,7 @@ export default class ListGroup extends React.Component {
       })
     })
 
-    // Only render these 3 lists to the DOM. List Component's
+    // Only render these 2 lists to the DOM. List Component's
     // componentWillReceiveProps will trigger unintended animations otherwise.
     const visibleList = lists[selectedIndex] ? lists[selectedIndex] : null
     const nextList = lists[selectedIndex + 1] ? lists[selectedIndex + 1] : null

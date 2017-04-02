@@ -106,11 +106,7 @@ class Components extends React.Component {
   state = { isListMenuVisible: false }
 
   componentDidMount(){
-    // this.props.demoCall()
-    // setInterval(()=>{
-    //   this.props.demoCall()
-    //   this.props.incrementCompleted(10)
-    // }, 5000)
+
   }
 
   handleIncrementList =(increment)=>{
@@ -306,20 +302,20 @@ class Components extends React.Component {
                 <Button
                   key={ num }
                   onClick={ this.handleButtonClick }
-                  style={{base:{
-                    backgroundColor: `#${3 + (num * 2) + 'A424A'}`,
-                    color: '#ffffff',
-                    marginRight: 10,
-                    height: 25
-                  }}}
+                  style={{
+                    base:{
+                      backgroundColor: `#${3 + (num * 2) + 'A424A'}`,
+                      color: '#ffffff',
+                      marginRight: 10,
+                      height: 25
+                    }
+                  }}
                 />
               )}
               </div>
               <Code type="jsx">
                 <Button
                   text="button"
-                  isHoverable={ true }
-                  isDisabled={ false }
                   onClick={ this.handleButtonClick }
                   style={{base: {}}}
                 />
@@ -623,7 +619,6 @@ function mapStateToProps(state){
 export default connect(mapStateToProps, {
   updatePaginationPage: actions.updatePaginationPage,
   updateInputText: actions.updateInputText,
-  demoCall: actions.demoCall,
   incrementCompleted: actions.incrementCompleted,
   togglePanel: actions.togglePanel,
   incrementList

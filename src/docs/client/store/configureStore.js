@@ -1,5 +1,4 @@
 import { createStore, applyMiddleware } from 'redux'
-import { api } from '../middleware/api'
 import { logger, crashReporter } from '../middleware/logging'
 import rootReducer from '../reducers/root_reducer'
 import { elementLoaderMiddleware } from '../../../lib/index'
@@ -9,7 +8,6 @@ function configureStore(initialState){
     rootReducer,
     initialState,
     applyMiddleware(
-      api,
       elementLoaderMiddleware(),
       crashReporter
     )
