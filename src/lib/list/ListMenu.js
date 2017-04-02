@@ -24,17 +24,6 @@ export default class ListMenu extends React.Component {
     this.slideDown(done)
   }
 
-  // componentDidUpdate(prevProps){
-  //   const { isVisible } = this.props
-  //   const visibilityChanged = prevProps.isVisible !== isVisible
-  //
-  //   if(isVisible && visibilityChanged)
-  //     this.slideUp()
-  //
-  //   if(!isVisible && visibilityChanged)
-  //     this.slideDown()
-  // }
-
   getHeight =()=>{
     return this.menu
       ? parseInt(window.getComputedStyle(this.menu).height)
@@ -68,7 +57,6 @@ export default class ListMenu extends React.Component {
     const styles = {
       base:{
         position: 'absolute',
-        //top: this.height || this.getHeight(),
         display: 'flex',
         flexDirection: 'column',
         flexShrink: 0,
