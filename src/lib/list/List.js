@@ -110,7 +110,7 @@ export default class List extends React.Component{
     })
 
     const Cells = childArray.filter(child => child.type.name === 'ListCell')
-    const Menus =  childArray.filter(child => child.type.name === 'ListMenu' && child.props.isVisible)
+    const Menus = childArray.filter(child => child.type.name === 'ListMenu' && child.props.isVisible)
 
 
 
