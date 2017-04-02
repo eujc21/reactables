@@ -3,6 +3,7 @@ import merge from 'lodash/merge'
 import TweenMax from 'gsap/TweenMax'
 import TransitionGroup from 'react-addons-transition-group'
 
+
 export default class List extends React.Component{
 
   static propTypes = {
@@ -17,32 +18,43 @@ export default class List extends React.Component{
   }
 
   /* Update state and set animation type */
-  componentWillReceiveProps(nextProps){
+  componentDidUpdate(prevProps){
 
-    if(!nextProps.listIndex)
+    const { listIndex, selectedIndex } = this.props
+
+    if(!listIndex)
       return
 
-    const { listIndex } = this.props
-
-    // Press Back
-    if((this.props.selectedIndex - 1) === nextProps.selectedIndex && (nextProps.selectedIndex === listIndex - 1)) {
-      this.pop()
+    // Press Next
+    if((selectedIndex - 1) === prevProps.selectedIndex && (prevProps.selectedIndex === listIndex - 1)) {
+      this.push()
     }
 
-    // Press Next
-    if((this.props.selectedIndex + 1) === nextProps.selectedIndex && (nextProps.selectedIndex === listIndex)) {
-      this.push()
+    // Press Back
+    if((selectedIndex + 1) === prevProps.selectedIndex && (prevProps.selectedIndex === listIndex)) {
+      this.pop()
     }
   }
 
   componentWillLeave (done) {
-    TweenMax.fromTo(this.list, this.props.listAnimationTime, {x: 0, opacity: 1}, {x:0, opacity: 0.8, onComplete: done})
+    TweenMax.fromTo(
+      this.list,
+      this.props.listAnimationTime,
+      {x: 0, opacity: 1},
+      {x:0, opacity: 0.8, onComplete: done})
   }
 
   push=(done)=>{
     const { style } = this.props
-    TweenMax.fromTo(this.list, this.props.listAnimationTime, {x: 0}, {x: -style.base.maxWidth || -414, opacity: 1, onComplete: ()=>{
-      TweenMax.to(this.list, 0, {x: 0, onComplete: done})
+    TweenMax.fromTo(
+      this.list,
+      this.props.listAnimationTime,
+      {x: 0},
+      {x: -style.base.maxWidth || -414, opacity: 1, onComplete: ()=>{
+        TweenMax.to(
+          this.list,
+          0,
+          {x: 0, onComplete: done})
     }})
   }
 
@@ -67,7 +79,8 @@ export default class List extends React.Component{
         boxShadow: !selectedIndex ? '0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12)' : null,
         zIndex: listIndex
       },
-      transitionGroup: {
+      container: {
+        position: 'relative',
         display: 'flex',
         flexDirection: 'column',
         flexShrink: 0,
@@ -83,16 +96,6 @@ export default class List extends React.Component{
         overflowY: 'scroll',
         backgroundColor: 'white',
         width: '100%'
-      },
-      menuContainer: {
-        position: 'absolute',
-        display: 'flex',
-        flexDirection: 'column',
-        flexShrink: 0,
-        width: '100%',
-        height: '100%',
-        maxWidth: 414,
-        boxSizing: 'border-box'
       }
     }
 
@@ -100,32 +103,31 @@ export default class List extends React.Component{
 
     const childArray = React.Children.toArray(children)
 
-    const fixedToolbar = childArray.filter(child =>{
+    const Toolbar = childArray.filter(child =>{
       const isListToolbar = child.type.name === 'ListToolbar'
       const isFixed = child.props && (child.props.type === 'fixed')
       return isListToolbar && isFixed
     })
 
-    const toolbar = childArray.filter(child =>{
-      const isListToolbar = child.type.name === 'ListToolbar'
-      const isFixed = child.props && (child.props.type !== 'fixed')
-      return isListToolbar && isFixed
-    })
+    const Cells = childArray.filter(child => child.type.name === 'ListCell')
+    const Menus =  childArray.filter(child => child.type.name === 'ListMenu' && child.props.isVisible)
 
-    const cells = childArray.filter(child => child.type.name === 'ListCell')
-    const menus =  childArray.filter(child => child.type.name === 'ListMenu')
 
 
     return (
       <div ref={ list => this.list = list } style={ styles.base }>
-        <TransitionGroup style={ styles.transitionGroup }>
+        <TransitionGroup style={ styles.container }>
+
           <div style={ styles.fixedBar }>
-            { fixedToolbar }
+            { Toolbar }
           </div>
+
           <div style={ styles.cells }>
-            { cells }
+            { Cells }
           </div>
-          { menus.filter(menu => menu.props.isVisible) }
+
+          { Menus }
+
         </TransitionGroup>
       </div>
     )
