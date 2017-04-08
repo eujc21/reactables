@@ -60,7 +60,12 @@ export default class List extends React.Component{
 
   pop=(done)=>{
     const { style } = this.props
-    TweenMax.fromTo(this.list, this.props.listAnimationTime, {x: -style.base.maxWidth || -414}, {x: 0, onComplete: done})
+
+    TweenMax.fromTo(
+      this.list,
+      this.props.listAnimationTime,
+      {x: -style.base.maxWidth || -414},
+      {x: 0, onComplete: done})
   }
 
   render() {
@@ -111,8 +116,6 @@ export default class List extends React.Component{
 
     const Cells = childArray.filter(child => child.type.name === 'ListCell')
     const Menus = childArray.filter(child => child.type.name === 'ListMenu' && child.props.isVisible)
-
-
 
     return (
       <div ref={ list => this.list = list } style={ styles.base }>
