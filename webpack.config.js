@@ -94,7 +94,9 @@ module.exports = function(){
       new webpack.optimize.CommonsChunkPlugin({
         names: ['vendor1', 'vendor2', 'vendor3', 'vendor4', 'vendor5', 'vendor6', 'manifest'],
       }),
-      new webpack.optimize.UglifyJsPlugin(),
+      new webpack.optimize.UglifyJsPlugin({
+        mangle: false
+      }),
       new webpack.LoaderOptionsPlugin({
         minimize: true,
         debug: false
