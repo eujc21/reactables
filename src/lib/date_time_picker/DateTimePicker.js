@@ -43,6 +43,7 @@ export default class DateTimePicker extends React.Component {
   static defaultProps = {
     isRangePicker: false,
     isTimePicker: false,
+    canClear: true,
     dateFormat: 'MMM DD, YYYY',
     timeFormat: 'hh:mm a',
     placeholder: 'Select a Date',
