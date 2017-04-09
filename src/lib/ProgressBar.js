@@ -23,10 +23,10 @@ export default class ProgressBar extends React.Component {
         );
     }),
     progressColors: PropTypes.arrayOf((propValue, key, componentName, location, propFullName) => {
-      if (propValue.length !== 4) {
+      if (propValue.length !== 2) {
         return new Error(
           'Invalid prop `' + propFullName + '` supplied to' +
-          ' `' + componentName + '`. Validation failed. Array must contain 4 color strings'
+          ' `' + componentName + '`. Validation failed. Array must contain 2 color strings'
         );
       }
 
@@ -96,7 +96,7 @@ export default class ProgressBar extends React.Component {
   }
 
   render(){
-    const { style, heatColors, progressColors } = this.props
+    const { style, heatColors, progressColors, type } = this.props
     const { percentageComplete } = this.state
 
     const [heatOne, heatTwo, heatThree, heatFour ] = heatColors
@@ -113,7 +113,7 @@ export default class ProgressBar extends React.Component {
         padding: 0
       },
       bar: {},
-      indicator:{},
+      completed:{},
       progressBar: {
         height: 26,
         padding: 0,
@@ -122,11 +122,10 @@ export default class ProgressBar extends React.Component {
         borderRadius: 3
       },
       progressCompleted:{
-        transform: 'skew(-20deg)',
+        //transform: 'skew(-20deg)',
         height: '100%',
-        width: `calc(${ percentageComplete }% + ${ percentageComplete === 100 ? 8 : 0}px`,
+        width: `${ percentageComplete }%`,
         background: `linear-gradient( to top right, ${ progressOne }, ${ progressTwo })`,
-        marginLeft: -4,
         transition: 'width 1s'
       },
       heatBar: {
@@ -138,15 +137,23 @@ export default class ProgressBar extends React.Component {
       },
       heatCompleted:{
         height: '100%',
-        width: `calc(${ percentageComplete }% + ${ percentageComplete === 100 ? 8 : 0}px`,
-        //background: `linear-gradient( to top right, ${ '#008000' }, ${ '#00C000' })`, //green, lighten(0.5))
-        borderRight: '1px solid black',
-        marginLeft: -4,
+        width: `${percentageComplete}%`,
+        borderRight: '2px solid black',
         transition: 'width 1s'
       },
     }
 
    merge(styles, style)
+
+    if(type === 'progress') {
+      merge(styles.bar, styles.progressBar)
+      merge(styles.completed, styles.progressCompleted)
+    }
+
+    if(type === 'heat') {
+      merge(styles.bar, styles.heatBar)
+      merge(styles.completed, styles.heatCompleted)
+    }
 
     return(
       <div style={ styles.base }>

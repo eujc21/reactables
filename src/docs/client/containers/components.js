@@ -445,15 +445,14 @@ class Components extends React.Component {
               </Code>
             </Section>
 
-            <Section id="heat-bar" name="HeatBar">
-              <HeatBar score={ 10 } outOf={ 100 }/>
-              <Code type={'jsx'}>
-                <HeatBar score={ 10 } outOf={ 100 }/>
-              </Code>
-            </Section>
-
             <Section id="progress-bar" name="ProgressBar">
-              <ProgressBar showUnits={ true } completed={ this.props.completed } outOf={ this.props.outOf}/>
+              <ProgressBar
+                type="progress"
+                units={'number'}
+                showUnits={ true }
+                completed={ 40 }
+                outOf={ this.props.outOf }
+              />
               <Code type={ 'jsx' }>
                 <ProgressBar completed={ 4 } outOf={ 100 } showUnits={ true } units={ 'percent' } style={{ base: {}, units:{}, bar:{}, completed:{}}}/>
               </Code>
