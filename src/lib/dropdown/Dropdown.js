@@ -9,7 +9,7 @@ export default class Dropdown extends React.Component {
     menuDirection: PropTypes.string,
     children: PropTypes.arrayOf((propValue, key,) => {
       if (propValue[key].type.name !== 'DropdownOption')
-        return new Error('One or more children are not of type DropdownItem')
+        return new Error('One or more children are not of type DropdownOption')
     }),
     style: PropTypes.object
   }
@@ -123,7 +123,7 @@ export default class Dropdown extends React.Component {
       <span ref={ main => this.main = main } style={ styles.base }>
         <div
           style={ styles.node }
-          onMouseEnter={ this.toggleButtonHighlight }
+          onMouseOver={ this.toggleButtonHighlight }
           onMouseLeave={ this.toggleButtonHighlight }
           onClick={ this.toggleMenu }>
 
