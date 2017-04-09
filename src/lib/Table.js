@@ -291,7 +291,7 @@ export default class Table extends React.Component {
     return cellWidth
   }
 
-  onMouseEnterRow =(e)=>{
+  onMouseOverRow =(e)=>{
     const { isHoverable, hoverColor } = this.props
     const element = this._findNearestTableRow(e.target)
 
@@ -507,7 +507,7 @@ export default class Table extends React.Component {
           { tableData.map((item, rowIndex) =>
             <tr
               key={ rowIndex }
-              onMouseEnter={ this.onMouseEnterRow }
+              onMouseOver={ this.onMouseOverRow }
               onMouseLeave={ (e)=> this.onMouseLeaveRow(e, rowIndex) }
               onClick={ (e)=> this.onRowClick(e, rowIndex) }
               style={

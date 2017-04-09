@@ -17,10 +17,12 @@ export default class NavLink extends React.Component {
 
   state = { isHovered: false }
 
-  handleHover =(e)=>{
-    this.setState({
-      isHovered: !this.state.isHovered
-    })
+  onMouseOver =()=>{
+    this.setState({isHovered: true})
+  }
+
+  onMouseLeave =()=>{
+    this.setState({isHovered: false})
   }
 
   setBorderRadius =()=>{
@@ -62,8 +64,8 @@ export default class NavLink extends React.Component {
     return(
       <li
         style={ styles.base }
-        onMouseEnter={ this.handleHover }
-        onMouseLeave={ this.handleHover }
+        onMouseOver={ this.onMouseOver }
+        onMouseLeave={ this.onMouseLeave }
       >
         { typeof to === 'string'
           ? <a style={ styles.link } href={ to }>{ children }</a>

@@ -132,7 +132,7 @@ export default class NavbarLink extends React.Component {
     return (
       <li
         style={ styles.base }
-        onMouseEnter={ this.handleHover }
+        onMouseOver={ this.handleHover }
         onMouseLeave={ this.handleHover }
       >
         { this.renderLinkType(styles) }

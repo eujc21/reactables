@@ -1,11 +1,17 @@
 import React, { PropTypes } from 'react'
 import merge from 'lodash/merge'
+import { mergeEvents } from '../../utils/styles'
 
 export default class Button extends React.Component {
   static propTypes = {
     text: PropTypes.node,
+    value: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+      PropTypes.bool
+    ]),
     isDisabled: PropTypes.bool,
-    isSelected: PropTypes.bool,
+    isActive: PropTypes.bool,
     onClick: PropTypes.func,
     style: PropTypes.object
   }
@@ -20,11 +26,9 @@ export default class Button extends React.Component {
   state = { isHovered: false }
 
   handleClick = () =>{
-    const { isDisabled, onClick } = this.props
-    if(isDisabled || !onClick)
-      return
-
-    onClick()
+    const { isDisabled, onClick, value } = this.props
+    if(isDisabled || !onClick) return
+    onClick(value)
   }
 
   handleMouseOver = () =>{
@@ -41,7 +45,8 @@ export default class Button extends React.Component {
   }
 
   render(){
-    const { text, style } = this.props
+    const { text, style, isActive, isDisabled } = this.props
+    const { isHovered } = this.state
 
     const styles = {
       base:{
@@ -57,7 +62,6 @@ export default class Button extends React.Component {
         transition: 'all 0.5s ease'
       },
       hovered: {
-        //boxShadow: '0px 2px 4px 0px rgba(0,0,0, 0.35)'
         cursor: 'pointer'
       },
       disabled:{
@@ -68,10 +72,11 @@ export default class Button extends React.Component {
       },
     }
 
+    // merge styles
     merge(styles, style)
-    if(this.state.isHovered) merge(styles.base, styles.hovered)
-    if(this.props.isSelected) merge(styles.base, styles.selected)
-    if(this.props.isDisabled) merge(styles.base, styles.disabled)
+
+    const events = {isActive, isHovered, isDisabled}
+    mergeEvents(styles, events)
 
     return(
       <button

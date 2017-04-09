@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react'
 import merge from 'lodash/merge'
+import { mergeEvents } from '../../utils/styles'
 
 export default class ListCell extends React.Component {
 
@@ -7,15 +8,23 @@ export default class ListCell extends React.Component {
 
   static propTypes = {
     onClick: PropTypes.func,
-    style: PropTypes.object
+    style: PropTypes.object,
+    isActive: PropTypes.bool,
+    isDisabled: PropTypes.bool
+  }
+
+  static defaultProps = {
+    isSelected: false
   }
 
   handleClick =()=>{
-    if(this.props.onClick)
-      this.props.onClick()
+    const {onClick} = this.props
+
+    if(!onClick) return
+    onClick()
   }
 
-  onMouseEnter =()=>{
+  onMouseOver =()=>{
     this.setState({isHovered: true})
   }
 
@@ -24,33 +33,38 @@ export default class ListCell extends React.Component {
   }
 
   render() {
-    const {children, style} = this.props
+    const {children, style , isActive, isDisabled } = this.props
+    const { isHovered } = this.state
 
     const styles = {
       base: {
-        //width: 'inherit',
         borderBottom: '1px solid #ccc',
         backgroundColor: '#fff'
-
       },
       hovered:{
         backgroundColor: '#BDBDBD',
         cursor: 'pointer'
+      },
+      active: {
+        backgroundColor: '#BDBDBD'
+      },
+      disabled: {
+        cursor: 'default'
       }
     }
 
     // merge styles
     merge(styles, style)
 
-    // merge hovered styles
-    if(this.state.isHovered)
-      merge(styles.base, styles.hovered)
+    // merge styles for events
+    const events = {isActive, isDisabled, isHovered}
+    mergeEvents(styles, events)
 
     return (
       <div style={ styles.base }
          onClick={ this.handleClick }
          onMouseLeave={ this.onMouseLeave }
-         onMouseOver={ this.onMouseEnter }
+         onMouseOver={ this.onMouseOver }
       >
         { children }
       </div>
