@@ -182,15 +182,16 @@ export default class DateTimePicker extends React.Component {
 
     const styles = {
       base: {
-        position: 'absolute',
         fontFamily: 'Arial',
         fontWeight: 200,
+        overflow: 'visible'
       },
       input: {},
       datePicker: {},
       timePicker: {},
       calendar: {},
       pickerContainer: {
+        overflow: 'visible',
         padding: 10,
         backgroundColor: 'white',
         display: 'flex',
