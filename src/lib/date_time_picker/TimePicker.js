@@ -76,6 +76,12 @@ export default class TimePicker extends React.Component {
         justifyContent: 'center',
         alignItems: 'center',
         paddingTop: 10
+      },
+      select: {
+        base:{
+          height: 22,
+          width: 50
+        }
       }
     }
 
@@ -84,33 +90,30 @@ export default class TimePicker extends React.Component {
     return(
       <div style={ styles.base }>
         <Select
-          height={ 22 }
-          width={ 50 }
           value={ this._hourForDate(date) }
           onChange={ (value)=> this.handleTimeChange('hour', value) }
           disabled={ !date }
+          style={ styles.select }
         >
           { this.hours.map(hour => <SelectOption key={ hour } text={ hour } value={ hour }/>) }
 
         </Select>
         <span>:</span>
         <Select
-          height={ 22 }
-          width={ 50 }
           value={ this._minuteForDate(date) }
           onChange={ (value)=>this.handleTimeChange('minute', value) }
           disabled={ !date }
+          style={ styles.select }
         >
           { this.minutes.map(minute => <SelectOption key={ minute } text={ minute } value={ minute }/>) }
 
         </Select>
 
         <Select
-          height={ 22 }
-          width={ 50 }
           value={ this._periodForDate(date) }
           onChange={ (value)=>this.handleTimeChange('period', value) }
           disabled={ !date }
+          style={ styles.select }
         >
           { this.periods.map(p => <SelectOption key={ p } text={ p } value={ p }/>) }
 
