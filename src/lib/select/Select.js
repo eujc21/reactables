@@ -54,21 +54,23 @@ export default class Select extends React.Component {
     const { children, defaultValue, value, disabled, isArrowVisible, style } = this.props
 
     const styles = {
-      height: 37,
-      width: '100%',
-      paddingLeft: 5,
-      fontSize: 14,
-      textAlign: 'center',
-      border: '1px solid #EBE9ED',//#878686',
-      borderRadius: 2,
-      WebkitAppearance: isArrowVisible ? null : 'none'
+      base: {
+        height: 37,
+        width: '100%',
+        paddingLeft: 5,
+        fontSize: 14,
+        textAlign: 'center',
+        border: '1px solid #EBE9ED',//#878686',
+        borderRadius: 2,
+        WebkitAppearance: isArrowVisible ? null : 'none'
+      }
     }
 
     merge(styles, style)
 
     return(
       <select
-        style={ styles }
+        style={ styles.base }
         defaultValue={ defaultValue }
         value={ value }
         onChange={ this.handleSelect }
