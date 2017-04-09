@@ -6,8 +6,8 @@ export default class Select extends React.Component {
     placeholder: PropTypes.string,
     defaultValue: PropTypes.string,
     value: PropTypes.string,
+    isDisabled: PropTypes.bool,
     onChange: PropTypes.func.isRequired,
-    isArrowVisible: PropTypes.bool,
     style: PropTypes.object,
     children: PropTypes.oneOfType([
       PropTypes.arrayOf((propValue, key, componentName) => {
@@ -23,7 +23,7 @@ export default class Select extends React.Component {
 
   static defaultProps = {
     placeholder: 'Select an option...',
-    isArrowVisible: true,
+    isDisabled: false,
     style: {}
   }
 
@@ -51,7 +51,7 @@ export default class Select extends React.Component {
   }
 
   render(){
-    const { children, defaultValue, value, disabled, isArrowVisible, style } = this.props
+    const { children, defaultValue, value, isDisabled, style } = this.props
 
     const styles = {
       base: {
@@ -62,7 +62,7 @@ export default class Select extends React.Component {
         textAlign: 'center',
         border: '1px solid #EBE9ED',//#878686',
         borderRadius: 2,
-        WebkitAppearance: isArrowVisible ? null : 'none'
+        WebkitAppearance: null
       }
     }
 
@@ -74,7 +74,7 @@ export default class Select extends React.Component {
         defaultValue={ defaultValue }
         value={ value }
         onChange={ this.handleSelect }
-        disabled={ disabled }
+        disabled={ isDisabled }
       >
         { this.renderPlaceholder() }
         { children }
