@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import merge from 'lodash/merge'
 
-const DropdownOption =({ text, position, onClick, styles })=>{
+const DropdownOption =({ text, value, position, onClick, styles })=>{
 
   const onMouseOver = (e) =>{
     e.target.style.backgroundColor = '#f9f9f9'
@@ -12,7 +12,7 @@ const DropdownOption =({ text, position, onClick, styles })=>{
   }
 
   const handleClick =()=>{
-    onClick()
+    if(onClick) onClick(value)
   }
 
   const setBorderRadius =()=>{
