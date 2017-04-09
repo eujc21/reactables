@@ -8,7 +8,7 @@ export default class Badge extends React.Component {
       PropTypes.string,
       PropTypes.number
     ]),
-    styles: PropTypes.object
+    style: PropTypes.object
   }
 
   static defaultProps = {
@@ -18,23 +18,47 @@ export default class Badge extends React.Component {
 
   render(){
 
-    const { text, styles } = this.props
+    const { text, style } = this.props
 
-    let style = {
-      backgroundColor: 'red',
-      color: '#ffffff',
-      borderRadius: 12,
-      font: 'bold 11px/9px Helvetica, Verdana, Tahoma',
-      height: 13,
-      minWidth: 14,
-      padding: '4px 3px 0 3px',
-      textAlign: 'center'
+    let styles = {
+      base:{
+        backgroundColor: 'red',
+        color: '#ffffff',
+        borderRadius: 12,
+        font: 'bold 11px/9px Helvetica, Verdana, Tahoma',
+        height: 13,
+        minWidth: 14,
+        padding: '4px 3px 0 3px',
+        textAlign: 'center'
+      }
     }
 
-    merge(style, styles)
+    // let style = {
+    //   base: {
+    //     margin: 5,
+    //     fontFamily: ' "Helvetica Neue", Helvetica, Arial, sans-serif',
+    //   },
+    //   icon:{
+    //     display: 'inline-block',
+    //     backgroundColor: 'blue',
+    //     color: 'white',
+    //     fontSize: 10,
+    //     marginRight: 5,
+    //     padding: 5,
+    //     borderRadius: 2,
+    //     cursor: onClick ? 'pointer' : null
+    //   },
+    //   count: {
+    //     display: 'inline-block',
+    //     color: 'black',
+    //     fontSize: 10
+    //   }
+    // }
+
+    merge(styles, styles)
 
     return(
-      <div style={ style }>
+      <div style={ styles.base }>
         { text }
       </div>
     )
