@@ -12,6 +12,8 @@ import {
   ButtonGroup,
   Table,
   Dropdown,
+  DropdownMenu,
+  DropdownNode,
   DropdownOption,
   ElementLoader,
   HeatBar,
@@ -70,7 +72,7 @@ Orientation: ${ orientation }
 `
 
 const mediaQueryExample =
-  `import { withMediaQueries } from 'reactables'
+`import { withMediaQueries } from 'reactables'
 
 class MyComponent extends React.Component { 
 
@@ -101,9 +103,20 @@ const optionalBreakPoints = {
 export default withMediaQueries(MyComponent, optionalBreakPoints)
 `
 
+const DropdownExample =
+`<Dropdown>
+  <DropdownNode>Text</DropdownNode>
+  <DropdownMenu>
+    <DropdownOption 
+      text="Option 1" 
+      value="value1"
+      onClick={this.onClick}/>
+  </DropdownMenu>
+</Dropdown>`
+
 class Components extends React.Component {
 
-  state = { isListMenuVisible: false }
+  state = { isListMenuVisible: false, dropdown: false }
 
   componentDidMount(){
 
@@ -374,23 +387,23 @@ class Components extends React.Component {
 
             <Section id="dropdown" name="Dropdown">
               <div style={ styles.componentContainer }>
-                <Dropdown node={
-                  <span style={ styles.dropdown.base }>
-                    <p style={ styles.dropdown.text }>Dropdown</p>
-                    <i style={ styles.dropdown.icon} className="material-icons">
-                      keyboard_arrow_down
-                    </i>
-                  </span>
-                }>
-
-                  <DropdownOption text="Option 1" onClick={ this.handleDropdownClick }/>
-                  <DropdownOption text="Option 2" onClick={ this.handleDropdownClick }/>
-                  <DropdownOption text="Option 3" onClick={ this.handleDropdownClick }/>
+                <Dropdown
+                  isActive={ this.state.dropdown }
+                  onClick={ ()=> this.setState({dropdown: !this.state.dropdown})}
+                  onClickOutside={ ()=> this.setState({dropdown: false})}
+                >
+                  <DropdownNode>
+                    Dropdown <i className="material-icons">keyboard_arrow_down</i>
+                  </DropdownNode>
+                  <DropdownMenu>
+                    <DropdownOption text="Option 1" onClick={ this.handleDropdownClick }/>
+                    <DropdownOption text="Option 2" onClick={ this.handleDropdownClick }/>
+                    <DropdownOption text="Option 3" onClick={ this.handleDropdownClick }/>
+                  </DropdownMenu>
                 </Dropdown>
               </div>
               <Code type={ 'jsx' }>
-                <Dropdown node="Node">
-                </Dropdown>
+                { DropdownExample }
               </Code>
             </Section>
 
