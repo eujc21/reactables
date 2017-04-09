@@ -7,7 +7,34 @@ export default class ProgressBar extends React.Component {
     outOf: PropTypes.number.isRequired,
     showUnits: PropTypes.bool,
     units: PropTypes.oneOf(['percent', 'number']),
-    style: PropTypes.object
+    type: PropTypes.oneOf(['heat', 'progress']),
+    style: PropTypes.object,
+    heatColors: PropTypes.arrayOf((propValue, key, componentName, location, propFullName) => {
+      if (propValue.length !== 4) {
+        return new Error(
+          'Invalid prop `' + propFullName + '` supplied to' +
+          ' `' + componentName + '`. Validation failed. Array must contain 4 color strings'
+        );
+      }
+
+      if (typeof propValue[key] !== 'string')
+        return new Error('Invalid prop `' + propFullName + '` supplied to' +
+          ' `' + componentName + '`. Validation failed. Array must contain Strings)'
+        );
+    }),
+    progressColors: PropTypes.arrayOf((propValue, key, componentName, location, propFullName) => {
+      if (propValue.length !== 4) {
+        return new Error(
+          'Invalid prop `' + propFullName + '` supplied to' +
+          ' `' + componentName + '`. Validation failed. Array must contain 4 color strings'
+        );
+      }
+
+      if (typeof propValue[key] !== 'string')
+        return new Error('Invalid prop `' + propFullName + '` supplied to' +
+          ' `' + componentName + '`. Validation failed. Array must contain Strings)'
+        );
+    }),
   }
 
   static defaultProps = {
@@ -15,7 +42,10 @@ export default class ProgressBar extends React.Component {
     outOf: 0,
     showUnits: false,
     units: 'percent',
-    style: {}
+    type: 'progress',
+    style: {},
+    progressColors: ['#008000', '#00C000'],
+    heatColors: [ '#27ae60', '#dfea10', '#efec13', '#e74c3c' ],
   }
 
   state = { percentageComplete: 0 }
@@ -66,8 +96,11 @@ export default class ProgressBar extends React.Component {
   }
 
   render(){
-    const { style } = this.props
+    const { style, heatColors, progressColors } = this.props
     const { percentageComplete } = this.state
+
+    const [heatOne, heatTwo, heatThree, heatFour ] = heatColors
+    const [progressOne, progressTwo] = progressColors
 
     const styles = {
       base: {
@@ -79,21 +112,38 @@ export default class ProgressBar extends React.Component {
         margin: 0,
         padding: 0
       },
-      bar: {
+      bar: {},
+      indicator:{},
+      progressBar: {
         height: 26,
         padding: 0,
         backgroundColor: '#FF0000',
         overflow: 'hidden',
         borderRadius: 3
       },
-      completed:{
+      progressCompleted:{
         transform: 'skew(-20deg)',
         height: '100%',
         width: `calc(${ percentageComplete }% + ${ percentageComplete === 100 ? 8 : 0}px`,
-        background: `linear-gradient( to top right, ${ '#008000' }, ${ '#00C000' })`, //green, lighten(0.5))
+        background: `linear-gradient( to top right, ${ progressOne }, ${ progressTwo })`,
         marginLeft: -4,
         transition: 'width 1s'
-      }
+      },
+      heatBar: {
+        height: 26,
+        padding: 0,
+        background: `linear-gradient(to left, ${ heatOne } 0%,${ heatTwo } 40%,${ heatThree } 60%,${ heatFour } 100%)`,
+        overflow: 'hidden',
+        borderRadius: 3
+      },
+      heatCompleted:{
+        height: '100%',
+        width: `calc(${ percentageComplete }% + ${ percentageComplete === 100 ? 8 : 0}px`,
+        //background: `linear-gradient( to top right, ${ '#008000' }, ${ '#00C000' })`, //green, lighten(0.5))
+        borderRight: '1px solid black',
+        marginLeft: -4,
+        transition: 'width 1s'
+      },
     }
 
    merge(styles, style)
