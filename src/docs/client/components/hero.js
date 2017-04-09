@@ -18,6 +18,12 @@ const Hero =({title, tagline})=>{
     },
     tagline: {
       margin: 0
+    },
+    pre:{
+      borderRadius: 2,
+      backgroundColor: 'lightgrey',
+      color: 'grey',
+      padding: 5
     }
   }
 
@@ -25,6 +31,7 @@ const Hero =({title, tagline})=>{
     <div style={ styles.base }>
       <h1 style={ styles.title }>{ title }</h1>
       <p style={ styles.tagline }>{ tagline }</p>
+      <pre style={ styles.pre }>npm install reactables</pre>
     </div>
   )
 }

@@ -1,6 +1,5 @@
 import './styles/material-icons.css'
 
-export Code from './code'
 export Dropdown from './dropdown/Dropdown'
 export DropdownMenu from './dropdown/DropdownMenu'
 export DropdownNode from './dropdown/DropdownNode'

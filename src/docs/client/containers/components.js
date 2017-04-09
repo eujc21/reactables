@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import * as actions from '../actions/demo_actions'
 import { incrementList } from '../actions/layout_actions'
 import Section from '../components/section'
+import Code from '../components/Code'
 
 import {
   Navbar,
@@ -22,7 +23,6 @@ import {
   ProgressBar,
   Nav,
   NavLink,
-  Code,
   HiddenPanel,
   List,
   ListCell,
@@ -299,10 +299,9 @@ class Components extends React.Component {
                 <NavLink to="#pagination" style={ styles.navlink }>Pagination</NavLink>
                 <NavLink to="#element-loader" style={ styles.navlink }>ElementLoader</NavLink>
                 <NavLink to="#hidden-panel" style={ styles.navlink }>HiddenPanel</NavLink>
-                <NavLink to="#code" style={ styles.navlink }>Code</NavLink>
-                <NavLink to="#text_selector" style={ styles.navlink }>Text Selector</NavLink>
-                <NavLink to="#text_highlighter" style={ styles.navlink }>Text Highlighter</NavLink>
-                <NavLink to="#text_menu_option" style={ styles.navlink }>Text Menu Option</NavLink>
+                <NavLink to="#media-queries" style={ styles.navlink }>Media Queries</NavLink>
+                <NavLink to="#list" style={ styles.navlink }>List</NavLink>
+                <NavLink to="#grid" style={ styles.navlink }>Grid</NavLink>
               </Nav>
             </div> : null
           }
@@ -520,12 +519,6 @@ class Components extends React.Component {
 
               <Code type={ 'JSX' }>
                 <HiddenPanel />
-              </Code>
-            </Section>
-
-            <Section id="code" name="Code">
-              <Code type="jsx">
-                <Code type="jsx"><p>Display properly formatted code</p></Code>
               </Code>
             </Section>
 
