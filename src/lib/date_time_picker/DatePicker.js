@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react'
-import Dropdown from '../dropdown/Dropdown'
-import DropdownOption from '../dropdown/DropdownOption'
+import { Dropdown, DropdownNode, DropdownMenu, DropdownOption} from '../index'
 import { range } from './helpers'
 import merge from 'lodash/merge'
 
@@ -12,7 +11,7 @@ export default class DatePicker extends React.Component {
     style: PropTypes.object
   }
 
-  state = { years: []}
+  state = { years: [], isYearDropdownActive: false }
 
   componentWillMount(){
     const year = this.props.month.clone().year()
@@ -32,21 +31,39 @@ export default class DatePicker extends React.Component {
   handleYearChange =(year)=>{
     const { month, onChange } = this.props
     const date = month.set('year', year)
+
     onChange(date)
+    this.setState({
+      isYearDropdownActive: false
+    })
   }
 
   handleYearRangeChange =(increment)=>{
     const { years } = this.state
-    if(increment === -1)
-      this.setState({ years: [years[0] - 1, ...years]})
+    const yrs = years.map(y => y + increment)
 
-    if(increment === 1)
-      this.setState({ years: [...years, years[years.length -1] + 1]})
+    this.setState({
+      years: yrs,
+      isYearDropdownActive: true
+    })
+  }
+
+  handleDropdownNodeClick =()=>{
+    this.setState({
+      isYearDropdownActive: !this.state.isYearDropdownActive
+    })
+  }
+
+  handleOutsideDropdownClick =()=>{
+    this.setState({
+      isYearDropdownActive: false
+    })
   }
 
   render(){
 
     const { month, style } = this.props
+    const { isYearDropdownActive } = this.state
 
     const styles = {
       base:{
@@ -72,12 +89,14 @@ export default class DatePicker extends React.Component {
         margin: 0
       },
       year: {
-        display: 'flex',
-        alignItems: 'center',
-        padding: '2px 4px',
-        backgroundColor: '#f4f4f4',
-        border: '1px solid #ccc',
-        borderRadius: 2
+        base:{
+          display: 'flex',
+          alignItems: 'center',
+          padding: '2px 4px',
+          backgroundColor: '#f4f4f4',
+          border: '1px solid #ccc',
+          borderRadius: 2
+        }
       },
       icon: {
         fontSize: 14,
@@ -96,14 +115,21 @@ export default class DatePicker extends React.Component {
           <p style={ styles.month }>{ month.format('MMM') }</p>
 
           <Dropdown
-            node={
-              <div style={ styles.year }>
-                { month.format('YYYY') }
-                <i style={ styles.icon } className="material-icons">keyboard_arrow_down</i>
-              </div>
-            }
-            menuDirection={ 'right' }>
-            { this.renderYears() }
+            isActive={ isYearDropdownActive }
+            onClickOutside={ this.handleOutsideDropdownClick }
+          >
+            <DropdownNode
+              onClick={ this.handleDropdownNodeClick }
+              style={ styles.year }
+            >
+              { month.format('YYYY') }
+              <i style={ styles.icon } className="material-icons">keyboard_arrow_down</i>
+            </DropdownNode>
+
+            <DropdownMenu justify="right">
+              { this.renderYears() }
+            </DropdownMenu>
+
           </Dropdown>
 
         </div>
@@ -129,7 +155,6 @@ export default class DatePicker extends React.Component {
       <DropdownOption
         key="decrement"
         text="..."
-        shouldHideMenu={ false }
         onClick={ ()=> this.handleYearRangeChange(-1)}/>,
 
       ...yearComponents,
