@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react'
-import Button from '../button/Button'
 import merge from 'lodash/merge'
 
 export default class Navbar extends React.Component {
@@ -93,11 +92,8 @@ export default class Navbar extends React.Component {
         listStyleType: 'none'
       },
       menuButton: {
-        base:{
-          margin: '0 15px',
-          padding: '5px 10px',
-          backgroundColor: null
-        }
+        margin: '0 15px',
+        padding: '5px 10px',
       },
       menu:{
         position: 'absolute',
@@ -165,11 +161,11 @@ export default class Navbar extends React.Component {
           <ul style={ styles.linkContainer }>
             { links.bar }
           </ul>
-          <Button
-            text={ <i className="material-icons" style={{ color: 'white' }}>menu</i>}
-            style={ styles.menuButton }
-            onClick={ this.toggleMobileMenu }
-          />
+
+          <i className="material-icons"
+             onClick={ this.toggleMobileMenu }
+             style={ styles.menuButton }>menu</i>
+
         </div>
 
         <ul

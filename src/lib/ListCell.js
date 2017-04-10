@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import merge from 'lodash/merge'
-import { mergeEvents } from '../../utils/styles'
+import { mergeEvents } from '../utils/styles'
 
 export default class ListCell extends React.Component {
 

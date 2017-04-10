@@ -17,7 +17,6 @@ import {
   DropdownNode,
   DropdownOption,
   ElementLoader,
-  HeatBar,
   Select,
   SelectOption,
   ProgressBar,

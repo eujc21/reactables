@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
-import Select from '../select/Select'
-import SelectOption from '../select/SelectOption'
+import Select from '../Select'
+import SelectOption from '../SelectOption'
 import { range, convertHours } from './helpers'
 import merge from 'lodash/merge'
 
