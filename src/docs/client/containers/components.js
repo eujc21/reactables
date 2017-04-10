@@ -289,20 +289,20 @@ class Components extends React.Component {
                 <NavLink to="#button" style={ styles.navlink }>Button</NavLink>
                 <NavLink to="#button-group" style={ styles.navlink }>ButtonGroup</NavLink>
                 <NavLink to="#checkbox" style={ styles.navlink }>Checkbox</NavLink>
-                <NavLink to="#search-bar" style={ styles.navlink }>SearchBar</NavLink>
-                <NavLink to="#select" style={ styles.navlink }>Select</NavLink>
-                <NavLink to="#dropdown" style={ styles.navlink }>Dropdown</NavLink>
                 <NavLink to="#date-time-picker" style={ styles.navlink }>Date Picker</NavLink>
-                <NavLink to="#table" style={ styles.navlink }>Table</NavLink>
+                <NavLink to="#dropdown" style={ styles.navlink }>Dropdown</NavLink>
+                <NavLink to="#element-loader" style={ styles.navlink }>ElementLoader</NavLink>
+                <NavLink to="#grid" style={ styles.navlink }>Grid</NavLink>
+                <NavLink to="#hidden-panel" style={ styles.navlink }>HiddenPanel</NavLink>
+                <NavLink to="#list" style={ styles.navlink }>List</NavLink>
+                <NavLink to="#media-queries" style={ styles.navlink }>Media Queries</NavLink>
+                <NavLink to="#pagination" style={ styles.navlink }>Pagination</NavLink>
+                <NavLink to="#progress-bar" style={ styles.navlink }>ProgressBar</NavLink>
                 <NavLink to="#nav" style={ styles.navlink }>Nav</NavLink>
                 <NavLink to="#navbar" style={ styles.navlink }>Navbar</NavLink>
-                <NavLink to="#progress-bar" style={ styles.navlink }>ProgressBar</NavLink>
-                <NavLink to="#pagination" style={ styles.navlink }>Pagination</NavLink>
-                <NavLink to="#element-loader" style={ styles.navlink }>ElementLoader</NavLink>
-                <NavLink to="#hidden-panel" style={ styles.navlink }>HiddenPanel</NavLink>
-                <NavLink to="#media-queries" style={ styles.navlink }>Media Queries</NavLink>
-                <NavLink to="#list" style={ styles.navlink }>List</NavLink>
-                <NavLink to="#grid" style={ styles.navlink }>Grid</NavLink>
+                <NavLink to="#search-bar" style={ styles.navlink }>SearchBar</NavLink>
+                <NavLink to="#select" style={ styles.navlink }>Select</NavLink>
+                <NavLink to="#table" style={ styles.navlink }>Table</NavLink>
               </Nav>
             </div> : null
           }
@@ -361,42 +361,21 @@ class Components extends React.Component {
                 )}
               </div>
               <Code type="jsx">
-                <Checkbox/>
+                <Checkbox id="for-label-x"/>
               </Code>
             </Section>
 
-            <Section id="search-bar" name="SearchBar">
-              <SearchBar
-                text={ inputText }
-                onChange={ this.handleInputChange }
-                onSubmit={ this.handleInputSubmit }
-                style={{ base: { width:'100%'}}}
+            <Section id="date-time-picker" name="DateTimePicker">
+
+              <DateTimePicker
+                canClear
+                placeholder={ 'Date Time' }
+                onChange={ this.handleDateChange }
+                style={ styles.datePicker }
               />
-              <Code type="jsx">
-                <SearchBar
-                  placeholder={ 'Search...' }
-                  text={ 'String' }
-                  onChange={ this.handleInputChange }
-                  onSubmit={ this.handleInputSubmit }
-                  style={{
-                    base: {},
-                    input: {},
-                    submitIcon: {},
-                    clearIcon: {}
-                  }}/>
-              </Code>
-            </Section>
 
-            <Section id="select" name="Select">
-              <Select onChange={ this.handleSelect }>
-                <SelectOption text="Option 1" value="option_1"/>
-                <SelectOption text="Option 2" value="option_2"/>
-                <SelectOption text="Option 3" value="option_3"/>
-              </Select>
-              <Code type="jsx">
-                <Select onChange={ this.handleSelect }>
-
-                </Select>
+              <Code type={ 'jsx' }>
+                <DateTimePicker/>
               </Code>
             </Section>
 
@@ -422,85 +401,6 @@ class Components extends React.Component {
               </Code>
             </Section>
 
-            <Section id="date-time-picker" name="DateTimePicker">
-
-              <DateTimePicker
-                canClear
-                placeholder={ 'Date Time' }
-                onChange={ this.handleDateChange }
-                style={ styles.datePicker }
-              />
-
-              <Code type={ 'jsx' }>
-                <DateTimePicker/>
-              </Code>
-            </Section>
-
-
-            <Section id="table" name="Table">
-              <div style={ styles.tableContainer }>
-                <Table isHoverable isStriped tableData={ this.props.tableData }/>
-              </div>
-
-              <Code type={ 'jsx' }>
-                <Table tableData={ this.props.tableData }/>
-              </Code>
-            </Section>
-
-            <Section id="nav" name="Nav">
-              <Code type={ 'jsx' }>
-                <Nav>
-                  <NavLink to="/url">Link</NavLink>
-                </Nav>
-              </Code>
-            </Section>
-
-            <Section id="navbar" name="Navbar">
-              <Code type={ 'jsx' }>
-                <Navbar />
-              </Code>
-            </Section>
-
-            <Section id="progress-bar" name="ProgressBar">
-              <ProgressBar
-                type="progress"
-                units={'number'}
-                showUnits={ true }
-                completed={ 40 }
-                outOf={ this.props.outOf }
-              />
-              <Code type={ 'jsx' }>
-                <ProgressBar completed={ 4 } outOf={ 100 } showUnits={ true } units={ 'percent' } style={{ base: {}, units:{}, bar:{}, completed:{}}}/>
-              </Code>
-            </Section>
-
-            <Section id="pagination" name="Pagination">
-
-              <Pagination
-                page={ paginationPage }
-                pageCount={ paginationCount }
-                pageSkip={ 3 }
-                showEllipses
-                maintainSkipWidth
-                onClick={ this.handlePaginationClick }
-              />
-
-              <Code type={ 'jsx' }>
-                <Pagination
-                  page={ paginationPage }
-                  pageCount={ paginationCount }
-                  pageSkip={ 3 }
-                  showEllipses
-                  maintainSkipWidth
-                  firstText={'First'}
-                  lastText={'Last'}
-                  nextText={'Next'}
-                  prevText={'Prev'}
-                  onClick={()=>{}}
-                  styles={{ul:{}, pageControl:{base:{}, disabled:{}}, pageNumber:{}, selected:{}, ellipses:{}}}/>
-              </Code>
-            </Section>
-
             <Section id="element-loader" name="ElementLoader">
 
               <div style={ styles.componentContainer }>
@@ -517,6 +417,20 @@ class Components extends React.Component {
                     Wrapped Content
                   </div>
                 </ElementLoader>
+              </Code>
+            </Section>
+
+            <Section id="grid" name="Grid">
+              <Grid>
+                { [0,1,2,3,4,5,6,7,8].map(item =>
+                  <GridItem key={ item } style={ styles.gridItem }/>
+                )}
+              </Grid>
+
+              <Code type="jsx">
+                <Grid>
+                  <GridItem key={ 'key' } style={{base:{}, hovered:{}}}/>
+                </Grid>
               </Code>
             </Section>
 
@@ -537,18 +451,8 @@ class Components extends React.Component {
               </Code>
             </Section>
 
-            <Section id="media-queries" name="Media Queries">
-              <Code type="Live">
-                {currentPageMediaQuery(breakPoints, mediaQuery, orientation)}
-              </Code>
-
-              <Code type="jsx">
-                { mediaQueryExample }
-              </Code>
-            </Section>
 
             <Section id="list" name="List">
-
               <ListGroup selectedIndex={ this.props.listIndex } transitionTime={ 0.3 }>
                 <List>
 
@@ -599,20 +503,110 @@ class Components extends React.Component {
               </Code>
             </Section>
 
-            <Section id="grid" name="Grid">
-
-              <Grid>
-                { [0,1,2,3,4,5,6,7,8].map(item =>
-                  <GridItem key={ item } style={ styles.gridItem }/>
-                )}
-              </Grid>
-
-              <Code type="jsx">
-                <Grid>
-                  <GridItem key={ 'key' } style={{base:{}, hovered:{}}}/>
-                </Grid>
+            <Section id="media-queries" name="Media Queries">
+              <Code type="Live">
+                {currentPageMediaQuery(breakPoints, mediaQuery, orientation)}
               </Code>
+              <Code type="jsx">
+                { mediaQueryExample }
+              </Code>
+            </Section>
 
+            <Section id="pagination" name="Pagination">
+              <Pagination
+                page={ paginationPage }
+                pageCount={ paginationCount }
+                pageSkip={ 3 }
+                showEllipses
+                maintainSkipWidth
+                onClick={ this.handlePaginationClick }
+              />
+
+              <Code type={ 'jsx' }>
+                <Pagination
+                  page={ paginationPage }
+                  pageCount={ paginationCount }
+                  pageSkip={ 3 }
+                  showEllipses
+                  maintainSkipWidth
+                  firstText={'First'}
+                  lastText={'Last'}
+                  nextText={'Next'}
+                  prevText={'Prev'}
+                  onClick={()=>{}}
+                  styles={{ul:{}, pageControl:{base:{}, disabled:{}}, pageNumber:{}, selected:{}, ellipses:{}}}/>
+              </Code>
+            </Section>
+
+            <Section id="nav" name="Nav">
+              <Code type={ 'jsx' }>
+                <Nav>
+                  <NavLink to="/url">Link</NavLink>
+                </Nav>
+              </Code>
+            </Section>
+
+            <Section id="navbar" name="Navbar">
+              <Code type={ 'jsx' }>
+                <Navbar />
+              </Code>
+            </Section>
+
+            <Section id="progress-bar" name="ProgressBar">
+              <ProgressBar
+                type="progress"
+                units={'number'}
+                showUnits={ true }
+                completed={ 40 }
+                outOf={ this.props.outOf }
+              />
+              <Code type={ 'jsx' }>
+                <ProgressBar completed={ 4 } outOf={ 100 } showUnits={ true } units={ 'percent' } style={{ base: {}, units:{}, bar:{}, completed:{}}}/>
+              </Code>
+            </Section>
+
+            <Section id="search-bar" name="SearchBar">
+              <SearchBar
+                text={ inputText }
+                onChange={ this.handleInputChange }
+                onSubmit={ this.handleInputSubmit }
+                style={{ base: { width:'100%'}}}
+              />
+              <Code type="jsx">
+                <SearchBar
+                  placeholder={ 'Search...' }
+                  text={ 'String' }
+                  onChange={ this.handleInputChange }
+                  onSubmit={ this.handleInputSubmit }
+                  style={{
+                    base: {},
+                    input: {},
+                    submitIcon: {},
+                    clearIcon: {}
+                  }}/>
+              </Code>
+            </Section>
+
+            <Section id="select" name="Select">
+              <Select onChange={ this.handleSelect }>
+                <SelectOption text="Option 1" value="option_1"/>
+                <SelectOption text="Option 2" value="option_2"/>
+                <SelectOption text="Option 3" value="option_3"/>
+              </Select>
+              <Code type="jsx">
+                <Select onChange={ this.handleSelect }>
+
+                </Select>
+              </Code>
+            </Section>
+
+            <Section id="table" name="Table">
+              <div style={ styles.tableContainer }>
+                <Table isHoverable isStriped tableData={ this.props.tableData }/>
+              </div>
+              <Code type={ 'jsx' }>
+                <Table tableData={ this.props.tableData }/>
+              </Code>
             </Section>
 
           </div>
