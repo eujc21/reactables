@@ -28,7 +28,7 @@ module.exports = function(){
       }),
     ],
     module: {
-      rules: [
+      loaders: [
         {
           test: /\.js$/,
           loader: 'babel-loader',
@@ -51,10 +51,7 @@ module.exports = function(){
         },
         {
           test: /\.css/,
-          use: [
-            "style-loader",
-            "css-loader"
-          ]
+          loader: 'style-loader!css-loader'
         },
         {
           test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
@@ -95,11 +92,9 @@ module.exports = function(){
         names: ['vendor1', 'vendor2', 'vendor3', 'vendor4', 'vendor5', 'vendor6', 'manifest'],
       }),
       new webpack.optimize.UglifyJsPlugin({
+        comments: false,
+        sourceMap: false,
         mangle: false
-      }),
-      new webpack.LoaderOptionsPlugin({
-        minimize: true,
-        debug: false
       }),
       new HtmlWebpackPlugin({
         title: 'Reactables',
@@ -118,6 +113,9 @@ module.exports = function(){
       vendor2: [
         'redux',
         'react-redux',
+      ],
+      vendor3:[
+        'isomorphic-fetch'
       ],
       vendor4: [
         'moment',
