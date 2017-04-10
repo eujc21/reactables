@@ -1,4 +1,4 @@
-import './styles/material-icons.css'
+import './material-icons.css'
 
 export Dropdown from './Dropdown'
 export DropdownMenu from './DropdownMenu'
