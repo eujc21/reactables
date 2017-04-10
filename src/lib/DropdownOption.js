@@ -47,7 +47,8 @@ export default class DropdownOption extends React.Component{
   }
 
   onClick =()=>{
-    const { onClick, value } = this.props
+    const { onClick, isDisabled, value } = this.props
+    if (isDisabled) return
     if(onClick) onClick(value)
   }
 
@@ -77,6 +78,7 @@ export default class DropdownOption extends React.Component{
         cursor: 'pointer'
       },
       disabled: {
+        backgroundColor: '#dcdcdc',
         cursor: 'default'
       }
 
