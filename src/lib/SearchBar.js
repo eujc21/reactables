@@ -51,8 +51,12 @@ export default class SearchBar extends React.Component {
       this.props.onSubmit(text)
   }
 
-  handleFocus =(e)=>{
+  onFocus =(e)=>{
     e.target.parentNode.style.outline = '5px auto -webkit-focus-ring-color' //#969599
+  }
+
+  onBlur =(e)=>{
+    e.target.parentNode.style.outline = null
   }
 
   render(){
@@ -102,7 +106,8 @@ export default class SearchBar extends React.Component {
           placeholder={ placeholder }
           onChange={ this.handleTextChange }
           onKeyPress={ this.handleKeyPress }
-          onFocus={ this.handleFocus }
+          onFocus={ this.onFocus }
+          onBlur={ this.onBlur }
         />
         { text && text.length > 0 ?
           <i

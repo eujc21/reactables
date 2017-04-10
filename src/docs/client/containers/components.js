@@ -7,6 +7,7 @@ import Code from '../components/Code'
 
 import {
   Navbar,
+  Checkbox,
   SearchBar,
   DateTimePicker,
   Button,
@@ -286,7 +287,9 @@ class Components extends React.Component {
             <div style={ styles.navContainer }>
               <Nav offsetTop={ 70 } style={ styles.nav }>
                 <NavLink to="#button" style={ styles.navlink }>Button</NavLink>
-                <NavLink to="#input" style={ styles.navlink }>Input</NavLink>
+                <NavLink to="#button-group" style={ styles.navlink }>ButtonGroup</NavLink>
+                <NavLink to="#checkbox" style={ styles.navlink }>Checkbox</NavLink>
+                <NavLink to="#search-bar" style={ styles.navlink }>SearchBar</NavLink>
                 <NavLink to="#select" style={ styles.navlink }>Select</NavLink>
                 <NavLink to="#dropdown" style={ styles.navlink }>Dropdown</NavLink>
                 <NavLink to="#date-time-picker" style={ styles.navlink }>Date Picker</NavLink>
@@ -344,6 +347,21 @@ class Components extends React.Component {
               <Code type="jsx">
                 <ButtonGroup>
                 </ButtonGroup>
+              </Code>
+            </Section>
+
+            <Section id="checkbox" name="Checkbox">
+              <div style={ styles.componentContainer }>
+                { [1,2,3,4,5,6,7].map(num =>
+                  <Checkbox
+                    key={ num }
+                    id={ num }
+                    tabIndex={ num }
+                  />
+                )}
+              </div>
+              <Code type="jsx">
+                <Checkbox/>
               </Code>
             </Section>
 

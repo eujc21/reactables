@@ -17,8 +17,6 @@ export default class DropdownMenu extends React.Component {
     style: {}
   }
 
-
-  // TODO: onClick set menu to isActive = false
   onClick =()=>{
     const { onClick, _onClick } = this.props
     if(onClick) onClick()
