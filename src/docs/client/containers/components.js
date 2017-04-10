@@ -294,7 +294,6 @@ class Components extends React.Component {
                 <NavLink to="#table" style={ styles.navlink }>Table</NavLink>
                 <NavLink to="#nav" style={ styles.navlink }>Nav</NavLink>
                 <NavLink to="#navbar" style={ styles.navlink }>Navbar</NavLink>
-                <NavLink to="#heat-bar" style={ styles.navlink }>HeatBar</NavLink>
                 <NavLink to="#progress-bar" style={ styles.navlink }>ProgressBar</NavLink>
                 <NavLink to="#pagination" style={ styles.navlink }>Pagination</NavLink>
                 <NavLink to="#element-loader" style={ styles.navlink }>ElementLoader</NavLink>
