@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import HiddenPanel from './HiddenPanel'
 import TransitionGroup from 'react-addons-transition-group'
 import merge from 'lodash/merge'

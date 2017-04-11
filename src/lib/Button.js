@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import merge from 'lodash/merge'
 import { mergeEvents } from '../utils/styles'
 
@@ -13,39 +14,72 @@ export default class Button extends React.Component {
     isDisabled: PropTypes.bool,
     isActive: PropTypes.bool,
     onClick: PropTypes.func,
-    style: PropTypes.object
+    onKeyPress: PropTypes.func,
+    style: PropTypes.object,
+    tabIndex: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number
+    ])
   }
 
   static defaultProps = {
     text: 'Button',
+    tabIndex: 0,
     isDisabled: false,
-    isSelected: false,
+    isActive: false,
     style: {}
   }
 
   state = { isHovered: false }
 
-  handleClick = () =>{
+  onClick = (e) =>{
     const { isDisabled, onClick, value } = this.props
     if(isDisabled || !onClick) return
+
     onClick(value)
+    this.toggleAria(e.target)
   }
 
-  handleMouseOver = () =>{
+  onChange=(e)=>{
+    const { onChange, value } = this.props
+    if(onChange) onChange(value, e)
+  }
+
+  onKeyPress =(e)=>{
+    const { onClick, onKeyPress, value } = this.props
+    if (e.keyCode === 32 || e.keyCode === 13) {
+      const handler = onKeyPress || onClick
+      handler(value)
+      this.toggleAria(e.target)
+    }
+  }
+
+  onMouseOver = () =>{
     if(this.props.isDisabled) return
     this.setState({isHovered: true})
   }
 
-  handleMouseLeave = () =>{
+  onMouseLeave = () =>{
     this.setState({isHovered: false})
   }
 
-  handleFocus = (e) =>{
-    e.target.blur()
+  toggleAria =(e)=> {
+    const pressed = (e.getAttribute("aria-pressed") === "true")
+    e.setAttribute("aria-pressed", !pressed)
+  }
+
+  onFocus =(e)=>{
+    const { onFocus } = this.props
+    if(onFocus) onFocus(e)
+  }
+
+  onBlur =(e)=>{
+    const { onBlur } = this.props
+    if(!onBlur) onBlur(e)
   }
 
   render(){
-    const { text, style, isActive, isDisabled } = this.props
+    const { value, text, style, tabIndex, isActive, isDisabled } = this.props
     const { isHovered } = this.state
 
     const styles = {
@@ -59,7 +93,8 @@ export default class Button extends React.Component {
         borderRadius: 2,
         cursor: 'default',
         padding: 5,
-        transition: 'all 0.5s ease'
+        transition: 'all 0.5s ease',
+        outline: 'none'
       },
       hovered: {
         cursor: 'pointer'
@@ -67,8 +102,8 @@ export default class Button extends React.Component {
       disabled:{
         cursor: 'default'
       },
-      selected:{
-
+      active:{
+        cursor: 'pointer'
       },
     }
 
@@ -81,10 +116,17 @@ export default class Button extends React.Component {
     return(
       <button
         style={ styles.base }
-        onClick={ this.handleClick }
-        onMouseOver={ this.handleMouseOver }
-        onMouseLeave={ this.handleMouseLeave }
-        onFocus={ this.handleFocus }
+        value={ value }
+        onClick={ this.onClick }
+        onChange={ this.onChange}
+        onKeyPress={ this.onKeyPress }
+        onMouseOver={ this.onMouseOver }
+        onMouseLeave={ this.onMouseLeave }
+        onFocus={ this.onFocus }
+        onBlur={ this.onBlur }
+        role="button"
+        aria-pressed="false"
+        tabIndex={ tabIndex }
       >
         { text }
       </button>

@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 
 export default class Checkbox extends React.Component{
 
@@ -6,11 +7,11 @@ export default class Checkbox extends React.Component{
     isChecked: function(props, propName, componentName) {
       const exists = props[propName] || props[propName] === false
 
-      if(exists && !props.onClick)
-        return new Error(`${propName} -  By providing ${propName} to ${componentName}, the onClick prop must be handled.`)
+      // if(exists && !props.onClick)
+      //   return new Error(`${propName} -  By providing ${propName} to ${componentName}, the onClick prop must be handled.`)
 
-      if(props.onClick && !exists)
-        return new Error(`${propName} -  By providing onClick to ${componentName}, the ${propName} prop must be handled.`)
+      // if(props.onClick && !exists)
+      //   return new Error(`${propName} -  By providing onClick to ${componentName}, the ${propName} prop must be handled.`)
 
       if (exists && typeof (props[propName]) !== 'boolean') {
         return new Error(
@@ -51,13 +52,15 @@ export default class Checkbox extends React.Component{
     return checkedProp ? isChecked : this.state.isChecked
   }
 
-  onClick =()=>{
+  onClick =(e)=>{
     const { isDisabled, onClick, value } = this.props
     if(isDisabled) return
-    if(onClick) return onClick(value)
-    this.setState({
-      isChecked: !this.state.isChecked
-    })
+
+    if(onClick)
+      onClick(!this.isChecked, value, e)
+
+    if(this.props.isChecked) return
+    this.setState({isChecked: !this.isChecked})
   }
 
   onMouseOver =()=>{
@@ -88,6 +91,7 @@ export default class Checkbox extends React.Component{
         checked={ isChecked }
         disabled={ isDisabled }
         onClick={ this.onClick }
+        onChange={()=>{}}
         onMouseOver={ this.onMouseOver }
         onMouseLeave={ this.onMouseLeave }
       />
