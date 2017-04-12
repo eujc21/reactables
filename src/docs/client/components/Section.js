@@ -5,8 +5,6 @@ const Section =({ id, name, children })=>{
 
   const styles = {
     base:{
-      //flex: 1,
-      //width: '100%',
       display: 'flex',
       flexWrap: 'wrap',
       maxWidth: 500,

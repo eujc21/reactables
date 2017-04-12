@@ -19,7 +19,9 @@ export default class Button extends React.Component {
     tabIndex: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number
-    ])
+    ]),
+    _buttonGroupClick: PropTypes.func,
+    _buttonGroupIndex: PropTypes.number
   }
 
   static defaultProps = {
@@ -27,16 +29,18 @@ export default class Button extends React.Component {
     tabIndex: 0,
     isDisabled: false,
     isActive: false,
-    style: {}
+    style: {},
   }
 
   state = { isHovered: false }
 
   onClick = (e) =>{
-    const { isDisabled, onClick, value } = this.props
-    if(isDisabled || !onClick) return
+    const { isDisabled, onClick, value, _buttonGroupIndex, _buttonGroupClick } = this.props
+    if(isDisabled) return
 
-    onClick(value)
+    if(onClick) onClick(value, e)
+    if(_buttonGroupClick) _buttonGroupClick(value, _buttonGroupIndex, e)
+
     this.toggleAria(e.target)
   }
 
@@ -75,7 +79,7 @@ export default class Button extends React.Component {
 
   onBlur =(e)=>{
     const { onBlur } = this.props
-    if(!onBlur) onBlur(e)
+    if(onBlur) onBlur(e)
   }
 
   render(){
@@ -94,27 +98,30 @@ export default class Button extends React.Component {
         cursor: 'default',
         padding: 5,
         transition: 'all 0.5s ease',
-        outline: 'none'
+        outline: 'none',
+        boxSizing: 'border-box'
       },
       hovered: {
+        backgroundColor: '#E1E1E1',
         cursor: 'pointer'
       },
       disabled:{
         cursor: 'default'
       },
       active:{
+        backgroundColor: '#bfbfbf',
         cursor: 'pointer'
-      },
+      }
     }
 
     // merge styles
     merge(styles, style)
-
     const events = {isActive, isHovered, isDisabled}
     mergeEvents(styles, events)
 
     return(
       <button
+        ref={ node => this.node = node }
         style={ styles.base }
         value={ value }
         onClick={ this.onClick }

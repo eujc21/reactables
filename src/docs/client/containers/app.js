@@ -1,6 +1,6 @@
 import React from 'react'
-import Hero from '../components/hero'
-import Section from '../components/section'
+import Hero from '../components/Hero'
+import Section from '../components/Section'
 import Code from '../components/Code'
 
 import {
@@ -301,7 +301,6 @@ class App extends React.Component {
     }
 
 
-
     return(
 
       <div>
@@ -319,7 +318,6 @@ class App extends React.Component {
           tagline="Customizable React.js Components" />
 
         <div id="container" ref={ container => this.container = container } style={ styles.base }>
-
 
           <HiddenPanel
             position={ 'right' }
