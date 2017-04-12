@@ -22,13 +22,13 @@ const Section =({ id, name, children })=>{
   }
 
   return (
-    <div style={ styles.base }>
+    <section style={ styles.base }>
       <h2 style={ styles.heading }>
         <span style={ styles.span } id={ id } />
         { name }
       </h2>
       { children }
-    </div>
+    </section>
   )
 }
 
