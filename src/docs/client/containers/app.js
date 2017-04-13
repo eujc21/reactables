@@ -161,13 +161,7 @@ class App extends React.Component {
     this.props.togglePanel(shouldShow)
   }
 
-  handleTextSelectorOption =(text)=>{
-    console.log(text)
-  }
-
-  handleTextSelection =(text)=>{
-    console.log(text)
-  }
+  handleGroupClick = (value, i)=> console.log(value, i)
 
   handlePaginationClick =(page)=>{
     this.props.updatePaginationPage(page)
@@ -386,10 +380,12 @@ class App extends React.Component {
 
               <Section id="button-group" name="Button Group">
                 <div style={ styles.componentContainer }>
-                  <ButtonGroup>
-                    <Button />
-                    <Button />
-                    <Button />
+
+                  <ButtonGroup onClick={ this.handleGroupClick }>
+                    <Button text='one'   value={ 1 }/>
+                    <Button text='two'   value={ 2 }/>
+                    <Button text='three' value={ 3 }/>
+                    <Button text='four'  value={ 4 }/>
                   </ButtonGroup>
 
                 </div>

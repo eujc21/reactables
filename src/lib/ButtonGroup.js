@@ -57,11 +57,11 @@ export default class ButtonGroup extends React.Component {
         },
         firstButton: {
           borderRadius: '2px 0 0 2px',
-          borderRight: '1px solid rgba(16,16,16,0.1)'
+          borderRight: '1px solid #bfbfbf'
         },
         midButton:{
           borderRadius: 0,
-          borderRight: '1px solid rgba(16,16,16,0.1)',
+          borderRight: '1px solid #bfbfbf',
         },
         lastButton:{
           borderRadius: '0 2px 2px 0'
