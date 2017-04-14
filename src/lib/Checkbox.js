@@ -1,5 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import merge from 'lodash/merge'
+import { mergeEvents } from '../utils/styles'
 
 export default class Checkbox extends React.Component{
 
@@ -21,6 +23,10 @@ export default class Checkbox extends React.Component{
       }
     },
     isDisabled: PropTypes.bool,
+    name: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number
+    ]),
     id: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number
@@ -39,6 +45,7 @@ export default class Checkbox extends React.Component{
 
   static defaultProps = {
     id: null,
+    name: null,
     value: '',
     tabIndex: 0,
     isDisabled: false,
@@ -76,25 +83,84 @@ export default class Checkbox extends React.Component{
   }
 
   render() {
-    const { isDisabled, value, id, tabIndex } = this.props
-    const isChecked = this.isChecked
+    const { isDisabled, value, id, tabIndex, name, style } = this.props
+    const { isHovered } = this.state
+
+    const styles = {
+      container:{
+        base:{position: 'block'}
+      },
+      input: {
+        base: {
+          position: 'absolute',
+          height: 0,
+          opacity: 0,
+          overflow: 'hidden',
+          width: 0
+        }
+      },
+      checkbox:{
+        base:{
+          backgroundColor: 'white',
+          borderRadius: 2,
+          border: '1px solid black',
+          color: 'white',
+          padding: 0,
+          cursor: 'default',
+          MozUserSelect: 'none',
+          WebkitUserSelect: 'none',
+          MsUserSelect:'none',
+          userSelect: 'none',
+          boxSizing: 'border-box',
+          margin: 3
+        },
+        hovered:{
+
+        },
+        disabled:{
+          backgroundColor: 'grey'
+        },
+        checked:{
+          border: '1px solid blue',
+          backgroundColor: 'blue',
+          color: 'white'
+        }
+      }
+
+    }
+
+    merge(styles, style)
+
+    if(this.isChecked) merge(styles.checkbox.base, styles.checkbox.checked)
+
+    const events = { isDisabled, isHovered }
+    mergeEvents(styles.checkbox, events)
 
     return (
-      <input
-        id={ id }
-        type="checkbox"
-        role="checkbox"
-        value={ value }
-        aria-checked={ isChecked }
-        aria-disabled={ isDisabled }
-        tabIndex={ tabIndex }
-        checked={ isChecked }
-        disabled={ isDisabled }
-        onClick={ this.onClick }
-        onChange={()=>{}}
-        onMouseOver={ this.onMouseOver }
-        onMouseLeave={ this.onMouseLeave }
-      />
+      <span style={ styles.container.base }>
+        <input
+          style={ styles.input.base }
+          id={ id }
+          type="checkbox"
+          role="checkbox"
+          name={ name }
+          value={ value }
+          aria-checked={ this.isChecked }
+          aria-disabled={ isDisabled }
+          tabIndex={ tabIndex }
+          checked={ this.isChecked }
+          disabled={ isDisabled }
+          onChange={()=>{}}
+          onMouseOver={ this.onMouseOver }
+          onMouseLeave={ this.onMouseLeave }
+        />
+          <i style={ styles.checkbox.base }
+             className="material-icons"
+             role="checkbox"
+             aria-checked={ this.isChecked }
+             aria-disabled={ isDisabled }
+             onClick={ this.onClick }>check</i>
+      </span>
     )
   }
 }
