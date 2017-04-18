@@ -1,6 +1,7 @@
 import './material-icons.css'
 
 export Checkbox from './Checkbox'
+export Notification from './Notification'
 export Dropdown from './Dropdown'
 export DropdownMenu from './DropdownMenu'
 export DropdownNode from './DropdownNode'

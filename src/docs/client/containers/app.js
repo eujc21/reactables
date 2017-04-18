@@ -4,6 +4,7 @@ import Section from '../components/Section'
 import Code from '../components/Code'
 
 import {
+  Notification,
   Navbar,
   NavbarLink,
   Checkbox,
@@ -339,6 +340,7 @@ class App extends React.Component {
                   <NavLink to="#hidden-panel" style={ styles.navlink }>HiddenPanel</NavLink>
                   <NavLink to="#list" style={ styles.navlink }>List</NavLink>
                   <NavLink to="#media-queries" style={ styles.navlink }>Media Queries</NavLink>
+                  <NavLink to="#notification" style={ styles.navlink }>Notification</NavLink>
                   <NavLink to="#pagination" style={ styles.navlink }>Pagination</NavLink>
                   <NavLink to="#progress-bar" style={ styles.navlink }>ProgressBar</NavLink>
                   <NavLink to="#nav" style={ styles.navlink }>Nav</NavLink>
@@ -351,6 +353,10 @@ class App extends React.Component {
             }
 
             <div style={ styles.contentContainer }>
+
+              {/**
+               * Button
+               */}
 
               <Section id="button" name="Button">
                 <div style={ styles.componentContainer }>
@@ -378,6 +384,10 @@ class App extends React.Component {
                 </Code>
               </Section>
 
+              {/**
+               * Button Group
+               */}
+
               <Section id="button-group" name="Button Group">
                 <div style={ styles.componentContainer }>
 
@@ -394,6 +404,10 @@ class App extends React.Component {
                   </ButtonGroup>
                 </Code>
               </Section>
+
+              {/**
+               * Checkbox
+               */}
 
               <Section id="checkbox" name="Checkbox">
                 <div style={ styles.componentContainer }>
@@ -412,6 +426,10 @@ class App extends React.Component {
                 </Code>
               </Section>
 
+              {/**
+               * DateTimePicker
+               */}
+
               <Section id="date-time-picker" name="DateTimePicker">
 
                 <DateTimePicker
@@ -425,6 +443,10 @@ class App extends React.Component {
                   <DateTimePicker/>
                 </Code>
               </Section>
+
+              {/**
+               * Dropdown
+               */}
 
               <Section id="dropdown" name="Dropdown">
                 <div style={ styles.componentContainer }>
@@ -448,7 +470,9 @@ class App extends React.Component {
                 </Code>
               </Section>
 
-
+              {/**
+               * Grid
+               */}
 
               <Section id="grid" name="Grid">
                 <Grid>
@@ -463,6 +487,10 @@ class App extends React.Component {
                   </Grid>
                 </Code>
               </Section>
+
+              {/**
+               * Hidden Panel
+               */}
 
               <Section id="hidden-panel" name="HiddenPanel">
                 <div style={ styles.componentContainer }>
@@ -481,6 +509,9 @@ class App extends React.Component {
                 </Code>
               </Section>
 
+              {/**
+               * List
+               */}
 
               <Section id="list" name="List">
                 <ListGroup selectedIndex={ this.props.listIndex } transitionTime={ 0.3 }>
@@ -533,6 +564,10 @@ class App extends React.Component {
                 </Code>
               </Section>
 
+              {/**
+               * Media Queries
+               */}
+
               <Section id="media-queries" name="Media Queries">
                 <Code type="Live">
                   {currentPageMediaQuery(breakPoints, mediaQuery, orientation)}
@@ -541,6 +576,48 @@ class App extends React.Component {
                   { mediaQueryExample }
                 </Code>
               </Section>
+
+              {/**
+               * Nav
+               */}
+
+              <Section id="nav" name="Nav">
+                <Code type={ 'jsx' }>
+                  <Nav>
+                    <NavLink to="/url">Link</NavLink>
+                  </Nav>
+                </Code>
+              </Section>
+
+              {/**
+               * Navbar
+               */}
+
+              <Section id="navbar" name="Navbar">
+                <Code type={ 'jsx' }>
+                  <Navbar />
+                </Code>
+              </Section>
+
+              {/**
+               * Notification
+               */}
+
+              <Section id="notification" name="Notification">
+
+                <Notification
+                  notificationType="desktop"
+                  fallback
+                />
+
+                <Code type="jsx">
+
+                </Code>
+              </Section>
+
+              {/**
+               * Pagination
+               */}
 
               <Section id="pagination" name="Pagination">
                 <Pagination
@@ -568,19 +645,9 @@ class App extends React.Component {
                 </Code>
               </Section>
 
-              <Section id="nav" name="Nav">
-                <Code type={ 'jsx' }>
-                  <Nav>
-                    <NavLink to="/url">Link</NavLink>
-                  </Nav>
-                </Code>
-              </Section>
-
-              <Section id="navbar" name="Navbar">
-                <Code type={ 'jsx' }>
-                  <Navbar />
-                </Code>
-              </Section>
+              {/**
+               * ProgressBar
+               */}
 
               <Section id="progress-bar" name="ProgressBar">
                 <ProgressBar
@@ -594,6 +661,10 @@ class App extends React.Component {
                   <ProgressBar completed={ 4 } outOf={ 100 } showUnits={ true } units={ 'percent' } style={{ base: {}, units:{}, bar:{}, completed:{}}}/>
                 </Code>
               </Section>
+
+              {/**
+               * SearchBar
+               */}
 
               <Section id="search-bar" name="SearchBar">
                 <SearchBar
@@ -617,6 +688,10 @@ class App extends React.Component {
                 </Code>
               </Section>
 
+              {/**
+               * Select
+               */}
+
               <Section id="select" name="Select">
                 <Select onChange={ this.handleSelect }>
                   <SelectOption text="Option 1" value="option_1"/>
@@ -629,6 +704,10 @@ class App extends React.Component {
                   </Select>
                 </Code>
               </Section>
+
+              {/**
+               * Table
+               */}
 
               <Section id="table" name="Table">
                 <div style={ styles.tableContainer }>
