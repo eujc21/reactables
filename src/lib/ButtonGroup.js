@@ -4,41 +4,33 @@ import merge from 'lodash/merge'
 
 export default class ButtonGroup extends React.Component {
   static propTypes = {
-    activeIndex: PropTypes.number,
+    activeValue: PropTypes.number,
     onClick: PropTypes.func,
     style: PropTypes.object,
     buttonStyle: PropTypes.object
   }
 
   static defaultProps = {
-    activeIndex: null,
+    activeValue: null,
     style: {},
     buttonStyle: {}
   }
 
-  state = { activeIndex: null }
+  state = { activeValue: null }
 
-  get activeIndex(){
-    const { activeIndex } = this.props
-    const indexProp = activeIndex || activeIndex === 0
-    return indexProp ? activeIndex : this.state.activeIndex
-  }
+  onChange =(value)=>{
+    const { onChange, activeValue } = this.props
 
-  onClick =(value, i)=>{
-    const { onClick, activeIndex } = this.props
+    if(onChange) onChange(value)
 
-    if(onClick) onClick(value, i)
+    // set activeValue externally if specified
+    if(activeValue) return
 
-    // set activeIndex externally if specified
-    if(activeIndex) return
-
-    this.setState({
-      activeIndex: i
-    })
+    this.setState({activeValue: value})
   }
 
   render(){
-    const { children, buttonStyle, style } = this.props
+    const { children, buttonStyle, style, activeValue } = this.props
 
     const groupStyles = {
       base:{
@@ -80,8 +72,8 @@ export default class ButtonGroup extends React.Component {
       if (isMid) merge(buttonStyles.base, buttonStyles.midButton)
 
       return React.cloneElement(child, {
-        isActive: this.activeIndex === i,
-        _buttonGroupClick: this.onClick,
+        isActive: child.props.value === activeValue,
+        _buttonGroupClick: this.onChange,
         _buttonGroupIndex: i,
         style: { base: {...child.props.style.base, ...buttonStyles.base, } }
       })
