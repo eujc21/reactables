@@ -116,64 +116,41 @@ const DropdownExample =
 
 class App extends React.Component {
 
-  state = { activeButton: 3, isListMenuVisible: false, dropdown: false }
-
-  componentDidMount(){
-
+  state = {
+    activeButton: 3,
+    listIndex: 1,
+    page: 4,
+    isListMenuVisible: false,
+    dropdown: false,
+    isHiddenPanelVisible: false,
+    searchText: ''
   }
 
-  handleIncrementList =(increment)=>{
-    const index = this.props.listIndex + increment
-    this.props.incrementList(index)
-  }
+  handleIncrementList =(increment)=> this.setState({listIndex: this.state.listIndex + increment})
 
-  showListMenu =()=>{
-    this.setState({ isListMenuVisible: true })
-  }
+  showListMenu =()=> this.setState({ isListMenuVisible: true })
 
-  hideListMenu =()=>{
-    this.setState({ isListMenuVisible: false })
-  }
+  hideListMenu =()=> this.setState({ isListMenuVisible: false })
 
-  handleButtonClick =()=>{
+  handleSearchChange =(searchText)=> this.setState({searchText})
 
-  }
+  handleSearchSubmit =(text)=> console.log(text)
 
-  handleInputChange =(text)=>{
-    this.props.updateInputText(text)
-  }
+  handleSelect =(value)=>console.log(value)
 
-  handleInputSubmit =(text)=>{
+  handleDropdownClick =()=> console.log('dropdown click')
 
-  }
+  handleDateChange =(date1, date2)=> console.log(date1, date2)
 
-  handleSelect =(value)=>{
-    console.log(value)
-  }
+  handlePanelVisibility =(isHiddenPanelVisible)=> this.setState({isHiddenPanelVisible})
 
-  handleDropdownClick =()=>{
-    console.log('dropdown click')
-  }
+  handleButtonGroup = (value, i)=> this.setState({activeButton: value })
 
-  handleDateChange =(date1, date2)=>{
-    console.log(date1, date2)
-  }
-
-  handlePanelVisibility =(shouldShow)=>{
-    this.props.togglePanel(shouldShow)
-  }
-
-  handleButtonGroup = (value, i)=> {
-    this.setState({activeButton: value })
-  }
-
-  handlePaginationClick =(page)=>{
-    this.props.updatePaginationPage(page)
-  }
+  handlePaginationClick =(page)=> this.setState({page})
 
   render(){
 
-    const { paginationPage, paginationCount, inputText, isMobile, mediaQuery, breakPoints, orientation  } = this.props
+    const { isMobile, mediaQuery, breakPoints, orientation  } = this.props
 
     const styles = {
       base: {
@@ -319,7 +296,7 @@ class App extends React.Component {
 
           <HiddenPanel
             position={ 'right' }
-            isVisible={ this.props.isPanelVisible }
+            isVisible={ this.state.isHiddenPanelVisible }
             onClickOutside={ ()=> this.handlePanelVisibility(false) }
             width={414}
             style={{ panel: {height: '100vh'}}}
@@ -364,15 +341,11 @@ class App extends React.Component {
               <Section id="badge" name="Badge">
                 <div style={ styles.componentContainer }>
                   { [0,1,2,3,4].map(num =>
-                    <Badge key={ num } text="Badge"/>
+                    <Badge key={ num } text="Badge" canClear/>
                   )}
                 </div>
                 <Code type="jsx">
-                  <Button
-                    text="button"
-                    onClick={ this.handleButtonClick }
-                    style={{base: {}}}
-                  />
+                  <Badge canClear text="Badge"/>
                 </Code>
               </Section>
 
@@ -477,8 +450,8 @@ class App extends React.Component {
                     onClick={ ()=> this.setState({dropdown: !this.state.dropdown})}
                     onClickOutside={ ()=> this.setState({dropdown: false})}
                   >
-                    <DropdownNode>
-                      Dropdown <i className="material-icons">keyboard_arrow_down</i>
+                    <DropdownNode style={{ base: { color: 'white', backgroundColor: 'grey', fontSize: 14}}}>
+                      Dropdown <i className="material-icons" style={{ fontSize: 16}}>keyboard_arrow_down</i>
                     </DropdownNode>
                     <DropdownMenu>
                       <DropdownOption text="Option 1" onClick={ this.handleDropdownClick }/>
@@ -520,9 +493,11 @@ class App extends React.Component {
                     text={ 'Show Panel' }
                     onClick={ ()=> this.handlePanelVisibility(true) }
                     style={{
-                      backgroundColor: 'rgb(58, 66, 74)',
-                      color: 'white',
-                      height: 25
+                      base:{
+                        backgroundColor: 'grey',
+                        color: 'white',
+                        padding: 10
+                      }
                     }}/>
                 </div>
 
@@ -536,9 +511,8 @@ class App extends React.Component {
                */}
 
               <Section id="list" name="List">
-                <ListGroup selectedIndex={ this.props.listIndex } transitionTime={ 0.3 }>
+                <ListGroup selectedIndex={ this.state.listIndex } transitionTime={ 0.3 }>
                   <List>
-
                     <ListToolbar type="fixed">
                       <p style={{padding: 0, margin: 0}}> List 0 </p>
                     </ListToolbar>
@@ -548,7 +522,6 @@ class App extends React.Component {
                         Item { item }
                       </ListCell>
                     )}
-
                   </List>
                   <List>
                     {/* List Toolbar*/}
@@ -577,7 +550,6 @@ class App extends React.Component {
                       </ListToolbar>
                       <div> List Menu Content </div>
                     </ListMenu>
-
                   </List>
                 </ListGroup>
 
@@ -626,14 +598,15 @@ class App extends React.Component {
                */}
 
               <Section id="notification" name="Notification">
-
+                Fully functional notifications coming soon!
                 <Notification
                   notificationType="desktop"
-                  fallback
                 />
 
                 <Code type="jsx">
-
+                  <Notification
+                    notificationType="desktop"
+                  />
                 </Code>
               </Section>
 
@@ -643,8 +616,8 @@ class App extends React.Component {
 
               <Section id="pagination" name="Pagination">
                 <Pagination
-                  page={ paginationPage }
-                  pageCount={ paginationCount }
+                  page={ this.state.page }
+                  pageCount={ 10 }
                   pageSkip={ 3 }
                   showEllipses
                   maintainSkipWidth
@@ -653,8 +626,8 @@ class App extends React.Component {
 
                 <Code type={ 'jsx' }>
                   <Pagination
-                    page={ paginationPage }
-                    pageCount={ paginationCount }
+                    page={ this.state.page  }
+                    pageCount={ 10 }
                     pageSkip={ 3 }
                     showEllipses
                     maintainSkipWidth
@@ -690,17 +663,17 @@ class App extends React.Component {
 
               <Section id="search-bar" name="SearchBar">
                 <SearchBar
-                  text={ inputText }
-                  onChange={ this.handleInputChange }
-                  onSubmit={ this.handleInputSubmit }
+                  text={ this.state.searchText }
+                  onChange={ this.handleSearchChange }
+                  onSubmit={ this.handleSearchSubmit }
                   style={{ base: { width:'100%'}}}
                 />
                 <Code type="jsx">
                   <SearchBar
                     placeholder={ 'Search...' }
                     text={ 'String' }
-                    onChange={ this.handleInputChange }
-                    onSubmit={ this.handleInputSubmit }
+                    onChange={ this.handleSearchChange }
+                    onSubmit={ this.handleSearchSubmit }
                     style={{
                       base: {},
                       input: {},

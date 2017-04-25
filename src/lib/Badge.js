@@ -15,7 +15,8 @@ export default class Badge extends React.Component {
     ]).isRequired,
     icon: PropTypes.node,
     style: PropTypes.object,
-    onClear: PropTypes.func
+    onClear: PropTypes.func,
+    canClear: PropTypes.bool
   }
 
   static defaultProps = {
@@ -35,7 +36,6 @@ export default class Badge extends React.Component {
 
   onClear =(e)=>{
     e.stopPropagation();
-    console.log('clear')
     const { onClear, value } = this.props
     if(onClear) onClear(value)
   }
@@ -48,7 +48,7 @@ export default class Badge extends React.Component {
 
   render(){
 
-    const { text, style, isActive, isDisabled } = this.props
+    const { text, style, isActive, isDisabled, canClear } = this.props
     const { isHovered } = this.state
 
 
@@ -67,11 +67,12 @@ export default class Badge extends React.Component {
         borderRadius: 20,
         height: 20,
         width: 'auto',
-        paddingLeft: 6,
-        paddingRight: 6,
+        padding: '1px 6px',
+        margin: 3,
         fontSize: 12,
         fontFamily: 'Helvetica, Verdana, Tahoma',
-        verticalAlign: 'middle'
+        verticalAlign: 'middle',
+        transition: 'all 0.5s'
       },
       hovered: {
         backgroundColor: 'pink',
@@ -90,15 +91,29 @@ export default class Badge extends React.Component {
     const events = { isHovered, isActive, isDisabled }
     mergeEvents(styles, events)
 
+    const Text =()=>{
+      return (<p style={{ margin: 0, padding: 0, display: 'inline-block'}}>{ text }</p>)
+    }
+
+    const Icon =()=>{
+      if(!canClear) return null
+
+      return(
+         <i style={{ display: 'inline-block', padding: 0, margin: 0, fontSize: 14}}
+            className="material-icons"
+            onClick={ this.onClear }>clear</i>
+       )
+    }
+
     return(
       <span
         style={ styles.base }
         onMouseOver={ this.onMouseOver }
-        onMouseLeave={ this.onMouseLeave }
+        onMouseOut={ this.onMouseLeave }
         onClick={ this.onClick }
       >
-        <p style={{ margin: 0, padding: 0, display: 'inline-block'}}>{ text }</p>
-        <i style={{ display: 'inline-block', padding: 0, margin: 0, fontSize: 14}} className="material-icons" onClick={ this.onClear }>clear</i>
+        <Text />
+        <Icon />
       </span>
     )
   }

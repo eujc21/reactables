@@ -30,7 +30,7 @@ const Hero =({title, tagline})=>{
     <div style={ styles.base }>
       <h1 style={ styles.title }>{ title }</h1>
       <p style={ styles.tagline }>{ tagline }</p>
-      <pre style={ styles.pre }>npm install reactables</pre>
+      <pre style={ styles.pre }>npm install reactables@0.4.1-beta.10</pre>
     </div>
   )
 }
