@@ -1,67 +1,105 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import merge from 'lodash/merge'
+import { mergeEvents } from '../utils/styles'
 
 export default class Badge extends React.Component {
 
   static propTypes = {
+    isActive: PropTypes.bool,
+    isDisabled: PropTypes.bool,
+    value: PropTypes.node,
     text: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number
-    ]),
-    style: PropTypes.object
+    ]).isRequired,
+    icon: PropTypes.node,
+    style: PropTypes.object,
+    onClear: PropTypes.func
   }
 
   static defaultProps = {
     text: '',
-    styles: {}
+    style: {},
+    isActive: false
+  }
+
+  state = { isHovered: false }
+
+  onMouseOver =()=> {
+    this.setState({ isHovered: true })
+  }
+  onMouseLeave =()=>{
+    this.setState({ isHovered: false })
+  }
+
+  onClear =(e)=>{
+    e.stopPropagation();
+    console.log('clear')
+    const { onClear, value } = this.props
+    if(onClear) onClear(value)
+  }
+
+  onClick =()=>{
+    console.log('click')
+    const { onClick, value } = this.props
+    if(onClick) onClick(value)
   }
 
   render(){
 
-    const { text, style } = this.props
+    const { text, style, isActive, isDisabled } = this.props
+    const { isHovered } = this.state
+
 
     let styles = {
       base:{
+        display: 'inline-flex',
+        flex: 'none',
+        alignItems: 'center',
+        alignSelf: 'flex-start',
+        flexWrap: 'nowrap',
+        flexGrow: 0,
+        flexBasis: 'auto',
+        whiteSpace: 'nowrap',
         backgroundColor: 'red',
         color: '#ffffff',
-        borderRadius: 12,
-        font: 'bold 11px/9px Helvetica, Verdana, Tahoma',
-        height: 13,
-        minWidth: 14,
-        padding: '4px 3px 0 3px',
-        textAlign: 'center'
+        borderRadius: 20,
+        height: 20,
+        width: 'auto',
+        paddingLeft: 6,
+        paddingRight: 6,
+        fontSize: 12,
+        fontFamily: 'Helvetica, Verdana, Tahoma',
+        verticalAlign: 'middle'
+      },
+      hovered: {
+        backgroundColor: 'pink',
+        cursor: 'default'
+      },
+      active: {
+
+      },
+      disabled:{
+
       }
     }
 
-    // let style = {
-    //   base: {
-    //     margin: 5,
-    //     fontFamily: ' "Helvetica Neue", Helvetica, Arial, sans-serif',
-    //   },
-    //   icon:{
-    //     display: 'inline-block',
-    //     backgroundColor: 'blue',
-    //     color: 'white',
-    //     fontSize: 10,
-    //     marginRight: 5,
-    //     padding: 5,
-    //     borderRadius: 2,
-    //     cursor: onClick ? 'pointer' : null
-    //   },
-    //   count: {
-    //     display: 'inline-block',
-    //     color: 'black',
-    //     fontSize: 10
-    //   }
-    // }
+    merge(styles, style)
 
-    merge(styles, styles)
+    const events = { isHovered, isActive, isDisabled }
+    mergeEvents(styles, events)
 
     return(
-      <div style={ styles.base }>
-        { text }
-      </div>
+      <span
+        style={ styles.base }
+        onMouseOver={ this.onMouseOver }
+        onMouseLeave={ this.onMouseLeave }
+        onClick={ this.onClick }
+      >
+        <p style={{ margin: 0, padding: 0, display: 'inline-block'}}>{ text }</p>
+        <i style={{ display: 'inline-block', padding: 0, margin: 0, fontSize: 14}} className="material-icons" onClick={ this.onClear }>clear</i>
+      </span>
     )
   }
 }
