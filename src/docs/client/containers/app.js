@@ -12,6 +12,7 @@ import {
   DateTimePicker,
   Button,
   ButtonGroup,
+  Badge,
   Table,
   Dropdown,
   DropdownMenu,
@@ -115,7 +116,7 @@ const DropdownExample =
 
 class App extends React.Component {
 
-  state = { isListMenuVisible: false, dropdown: false }
+  state = { activeButton: 3, isListMenuVisible: false, dropdown: false }
 
   componentDidMount(){
 
@@ -162,7 +163,9 @@ class App extends React.Component {
     this.props.togglePanel(shouldShow)
   }
 
-  handleGroupClick = (value, i)=> console.log(value, i)
+  handleButtonGroup = (value, i)=> {
+    this.setState({activeButton: value })
+  }
 
   handlePaginationClick =(page)=>{
     this.props.updatePaginationPage(page)
@@ -328,9 +331,10 @@ class App extends React.Component {
 
           <div style={ styles.container }>
 
-            {!isMobile ?
+            { !isMobile ?
               <div style={ styles.navContainer }>
                 <Nav offsetTop={ 70 } style={ styles.nav }>
+                  <NavLink to="#badge" style={ styles.navlink }>Badge</NavLink>
                   <NavLink to="#button" style={ styles.navlink }>Button</NavLink>
                   <NavLink to="#button-group" style={ styles.navlink }>ButtonGroup</NavLink>
                   <NavLink to="#checkbox" style={ styles.navlink }>Checkbox</NavLink>
@@ -349,10 +353,28 @@ class App extends React.Component {
                   <NavLink to="#select" style={ styles.navlink }>Select</NavLink>
                   <NavLink to="#table" style={ styles.navlink }>Table</NavLink>
                 </Nav>
-              </div> : null
-            }
+              </div> : null }
 
             <div style={ styles.contentContainer }>
+
+              {/**
+               * Badge
+               */}
+
+              <Section id="badge" name="Badge">
+                <div style={ styles.componentContainer }>
+                  { [0,1,2,3,4].map(num =>
+                    <Badge key={ num } text="Badge"/>
+                  )}
+                </div>
+                <Code type="jsx">
+                  <Button
+                    text="button"
+                    onClick={ this.handleButtonClick }
+                    style={{base: {}}}
+                  />
+                </Code>
+              </Section>
 
               {/**
                * Button
@@ -391,7 +413,7 @@ class App extends React.Component {
               <Section id="button-group" name="Button Group">
                 <div style={ styles.componentContainer }>
 
-                  <ButtonGroup onClick={ this.handleGroupClick }>
+                  <ButtonGroup activeValue={ this.state.activeButton  } onChange={ this.handleButtonGroup }>
                     <Button text='one'   value={ 1 }/>
                     <Button text='two'   value={ 2 }/>
                     <Button text='three' value={ 3 }/>
@@ -400,7 +422,7 @@ class App extends React.Component {
 
                 </div>
                 <Code type="jsx">
-                  <ButtonGroup>
+                  <ButtonGroup activeValue={ this.state.activeButton }>
                   </ButtonGroup>
                 </Code>
               </Section>

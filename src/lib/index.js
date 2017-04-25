@@ -1,5 +1,6 @@
 import './material-icons.css'
 
+export Badge from './Badge'
 export Checkbox from './Checkbox'
 export Notification from './Notification'
 export Dropdown from './Dropdown'
