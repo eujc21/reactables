@@ -598,9 +598,12 @@ class App extends React.Component {
                */}
 
               <Section id="notification" name="Notification">
-                Fully functional notifications coming soon!
                 <Notification
-                  notificationType="desktop"
+                  message='This is a notification'
+                  title='success'
+                  permissionTitle="Success"
+                  permissionMessage="Notifications are turned on"
+                  permissionIcon="https://github.com/google/material-design-icons/blob/a6145e167b4a3a65640dd6279319cbc77a7e4e96/navigation/drawable-hdpi/ic_apps_black_36dp.png"
                 />
 
                 <Code type="jsx">

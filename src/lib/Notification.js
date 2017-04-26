@@ -1,47 +1,75 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-export default class Notify extends React.Component {
+const Permission = {
+  GRANTED: 'granted',
+  DENIED: 'denied',
+  DEFAULT: 'default'
+}
 
+export default class Notification extends React.Component {
   static propTypes = {
-    notificationType: PropTypes.oneOf(['desktop', 'browser']).isRequired,
-    fallback: PropTypes.bool, // if desktop
-    batchTime: PropTypes.number,
     timeout: PropTypes.number,
     message: PropTypes.string,
     title: PropTypes.string,
-    icon: PropTypes.string
+    icon: PropTypes.string,
+    permissionTitle: PropTypes.string,
+    permissionMessage: PropTypes.string,
+    permissionIcon: PropTypes.string
   }
 
   static defaultProps = {
-    batchTime: 0
+    title: 'Notification',
+    message: 'New test message!',
+    icon: 'https://github.com/google/material-design-icons/raw/a6145e167b4a3a65640dd6279319cbc77a7e4e96/communication/drawable-hdpi/ic_email_black_36dp.png',
+    timeout: 5000
+  }
+
+  constructor(props){
+    super(props)
+    this.notification = window.Notification || null
   }
   componentDidMount(){
-
-
-    if(!window.Notification)
-      return
-
-    if (Notification.permission === "granted") {
-      var notification = this.spawnNotification('This is a notification', null, 'The new title')
-    }
-    else if (Notification.permission !== 'denied') {
-      Notification.requestPermission().then(permission => {
-        if (permission === "granted") {
-          var notification = this.spawnNotification('This is a notification', null, 'The new title')
-        }
-      })
-    }
+    this.requestPermission()
   }
 
+  componentDidUpdate(){
 
-  spawnNotification =(title, message, icon) =>{
-    const options = {
-      body: message,
-      icon: icon
-    }
-    let n = new Notification(title, options);
-    setTimeout(n.close.bind(n), 5000);
+  }
+
+  requestPermission(){
+    const { icon, permissionIcon, title, permissionTitle, message, permissionMessage } = this.props
+
+    if(!this.notification) return
+    if(this.notification.permission === Permission.GRANTED) return
+    if(this.notification.permission === Permission.DENIED) return
+
+    this.notification.requestPermission()
+      .then(permission => {
+        if (permission === "granted") {
+          this.notify(
+            permissionTitle || title,
+            permissionMessage || message,
+            permissionIcon || icon
+          )
+        }
+    })
+
+  }
+
+  notify =(title, body, icon) =>{
+    if(!this.notification) return
+    if(this.notification.permission !== Permission.GRANTED) return
+
+    const { timeout } = this.props
+
+    let n = new this.notification(title, {
+      title,
+      body,
+      icon
+    })
+
+    setTimeout(n.close.bind(n), timeout);
   }
 
   render(){
