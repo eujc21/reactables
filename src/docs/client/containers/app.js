@@ -4,7 +4,7 @@ import Section from '../components/Section'
 import Code from '../components/Code'
 
 import {
-  Notification,
+  NotificationCenter,
   Navbar,
   NavbarLink,
   Checkbox,
@@ -123,7 +123,8 @@ class App extends React.Component {
     isListMenuVisible: false,
     dropdown: false,
     isHiddenPanelVisible: false,
-    searchText: ''
+    searchText: '',
+    notifications: []
   }
 
   handleIncrementList =(increment)=> this.setState({listIndex: this.state.listIndex + increment})
@@ -146,7 +147,35 @@ class App extends React.Component {
 
   handleButtonGroup = (value, i)=> this.setState({activeButton: value })
 
+  handleButtonClick = (value) => console.log(value)
+
   handlePaginationClick =(page)=> this.setState({page})
+
+  handleNotificationAdd =()=> {
+    this.setState({
+      notifications: [
+        ...this.state.notifications,
+        {
+          title: 'Notification',
+          body: 'This is a notification',
+          icon: 'https://github.com/google/material-design-icons/raw/a6145e167b4a3a65640dd6279319cbc77a7e4e96/communication/drawable-hdpi/ic_email_black_36dp.png',
+          timeout: 0
+        }
+      ]
+    })
+  }
+
+  handleNotificationClick =(e)=>{
+    console.log(e)
+    // const notifications = [...this.state.notifications]
+    // this.setState({notifications})
+  }
+
+  handleNotificationClose =(e)=>{
+    console.log(e)
+  }
+
+
 
   render(){
 
@@ -321,7 +350,7 @@ class App extends React.Component {
                   <NavLink to="#hidden-panel" style={ styles.navlink }>HiddenPanel</NavLink>
                   <NavLink to="#list" style={ styles.navlink }>List</NavLink>
                   <NavLink to="#media-queries" style={ styles.navlink }>Media Queries</NavLink>
-                  <NavLink to="#notification" style={ styles.navlink }>Notification</NavLink>
+                  <NavLink to="#notification-center" style={ styles.navlink }>NotificationCenter</NavLink>
                   <NavLink to="#pagination" style={ styles.navlink }>Pagination</NavLink>
                   <NavLink to="#progress-bar" style={ styles.navlink }>ProgressBar</NavLink>
                   <NavLink to="#nav" style={ styles.navlink }>Nav</NavLink>
@@ -594,21 +623,22 @@ class App extends React.Component {
               </Section>
 
               {/**
-               * Notification
+               * Notification Center
                */}
 
-              <Section id="notification" name="Notification">
-                <Notification
-                  message='This is a notification'
-                  title='success'
-                  permissionTitle="Success"
-                  permissionMessage="Notifications are turned on"
-                  permissionIcon="https://github.com/google/material-design-icons/blob/a6145e167b4a3a65640dd6279319cbc77a7e4e96/navigation/drawable-hdpi/ic_apps_black_36dp.png"
+              <Section id="notification-center" name="NotificationCenter">
+                <Button text="Add Notification" onClick={ this.handleNotificationAdd }/>
+                <NotificationCenter
+                  notifications={ this.state.notifications }
+                  onClose={ this.handleNotificationClose }
+                  onClick={ this.handleNotificationClick }
+                  onError={ this.handleNotificationError }
                 />
 
                 <Code type="jsx">
-                  <Notification
-                    notificationType="desktop"
+                  <NotificationCenter
+                    notifications={[]}
+                    onDismiss={ ()=>{} }
                   />
                 </Code>
               </Section>
