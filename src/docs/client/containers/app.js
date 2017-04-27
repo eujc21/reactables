@@ -2,6 +2,7 @@ import React from 'react'
 import Hero from '../components/Hero'
 import Section from '../components/Section'
 import Code from '../components/Code'
+import { generateGUID } from '../../../utils/string'
 
 import {
   NotificationCenter,
@@ -151,6 +152,8 @@ class App extends React.Component {
 
   handlePaginationClick =(page)=> this.setState({page})
 
+  handleNotificationError = (e) => console.log(e)
+
   handleNotificationAdd =()=> {
     this.setState({
       notifications: [
@@ -159,23 +162,22 @@ class App extends React.Component {
           title: 'Notification',
           body: 'This is a notification',
           icon: 'https://github.com/google/material-design-icons/raw/a6145e167b4a3a65640dd6279319cbc77a7e4e96/communication/drawable-hdpi/ic_email_black_36dp.png',
+          tag: generateGUID(),
           timeout: 0
         }
       ]
     })
   }
 
-  handleNotificationClick =(e)=>{
-    console.log(e)
-    // const notifications = [...this.state.notifications]
-    // this.setState({notifications})
-  }
+  handleNotificationClick =(e)=> console.log(e)
 
   handleNotificationClose =(e)=>{
     console.log(e)
+    const notification = e.srcElement
+    this.setState({
+      notifications: [...this.state.notifications.filter(n => n.tag !== notification.tag)]
+    })
   }
-
-
 
   render(){
 
