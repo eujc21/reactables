@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { findAdditions } from '../utils/array'
+import { findAdditions } from './utils/array'
 
 const Permission = {
   GRANTED: 'granted',

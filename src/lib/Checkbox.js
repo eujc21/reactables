@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import merge from 'lodash/merge'
-import { mergeEvents } from '../utils/styles'
+import { mergeEvents } from './utils/styles'
 
 export default class Checkbox extends React.Component{
 
