@@ -1,4 +1,4 @@
-import './material-icons.css'
+import './styles/material-icons.css'
 
 export Badge from './Badge'
 export Checkbox from './Checkbox'
