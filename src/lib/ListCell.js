@@ -40,7 +40,8 @@ export default class ListCell extends React.Component {
     const styles = {
       base: {
         borderBottom: '1px solid #ccc',
-        backgroundColor: '#fff'
+        backgroundColor: '#fff',
+        flexShrink: 0
       },
       hovered:{
         backgroundColor: '#BDBDBD',

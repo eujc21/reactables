@@ -1,4 +1,8 @@
-import './styles/material-icons.css'
+if(process.env.REACTABLES_ENV === 'development'){
+  require('./styles/material-icons.dev.css')
+} else {
+  require('./styles/material-icons.css')
+}
 
 export Badge from './Badge'
 export Checkbox from './Checkbox'

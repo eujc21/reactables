@@ -84,7 +84,10 @@ module.exports = function(){
     config.entry.client.unshift('webpack-hot-middleware/client?reload=true')
     config.plugins.push(
       new webpack.HotModuleReplacementPlugin(),
-      new webpack.NoEmitOnErrorsPlugin()
+      new webpack.NoEmitOnErrorsPlugin(),
+      new webpack.DefinePlugin({
+        'process.env.REACTABLES_ENV': JSON.stringify(process.env.NODE_ENV),
+      })
     )
   }
 
