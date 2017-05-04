@@ -1,4 +1,4 @@
-if(process.env.REACTABLES_ENV === 'development'){
+if(process.env.REACTABLES_ENV === 'local'){
   require('./styles/material-icons.dev.css')
 } else {
   require('./styles/material-icons.css')

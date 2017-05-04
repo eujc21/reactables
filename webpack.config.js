@@ -86,7 +86,7 @@ module.exports = function(){
       new webpack.HotModuleReplacementPlugin(),
       new webpack.NoEmitOnErrorsPlugin(),
       new webpack.DefinePlugin({
-        'process.env.REACTABLES_ENV': JSON.stringify(process.env.NODE_ENV),
+        'process.env.REACTABLES_ENV': JSON.stringify(process.env.REACTABLES_ENV),
       })
     )
   }
@@ -94,6 +94,9 @@ module.exports = function(){
   if(process.env.NODE_ENV === 'production') {
     config.plugins.push(
       new webpack.IgnorePlugin(/^\.\/locale$/,/moment$/),
+      new webpack.DefinePlugin({
+        'process.env.REACTABLES_ENV': JSON.stringify(process.env.REACTABLES_ENV),
+      }),
       new webpack.optimize.CommonsChunkPlugin({
         names: ['vendor1', 'vendor2', 'vendor3', 'vendor4', 'manifest'],
       }),

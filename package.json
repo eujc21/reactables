@@ -4,9 +4,9 @@
   "description": "Customizable React.js components",
   "main": "lib/index.js",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development nodemon ./src/docs/dev-server.js --exec babel-node --presets es2015,stage-0  --ignore ./src --ignore ./test",
+    "dev": "cross-env NODE_ENV=development REACTABLES_ENV=local nodemon ./src/docs/dev-server.js --exec babel-node --presets es2015,stage-0  --ignore ./src --ignore ./test",
     "prebuild-docs": "rimraf docs",
-    "build-docs": "cross-env NODE_ENV=production webpack",
+    "build-docs": "cross-env NODE_ENV=production REACTABLES_ENV=local webpack",
     "prebuild": "rimraf lib",
     "build": "cross-env NODE_ENV=production babel --out-dir lib --ignore *.test.js --ignore docs --ignore src/docs src/lib && copyfiles ./src/lib/styles/* -f ./lib/styles && copyfiles ./src/lib/vendor/fonts/* -f ./lib/vendor/fonts",
     "test": "cross-env mocha test/*.spec.js --require test/.setup.js --compilers js:babel-core/register",
