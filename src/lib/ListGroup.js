@@ -38,7 +38,7 @@ export default class ListGroup extends React.Component {
       },
       hiddenPanel: {
         panel: {
-          height: '100vh', display: 'flex', flexDirection: 'column'
+          height: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: 'white'
         }
       }
     }

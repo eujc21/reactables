@@ -122,6 +122,8 @@ export default class List extends React.Component{
       <div ref={ list => this.list = list } style={ styles.base }>
         <TransitionGroup style={ styles.container }>
 
+          { Menus }
+
           <div style={ styles.fixedBar }>
             { Toolbar }
           </div>
@@ -129,8 +131,6 @@ export default class List extends React.Component{
           <div style={ styles.cells }>
             { Cells }
           </div>
-
-          { Menus }
 
         </TransitionGroup>
       </div>

@@ -64,7 +64,8 @@ export default class ListMenu extends React.Component {
         width: '100%',
         height: '100%',
         maxWidth: 414,
-        boxSizing: 'border-box'
+        boxSizing: 'border-box',
+        zIndex: 1
       },
       content:{
         display: 'flex',
