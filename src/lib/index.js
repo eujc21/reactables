@@ -1,5 +1,10 @@
-import './material-icons.css'
+if(process.env.REACTABLES_ENV === 'local'){
+  require('./styles/material-icons.dev.css')
+} else {
+  require('./styles/material-icons.css')
+}
 
+export Badge from './Badge'
 export Checkbox from './Checkbox'
 export Dropdown from './Dropdown'
 export DropdownMenu from './DropdownMenu'
@@ -18,10 +23,10 @@ export Navbar from './Navbar'
 export NavbarLink from './NavbarLink'
 export Nav from './Nav'
 export NavLink from './NavLink'
+export NotificationCenter from './NotificationCenter'
 export Pagination from './Pagination'
 export HiddenPanel from './HiddenPanel'
 export withMediaQueries from './withMediaQueries'
-export Toolbar from './Toolbar'
 export ListGroup from './ListGroup'
 export List from './List'
 export ListMenu from './ListMenu'
@@ -30,9 +35,7 @@ export ListCell from './ListCell'
 export Grid from './Grid'
 export GridItem from './GridItem'
 
-export ElementLoader from './redux/ElementLoader'
-export elementLoaderMiddleware from './redux/elementLoaderMiddleware'
-export elementLoaderReducer from './redux/elementLoaderReducer'
+
 
 
 

@@ -84,15 +84,21 @@ module.exports = function(){
     config.entry.client.unshift('webpack-hot-middleware/client?reload=true')
     config.plugins.push(
       new webpack.HotModuleReplacementPlugin(),
-      new webpack.NoEmitOnErrorsPlugin()
+      new webpack.NoEmitOnErrorsPlugin(),
+      new webpack.DefinePlugin({
+        'process.env.REACTABLES_ENV': JSON.stringify(process.env.REACTABLES_ENV),
+      })
     )
   }
 
   if(process.env.NODE_ENV === 'production') {
     config.plugins.push(
       new webpack.IgnorePlugin(/^\.\/locale$/,/moment$/),
+      new webpack.DefinePlugin({
+        'process.env.REACTABLES_ENV': JSON.stringify(process.env.REACTABLES_ENV),
+      }),
       new webpack.optimize.CommonsChunkPlugin({
-        names: ['vendor1', 'vendor2', 'vendor3', 'vendor4', 'vendor5', 'vendor6', 'manifest'],
+        names: ['vendor1', 'vendor2', 'vendor3', 'vendor4', 'manifest'],
       }),
       new webpack.optimize.UglifyJsPlugin({
         mangle: false
@@ -116,16 +122,12 @@ module.exports = function(){
         'react-dom'
       ],
       vendor2: [
-        'redux',
-        'react-redux',
-      ],
-      vendor4: [
         'moment',
       ],
-      vendor5: [
+      vendor3: [
         'lodash'
       ],
-      vendor6: [
+      vendor4: [
         'material-design-icons'
       ]
     }

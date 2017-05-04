@@ -1,6 +1,7 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import HiddenPanel from './HiddenPanel'
-import TransitionGroup from 'react-addons-transition-group'
+import TransitionGroup from 'react-transition-group/TransitionGroup'
 import merge from 'lodash/merge'
 
 export default class ListGroup extends React.Component {
@@ -37,7 +38,7 @@ export default class ListGroup extends React.Component {
       },
       hiddenPanel: {
         panel: {
-          height: '100vh', display: 'flex', flexDirection: 'column'
+          height: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: 'white'
         }
       }
     }

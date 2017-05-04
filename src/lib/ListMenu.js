@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import merge from 'lodash/merge'
 import TweenMax from 'gsap'
 
@@ -63,7 +64,8 @@ export default class ListMenu extends React.Component {
         width: '100%',
         height: '100%',
         maxWidth: 414,
-        boxSizing: 'border-box'
+        boxSizing: 'border-box',
+        zIndex: 1
       },
       content:{
         display: 'flex',

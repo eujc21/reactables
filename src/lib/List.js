@@ -1,7 +1,8 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import merge from 'lodash/merge'
 import TweenMax from 'gsap/TweenMax'
-import TransitionGroup from 'react-addons-transition-group'
+import TransitionGroup from 'react-transition-group/TransitionGroup'
 
 
 export default class List extends React.Component{
@@ -121,6 +122,8 @@ export default class List extends React.Component{
       <div ref={ list => this.list = list } style={ styles.base }>
         <TransitionGroup style={ styles.container }>
 
+          { Menus }
+
           <div style={ styles.fixedBar }>
             { Toolbar }
           </div>
@@ -128,8 +131,6 @@ export default class List extends React.Component{
           <div style={ styles.cells }>
             { Cells }
           </div>
-
-          { Menus }
 
         </TransitionGroup>
       </div>

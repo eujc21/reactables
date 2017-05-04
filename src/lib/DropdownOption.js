@@ -1,6 +1,7 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import merge from 'lodash/merge'
-import { mergeEvents } from '../utils/styles'
+import { mergeEvents } from './utils/styles'
 
 export default class DropdownOption extends React.Component{
 
@@ -20,18 +21,13 @@ export default class DropdownOption extends React.Component{
     shouldHideMenu: true
   }
 
-  state = { isHovered: false, isLast: false }
+  state = { isHovered: false }
 
-  componentDidMount(){
-    this.detectLast()
-  }
+  get isLast(){
+    if(!this.node) return
 
-  detectLast =()=>{
     const lastChild = this.node.parentNode.lastChild
-
-    this.setState({
-      isLast: lastChild === this.node
-    })
+    return lastChild === this.node
   }
 
   onMouseOver = () =>{
@@ -49,13 +45,13 @@ export default class DropdownOption extends React.Component{
   onClick =()=>{
     const { onClick, isDisabled, value } = this.props
     if (isDisabled) return
-    if(onClick) onClick(value)
+    if (onClick) onClick(value)
   }
 
   render() {
 
     const { style, isActive, isDisabled, text } = this.props
-    const { isHovered, isLast } = this.state
+    const { isHovered } = this.state
 
     const styles = {
       base: {
@@ -85,7 +81,7 @@ export default class DropdownOption extends React.Component{
     }
 
     merge(styles, style)
-    if(isLast) merge(styles.base, styles.last)
+    if(this.isLast) merge(styles.base, styles.last)
 
     const events = {isActive, isDisabled, isHovered}
     mergeEvents(styles, events)

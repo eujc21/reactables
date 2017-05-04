@@ -1,6 +1,7 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import merge from 'lodash/merge'
-import { mergeEvents } from '../utils/styles'
+import { mergeEvents } from './utils/styles'
 
 export default class ListCell extends React.Component {
 
@@ -39,7 +40,8 @@ export default class ListCell extends React.Component {
     const styles = {
       base: {
         borderBottom: '1px solid #ccc',
-        backgroundColor: '#fff'
+        backgroundColor: '#fff',
+        flexShrink: 0
       },
       hovered:{
         backgroundColor: '#BDBDBD',

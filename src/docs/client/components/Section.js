@@ -1,11 +1,10 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 const Section =({ id, name, children })=>{
 
   const styles = {
     base:{
-      //flex: 1,
-      //width: '100%',
       display: 'flex',
       flexWrap: 'wrap',
       maxWidth: 500,
@@ -21,18 +20,18 @@ const Section =({ id, name, children })=>{
   }
 
   return (
-    <div style={ styles.base }>
+    <section style={ styles.base }>
       <h2 style={ styles.heading }>
         <span style={ styles.span } id={ id } />
         { name }
       </h2>
       { children }
-    </div>
+    </section>
   )
 }
 
 Section.propTypes = {
-  name: React.PropTypes.string.isRequired
+  name: PropTypes.string.isRequired
 }
 
 export default Section

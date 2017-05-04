@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import merge from 'lodash/merge'
 
 export default class Dropdown extends React.Component {
@@ -17,7 +18,7 @@ export default class Dropdown extends React.Component {
         return new Error(
           'Invalid prop `' + propName + '` supplied to' +
           ' `' + componentName + '`. Validation failed. Expected a boolean value.'
-        );
+        )
       }
     },
   }
@@ -86,7 +87,8 @@ export default class Dropdown extends React.Component {
     merge(styles, style)
 
     return(
-      <span ref={ main => this.main = main } style={ styles.base }>
+      <span role="dropdown"
+        ref={ main => this.main = main } style={ styles.base }>
         { React.Children.toArray(children)
           .map(child => this.cloneWithProps(child))
         }

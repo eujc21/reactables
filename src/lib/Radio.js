@@ -1,3 +1,2 @@
-/**
- * Created by Phil on 4/8/17.
- */
+import React from 'react'
+import PropTypes from 'prop-types'

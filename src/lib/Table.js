@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 import React, { PropTypes, Component } from 'react'
+=======
+import React from 'react'
+import PropTypes from 'prop-types'
+>>>>>>> c86542358a67646399cf78e3a13b13309fa58c9e
 import ReactDOM from 'react-dom'
 import cloneDeep from 'lodash/cloneDeep'
 import forEach from 'lodash/forEach'
