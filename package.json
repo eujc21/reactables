@@ -1,6 +1,6 @@
 {
   "name": "reactables",
-  "version": "0.4.1-beta.15",
+  "version": "0.4.1-beta.16",
   "description": "Customizable React.js components",
   "main": "lib/index.js",
   "scripts": {
@@ -8,7 +8,7 @@
     "prebuild-docs": "rimraf docs",
     "build-docs": "cross-env NODE_ENV=production REACTABLES_ENV=local webpack",
     "prebuild": "rimraf lib",
-    "build": "cross-env NODE_ENV=production REACTABLES_ENV=deploy babel --out-dir lib --ignore *.test.js --ignore docs --ignore src/docs src/lib && copyfiles ./src/lib/styles/* -f ./lib/styles && copyfiles ./src/lib/vendor/fonts/* -f ./lib/vendor/fonts",
+    "build": "cross-env NODE_ENV=production REACTABLES_ENV=deploy babel --plugins transform-inline-environment-variables --out-dir lib --ignore *.test.js --ignore docs --ignore src/docs src/lib && copyfiles ./src/lib/styles/* -f ./lib/styles && copyfiles ./src/lib/vendor/fonts/* -f ./lib/vendor/fonts",
     "test": "cross-env mocha test/*.spec.js --require test/.setup.js --compilers js:babel-core/register",
     "start": "cross-env NODE_ENV=production nodemon .src/docs/dev-server.js --exec babel-node --presets es2015,stage-0"
   },
@@ -54,6 +54,7 @@
     "babel-core": "^6.24.1",
     "babel-loader": "^6.4.1",
     "babel-plugin-transform-async-to-generator": "^6.22.0",
+    "babel-plugin-transform-inline-environment-variables": "0.0.2",
     "babel-plugin-transform-regenerator": "^6.22.0",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-polyfill": "^6.23.0",
