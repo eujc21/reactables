@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import HiddenPanel from './HiddenPanel'
-import TransitionGroup from 'react-addons-transition-group'
+import TransitionGroup from 'react-transition-group/TransitionGroup'
 import merge from 'lodash/merge'
 
 export default class ListGroup extends React.Component {
