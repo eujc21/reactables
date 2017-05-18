@@ -1,7 +1,7 @@
-import './styles/material-icons.css'
+import './styles/material-icons.css';
 
 // Components
-export { Table as TestTable } from './components/table/'
+export { Table as TestTable } from './components/table'
 export { ProgressBar } from './components/progress_bar'
 export { Table } from './components/table'
 export { Dropdown, DropdownOption } from './components/dropdown'
